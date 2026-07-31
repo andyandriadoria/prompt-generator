@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dynamic AI image prompt generator powered by Google Sheets.">
+    <!-- Paste the deployed Google Apps Script Web App URL below for public use. -->
+    <meta name="prompt-api-url" content="">
+    <title>Prompt Gen 4.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="prompt-builder.js"></script>
+    <script defer src="data-loader.js"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <main class="app-shell">
+        <header class="hero">
+            <div class="hero-copy">
+                <span class="eyebrow">✨ AI Image Prompt Builder</span>
+                <h1 id="appTitle">Prompt Gen 4.0</h1>
+                <p class="subtitle"><span id="appSubtitle">Dynamic AI Image Prompt Builder</span> · by <span id="creatorName">Ndoy Creator</span></p>
+            </div>
+            <div class="hero-actions">
+                <div class="data-status" id="dataStatus" role="status" aria-live="polite">
+                    <span class="status-dot"></span>
+                    <span id="dataStatusText">Loading database…</span>
+                </div>
+                <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">🌙 Dark Mode</button>
+            </div>
+        </header>
+
+        <section class="main-grid">
+            <section class="panel controls-panel">
+                <div class="top-actions">
+                    <button type="button" class="primary-button" id="randomPromptBtn">🎲 Random Prompt</button>
+                </div>
+
+                <details class="database-settings">
+                    <summary>Database connection</summary>
+                    <div class="database-settings-body">
+                        <label for="apiUrlInput">Google Apps Script Web App URL</label>
+                        <input id="apiUrlInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
+                        <div class="compact-buttons">
+                            <button type="button" id="saveApiUrlBtn">Save & Reload</button>
+                            <button type="button" id="useFallbackBtn" class="secondary-button">Use Fallback</button>
+                            <button type="button" id="resetSourceBtn" class="ghost-button">Reset Source</button>
+                        </div>
+                        <p class="help-text">The public deployment can also be configured once in the <code>prompt-api-url</code> meta tag inside <code>index.html</code>.</p>
+                    </div>
+                </details>
+
+                <form id="promptForm" novalidate>
+                    <div class="field-row">
+                        <label for="characterPreset">Character Preset</label>
+                        <select id="characterPreset">
+                            <option value="custom">-- Custom Character --</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="subjectGender">Subject / Pronoun</label>
+                        <select id="subjectGender">
+                            <option value="auto">Auto from character</option>
+                            <option value="female">Female — she/her</option>
+                            <option value="male">Male — he/him</option>
+                            <option value="neutral">Neutral — they/them</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="features">Physical Features</label>
+                        <textarea id="features" class="short-textarea" placeholder="Describe face, hair, skin tone, age, and other features"></textarea>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="action">Pose / Action</label>
+                        <select id="action">
+                            <option value="">-- Select Pose / Action --</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="expression">Facial Expression</label>
+                        <select id="expression">
+                            <option value="">-- Select Facial Expression --</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="outfit">Outfit</label>
+                        <select id="outfit">
+                            <option value="">-- Select Outfit --</option>
+                            <option value="manual_outfit">Enter custom outfit</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row manual-outfit-field" id="manualOutfitRow" hidden>
+                        <label for="manualOutfit">Manual Outfit</label>
+                        <textarea id="manualOutfit" class="short-textarea" placeholder="Example: a white oversized shirt, beige wide-leg pants, and brown leather sandals"></textarea>
+                    </div>
+
+                    <fieldset class="field-row fieldset-row">
+                        <legend>Setting Type</legend>
+                        <div class="radio-group">
+                            <label><input type="radio" name="settingType" value="outdoor" checked> Outdoor</label>
+                            <label><input type="radio" name="settingType" value="indoor"> Indoor</label>
+                        </div>
+                    </fieldset>
+
+                    <div class="field-row">
+                        <label for="setting">Setting</label>
+                        <select id="setting">
+                            <option value="">-- Select Setting --</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="cameraAngle">Camera Angle</label>
+                        <select id="cameraAngle">
+                            <option value="">-- Select Camera Angle --</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="lighting">Lighting</label>
+                        <select id="lighting">
+                            <option value="">-- Select Lighting --</option>
+                        </select>
+                    </div>
+
+                    <div class="field-row">
+                        <label for="cameraType">Camera Style</label>
+                        <select id="cameraType">
+                            <option value="">-- Select Camera Style --</option>
+                        </select>
+                    </div>
+
+                    <fieldset class="field-row fieldset-row">
+                        <legend>Aspect Ratio</legend>
+                        <div class="radio-group" id="aspectRatioGroup"></div>
+                    </fieldset>
+
+                    <div class="button-group">
+                        <button type="button" id="generatePromptBtn">Generate Prompt</button>
+                        <button type="button" id="resetFormBtn" class="danger-button">Reset Form</button>
+                        <button type="button" id="copyToClipboardBtn" class="secondary-button">Copy Prompt</button>
+                    </div>
+                </form>
+            </section>
+
+            <aside class="panel output-panel">
+                <div class="output-heading">
+                    <span>Generated Prompt</span>
+                    <small id="promptStats">0 characters</small>
+                </div>
+                <textarea id="output" readonly placeholder="Your generated prompt will appear here…"></textarea>
+            </aside>
+        </section>
+
+        <footer class="page-footer">
+            <span id="footerVersion">Prompt Gen 4.0</span>
+            <span>Google Sheets-ready · GitHub Pages-ready</span>
+        </footer>
+    </main>
+
+    <div class="message-box" id="messageBox" role="status" aria-live="polite"></div>
+</body>
+</html>

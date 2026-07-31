@@ -1,0 +1,2658 @@
+{
+  "meta": {
+    "version": "4.0.0",
+    "generatedAt": "2026-07-31",
+    "source": "fallback.json",
+    "originalFile": "Prompt Gen.html"
+  },
+  "config": {
+    "appTitle": "Prompt Gen 4.0",
+    "creatorName": "Ndoy Creator",
+    "subtitle": "Dynamic AI Image Prompt Builder",
+    "defaultCharacter": "custom",
+    "defaultGender": "auto",
+    "defaultSettingType": "outdoor",
+    "defaultAspectRatio": "9:16",
+    "promptOpening": "A hyper-realistic photograph of",
+    "promptSuffix": "highly detailed, realistic skin texture, natural proportions",
+    "autoGenerate": "TRUE",
+    "apiCacheMinutes": "10"
+  },
+  "characters": [
+    {
+      "id": "ndoy",
+      "label": "Ndoy",
+      "features": "man (from uploaded photo, same face and hairstyle)",
+      "gender": "male",
+      "category": "Preset",
+      "active": true,
+      "sort": 1
+    },
+    {
+      "id": "dwi",
+      "label": "Dwi",
+      "features": "woman (from uploaded photo, same face and hairstyle)",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 2
+    },
+    {
+      "id": "dwidoria",
+      "label": "Dwidoria",
+      "features": "woman (from uploaded photo, same face and hairstyle). Makeup: soft pink blush, pink gradient lips",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 3
+    },
+    {
+      "id": "midori",
+      "label": "Midori",
+      "features": "woman (from uploaded photo, same face and hairstyle). Red nose, flushed face, watery eyes, glossy lips and puckered lips, skin pores, freckles",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 4
+    },
+    {
+      "id": "hayun",
+      "label": "Hayun",
+      "features": "beautiful young East Asian woman. A oval face, porcelain skin and subtle pink undertones. Red nose, flushed face, skin pores, freckles. Light brown long wavy hair. She wears thin rose-gold metal frame glasses with a soft cat-eye shape, and her lips are small with a natural pink tone and a defined Cupid's bow",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 5
+    },
+    {
+      "id": "liora",
+      "label": "Liora",
+      "features": "beauty chubby young korean woman, fair skin. Red nose, flushed face, skin pores, freckles. She has very bust and long, pastel pink hair with layered cuts, styled in soft, voluminous waves that flow gently over the shoulders",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 6
+    },
+    {
+      "id": "soo",
+      "label": "Soo",
+      "features": "25-year-old beauty Indonesian-Korean. fair skin, red nose, flushed face, skin pores, freckles, soft oval face, shoulder-length straight bob haircut, dark brown with bangs, heart-shaped lips, small nose, natural makeup",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 7
+    },
+    {
+      "id": "nona",
+      "label": "Nona",
+      "features": "30-year-old beauty Indonesian woman. Golden brown skin, skin pores, freckles. She has very bust and long, layered hair styled in soft, voluminous waves. Her hair has warm caramel brown tones, a soft oval face, black long wavy hair. Her lips are full, forming a defined cupid's bow a small, slightly upturned nose",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 8
+    },
+    {
+      "id": "seren",
+      "label": "Seren",
+      "features": "30-year-old beauty Indonesian woman. Golden brown skin, skin pores, freckles. Her hair is mahogany brown with coppery highlights, styled in low bun with side part. Her lips are full, forming a defined cupid's bow a small, slightly upturned nose",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 9
+    },
+    {
+      "id": "naee",
+      "label": "Naee",
+      "features": "30-year-old beauty Indonesian chubby woman and She has very bust. Tan skin, skin pores, freckles and a shoulder-length long bob (lob) haircut. The hair is honey brown with sun-kissed highlights, slightly tousled, textured ends, styled into subtle beach waves. It falls naturally around her face with a side part. She has very bust, a soft oval face. Her lips are full, forming a defined cupid's bow a small, slightly upturned nose",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 10
+    },
+    {
+      "id": "fiona",
+      "label": "Fiona",
+      "features": "35-year-old beauty Indonesian chubby woman and She has very bust. Fair skin, red nose, flushed face, skin pores, freckles, and a high ponytail. Her hair is sleek and silver-gray, a soft oval face. Her lips are full, forming a defined cupid's bow a small, slightly upturned nose, red bold frame cat-eye glasses",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 11
+    },
+    {
+      "id": "cinci",
+      "label": "Cinci",
+      "features": "young chubby woman and She has very bust. fair skin, red nose, flushed face, skin pores, freckles. She wear black glitter masquerade rabbit mask. She is long, sleek black hair",
+      "gender": "female",
+      "category": "Preset",
+      "active": true,
+      "sort": 12
+    }
+  ],
+  "poses": [
+    {
+      "id": "based-on-photo",
+      "label": "Based on photo",
+      "prompt": "posing based on a photo reference",
+      "active": true,
+      "sort": 1,
+      "category": "General",
+      "gender": "all"
+    },
+    {
+      "id": "double-peace",
+      "label": "Double Peace",
+      "prompt": "double peace sign pose with one leg bent",
+      "active": true,
+      "sort": 2,
+      "category": "General",
+      "gender": "all"
+    },
+    {
+      "id": "dynamic-sitting",
+      "label": "Dynamic sitting",
+      "prompt": "dynamic sitting pose",
+      "active": true,
+      "sort": 3,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "dynamic-standing",
+      "label": "Dynamic standing",
+      "prompt": "dynamic standing pose",
+      "active": true,
+      "sort": 4,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "holding-your-hand",
+      "label": "Holding Your Hand",
+      "prompt": "walking and holding your (man) hand. She looks back over her shoulder with a soft",
+      "active": true,
+      "sort": 5,
+      "category": "General",
+      "gender": "all"
+    },
+    {
+      "id": "jogging",
+      "label": "Jogging",
+      "prompt": "jogging slowly",
+      "active": true,
+      "sort": 6,
+      "category": "Movement",
+      "gender": "all"
+    },
+    {
+      "id": "jogging-selfie",
+      "label": "Jogging + Selfie",
+      "prompt": "jogging while taking a selfie with her right hand holding a smartphone and her left hand making a finger heart gesture",
+      "active": true,
+      "sort": 7,
+      "category": "Selfie",
+      "gender": "all"
+    },
+    {
+      "id": "kneeling",
+      "label": "Kneeling",
+      "prompt": "kneeling with both arms raised as she grab her hair",
+      "active": true,
+      "sort": 8,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "kneels-on-bed-selfie-1",
+      "label": "Kneels on bed - Selfie 1",
+      "prompt": "kneels on the bed facing the mirror, one hand touching her hair and the other holding the phone up for a selfie. Her posture is relaxed and natural",
+      "active": true,
+      "sort": 9,
+      "category": "Selfie",
+      "gender": "all"
+    },
+    {
+      "id": "kneels-on-bed-selfie-2",
+      "label": "Kneels on bed - Selfie 2",
+      "prompt": "kneels on a bed while arching her back slightly and leaning forward, creating a subtle S-curve pose. She holds a smartphone in front of her face with her right hand, taking a mirror selfie. Her left hand rests on her upper thigh for balance",
+      "active": true,
+      "sort": 10,
+      "category": "Selfie",
+      "gender": "all"
+    },
+    {
+      "id": "look-at-the-mirror",
+      "label": "Look at the mirror",
+      "prompt": "stands leaning against the sink, looking intensely at her own reflection in the mirror. Both the woman and her reflection share a fierce",
+      "active": true,
+      "sort": 11,
+      "category": "General",
+      "gender": "all"
+    },
+    {
+      "id": "lying-one-arms",
+      "label": "Lying One Arms",
+      "prompt": "lying down, one arm is resting on her forehead, partially shading her eyes",
+      "active": true,
+      "sort": 12,
+      "category": "General",
+      "gender": "all"
+    },
+    {
+      "id": "peeking-at-library",
+      "label": "Peeking at Library",
+      "prompt": "peeking through a row of vintage books on a wooden bookshelf. Only part of his/her face is visible",
+      "active": true,
+      "sort": 13,
+      "category": "General",
+      "gender": "all"
+    },
+    {
+      "id": "running",
+      "label": "Running",
+      "prompt": "running forward with motion blur",
+      "active": true,
+      "sort": 14,
+      "category": "Movement",
+      "gender": "all"
+    },
+    {
+      "id": "seated-inside-flying-vehicle",
+      "label": "Seated inside flying vehicle",
+      "prompt": "seated confidently inside, hands on a steer while driving a futuristic flying vehicle with a sleek, aerodynamic white body and glowing orange jet thrusters. The front section of the vehicle is made of transparent glass, fully revealing the interior controls and the pilot’s legs. The vehicle has exposed high-tech details and glowing elements inside",
+      "active": true,
+      "sort": 15,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "selfie",
+      "label": "Selfie",
+      "prompt": "taking a selfie with her right arm extended forward. Her left hand gestur raised to the air",
+      "active": true,
+      "sort": 16,
+      "category": "Selfie",
+      "gender": "all"
+    },
+    {
+      "id": "sitting-sensual",
+      "label": "Sitting Sensual",
+      "prompt": "sitting relaxed with her left leg propped up on the sofa/chair, the woman crosses her legs seductively, while her right hand gently touches her lips, creating a sensual and playful gesture",
+      "active": true,
+      "sort": 17,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "sitting-knees",
+      "label": "Sitting Knees",
+      "prompt": "sitting on sofa/chair, her knees drawn close to her chest in a relaxed",
+      "active": true,
+      "sort": 18,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "sitting-crossed-legs",
+      "label": "Sitting Crossed Legs",
+      "prompt": "sitting pose with crossed legs on sofa/chair/floor",
+      "active": true,
+      "sort": 19,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "sitting-bar-stool-1",
+      "label": "Sitting Bar Stool 1",
+      "prompt": "sitting sideways on a wooden stool, her left leg lifted and resting on the seat, while her right arm rests on her raised knee, hand supporting her chin",
+      "active": true,
+      "sort": 20,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "sitting-bar-stool-2",
+      "label": "Sitting Bar Stool 2",
+      "prompt": "sitting upright in the center of a wooden stool, both hands resting lightly on her knees. One leg crosses over the other at the ankle",
+      "active": true,
+      "sort": 21,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "sitting-bar-stool-4",
+      "label": "Sitting Bar Stool 4",
+      "prompt": "sitting facing forward on a wooden stool, right leg raised onto the seat, right hand touching her lips gently, head slightly tilted",
+      "active": true,
+      "sort": 22,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "sitting-bar-stool-5",
+      "label": "Sitting Bar Stool 5",
+      "prompt": "sitting on a wooden stool, one hand rests on her lap while the other touches her head in a reflective gesture, legs slightly, head gently tilted downward in a candid",
+      "active": true,
+      "sort": 23,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "sitting-bar-stool-6",
+      "label": "Sitting Bar Stool 6",
+      "prompt": "sitting on a wooden stool, legs crossed and hands loosely resting over her ankles, gazing to her left",
+      "active": true,
+      "sort": 24,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "sitting-inside-combat-mecha",
+      "label": "Sitting inside combat mecha",
+      "prompt": "sits inside a high-tech combat mecha, a hovering spherical exo-suit with complex rotating rings and articulated weapon. The mech is painted in worn yellow and gunmetal gold, featuring dual plasma cannons on the shoulders, and missile pods integrated into its sides. Its arms are shaped like circular portals emitting bright blue energy fields, functioning both as shields and energy weapons. The mech is equipped with fire thrusters, visible hydraulic systems",
+      "active": true,
+      "sort": 25,
+      "category": "Sitting / Kneeling",
+      "gender": "all"
+    },
+    {
+      "id": "selfie-bed-1",
+      "label": "Selfie Bed 1",
+      "prompt": "sits sideway on a bed with one leg bent and the other extended. She twists her upper body slightly toward a phone for a mirror selfie. Her left hand rests on the bed for balance",
+      "active": true,
+      "sort": 26,
+      "category": "Selfie",
+      "gender": "all"
+    },
+    {
+      "id": "selfie-bed-2",
+      "label": "Selfie Bed 2",
+      "prompt": "sitting on a bed upright on her knees, she turns slightly to her right, holding her phone at chest level for a mirror selfie. Her left arm is relaxed at her side",
+      "active": true,
+      "sort": 27,
+      "category": "Selfie",
+      "gender": "all"
+    },
+    {
+      "id": "selfie-bed-3",
+      "label": "Selfie Bed 3",
+      "prompt": "kneels on the bed facing the mirror, one hand touching her hair and the other holding the phone up for a selfie. Her posture is relaxed and natural",
+      "active": true,
+      "sort": 28,
+      "category": "Selfie",
+      "gender": "all"
+    },
+    {
+      "id": "selfie-bed-4",
+      "label": "Selfie Bed 4",
+      "prompt": "kneels on a bed while arching her back slightly and leaning forward, creating a subtle S-curve pose. She holds a smartphone in front of her face with her right hand, taking a mirror selfie. Her left hand rests on her upper thigh for balance",
+      "active": true,
+      "sort": 29,
+      "category": "Selfie",
+      "gender": "all"
+    },
+    {
+      "id": "standing-holding-a-basket",
+      "label": "Standing holding a basket",
+      "prompt": "standing and slightly angling her body, holding a wicker laundry basket full of colorful clothes with both hands in front of her",
+      "active": true,
+      "sort": 30,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "standing-mirror-selfie",
+      "label": "Standing Mirror Selfie",
+      "prompt": "standing and taking a mirror selfie with a white iphone 16",
+      "active": true,
+      "sort": 31,
+      "category": "Selfie",
+      "gender": "all"
+    },
+    {
+      "id": "standing-batman-selfie",
+      "label": "Standing Batman Selfie",
+      "prompt": "standing and taking a mirror selfie with a white iphone 16. She is wearing a black maskless Batman costume with shiny futuristic armor details. A long black cape flows down her back, following the curves of her body and the direction of the wind. The costume features a metallic texture with golden accents on the gloves and belt",
+      "active": true,
+      "sort": 32,
+      "category": "Selfie",
+      "gender": "all"
+    },
+    {
+      "id": "standing-beside-bar-stool",
+      "label": "Standing Beside Bar Stool",
+      "prompt": "standing beside a wooden stool, right hand resting on the seat, left arm bent with hand touching the top of her head, giving a confident and slightly sultry look straight at the camera",
+      "active": true,
+      "sort": 33,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "standing-bent-over",
+      "label": "Standing Bent Over",
+      "prompt": "stands in bent over",
+      "active": true,
+      "sort": 34,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "standing-beside-black-dragon",
+      "label": "Standing Beside Black Dragon",
+      "prompt": "dynamic standing pose beside a majestic black dragon with deep obsidian scales, sharp horns, and glowing amber reptilian eyes, its wings partially folded with hyper-detailed texture",
+      "active": true,
+      "sort": 35,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "standing-one-hand-hips",
+      "label": "Standing One Hand Hips",
+      "prompt": "standing casually with one hip popped to the side, her right hand resting loosely on her thigh and left arm slightly bent behind her. Her head tilts slightly",
+      "active": true,
+      "sort": 36,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "standing-one-hand-crossed",
+      "label": "Standing One Hand Crossed",
+      "prompt": "standing casually, her right arm crossing her torso while her left hand rests on her right elbow. Her legs are crossed at the ankle, and she looks directly at the camera",
+      "active": true,
+      "sort": 37,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "standing-one-hand-behind-head",
+      "label": "Standing One Hand Behind Head",
+      "prompt": "standing firmly with legs slightly apart, her right hand behind her head and left arm relaxed",
+      "active": true,
+      "sort": 38,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "standing-relaxed",
+      "label": "Standing Relaxed",
+      "prompt": "stands pose of legs are shoulder-width apart, left feet open to side top toe with hands behind back",
+      "active": true,
+      "sort": 39,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "standing-seen-from-behind",
+      "label": "Standing Seen From Behind",
+      "prompt": "stands in a three-quarter pose, seen from behind with her face slightly toward the camera, revealing part of her face and chest in a soft, graceful twist. Her arms are gently bent at the elbows, and her hands are loosely clasped in front of her chest, conveying elegance and calm. One leg is crossed subtly behind the other, creating a gentle, feminine S-curve in her posture",
+      "active": true,
+      "sort": 40,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "standing-with-stretching-body",
+      "label": "Standing With Stretching Body",
+      "prompt": "stands with stretching body",
+      "active": true,
+      "sort": 41,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "standing-take-a-bath",
+      "label": "Standing Take a Bath",
+      "prompt": "standing taking a bath, wet hair and outfit, with both palms pressed against the glass",
+      "active": true,
+      "sort": 42,
+      "category": "Standing",
+      "gender": "all"
+    },
+    {
+      "id": "squat-from-behind",
+      "label": "Squat from behind",
+      "prompt": "a low squat position seen from behind",
+      "active": true,
+      "sort": 43,
+      "category": "Movement",
+      "gender": "all"
+    },
+    {
+      "id": "walking",
+      "label": "Walking",
+      "prompt": "walking slowly",
+      "active": true,
+      "sort": 44,
+      "category": "Movement",
+      "gender": "all"
+    }
+  ],
+  "expressions": [
+    {
+      "id": "playful-wink",
+      "label": "Playful Wink",
+      "prompt": "playful confident wink expression, one eye closed in a soft wink, subtle smug smile, relaxed lips, slightly raised cheek, teasing and cheeky vibe.",
+      "active": true,
+      "sort": 1,
+      "category": "Positive / Playful"
+    },
+    {
+      "id": "puffy-pout",
+      "label": "Puffy pout",
+      "prompt": "puffy pout expression",
+      "active": true,
+      "sort": 2,
+      "category": "Neutral"
+    },
+    {
+      "id": "playful-and-cheeky",
+      "label": "playful and cheeky",
+      "prompt": "playful and cheeky: she’s smiling widely with her teeth showing while sticking her tongue out, and her eyes are looking off to the side of the viewer, giving a fun, exaggerated silly-face vibe",
+      "active": true,
+      "sort": 3,
+      "category": "Positive / Playful"
+    },
+    {
+      "id": "rolling-eyes",
+      "label": "Rolling eyes",
+      "prompt": "rolling eyes, with an arrogant and disdainful expression",
+      "active": true,
+      "sort": 4,
+      "category": "Neutral"
+    },
+    {
+      "id": "fake-mad",
+      "label": "Fake Mad",
+      "prompt": "exaggerated soft pout expression, lips pushed forward in a cute sulky way, slightly droopy eyes, playful annoyed stare, fake angry expression, innocent bratty energy.",
+      "active": true,
+      "sort": 5,
+      "category": "Anger"
+    },
+    {
+      "id": "anger-alis-berkerut-tajam-dengan-mata-melotot",
+      "label": "Anger - Alis berkerut tajam dengan mata melotot",
+      "prompt": "angger with detailed Deeply furrowed brows with glaring eyes: Brows pulled down and together, forming deep creases between them. Eyes wide open, pupils possibly constricted, gaze sharp, piercing, or threatening",
+      "active": true,
+      "sort": 6,
+      "category": "Anger"
+    },
+    {
+      "id": "anger-rahang-mengeras-dengan-mata-menyala",
+      "label": "Anger - Rahang mengeras dengan mata menyala",
+      "prompt": "angger with detailed Clenched jaw with fiery eyes: Jaw muscles visibly tensed. Eyes radiating anger, gaze direct and unwavering",
+      "active": true,
+      "sort": 7,
+      "category": "Anger"
+    },
+    {
+      "id": "asleep-tertidur",
+      "label": "Asleep - Tertidur",
+      "prompt": "asleep with detailed closed eyes, relaxed facial muscles, peaceful expression",
+      "active": true,
+      "sort": 8,
+      "category": "Sleep / Tired"
+    },
+    {
+      "id": "deep-sleep-tertidur-nganga",
+      "label": "Deep sleep - Tertidur nganga",
+      "prompt": "snoring softly with detailed mouth open mid-breath, eyes closed, cheeks slightly relaxed",
+      "active": true,
+      "sort": 9,
+      "category": "Sleep / Tired"
+    },
+    {
+      "id": "bashful-tersipu-malu",
+      "label": "Bashful - Tersipu malu",
+      "prompt": "bashfulwith detailed looking down, slight smile with pursed lips",
+      "active": true,
+      "sort": 10,
+      "category": "Neutral"
+    },
+    {
+      "id": "calm-and-focused",
+      "label": "Calm and focused",
+      "prompt": "calm and focused.",
+      "active": true,
+      "sort": 11,
+      "category": "Neutral"
+    },
+    {
+      "id": "disappointed-kecewa",
+      "label": "Disappointed - Kecewa",
+      "prompt": "disappointed with detailed lips slightly pursed, eyes looking away, one brow raised higher",
+      "active": true,
+      "sort": 12,
+      "category": "Sadness"
+    },
+    {
+      "id": "fear-mata-terbuka-lebar-dan-pupil-melebar",
+      "label": "Fear - Mata terbuka lebar dan pupil melebar",
+      "prompt": "fear with detailed wide-open eyes with dilated pupils: Brows raised. Eyes open very wide, showing much of the whites. Pupils enlarged, gaze tense, wary, or trembling",
+      "active": true,
+      "sort": 13,
+      "category": "Fear / Surprise"
+    },
+    {
+      "id": "fear-wajah-pucat-dengan-mata-bergetar",
+      "label": "Fear - Wajah pucat dengan mata bergetar",
+      "prompt": "fear with detailed pale face with quivering eyes: Skin appears pale. Eyes might tremble or dart erratically, gaze unfocused",
+      "active": true,
+      "sort": 14,
+      "category": "Fear / Surprise"
+    },
+    {
+      "id": "gentle-pleasure",
+      "label": "Gentle pleasure",
+      "prompt": "gentle pleasure with detailed eyes gently closed and lips slightly parted, soft moaning expression, face showing deep relaxation and pleasure",
+      "active": true,
+      "sort": 15,
+      "category": "Sensual"
+    },
+    {
+      "id": "happiness-senyum-lebar-dengan-mata-berbinar",
+      "label": "Happiness - Senyum lebar dengan mata berbinar",
+      "prompt": "happiness with detailed broad smile with sparkling eyes: Lips curved up, showing teeth, with fine lines at the outer corners of the eyes (smiling eyes). Gaze is focused, bright, and slightly narrowed",
+      "active": true,
+      "sort": 16,
+      "category": "Neutral"
+    },
+    {
+      "id": "happiness-tawa-lepas-dengan-mata-menyipit",
+      "label": "Happiness - Tawa lepas dengan mata menyipit",
+      "prompt": "happiness with detailed hearty laugh with squinting eyes: Mouth wide open, possibly showing gums. Head tilted back slightly. Eyes almost closed, forming creases",
+      "active": true,
+      "sort": 17,
+      "category": "Neutral"
+    },
+    {
+      "id": "happiness-mata-terbuka-lebar-penuh-kagum",
+      "label": "Happiness - Mata terbuka lebar penuh kagum",
+      "prompt": "happiness with detailed Wide-eyed wonder: Brows raised, eyes open wide showing much of the whites. Pupils dilated. Staring fixedly at the object of awe",
+      "active": true,
+      "sort": 18,
+      "category": "Neutral"
+    },
+    {
+      "id": "holding-back-tears-menahan-tangis",
+      "label": "Holding back tears - Menahan tangis",
+      "prompt": "holding back tears with detailed lips pressed tightly, eyes glossy or slightly teary, tense jawline",
+      "active": true,
+      "sort": 19,
+      "category": "Sadness"
+    },
+    {
+      "id": "kissing",
+      "label": "Kissing",
+      "prompt": "kissy lips expression",
+      "active": true,
+      "sort": 20,
+      "category": "Positive / Playful"
+    },
+    {
+      "id": "looks-tired",
+      "label": "Looks tired",
+      "prompt": "looks tired",
+      "active": true,
+      "sort": 21,
+      "category": "Sleep / Tired"
+    },
+    {
+      "id": "moaning",
+      "label": "Moaning",
+      "prompt": "moaning with detailed a moaning face, invisible black eyeball, mouth opened, intense pleasure expression",
+      "active": true,
+      "sort": 22,
+      "category": "Sensual"
+    },
+    {
+      "id": "peaceful-with-eyes-closed",
+      "label": "Peaceful with eyes closed",
+      "prompt": "peaceful with eyes closed",
+      "active": true,
+      "sort": 23,
+      "category": "Neutral"
+    },
+    {
+      "id": "sadness-pandangan-kosong-ke-bawah",
+      "label": "Sadness - Pandangan kosong ke bawah",
+      "prompt": "sadness with detailed empty downward gaze: Head slightly bowed",
+      "active": true,
+      "sort": 24,
+      "category": "Sadness"
+    },
+    {
+      "id": "sadness-menyipitkan-mata-karena-menahan-tangis",
+      "label": "Sadness - Menyipitkan mata karena menahan tangis",
+      "prompt": "sadness with detailed squinting: Brows slightly furrowed",
+      "active": true,
+      "sort": 25,
+      "category": "Sadness"
+    },
+    {
+      "id": "serious-serius-tegas",
+      "label": "Serious - Serius / Tegas",
+      "prompt": "serious with detailed neutral lips, steady intense gaze, slightly furrowed brows",
+      "active": true,
+      "sort": 26,
+      "category": "Neutral"
+    },
+    {
+      "id": "sleepy-angkat-tangan",
+      "label": "Sleepy - angkat tangan",
+      "prompt": "sleepy with detailed stretching arms while yawning, eyes barely open, looking like just woke up",
+      "active": true,
+      "sort": 27,
+      "category": "Sleep / Tired"
+    },
+    {
+      "id": "sleepy-tutup-mulut",
+      "label": "Sleepy - Tutup mulut",
+      "prompt": "sleepy with detailed yawning with eyes half-closed, covering her mouth with one hand",
+      "active": true,
+      "sort": 28,
+      "category": "Sleep / Tired"
+    },
+    {
+      "id": "smiling",
+      "label": "Smiling",
+      "prompt": "smiling sweetly",
+      "active": true,
+      "sort": 29,
+      "category": "Positive / Playful"
+    },
+    {
+      "id": "smiling-mouth-close",
+      "label": "Smiling mouth close",
+      "prompt": "smiling (mouth close)",
+      "active": true,
+      "sort": 30,
+      "category": "Positive / Playful"
+    },
+    {
+      "id": "surprise-shock-mata-melotot-dan-mulut-ternganga",
+      "label": "Surprise/shock - Mata melotot dan mulut ternganga",
+      "prompt": "surprise/shock with detailed wide, staring eyes and gaping mouth: Brows raised high. Eyes open very wide, showing much of the whites. Pupils dilated. Staring fixedly at the object of awe",
+      "active": true,
+      "sort": 31,
+      "category": "Fear / Surprise"
+    },
+    {
+      "id": "surprise-shock-kerutan-di-dahi-dengan-pandangan-bingung",
+      "label": "Surprise/shock - Kerutan di dahi dengan pandangan bingung",
+      "prompt": "surprise/shock with detailed creased forehead with a bewildered look: Brows slightly furrowed",
+      "active": true,
+      "sort": 32,
+      "category": "Fear / Surprise"
+    }
+  ],
+  "outfits": [
+    {
+      "id": "80-school-girl",
+      "label": "80 School Girl",
+      "prompt": "a classic navy sailor fuku uniform with a red ribbon at the collar, a pleated skirt that falls just above the knee, white knee-high socks, and black loafers. She carries a simple bag in one hand",
+      "active": true,
+      "sort": 1,
+      "category": "Traditional / Uniform"
+    },
+    {
+      "id": "armored-jumpsuit",
+      "label": "Armored jumpsuit",
+      "prompt": "a white-orange colored armored jumpsuit with tech interfaces on the sleeves",
+      "active": true,
+      "sort": 2,
+      "category": "Fantasy / Sci-Fi"
+    },
+    {
+      "id": "batman-costume",
+      "label": "Batman costume",
+      "prompt": "a black maskless Batman costume with shiny futuristic armor details. A long black cape flows down her back, following the curves of her body and the direction of the wind. The costume features a metallic texture with golden accents on the gloves and belt",
+      "active": true,
+      "sort": 3,
+      "category": "Fantasy / Sci-Fi"
+    },
+    {
+      "id": "blouse-denim-sneakers",
+      "label": "Blouse + Denim + Sneakers",
+      "prompt": "a bright yellow longslaves blouse tucked slightly in front, comfortable dark denim jeans with slight cuffing at the angles. On her feet are crisp white sneakers with clear texture and laces visible",
+      "active": true,
+      "sort": 4,
+      "category": "Casual"
+    },
+    {
+      "id": "blue-kebaya",
+      "label": "Blue Kebaya",
+      "prompt": "a modern royal blue kebaya with sheer ice blue lace details on the sleeves and shoulders. The kebaya is paired with a traditional chocolate brown batik skirt and a bright electric blue sash (selendang) elegantly tied around her waist with a polished silver brooch. On her feet are closed-toe silver heels",
+      "active": true,
+      "sort": 5,
+      "category": "Traditional / Uniform"
+    },
+    {
+      "id": "bra-panties",
+      "label": "Bra & Panties",
+      "prompt": "a fuchsia bra and matching panties with delicate lace trim",
+      "active": true,
+      "sort": 6,
+      "category": "Intimate"
+    },
+    {
+      "id": "bra-underwear-ck",
+      "label": "Bra & Underwear - CK",
+      "prompt": "a black Calvin Klein bralette and underwear hat subtly accentuates her bust",
+      "active": true,
+      "sort": 7,
+      "category": "Intimate"
+    },
+    {
+      "id": "bikini",
+      "label": "Bikini",
+      "prompt": "a bright yellow-colored bikini bra that subtly accentuates her bust, matching with a thong",
+      "active": true,
+      "sort": 8,
+      "category": "Intimate"
+    },
+    {
+      "id": "bunny-lingerie",
+      "label": "Bunny Lingerie",
+      "prompt": "a bunny leather lingerie that subtly accentuates her bust with bunny ears headband, black fence net hosieries, black pump shoes",
+      "active": true,
+      "sort": 9,
+      "category": "Intimate"
+    },
+    {
+      "id": "casual",
+      "label": "Casual",
+      "prompt": "a comfortable and stylish casual clothing such as a simple t-shirt paired with jeans, slide sandals",
+      "active": true,
+      "sort": 10,
+      "category": "Casual"
+    },
+    {
+      "id": "casual-cyberpunk-outfit",
+      "label": "Casual cyberpunk outfit",
+      "prompt": "a stylish casual outfit: a crop bomber jacket with iridescent panels, utility pants with color-blocked patches, and high-tech sneakers",
+      "active": true,
+      "sort": 11,
+      "category": "Fantasy / Sci-Fi"
+    },
+    {
+      "id": "combat-suit-tactical-sci-fi",
+      "label": "Combat Suit - Tactical Sci-fi",
+      "prompt": "a tight-fitting black sci-fi leather armor with shoulder guards and tactical straps",
+      "active": true,
+      "sort": 12,
+      "category": "Casual"
+    },
+    {
+      "id": "elegant-armor",
+      "label": "Elegant armor",
+      "prompt": "elegant engraved armor with a crescent moon emblem",
+      "active": true,
+      "sort": 13,
+      "category": "Fantasy / Sci-Fi"
+    },
+    {
+      "id": "evening-dress",
+      "label": "Evening Dress",
+      "prompt": "a luxurious evening or cocktail dress made of silk in emerald green, featuring details like a thigh-high slit or a graceful low back. She accessorizes with elegant jewelry such as diamond stud earrings and a delicate lariat necklace",
+      "active": true,
+      "sort": 14,
+      "category": "Formal / Fashion"
+    },
+    {
+      "id": "flower-employee",
+      "label": "Flower employee",
+      "prompt": "a cream-colored shirt with floral patterns and denim overalls with embroidered flowers",
+      "active": true,
+      "sort": 15,
+      "category": "Casual"
+    },
+    {
+      "id": "harajuku-gothic",
+      "label": "Harajuku gothic",
+      "prompt": "a stylish, edgy outfit: an fitted white graphic t-shirt tucked into a black sheer skirt with lace trim at the hem, revealing black panties underneath. She completes the look with chunky black dr martens jadon smooth leather platform boots",
+      "active": true,
+      "sort": 16,
+      "category": "Casual"
+    },
+    {
+      "id": "jumpsuit-handbag",
+      "label": "Jumpsuit & Handbag",
+      "prompt": "a fitted black satin jumpsuit with a deep V neckline and a belted waist that accentuates her hourglass figure. Her outfit is paired with black ankle-strap high heels and a large structured designer handbag. She accessorizes a subtle bracelet",
+      "active": true,
+      "sort": 17,
+      "category": "Formal / Fashion"
+    },
+    {
+      "id": "kamen-raider",
+      "label": "Kamen raider",
+      "prompt": "a sexy futuristic female outfit inspired by Kamen Rider armor design, featuring a sleek black and metallic green swimsuit with chrome accents, tight-fitting, glowing red eye visor like a helmet but styled as a fashionable headpiece or mask, utility belt with sci-fi elements around the waist, high-heeled tech boots in sleek black with metallic green chrome plating",
+      "active": true,
+      "sort": 18,
+      "category": "Fantasy / Sci-Fi"
+    },
+    {
+      "id": "kagura",
+      "label": "Kagura",
+      "prompt": "a white cropped jacket with magenta and gold embroidery on the collar and sleeves over black croptop, a wide black belt with a metallic buckle cinching her waist, and a short, high-waisted pleated skirt in deep black with golden cloud motifs and purple lining. She wears thigh-high stockings magenta with a golden flame pattern and white heeled combat boots with magenta laced and sole. She holds a large traditional paper paperasol over her shoulder, beige with magenta trim and adorned with multiple hanging rectangular talismans inscribed with glowing red kanji",
+      "active": true,
+      "sort": 19,
+      "category": "Formal / Fashion"
+    },
+    {
+      "id": "kimono",
+      "label": "Kimono",
+      "prompt": "a colorful kimono, richly decorated with large chrysanthemum floral patterns in shades of red, orange, white, and blue, set against a deep indigo background. Tied with a yellow obi belt. On her feet are traditional wooden geta sandals",
+      "active": true,
+      "sort": 20,
+      "category": "Traditional / Uniform"
+    },
+    {
+      "id": "lingerie-set",
+      "label": "Lingerie Set",
+      "prompt": "an elegant, fuchsia lace lingerie set designed with intricate embroidery and sheer panels, including a corset-style bodice, matching garter belt, sheer black stockings and black pump shoes",
+      "active": true,
+      "sort": 21,
+      "category": "Intimate"
+    },
+    {
+      "id": "mad-max-outfit",
+      "label": "Mad max Outfit",
+      "prompt": "a full-body armored outfit with metallic and leather details, futuristic shoulder pads, gloves, knee guards, and tactical gear",
+      "active": true,
+      "sort": 22,
+      "category": "Fantasy / Sci-Fi"
+    },
+    {
+      "id": "mini-dress-denim-vest-boots",
+      "label": "Mini dress + Denim Vest + Boots",
+      "prompt": "a white lace mini dress with intricate embroidery and a frayed light denim vest and tan ankle boots",
+      "active": true,
+      "sort": 23,
+      "category": "Formal / Fashion"
+    },
+    {
+      "id": "nasa-flight-suit",
+      "label": "Nasa flight suit",
+      "prompt": "a slightly worn, orange NASA-style flight suit with U.S. flag and mission patches, and rugged red combat boots",
+      "active": true,
+      "sort": 24,
+      "category": "Fantasy / Sci-Fi"
+    },
+    {
+      "id": "pajamas",
+      "label": "Pajamas",
+      "prompt": "a short silk emerald green pajamas set that subtly accentuates her bust",
+      "active": true,
+      "sort": 25,
+      "category": "Casual"
+    },
+    {
+      "id": "relaxed-oversize-t-shirt",
+      "label": "Relaxed oversize t-shirt",
+      "prompt": "a relaxed oversized T-shirt. The neckline is wide open and random, with one side completely slipped off the shoulder to expose one shoulder, collarbone, and upper chest. Creating a deep neckline that reveals cleavage and décolletage",
+      "active": true,
+      "sort": 26,
+      "category": "Casual"
+    },
+    {
+      "id": "school-uniform",
+      "label": "School Uniform",
+      "prompt": "a tight white school uniform, top two buttons unbuttoned, collar turned up,white with grey pleated mini skirt, black and white vans old skool sneakers",
+      "active": true,
+      "sort": 27,
+      "category": "Casual"
+    },
+    {
+      "id": "sexy-white-shirt",
+      "label": "Sexy white shirt",
+      "prompt": "a sheer, short-sleeved white button-up shirt tucked into skirt. Peter Pan collar and buttons down the front that subtly accentuates her bust. Underneath red bra is visible. Pairs with A-line cut black pleated mini skirt, black knee-high socks, white lace-up sneakers with black soles",
+      "active": true,
+      "sort": 28,
+      "category": "Casual"
+    },
+    {
+      "id": "sheer-camisole",
+      "label": "Sheer Camisole",
+      "prompt": "a black camisole dress, bunny slippers",
+      "active": true,
+      "sort": 29,
+      "category": "Intimate"
+    },
+    {
+      "id": "shirt-underwear",
+      "label": "Shirt + Underwear",
+      "prompt": "a white crop top t-shirt that subtly accentuates her bust and light gray Calvin Klein underwear",
+      "active": true,
+      "sort": 30,
+      "category": "Intimate"
+    },
+    {
+      "id": "space-suit-helmet-off",
+      "label": "Space suit helmet off",
+      "prompt": "a sleek, modern white space suit with soft gray and chrome accents, helmet off",
+      "active": true,
+      "sort": 31,
+      "category": "Fantasy / Sci-Fi"
+    },
+    {
+      "id": "supergirl",
+      "label": "Supergirl",
+      "prompt": "a sensual female superhero costume inspired by Supergirl, featuring a form-fitting, glossy latex red and deep-blue bodysuit with high-cut hips and plunging neckline, accentuating her curves and toned figure. She wears a short flowing red cape attached to a gold chopper collar, golden belt cinched at her slim waist, and thigh-high red stiletto boots",
+      "active": true,
+      "sort": 32,
+      "category": "Fantasy / Sci-Fi"
+    },
+    {
+      "id": "yoga-outfit",
+      "label": "Yoga outfit",
+      "prompt": "a matching soft lavender-colored seamless sports bra with scoop neckline and high-waisted yoga leggings made from soft, stretchy fabric, barefoot",
+      "active": true,
+      "sort": 33,
+      "category": "Sport"
+    },
+    {
+      "id": "sporty-pink-white-outfit",
+      "label": "Sporty pink white outfit",
+      "prompt": "a tight pastel pink sleeveless sports jersey with deep v-neck, a white pleated mini skirt, white ankle socks and white running shoes",
+      "active": true,
+      "sort": 34,
+      "category": "Sport"
+    },
+    {
+      "id": "sporty-white-green-outfit",
+      "label": "Sporty white green outfit",
+      "prompt": "a tight white sleeveless sports jersey, a deep green pleated mini skirt, white mid-calf socks with deep green stripes and white running sneakers",
+      "active": true,
+      "sort": 35,
+      "category": "Sport"
+    },
+    {
+      "id": "stripped-shirt-jeans-barefoot",
+      "label": "Stripped shirt + Jeans + barefoot",
+      "prompt": "a striped short-sleeved t-shirt, likely in shades of cream and grey, paired with blue jeans, barefoot",
+      "active": true,
+      "sort": 36,
+      "category": "Casual"
+    },
+    {
+      "id": "towel",
+      "label": "Towel",
+      "prompt": "wrapped in a white bath mini towel",
+      "active": true,
+      "sort": 37,
+      "category": "Intimate"
+    },
+    {
+      "id": "tracksuit",
+      "label": "Tracksuit",
+      "prompt": "a royal blue-colored Adidas tracksuit with white strips, the jacket unzipped to reveal a clean white shirt underneath. She pairs the look with matching royal blue-colored Adidas track pants and white adidas samba with blue strips shoes",
+      "active": true,
+      "sort": 38,
+      "category": "Sport"
+    },
+    {
+      "id": "tron-outfit",
+      "label": "Tron outfit",
+      "prompt": "a sleek outfit tight-fitting armored suit with glowing orange lines, and tactical boots",
+      "active": true,
+      "sort": 39,
+      "category": "Fantasy / Sci-Fi"
+    },
+    {
+      "id": "urban-retro-outfit",
+      "label": "Urban Retro Outfit",
+      "prompt": "a casual yet edgy outfit: a burnt orange oversized hoodie, a black crop top revealing her midriff, and loose teal-green cargo pants with large pockets, paired with white converse chuck taylor shoes. She has a black backpack slung over one shoulder",
+      "active": true,
+      "sort": 40,
+      "category": "Casual"
+    },
+    {
+      "id": "workout-outfit",
+      "label": "Workout Outfit",
+      "prompt": "a neon yellow sports bra and matching v-shape briefs that highlight her curves, pastel-striped socks, chunky off-white gym sneakers.",
+      "active": true,
+      "sort": 41,
+      "category": "Sport"
+    }
+  ],
+  "settings": [
+    {
+      "id": "outdoor-based-on-photo",
+      "label": "Based on photo",
+      "prompt": "based on photo reference",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 1
+    },
+    {
+      "id": "outdoor-7-11-store-outdoor",
+      "label": "7-11 Store (Outdoor)",
+      "prompt": "in front of a Japanese convenience store, wet asphalt reflecting neon lights, soft diffused lighting, 7-eleven storefront with red green white signage, Japanese posters and price tags visible",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 2
+    },
+    {
+      "id": "outdoor-above-classic-city-street-outdoor",
+      "label": "Above classic city street (Outdoor)",
+      "prompt": "above a bustling city street, features a busy modern style city with narrow streets, classic buildings, streetlights, and cars below",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 3
+    },
+    {
+      "id": "outdoor-above-cityscape-outdoor",
+      "label": "Above cityscape (Outdoor)",
+      "prompt": "above a modern cityscape, glowing city lights",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 4
+    },
+    {
+      "id": "outdoor-amazon-jungle-trail",
+      "label": "Amazon Jungle Trail",
+      "prompt": "on a winding, muddy jungle trail deep in the Amazon rainforest. The dirt trail twists and curves through the dense, tropical foliage, lined with tall palm trees and overgrown vegetation. It s lightly raining, and mist drifts between the towering trees, creating a foggy, humid atmosphere",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 5
+    },
+    {
+      "id": "outdoor-athena-s-sanctuary-outdoor",
+      "label": "Athena s Sanctuary (Outdoor)",
+      "prompt": "in Athena s Sanctuary   a majestic marble courtyard lined with tall, ancient Greek columns and wide stone steps. In the distance, grand temples gleam under soft sunlight, with white stone reflecting golden rays from the sky. Olive trees and fluttering banners add divine elegance to the scene. The lighting is warm and celestial, casting soft shadows from the pillars. Gentle sunbeams filter through the colonnade, while faint embers swirl in the breeze",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 6
+    },
+    {
+      "id": "outdoor-chic-urban-fashion-storefront-outdoor",
+      "label": "Chic urban fashion storefront (Outdoor)",
+      "prompt": "a chic urban fashion storefront with reflective glass panels",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 7
+    },
+    {
+      "id": "outdoor-city-park-outdoor",
+      "label": "City Park (Outdoor)",
+      "prompt": "at a peaceful city park, well-maintained grassy lawns, flower beds in full bloom, and tall leafy tree. Modern benches line the paved walking paths curves through the park, some occupied by relaxed people, some people jogging. skyline of modern city buildings",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 8
+    },
+    {
+      "id": "outdoor-courtyard-masjidil-haram-outdoor",
+      "label": "Courtyard Masjidil Haram (Outdoor)",
+      "prompt": "in the courtyard of Masjid al-Haram with the kaaba",
+      "type": "outdoor",
+      "category": "Sport",
+      "active": true,
+      "sort": 9
+    },
+    {
+      "id": "outdoor-courtyard-masjid-nabawi-outdoor",
+      "label": "Courtyard Masjid Nabawi (Outdoor)",
+      "prompt": "in the courtyard of Al-Masjid an-Nabawi with giant open umbrellas",
+      "type": "outdoor",
+      "category": "Sport",
+      "active": true,
+      "sort": 10
+    },
+    {
+      "id": "outdoor-coastel-outdoor",
+      "label": "Coastel (Outdoor)",
+      "prompt": "on Evokes a aesthetic coastal atmosphere, such as a beach house terrace furnished with rattan chairs, a quiet sandy path lined with palm trees, or a relaxed tropical caf  filled with wood textures and lush green plants",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 11
+    },
+    {
+      "id": "outdoor-dusty-desert-outdoor",
+      "label": "Dusty desert (Outdoor)",
+      "prompt": "in a dusty desert landscape under a clear blue sky with mountains faintly visible in the distance. The overall aesthetic is post-apocalyptic and sci-fi with a Mad Max-inspired atmosphere",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 12
+    },
+    {
+      "id": "outdoor-forest-pathway-outdoor",
+      "label": "Forest Pathway (Outdoor)",
+      "prompt": "at a curving, modern forest pathway at dusk, winding through tall pine trees. The path is made of smooth light-colored concrete or wood composite, with warm ambient pathway lighting embedded along both edges, glowing softly and illuminating the curves. The lights cast a golden hue along the ground, creating a magical atmosphere. Natural rock formations and forest floor details with minimal undergrowth line the sides",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 13
+    },
+    {
+      "id": "outdoor-forest-trail-outdoor",
+      "label": "Forest Trail (Outdoor)",
+      "prompt": "in a lush Indonesian natural environment-perhaps a forest path, mountain trail, pine woodland. The atmosphere feels fresh, vibrant, and and filled with the spirit of exploration. The soft textures of nature-trees, rocks, wild plants",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 14
+    },
+    {
+      "id": "outdoor-front-cafe-outdoor",
+      "label": "Front Cafe (Outdoor)",
+      "prompt": "in front of a caf , white-walled with glass doors, white-painted iron caf  chairs and tables, tropical plants, and natural stone flooring. In the foreground, there are tropical plants",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 15
+    },
+    {
+      "id": "outdoor-futsal-field-outdoor",
+      "label": "Futsal Field (Outdoor)",
+      "prompt": "in outdoor futsal field, surrounded by tall green trees and enclosed with high chain-link fence and green solid lower panels. The artificial grass is fresh and bright, with crisp white field markings for a futsal court. One goalpost clearly seen at the far end",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 16
+    },
+    {
+      "id": "outdoor-garden-swing-area-outdoor",
+      "label": "Garden Swing Area (Outdoor)",
+      "prompt": "in a serene and cozy garden, featuring a solid rectangular pergola made from smooth, light-colored natural wood with visible grain. The pergola consists of two vertical posts supporting a horizontal top beam, from which a macrame-style hanging swing seat is suspended using thick cream-colored ropes. The swing, surrounded by plush white cushions: several cream-colored square cushions, two dark green throw pillows, a mustard yellow throw pillows. and a soft knitted cream throw blanket. The pergola is adorned with hanging lanterns and delicate string lights that emit a warm golden glow. Green climbing vines with small oval leaves (such as pothos or ivy) trail along the top beam. The ground is paved with rustic stone tiles, and beneath the swing lies a round woven jute rug. Around the scene are terracotta pots filled with a variety of tropical and indoor plants, including fiddle-leaf fig, rubber plant, and monstera. To one side of the swing, a small stack of books rests next to a lit candle, casting a soft glow. The entire setting is embraced by a backdrop of taller trees and foliage, creating a private, intimate garden",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 17
+    },
+    {
+      "id": "outdoor-garden-pathway-outdoor",
+      "label": "Garden Pathway (Outdoor)",
+      "prompt": "in a romantic stone pathway in a French countryside garden during golden hour. The path is made of irregular cobblestones, gently winding through a lush and fragrant garden. Elegant wrought iron arches covered with blooming climbing roses and jasmine form a floral tunnel. Soft vintage lanterns hang from each arch, glowing warmly in the twilight, while small ground lanterns light the path below. Lush green hedges, clusters of white and blush-pink flowers, and tall cypress and pine trees surround the walkway. The garden is peaceful, charming, and idyllic, evoking the romance and rustic elegance of France",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 18
+    },
+    {
+      "id": "outdoor-golden-wheat-field-outdoor",
+      "label": "Golden Wheat Field (Outdoor)",
+      "prompt": "in a golden wheat field during sunset, his silhouette backlit by the sun. The mood is poetic, dreamy, and free-spirited, resembling a high-fashion magazine cover",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 19
+    },
+    {
+      "id": "outdoor-gorengan-cart-outdoor",
+      "label": "Gorengan Cart (Outdoor)",
+      "prompt": "at a beside small gorengan cart, lit by the warm yellow bulb from the cart, The background features a slightly blurred street with motion-blurred figures walking past, some motorbikes flashing by with trailing light",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 20
+    },
+    {
+      "id": "outdoor-grassy-park-outdoor",
+      "label": "Grassy Park(Outdoor)",
+      "prompt": "at a peaceful city park, well-maintained grassy lawns, and tall saman tree. some relaxed people and children playing. skyline of modern city buildings",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 21
+    },
+    {
+      "id": "outdoor-green-tea-plantation-outdoor",
+      "label": "Green Tea Plantation(Outdoor)",
+      "prompt": "in a lush green tea plantation. surrounded by rolling hills, with soft fog and warm sunlight, peaceful rural atmosphere",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 22
+    },
+    {
+      "id": "outdoor-indonesian-street-outdoor",
+      "label": "Indonesian Street(Outdoor)",
+      "prompt": "on a busy street in Indonesia. The street is lively with people passing by, motorcycle parked on the left side, and small food stalls with glowing lamps",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 23
+    },
+    {
+      "id": "outdoor-japanese-alleyway-outdoor",
+      "label": "Japanese alleyway (Outdoor)",
+      "prompt": "in a narrow Japanese alleyway. Decorated with glowing red paper lanterns. Small izakaya bars line left sides of the alley, with people sitting on stools, eating and drinking inside cozy open-front restaurants. The warm lantern light creating a lively and intimate atmosphere. In the distance, more people walk through the alley, surrounded by signs with Japanese characters",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 24
+    },
+    {
+      "id": "outdoor-jogging-park-outdoor",
+      "label": "Jogging Park (Outdoor)",
+      "prompt": "on a red running track in a central city park. there are tall modern buildings, large rain trees (pohon saman), and people walking and jogging",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 25
+    },
+    {
+      "id": "outdoor-landfill-outdoor",
+      "label": "Landfill (Outdoor)",
+      "prompt": "at top of the pile of garbage at the landfill, smokey, clear blue sky",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 26
+    },
+    {
+      "id": "outdoor-modern-courtyard-garden-outdoor",
+      "label": "Modern Courtyard Garden (Outdoor)",
+      "prompt": "modern courtyard garden with curved concrete benches topped with warm wooden seating, subtle underglow LED lighting beneath the benches, minimalist landscaping with ornamental grasses and small trees, smooth gray concrete pathway, modern building with large glass windows and warm interior light in background",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 27
+    },
+    {
+      "id": "outdoor-modern-open-courtyard",
+      "label": "Modern Open Courtyard",
+      "prompt": "in modern open courtyard surrounded by building with glass walls and hanging green vines, warm yellow ambient lighting from LED strips along the balcony edges, large trees with thin branches and dense leaves covering the top view, clean tiled floor with mixed patterns and neutral colors, minimalistic architecture, contemporary urban garden café style, lush greenery on vertical walls",
+      "type": "outdoor",
+      "category": "Sport",
+      "active": true,
+      "sort": 28
+    },
+    {
+      "id": "outdoor-modern-outdoor-cafe-coutyard",
+      "label": "Modern Outdoor Cafe Coutyard",
+      "prompt": "in modern outdoor café courtyard, surrounded by glass-walled building covered with vertical green vines, warm yellow ambient lighting glowing from inside the café, a large tree with thin branches and small leaves overhead wrapped with decorative string lights, clean concrete pathway with geometric patterns, small staircase with minimalist design, greenery and potted plants along the edges",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 29
+    },
+    {
+      "id": "outdoor-modern-park-minimalis-landscape-outdoor",
+      "label": "Modern Park Minimalis Landscape (Outdoor)",
+      "prompt": "in modern park with minimalistic landscape design, clean geometric layout, curved pedestrian pathways made of light beige and tan tiles, low hedges and manicured shrubs forming soft organic shapes, slender trees evenly spaced with straight black light poles",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 30
+    },
+    {
+      "id": "outdoor-modern-urban-park-canopy-outdoor",
+      "label": "Modern Urban Park Canopy (Outdoor)",
+      "prompt": "in modern urban park, curved pathways made of light gray and beige stone tiles, circular raised planters with manicured green shrubs and young trees supported by wooden stakes, elegant white tensile canopy structures shaped like flower petals providing shade, surrounded by lush greenery",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 31
+    },
+    {
+      "id": "outdoor-mountain-ridge-outdoor",
+      "label": "Mountain ridge (Outdoor)",
+      "prompt": "on a narrow mountain ridge trail, features winds sharply along the spine of a steep green grassy mountain, leading toward a high peak. The mist cover the left side of the mountain ridge trail, under clear blue sky",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 32
+    },
+    {
+      "id": "outdoor-night-market-outdoor",
+      "label": "Night Market (Outdoor)",
+      "prompt": "in a lively Indonesian village (desa), full of light from various sources. A bustling night market (pasar malam), a village festival decorated with colorful lanterns and string lights. The atmosphere is vibrant, warm, communal, and festive. Artificial lights from food stalls, decorative lanterns, and hanging lamps",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 33
+    },
+    {
+      "id": "outdoor-octagon-cage-outdoor",
+      "label": "Octagon Cage (Outdoor)",
+      "prompt": "in the octagon cage, with a cheering crowd in the background",
+      "type": "outdoor",
+      "category": "Sport",
+      "active": true,
+      "sort": 34
+    },
+    {
+      "id": "outdoor-open-air-market-outdoor",
+      "label": "Open-Air Market (Outdoor)",
+      "prompt": "at an open-air market with colorful stalls and umbrellas",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 35
+    },
+    {
+      "id": "outdoor-outer-space-cartoon-outdoor",
+      "label": "Outer space Cartoon (Outdoor)",
+      "prompt": "in a colorful cartoon-like outer space world filled with round, plushy, planet-inspired characters with cute faces and hats. She surrounded by pastel planets, stars, and animated toy cats. Add a large whimsical hot air balloon with the word 'HAPPY' written on it in bold letters. The entire composition is vibrant, playful, and full of dreamlike fantasy elements",
+      "type": "outdoor",
+      "category": "Fantasy / Sci-Fi",
+      "active": true,
+      "sort": 36
+    },
+    {
+      "id": "outdoor-papercut-art-village-studio",
+      "label": "Papercut Art Village(Studio)",
+      "prompt": "a dreamy fantasy village inspired by Studio Ghibli, entirely made from layered papercut art. Every element appears handmade and textured: pastel-colored houses with gently curved roofs, windmills, bridges, and winding paper paths. The entire environment is rendered in soft, warm colors   including pale beige, cream, ivory, dusty taupe, muted brown, sage green, pale sky blue, and golden straw yellow. The clouds look like soft, cutout paper with light gray shadows. Grass, trees, and all nature elements are crafted from slightly textured paper, swaying as if moved by a breeze. A large papercut tree with layered branches stands in foreground, with paper lanterns hanging gently overhead",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 37
+    },
+    {
+      "id": "outdoor-front-porch-outdoor",
+      "label": "Front Porch (Outdoor)",
+      "prompt": "at a modern minimalist front porch, featuring wide steps made of light-colored wood with built-in amber under-step lighting under each tread. The exterior wall is clad in stacked beige stone, with large floor-to-ceiling black-framed glass panels beside the front door. A flat wooden ceiling with recessed warm lights extends over the entrance. Large matte black bowl-shaped ceramic planters line the walkway, filled with sculpted greenery and moss, including small olive trees. The ground is paved with rectangular slate tiles in natural gray and earth tones",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 38
+    },
+    {
+      "id": "outdoor-red-carpet-outdoor",
+      "label": "Red carpet (Outdoor)",
+      "prompt": "on a luxurious red carpet event. Features tall palm trees swaying gently, and polished silver stanchions with thick red velvet ropes lining the carpet edges. Dozens of photographers in black suits and lanyards lean forward, capturing her from all angles. Multiple bright white spotlights from the left, simulating intense Hollywood red carpet illumination",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 39
+    },
+    {
+      "id": "outdoor-residential-street-outdoor",
+      "label": "Residential Street (Outdoor)",
+      "prompt": "in a quiet residential street at a modest housing complex with interlocking concrete paving blocks. One-story tropical minimalist houses line both sides of the street, each with a small grassy front yard, a frangipani tree near the entrance, and a dark-colored clay tile roof. The houses have open carports with patterned concrete flooring and no fences. Parked in the carports are family vehicles some with compact cars, others with motorbikes or scooters",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 40
+    },
+    {
+      "id": "outdoor-resort-pool-outdoor",
+      "label": "Resort Pool (Outdoor)",
+      "prompt": "on a wooden deck near a modern outdoor pool area, resort-style surroundings",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 41
+    },
+    {
+      "id": "outdoor-rocky-hilltop-makkah-view-outdoor",
+      "label": "Rocky hilltop - Makkah view (Outdoor)",
+      "prompt": "on a rocky hilltop with the panoramic view of Masjidil al-Haram and the Abraj Al-Bait Clock Tower in Makkah",
+      "type": "outdoor",
+      "category": "Religious",
+      "active": true,
+      "sort": 42
+    },
+    {
+      "id": "outdoor-rooftop-outdoor",
+      "label": "Rooftop (Outdoor)",
+      "prompt": "on a city rooftop. Neon skyline in the background",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 43
+    },
+    {
+      "id": "outdoor-running-track-outdoor",
+      "label": "Running Track (Outdoor)",
+      "prompt": "an outdoor running track features red running lanes, and green grass field",
+      "type": "outdoor",
+      "category": "Sport",
+      "active": true,
+      "sort": 44
+    },
+    {
+      "id": "outdoor-rural-wooden-bridge",
+      "label": "Rural wooden bridge",
+      "prompt": "on a rustic wooden bridge in a peaceful European countryside, cinematic rural atmosphere featuring the stream and a vibrant field of blooming lavender background",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 45
+    },
+    {
+      "id": "outdoor-snowy-landscape-outdoor",
+      "label": "Snowy landscape (Outdoor)",
+      "prompt": "in a snowy landscape, features tall pine trees in a foggy, bluish atmosphere   cold, still, and immersive   giving a sense of isolation and tension. Light snow is falling in the calm, cold air",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 46
+    },
+    {
+      "id": "outdoor-sport-park-outdoor",
+      "label": "Sport Park (Outdoor)",
+      "prompt": "on a sports park, surrounded by workout equipment such as kettlebells, resistance bands, and monkey bars. The background shows a green park with trees and bushes. The surface of the court has visible white lines and a slightly matte texture, emphasizing a realistic outdoor workout area",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 47
+    },
+    {
+      "id": "outdoor-stadium-outdoor",
+      "label": "Stadium (Outdoor)",
+      "prompt": "on the soccer field during a match. The background shows a packed stadium with cheering fans, many wearing scarves and team colors, creating an energetic and lively atmosphere",
+      "type": "outdoor",
+      "category": "Sport",
+      "active": true,
+      "sort": 48
+    },
+    {
+      "id": "outdoor-storefront-outdoor",
+      "label": "Storefront (Outdoor)",
+      "prompt": "a chic urban fashion storefront with reflective glass panels",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 49
+    },
+    {
+      "id": "outdoor-tall-grass-field-outdoor",
+      "label": "Tall Grass Field (Outdoor)",
+      "prompt": "in the middle of a tall grass field, his silhouette backlit by the sun. The atmosphere is quiet, timeless, and poetic, resembling a high-fashion magazine cover",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 50
+    },
+    {
+      "id": "outdoor-tennis-court-outdoor",
+      "label": "Tennis Court (Outdoor)",
+      "prompt": "an outdoor tennis court features blue and green tennis court surface, white boundary lines, surrounded by tall green trees and enclosed with high chain-link fence",
+      "type": "outdoor",
+      "category": "Sport",
+      "active": true,
+      "sort": 51
+    },
+    {
+      "id": "outdoor-tropical-garden-walkway-with-modern-architecture-outdoor",
+      "label": "Tropical Garden Walkway with Modern Architecture(Outdoor)",
+      "prompt": "in a serene tropical garden, featuring a modern outdoor walkway made of wide floating concrete steps. Each step is illuminated with subtle warm white LED strip lighting installed underneath, casting a soft downward glow onto the black river pebbles below. Surrounded by lush greenery, including large monstera deliciosa, banana plants, dracaena, and other tropical foliage. The garden is enclosed by smooth white modern walls, which reflect the warm lighting and enhance the tranquil atmosphere. Additional garden lanterns or landscape lights softly illuminate parts of the foliage, creating a cozy, ambient glow",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 52
+    },
+    {
+      "id": "outdoor-upscale-urban-street-outdoor",
+      "label": "Upscale Urban Street (Outdoor)",
+      "prompt": "a sophisticated urban neighborhood with classical architecture, tall buildings with cream-colored brick walls, large black-trim windows, light stone-paved walkway and manicured shrubs",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 53
+    },
+    {
+      "id": "outdoor-urban-architecture-stairs-outdoor-indoor",
+      "label": "Urban Architecture Stairs (Outdoor/Indoor)",
+      "prompt": "an elegant urban architecture scene — dark gray stone stairs with built-in warm step lights, reflective glass walls with vertical wooden or metallic lines, and indoor lighting visible through the windows. Reflections on the glass show plants and modern interiors",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 54
+    },
+    {
+      "id": "outdoor-mall-outdoor-indoor",
+      "label": "Mall (Outdoor/Indoor)",
+      "prompt": "on Upscale urban shopping mall, futuristic architecture with layered balconies and warm glowing LED light strips, escalator, city skyscrapers",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 55
+    },
+    {
+      "id": "outdoor-balcony-twilight-outdoor",
+      "label": "Balcony - Twilight (Outdoor)",
+      "prompt": "in a balcony, featuring abundant warm lighting from string lights, numerous lanterns, and candles. A cozy L-shaped wooden bench with plush cream cushions and a matching throw creates a comfortable seating area. Dark wood wall paneling, potted white flowers, green plants, and a small patterned rug enhance the natural, intimate atmosphere",
+      "type": "outdoor",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 56
+    },
+    {
+      "id": "outdoor-village-desa-outdoor",
+      "label": "Village \"Desa\" (Outdoor)",
+      "prompt": "on a serene Indonesian village (desa). The environment shows lush greenery, a simple houses, a busy village road, ducks",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 57
+    },
+    {
+      "id": "outdoor-village-nature-outdoor",
+      "label": "Village \"Nature\" (Outdoor)",
+      "prompt": "in Indonesian village nature featuring lush green fields, scattered trees, and a winding path, with soft mist potentially lingering",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 58
+    },
+    {
+      "id": "outdoor-volcano-outdoor",
+      "label": "Volcano (Outdoor)",
+      "prompt": "on a narrow mountain ridge, a breathtaking mountain landscape at high altitude, with a majestic volcano in the distance under a clear blue sky",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 59
+    },
+    {
+      "id": "outdoor-warkop-sidewalk-outdoor",
+      "label": "Warkop Sidewalk (Outdoor)",
+      "prompt": "sidewalk in an urban city, A classic Indonesian glass mug of coffee rests beside him on a small wooden crate. The background features a gritty concrete wall with posters and cables. Several blurred figures walk past him in motion blur",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 60
+    },
+    {
+      "id": "outdoor-warkop-outdoor",
+      "label": "Warkop (Outdoor)",
+      "prompt": "at a small warung kopi (street coffee stall) at the end of a narrow alley. Mismatched plastic chairs beside a wooden table, with a tin ashtray, glass mug, and a flickering neon light above them. behind him/her, a wall has old posters and stickers, and hanging snack packets",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 61
+    },
+    {
+      "id": "outdoor-warkop-pinggir-gang-outdoor",
+      "label": "Warkop pinggir gang(Outdoor)",
+      "prompt": "at a small warung kopi (street coffee stall) at the end of a narrow alley. Mismatched plastic chairs beside a wooden table, with a tin ashtray, glass mug, and a flickering neon light above them. behind him/her, a wall has old posters and stickers, and hanging snack packets. Motion blur of passing people on motorcycles",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 62
+    },
+    {
+      "id": "outdoor-wet-gothic-street-outdoor",
+      "label": "Wet gothic street(Outdoor)",
+      "prompt": "in a wet urban street. features gothic architecture buildings, light stone-paved walkway",
+      "type": "outdoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 63
+    },
+    {
+      "id": "outdoor-zen-japanese-garden-outdoor",
+      "label": "Zen Japanese Garden (Outdoor)",
+      "prompt": "in a zen japanese garden",
+      "type": "outdoor",
+      "category": "Nature / Park",
+      "active": true,
+      "sort": 64
+    },
+    {
+      "id": "indoor-airport-indoor",
+      "label": "Airport (Indoor)",
+      "prompt": "inside an airport. A large glass window showing airplanes on the runway, a plane taking off in the sky, and snowy mountain ranges in the distance. Buses and airport ground vehicles are visible outside",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 1
+    },
+    {
+      "id": "indoor-apart-bedroom-indoor",
+      "label": "Apart Bedroom (Indoor)",
+      "prompt": "in a softly lit bedroom, backlit by large windows. The bed is unmade with white sheets, and a radiator sits beneath the window",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 2
+    },
+    {
+      "id": "indoor-aquatic-center-indoor",
+      "label": "Aquatic Center (Indoor)",
+      "prompt": "is a bright, modern aquatic center with large glass windows letting in natural light, high ceilings, and reflective turquoise pool water. In the background, swimmers on the pool, people on the tribune",
+      "type": "indoor",
+      "category": "Sport",
+      "active": true,
+      "sort": 3
+    },
+    {
+      "id": "indoor-80s-japanese-arcade-game-indoor",
+      "label": "80s Japanese Arcade Game (Indoor)",
+      "prompt": "in a Japanese arcade, surrounded by multiple types of claw machines   each with different shapes, colors, and prize themes. Some machines are filled with pastel plush toys, others with anime figures. The neon signage and Japanese text glow vividly above the machines, casting soft reflections on the polished floor. The atmosphere is vibrant and nostalgic",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 4
+    },
+    {
+      "id": "indoor-80s-japanese-bookstore-indoor",
+      "label": "80s Japanese Bookstore (Indoor)",
+      "prompt": "inside a cozy Japanese 1980s bookstore, surrounded by tall wooden bookshelves packed with colorful manga volumes, vintage novels, and glossy magazines. Stacks of books and cardboard display stands line the aisles, while retro Japanese posters and hand-written signs hang from the shelves. Warm ambient lighting from old fluorescent tubes mixes with soft sunlight filtering through dusty windows, casting a nostalgic glow. A wooden counter with an analog cash register is in the background, next to a rotating rack of postcards and bookmarks. The scene captures the charm of Showa-era Japan",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 5
+    },
+    {
+      "id": "indoor-80s-japanese-sushi-counter-indoor",
+      "label": "80s Japanese Sushi Counter (Indoor)",
+      "prompt": "inside a traditional 1980s Tokyo sushi counter, warmly lit by paper lanterns and low-hanging lamps. Behind the polished wooden counter, an elderly sushi chef in a crisp white uniform and headband skillfully slices fresh fish with a long yanagiba knife, his movements precise and deliberate. The counter is lined with small porcelain plates holding assorted nigiri sushi, maki rolls, and tamago, alongside soy sauce dishes, wasabi, and neatly folded chopsticks in paper sleeves. Behind the chef, refrigerated glass display cases showcase fresh tuna, salmon, and other seasonal seafood. The warm wood tones, faint aroma of vinegar rice, and cinematic depth of field create a vivid, nostalgic snapshot of Japan s Showa-era dining culture",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 6
+    },
+    {
+      "id": "indoor-80s-japanese-tokyo-cafe-indoor",
+      "label": "80s Japanese Tokyo Cafe (Indoor)",
+      "prompt": "inside a retro 1980s Tokyo caf , with warm wood-paneled walls, soft yellow lighting from vintage pendant lamps, and checkered tile flooring. The caf  is filled with small wooden tables, red leather booth seating, and potted plants by the windows. Through the slightly fogged glass windows, neon signs from nearby Tokyo streets glow faintly, casting colorful reflections inside. On the table in front of her sits is a colorful spread of classic 80s Japanese caf  food   a tall parfait glass layered with fruit, cream, and ice cream, a plate of fluffy omurice drizzled with ketchup, a slice of strawberry shortcake on fine porcelain, and a cup of coffee with a delicate saucer. The atmosphere blends the warm nostalgia of Showa-era kissaten culture",
+      "type": "indoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 7
+    },
+    {
+      "id": "indoor-80s-japanese-vinyl-store-indoor",
+      "label": "80s Japanese Vinyl Store (Indoor)",
+      "prompt": "inside a cozy Japanese 1980s record vinyl store, surrounded by wooden shelves stacked with colorful vinyl records in worn sleeves, Japanese city pop albums, and retro music posters plastered on the walls. The store is warmly lit with a mix of soft incandescent bulbs and neon signs in Japanese script, casting a nostalgic glow on the scene. Some vinyl covers are slightly tilted out for display, a vintage turntable is spinning a record on the counter, and the wooden floor shows subtle wear from years of customers. The atmosphere is a vibrant culture of 80s Japan",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 8
+    },
+    {
+      "id": "indoor-bathroom-indoor",
+      "label": "Bathroom (Indoor)",
+      "prompt": "in a high-end modern bathroom. with out-of-focus steamy shower glass with condensation, vertical streaks, neutral grey porcelain tiles",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 9
+    },
+    {
+      "id": "indoor-bathtub-indoor",
+      "label": "Bathtub (Indoor)",
+      "prompt": "in a luxurious -spastyle bathroom with a large round white bathtub filled with warm water and gentle bubbles, positioned beside a large clear glass window. Outside the window, a cityscape with glowing lights is visible, creating a beautiful contrast. The room is softly lit with cinematic lighting, enhanced by the warm glow of many candles of different sizes placed around the tub. On the stone surface are neatly rolled white towels, amber bottles of essential oils and bath products, a wooden tray with a glass candle jar, a wooden massage roller, and a small round wooden plate with tealight candles. A potted green plant and fresh white roses add a natural touch. The entire scene feels cozy, elegant, and designed for peaceful relaxation",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 10
+    },
+    {
+      "id": "indoor-bathroom-glass-indoor",
+      "label": "Bathroom Glass (Indoor)",
+      "prompt": "behind a glass with numerous water droplets, in a shower. features handheld shower set, White tiled wall, window",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 11
+    },
+    {
+      "id": "indoor-bedroom-girls-indoor",
+      "label": "Bedroom - Girls(Indoor)",
+      "prompt": "inside a typical Indonesian girls  bedroom, a single bed covered in a peach-colored bedsheet and a plush pillow. There s a wooden study desk with a simple chair, books, a laptop, and small decorative items like photos, plants, and fairy lights. The room has tiled floors, cream or pale-colored walls, and a window with light curtains",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 12
+    },
+    {
+      "id": "indoor-bed-indoor",
+      "label": "Bed (Indoor)",
+      "prompt": "in bed with rumpled white sheets, pillow",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 13
+    },
+    {
+      "id": "indoor-catwalk-indoor",
+      "label": "Catwalk (Indoor)",
+      "prompt": "in a sleek, minimalist high-fashion runway. Features a clean, white catwalk surrounded by an audience dressed in stylish modern attire. The runway is illuminated by soft, diffused lighting from overhead, casting even light across the scene. The background is simple and modern   smooth white walls, no logos or distractions, emphasizing the fashion",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 14
+    },
+    {
+      "id": "indoor-city-train-studio",
+      "label": "City Train (Studio)",
+      "prompt": "inside a modern city train, silver handrail, large windows, fluorescent ceiling lights and metal interior panels, reflection on the glass, dozen of passenger sitting and stands",
+      "type": "indoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 15
+    },
+    {
+      "id": "indoor-car-indoor",
+      "label": "Car (Indoor)",
+      "prompt": "inside a car with beige leather seat in rainy day. She is sitting on seat while drive",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 16
+    },
+    {
+      "id": "indoor-comic-con-indoor",
+      "label": "Comic Con (Indoor)",
+      "prompt": "in a crowded Comic Con, with cosplayers, several booths and large posters that say 'COMIC CON' and pictures of anime characters behind her",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 17
+    },
+    {
+      "id": "indoor-control-room-space-station-indoor",
+      "label": "Control room space station (Indoor)",
+      "prompt": "in a retro-futuristic space station control room with a large console desk surrounded by vintage sci-fi computer terminals and analog control panels. The room is cream-colored walls, filled with monitors showing green waveform data, buttons, switches, and levers. Several blue-cushioned chairs on wheels. On the desk are scattered notebooks, pens, clear glasses of water, and small potted plants. A large rectangular window, showing outer space with earth",
+      "type": "indoor",
+      "category": "Fantasy / Sci-Fi",
+      "active": true,
+      "sort": 18
+    },
+    {
+      "id": "indoor-cozy-cafe-indoor",
+      "label": "Cozy Cafe (Indoor)",
+      "prompt": "in a modern, well-lit coffee shop with large windows. The decor is minimal and aesthetic, blending comfort and sophistication-ideal for a productive remote work session. Elements like clean tables, artistic wall pieces, glimpses of other quiet customers, calming atmosphere. The colors are soft yet modern: greige, champagne, black, and white form the visual foundation, evoking a sleek urban palette",
+      "type": "indoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 19
+    },
+    {
+      "id": "indoor-dining-space-station-indoor",
+      "label": "Dining space station (Indoor)",
+      "prompt": "in a cozy dining area inside a futuristic space station module. The space is narrow with retro-futuristic control panels, blinking indicators, and monitors on the cream-colored walls. The table is built into the wall, made of warm wood with black metal trim, and is set for a meal with plates, utensils, mugs, a teapot, glass jars of jam and honey, and a variety of food including salad, sandwiches, and a slice of cake under a glass dome. Several small potted green plants line the table, adding a touch of life to the sterile environment. The wide window beside her shows the corridor of another part of the space station, with glowing lights and control panels",
+      "type": "indoor",
+      "category": "Fantasy / Sci-Fi",
+      "active": true,
+      "sort": 20
+    },
+    {
+      "id": "indoor-fitting-room-indoor",
+      "label": "Fitting Room (Indoor)",
+      "prompt": "in a fitting room with a white wall, a full-length oval mirror with a gold-colored simple frame",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 21
+    },
+    {
+      "id": "indoor-flower-shop-indoor",
+      "label": "Flower Shop (Indoor)",
+      "prompt": "inside a cozy flower shop, features bouquets of pink and yellow flowers in a ceramic vases on a wooden counter, shelves filled with books, vases, and decorations. The large window, showing a lively street scene outside with signs and people walking",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 22
+    },
+    {
+      "id": "indoor-futuristic-lab-indoor",
+      "label": "Futuristic Lab (Indoor)",
+      "prompt": "inside a modern garage interior features wooden walls with pegboards holding tools, a robotic arm and a polished concrete floor. A glass-panel garage door on the left",
+      "type": "indoor",
+      "category": "Fantasy / Sci-Fi",
+      "active": true,
+      "sort": 23
+    },
+    {
+      "id": "indoor-girls-bedroom-bunk-dec-indoor",
+      "label": "Girls Bedroom - bunk dec(Indoor)",
+      "prompt": "inside a typical Indonesian girls  bedroom, a window with sheer curtains, a bunk bed with white sheets, posters or doodles on the wall",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 24
+    },
+    {
+      "id": "indoor-girls-bedroom-single-bed-indoor",
+      "label": "Girls Bedroom - single bed(Indoor)",
+      "prompt": "inside a typical Indonesian girls  bedroom, a single bed covered in a peach-colored bedsheet and a plush pillow. There s a wooden study desk with a simple chair, books, a laptop, and small decorative items like photos, plants, and fairy lights. The room has tiled floors, cream-colored walls, and a window with light curtains",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 25
+    },
+    {
+      "id": "indoor-hotel-lobby-indoor",
+      "label": "Hotel lobby (Indoor)",
+      "prompt": "an elegant hotel lobby with grand marble flooring, Contemporary interior design",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 26
+    },
+    {
+      "id": "indoor-hotel-room-indoor",
+      "label": "Hotel Room (Indoor)",
+      "prompt": "on a luxurious hotel room with contemporary interior design and a vanity table",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 27
+    },
+    {
+      "id": "indoor-gym-indoor",
+      "label": "Gym (Indoor)",
+      "prompt": "in the gym features luxury modern-style design, large mirror, red wall, white LED lamp",
+      "type": "indoor",
+      "category": "Sport",
+      "active": true,
+      "sort": 28
+    },
+    {
+      "id": "indoor-hangar-indoor",
+      "label": "Hangar (Indoor)",
+      "prompt": "is a industrial hangar, with metallic beams, overhead lights, and red signage in the background",
+      "type": "indoor",
+      "category": "Fantasy / Sci-Fi",
+      "active": true,
+      "sort": 29
+    },
+    {
+      "id": "indoor-kitchen-indoor",
+      "label": "Kitchen (Indoor)",
+      "prompt": "on a modern kitchen, includes a refrigerator with hanging accessories, indoor plants, and ambient kitchen elements",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 30
+    },
+    {
+      "id": "indoor-laundry-room-minimalist-indoor",
+      "label": "Laundry Room - Minimalist (Indoor)",
+      "prompt": "in a cozy, compact modern laundry room with warm wooden accents and soft lighting. The room features a front-loading washing machine built into custom wooden cabinetry, with neatly rolled towels, wicker baskets, and laundry essentials stored in open shelves around it. Floating wooden shelves hold small green plants, amber bottles, and folded linens. Warm ambient light glowing from beneath the shelves. A woven circular rug lies on the wooden floor. A large window on the right reveals a cityscape with glowing lights",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 31
+    },
+    {
+      "id": "indoor-laundry-room-japandi-indoor",
+      "label": "Laundry Room - Japandi(Indoor)",
+      "prompt": "in a cozy, modern laundry room with a warm, neutral color palette. Window on the left. Two front-loading white washing machines (washer and dryer) are placed side by side beneath a light wooden countertop. Above the machines, there are soft beige shaker-style cabinets and an open wooden shelf. The shelf displays woven baskets, a small potted plant, neatly folded white towels, and glass bottles. The countertop features natural and minimalistic decor: a woven basket with a green leafy plant, a transparent pump bottle, small ceramic bowls, and a white vase with white daisies and green foliage. A simple round wall clock with black hands is mounted on the wall. Light beige woven laundry baskets are placed neatly on the floor, along with a textured off-white rug. Scandinavian-Japanese (Japandi) aesthetic, clean lines, minimal clutter",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 32
+    },
+    {
+      "id": "indoor-library-indoor",
+      "label": "Library (Indoor)",
+      "prompt": "in a quiet library filled with tall bookshelves and soft lamps",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 33
+    },
+    {
+      "id": "indoor-library-ngintip-indoor",
+      "label": "Library ngintip (Indoor)",
+      "prompt": "an old, cozy library or secondhand bookstore with wooden shelves and a warm ambiance. The books in the foreground blurred",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 34
+    },
+    {
+      "id": "indoor-live-music-venue-indoor",
+      "label": "Live music venue (Indoor)",
+      "prompt": "in a small indoor live music venue with a cozy, vintage, and intimate atmosphere. The compact stage is slightly elevated and framed by a golden arch with round warm yellow light bulbs, creating a glowing theatrical look. The backdrop of the stage features deep red wallpaper with subtle gold diamond patterns. In the upper center of the backdrop, there there is a silver metallic mesh panel. In front of the mesh panel, glowing warm yellow LED neon signage spells out:  The Prompters Cafe , mounted elegantly across the top center of the mesh. The ceiling above the stage is gently arched, covered in warm-toned wood panels, adding to the capsule-like acoustic room vibe. The stage is filled with musical equipment: a bass drum and snare off to the side, a black amplifier with knobs and a beverage can placed on top, a few microphone stands, and visible instrument cables and pedals on the dark stage floor. The overall room lighting is warm and soft, with most of the illumination coming from the stage lights",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 35
+    },
+    {
+      "id": "indoor-living-room-boho-cozy-indoor",
+      "label": "Living Room - Boho Cozy (Indoor)",
+      "prompt": "in a cozy living room features a large window on the right side, a plush light grey sofa draped with a chunky knit throw. Warm lighting from several small pendant lights with Edison bulbs are visible hanging in the corner, a table lamp with a fabric shade is placed on a side table, and lit candles on the floor and on the table adds warmth and a romantic feel. There are many green plants, both hanging (vines from the ceiling) and potted (on the side table, on the floor, on the windowsill). On the wall, several picture frames, either with minimalist art, aligning with the boho aesthetic. A shaggy cream rug covers the floor, complementing the calming neutral color palette",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 36
+    },
+    {
+      "id": "indoor-living-room-boho-indo-indoor",
+      "label": "Living Room - Boho Indo (Indoor)",
+      "prompt": "in a cozy and modest bohemian-style living room in a small Indonesian home. The room features a sheer cotton curtains, a low wooden sofa with white cushions and multiple patterned throw pillows in earthy tones (terracotta, mustard, olive). A round rattan coffee table sits in front, on top of a layered tribal-patterned rug in warm colors. a potted monstera in woven basket. The walls are decorated with a large woven dreamcatcher. The floor is tiled with rustic ceramics, and a corner has a rattan bookshelf with vintage decor and Indonesian handicrafts",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 37
+    },
+    {
+      "id": "indoor-living-room-boho-mid-indoor",
+      "label": "Living Room - Boho Mid(Indoor)",
+      "prompt": "in a stylish living room blends Boho and Mid-Century Modern aesthetics. It features deep green walls with large abstract painting behind a plush burnt orange velvet sofa with colorful cushions. A round wood coffee table. A large window with pale cream curtains.Various potted plants, and a light grey rug, a light wood flooring atmosphere dominated by neutral tones",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 38
+    },
+    {
+      "id": "indoor-living-room-modern-indoor",
+      "label": "Living Room - Modern (Indoor)",
+      "prompt": "in a modern living room features a large windows with sheer curtains beside a cream-colored sofa. A dark wood and metal coffee table, and matching side table, complemented by a floor lamp with cream fabric lampshades, providing warm, ambient light. The decor includes books and a small white bowl on the coffee table, framed abstract prints, potted plants, and a light grey rug, a light wood flooring atmosphere dominated by neutral tones",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 39
+    },
+    {
+      "id": "indoor-living-room-simplicity-indoor",
+      "label": "Living Room - Simplicity (Indoor)",
+      "prompt": "in a simplicity of a house-either inside a comfortable living room with soft seating and personal decor. The environment feels lived-in, personal, and welcoming, filled with details like a cup of tea on the table",
+      "type": "indoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 40
+    },
+    {
+      "id": "indoor-living-room-nordic-indoor",
+      "label": "Living Room - Nordic(Indoor)",
+      "prompt": "in a modern with touch of scandinavian style, nature-inspired living room features a large windows with sheer curtains on the right side, a light gray sofa with orange and green cushions, centered around a round wooden coffee table, matching wooden small side table. Several small potted plants are also visible on the coffee table and side table. Abundant green plants, both potted and on wall shelves, create a fresh atmosphere. A light wooden floors, a gray striped rug, and subtle wall art",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 41
+    },
+    {
+      "id": "indoor-luxury-bar-indoor",
+      "label": "Luxury Bar (Indoor)",
+      "prompt": "inside a luxury bar with a long marble-top counter, illuminated girls bedroomby hanging pendant lights with warm golden glows. Behind the bar, shelves are neatly lined with colorful bottles and glassware, accentuated by ambient LED lighting",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 42
+    },
+    {
+      "id": "indoor-mall-indoor",
+      "label": "Mall (Indoor)",
+      "prompt": "on busy shopping mall, display cases with mannequins wearing fancy clothes, Gucci store, dwiDior clothing store, Versace store, and other visitors walking by",
+      "type": "indoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 43
+    },
+    {
+      "id": "indoor-midori-boutique-indoor",
+      "label": "Midori Boutique (Indoor)",
+      "prompt": "in a stylish boutique interior featuring a cozy built-in seating nook with a half-circle arch design. The inside of the arch is painted in dark green. The seating is upholstered in deep emerald green velvet, seamlessly integrated into a white wall. Above the seat, a glowing pink neon sign reads 'mi.do.ri   Meet the new YOU ?' mounted on the white tiled back wall. The arched alcove is accented with soft yellow backlighting along the curve, creating a warm glow. On both sides of the arch, modern round wall sconces with frosted glass emit a soft warm light. The floor is light wood, adding natural warmth",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 44
+    },
+    {
+      "id": "indoor-minimalist-japanese-room-indoor",
+      "label": "Minimalist Japanese Room (Indoor)",
+      "prompt": "inside a minimalist Japanese room",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 45
+    },
+    {
+      "id": "indoor-minimalist-art-gallery-indoor",
+      "label": "Minimalist Art Gallery (Indoor)",
+      "prompt": "inside a modern minimalist art gallery with clean white walls, polished concrete floors, and strategically placed spotlights illuminating abstract sculptures. The space is uncluttered, emphasizing the art and creating a serene, contemplative atmosphere",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 46
+    },
+    {
+      "id": "indoor-music-exhibition-indoor",
+      "label": "Music Exhibition (Indoor)",
+      "prompt": "in a crowded international music exhibition, with booth display a variety of electric guitars in vivid colors, hanging on sleek wall racks and resting on stands. Features brand logos, setups for live demos and visitors",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 47
+    },
+    {
+      "id": "indoor-office-cubicle-indoor",
+      "label": "Office Cubicle (Indoor)",
+      "prompt": "on a desk in what appears to be an office cubicle, a clipboard with papers, a pen, a cup of coffee, and a ipad. on the office cubicle walls show some yellow sticky notes, papers, maps pinned to them",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 48
+    },
+    {
+      "id": "indoor-office-modern-indoor",
+      "label": "Office Modern (Indoor)",
+      "prompt": "in the office features minimalistic modern design with large glass partitions combining clear and frosted glass panels, a clean aluminum frame. Bright neutral lighting from recessed ceiling lamps evenly illuminates the space, a grey carpeted floor, a swivel office chair, a white desk with a macbook, and a white large potted monstera in the corner",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 49
+    },
+    {
+      "id": "indoor-outer-space-cartoon-studio",
+      "label": "Outer space Cartoon (Studio)",
+      "prompt": "in a colorful cartoon-like outer space world filled with round, plushy, planet-inspired characters with cute faces and hats. She surrounded by pastel planets, stars, and animated toy cats. Add a large whimsical hot air balloon with the word 'HAPPY' written on it in bold letters. The entire composition is vibrant, playful, and full of dreamlike fantasy elements",
+      "type": "indoor",
+      "category": "Fantasy / Sci-Fi",
+      "active": true,
+      "sort": 50
+    },
+    {
+      "id": "indoor-padel-court-indoor",
+      "label": "Padel court (Indoor)",
+      "prompt": "in an indoor padel court with green flooring, a wilson net, modern glass walls, modern windows.",
+      "type": "indoor",
+      "category": "Sport",
+      "active": true,
+      "sort": 51
+    },
+    {
+      "id": "indoor-penthouse-indoor",
+      "label": "Penthouse (Indoor)",
+      "prompt": "in a luxurious, sophisticated indoor environment. A modern penthouse with a large window overlooking a city skyline, stylish lamp. The atmosphere is intimate, mysterious, and glamorous",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 52
+    },
+    {
+      "id": "indoor-pilates-studio-indoor",
+      "label": "Pilates Studio (Indoor)",
+      "prompt": "in a modern fitness studio. The studio interior has light wooden flooring, soft neutral-colored walls with arched mirrors, indoor potted plant, a Pilates reformer machine",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 53
+    },
+    {
+      "id": "indoor-public-restroom-indoor",
+      "label": "Public Restroom (Indoor)",
+      "prompt": "in a gritty, broken-down public restroom. The restroom is dirty and run-down, with cracked tiles, graffiti, old faded stickers, and red stains on the walls. Above the mirror is a flickering golden warm light",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 54
+    },
+    {
+      "id": "indoor-simple-bedroom-indoor",
+      "label": "Simple Bedroom (Indoor)",
+      "prompt": "a simple bedroom features an old wooden wardrobe, a bed with white bedspread, window curtain, standing fan",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 55
+    },
+    {
+      "id": "indoor-small-indoor-live-music-venue-indoor",
+      "label": "Small indoor live music venue (Indoor)",
+      "prompt": "in a small indoor live music venue with a cozy, vintage, and intimate atmosphere. The compact stage is slightly elevated and framed by a golden arch with round warm yellow light bulbs, creating a glowing theatrical look. The backdrop of the stage features deep red wallpaper with subtle gold diamond patterns. In the upper center of the backdrop, there there is a silver metallic mesh panel. In front of the mesh panel, glowing warm yellow LED neon signage spells out:  The Prompters Cafe , mounted elegantly across the top center of the mesh. The ceiling above the stage is gently arched, covered in warm-toned wood panels, adding to the capsule-like acoustic room vibe. The stage is filled with musical equipment: a bass drum and snare off to the side, a black amplifier with knobs and a beverage can placed on top, a few microphone stands, and visible instrument cables and pedals on the dark stage floor. The overall room lighting is warm and soft, with most of the illumination coming from the stage lights",
+      "type": "indoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 56
+    },
+    {
+      "id": "indoor-space-cockpit-indoor",
+      "label": "Space cockpit (Indoor)",
+      "prompt": "inside an old, analog space shuttle cockpit. A cockpit full of retro control panels, switches, analog dials with orange lights, and worn metallic textures. A white reflective astronaut helmet lies on the ground next to her. Outside the window, the Earth appears in stunning detail   a vibrant blue planet with visible cloud patterns, floating in the blackness of space",
+      "type": "indoor",
+      "category": "Fantasy / Sci-Fi",
+      "active": true,
+      "sort": 57
+    },
+    {
+      "id": "indoor-subway-train-indoor",
+      "label": "Subway Train (Indoor)",
+      "prompt": "inside an old subway train, interior with worn beige metal walls, scratched brown vinyl seats, fluorescent lights, dusty glass windows, stainless steel poles, soft reflections on the dark floor",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 58
+    },
+    {
+      "id": "indoor-supermarket-indoor",
+      "label": "Supermarket (Indoor)",
+      "prompt": "in a bright modern supermarket aisle, clean and polished floor, colorful products neatly arranged on both sides",
+      "type": "indoor",
+      "category": "Urban / Commercial",
+      "active": true,
+      "sort": 59
+    },
+    {
+      "id": "indoor-traditional-japan-farmhouse-indoor",
+      "label": "Traditional Japan farmhouse (Indoor)",
+      "prompt": "inside a traditional wooden farmhouse with tatami mats, sliding shoji doors, low wooden table with blue floor cushions, paper lantern ceiling light, wooden shelves with books, veranda view to garden",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 60
+    },
+    {
+      "id": "indoor-traditional-japan-bedroom-indoor",
+      "label": "Traditional Japan bedroom (Indoor)",
+      "prompt": "inside a traditional Japanese tatami room, sliding window, white futon on floor, folded futons in corner, hanging scroll on wall",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 61
+    },
+    {
+      "id": "indoor-traditional-rural-kitchen-indoor",
+      "label": "Traditional Rural Kitchen (Indoor)",
+      "prompt": "inside a traditional rural kitchen, features red brick walls, wooden shelves filled with bowls and plastic bags of spices and vegetables. A wok filled with sizzling stir-fried beef in a glossy dark soy-based sauce, over a wood-fired clay stove with visible flames and rising steam. Sunlight streams softly through the gaps in the bamboo roof, creating a moody, atmospheric effect with floating smoke. Ray of light",
+      "type": "indoor",
+      "category": "Residential / Hospitality",
+      "active": true,
+      "sort": 62
+    },
+    {
+      "id": "indoor-traditional-rural-studio-indoor",
+      "label": "Traditional Rural Studio (Indoor)",
+      "prompt": "in a traditional rural studio, features red brick walls, dirt floor. Sunlight streams softly through the gaps in the bamboo roof, creating a moody, atmospheric effect",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 63
+    },
+    {
+      "id": "indoor-yoga-room-indoor",
+      "label": "Yoga room (Indoor)",
+      "prompt": "in a softly lit room, features a wooden floor, a yoga mat, and minimalist furniture like a wooden chair and a green leafy plant. The room has warm ambient lighting from a soft yellow behind her, casting a cozy glow on the wall. The atmosphere is serene and warm",
+      "type": "indoor",
+      "category": "Indoor",
+      "active": true,
+      "sort": 64
+    }
+  ],
+  "cameraAngles": [
+    {
+      "id": "aerial-view-top-down",
+      "label": "Aerial view (top-down)",
+      "prompt": "aerial view (top-down)",
+      "active": true,
+      "sort": 1,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "birds-eye-view-shot",
+      "label": "Bird's Eye View Shot",
+      "prompt": "bird's eye view shot",
+      "active": true,
+      "sort": 2,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "close-up-shot",
+      "label": "Close-Up Shot",
+      "prompt": "close-up shot",
+      "active": true,
+      "sort": 3,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "dutch-angle-shot",
+      "label": "Dutch Angle Shot",
+      "prompt": "dutch angle shot",
+      "active": true,
+      "sort": 4,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "extreme-close-up",
+      "label": "Extreme Close-Up",
+      "prompt": "extreme close-up shot",
+      "active": true,
+      "sort": 5,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "eye-level-shot",
+      "label": "Eye-Level Shot",
+      "prompt": "eye-level shot",
+      "active": true,
+      "sort": 6,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "frog-eye-angle-shot",
+      "label": "Frog Eye Angle Shot",
+      "prompt": "frog eye angle shot",
+      "active": true,
+      "sort": 7,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "ground-level-shot",
+      "label": "Ground Level Shot",
+      "prompt": "ground level shot",
+      "active": true,
+      "sort": 8,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "3-4-angle-medium-shot",
+      "label": "3/4 Angle (medium shot)",
+      "prompt": "medium close-up, 3/4 angle",
+      "active": true,
+      "sort": 9,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "3-4-angle-full-body-shot",
+      "label": "3/4 Angle (full body shot)",
+      "prompt": "3/4 angle, full-body shot",
+      "active": true,
+      "sort": 10,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "low-angle-full-body-shot",
+      "label": "Low Angle Full Body Shot",
+      "prompt": "dramatic low angle full-body shot",
+      "active": true,
+      "sort": 11,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "long-shot",
+      "label": "Long Shot",
+      "prompt": "long shot",
+      "active": true,
+      "sort": 12,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "high-angle-medium-shot",
+      "label": "High Angle [medium] Shot",
+      "prompt": "medium, high angle shot",
+      "active": true,
+      "sort": 13,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "medium-shot",
+      "label": "Medium Shot",
+      "prompt": "medium shot",
+      "active": true,
+      "sort": 14,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "medium-close-up-shot",
+      "label": "Medium Close-Up Shot",
+      "prompt": "medium close-up shot",
+      "active": true,
+      "sort": 15,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "overhead-shot",
+      "label": "Overhead Shot",
+      "prompt": "overhead shot",
+      "active": true,
+      "sort": 16,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "over-the-shoulder-shot",
+      "label": "Over The Shoulder Shot",
+      "prompt": "over the shoulder shot",
+      "active": true,
+      "sort": 17,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "pov",
+      "label": "POV",
+      "prompt": "POV",
+      "active": true,
+      "sort": 18,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "side-view-shot",
+      "label": "Side View Shot",
+      "prompt": "side view shot",
+      "active": true,
+      "sort": 19,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "wide-shot",
+      "label": "Wide Shot",
+      "prompt": "Wide-angle shot",
+      "active": true,
+      "sort": 20,
+      "category": "Camera Angle"
+    },
+    {
+      "id": "worms-eye-view-shot",
+      "label": "Worm's Eye View Shot",
+      "prompt": "worm's eye view shot",
+      "active": true,
+      "sort": 21,
+      "category": "Camera Angle"
+    }
+  ],
+  "lighting": [
+    {
+      "id": "blue-hour-just-after-sunset",
+      "label": "Blue Hour, just after sunset",
+      "prompt": "blue hour",
+      "active": true,
+      "sort": 1,
+      "category": "Lighting"
+    },
+    {
+      "id": "cinematic-light",
+      "label": "Cinematic Light",
+      "prompt": "cinematic lighting",
+      "active": true,
+      "sort": 2,
+      "category": "Lighting"
+    },
+    {
+      "id": "cooled",
+      "label": "Cooled",
+      "prompt": "cinematic lighting with muted cool color grading",
+      "active": true,
+      "sort": 3,
+      "category": "Lighting"
+    },
+    {
+      "id": "daylight",
+      "label": "Daylight",
+      "prompt": "daylight",
+      "active": true,
+      "sort": 4,
+      "category": "Lighting"
+    },
+    {
+      "id": "daylight-window-shadows",
+      "label": "Daylight + window shadows",
+      "prompt": "daylight with window shadows across her body",
+      "active": true,
+      "sort": 5,
+      "category": "Lighting"
+    },
+    {
+      "id": "evening-golden-hour",
+      "label": "Evening Golden Hour",
+      "prompt": "evening golden hour",
+      "active": true,
+      "sort": 6,
+      "category": "Lighting"
+    },
+    {
+      "id": "gloomy",
+      "label": "Gloomy",
+      "prompt": "gloomy vibes and cinematic lighting",
+      "active": true,
+      "sort": 7,
+      "category": "Lighting"
+    },
+    {
+      "id": "high-key-lighting",
+      "label": "High-Key Lighting",
+      "prompt": "high-key lighting",
+      "active": true,
+      "sort": 8,
+      "category": "Lighting"
+    },
+    {
+      "id": "interior-lighting-bright",
+      "label": "Interior Lighting - Bright",
+      "prompt": "bright interior lighting",
+      "active": true,
+      "sort": 9,
+      "category": "Lighting"
+    },
+    {
+      "id": "interior-lighting-warm",
+      "label": "Interior Lighting - Warm",
+      "prompt": "warm interior lighting",
+      "active": true,
+      "sort": 10,
+      "category": "Lighting"
+    },
+    {
+      "id": "low-light",
+      "label": "Low Light",
+      "prompt": "low light",
+      "active": true,
+      "sort": 11,
+      "category": "Lighting"
+    },
+    {
+      "id": "morning-golden-hour",
+      "label": "Morning Golden Hour",
+      "prompt": "morning golden hour",
+      "active": true,
+      "sort": 12,
+      "category": "Lighting"
+    },
+    {
+      "id": "natural-light",
+      "label": "Natural Light",
+      "prompt": "natural light",
+      "active": true,
+      "sort": 13,
+      "category": "Lighting"
+    },
+    {
+      "id": "interior-lighting",
+      "label": "Interior Lighting",
+      "prompt": "interior lighting",
+      "active": true,
+      "sort": 14,
+      "category": "Lighting"
+    },
+    {
+      "id": "nighttime-cinematic",
+      "label": "Nighttime Cinematic",
+      "prompt": "Nighttime scene, The lighting is vivid and cinematic, with a strong contrast",
+      "active": true,
+      "sort": 15,
+      "category": "Lighting"
+    },
+    {
+      "id": "night-low-light",
+      "label": "Night Low Light",
+      "prompt": "night low light",
+      "active": true,
+      "sort": 16,
+      "category": "Lighting"
+    },
+    {
+      "id": "studio-lighting",
+      "label": "Studio Lighting",
+      "prompt": "studio lighting",
+      "active": true,
+      "sort": 17,
+      "category": "Lighting"
+    },
+    {
+      "id": "teal-and-orange",
+      "label": "Teal and Orange",
+      "prompt": "cinematic lighting with teal and orange color grading",
+      "active": true,
+      "sort": 18,
+      "category": "Lighting"
+    },
+    {
+      "id": "twilight",
+      "label": "Twilight",
+      "prompt": "twilight",
+      "active": true,
+      "sort": 19,
+      "category": "Lighting"
+    }
+  ],
+  "cameraStyles": [
+    {
+      "id": "dslr-look-realistic-detailed",
+      "label": "DSLR look (realistic & detailed)",
+      "prompt": "professional photo aesthetic",
+      "active": true,
+      "sort": 1,
+      "category": "Camera Style"
+    },
+    {
+      "id": "film-camera-look-vintage-aesthetic",
+      "label": "Film camera look (vintage aesthetic)",
+      "prompt": "film camera, soft grain texture, warm vintage tones, nostalgic atmosphere",
+      "active": true,
+      "sort": 2,
+      "category": "Camera Style"
+    },
+    {
+      "id": "iphone-smartphone-look-casual",
+      "label": "iPhone / smartphone look (casual)",
+      "prompt": "iPhone camera, slightly overexposed highlights, realistic skin texture",
+      "active": true,
+      "sort": 3,
+      "category": "Camera Style"
+    },
+    {
+      "id": "cinematic-camera-movie-shot",
+      "label": "Cinematic camera (movie shot)",
+      "prompt": "film camera, shallow focus, atmospheric depth, film still aesthetic",
+      "active": true,
+      "sort": 4,
+      "category": "Camera Style"
+    }
+  ],
+  "aspectRatios": [
+    {
+      "id": "9-16",
+      "label": "9:16",
+      "value": "9:16",
+      "width": 9,
+      "height": 16,
+      "active": true,
+      "sort": 1
+    },
+    {
+      "id": "1-1",
+      "label": "1:1",
+      "value": "1:1",
+      "width": 1,
+      "height": 1,
+      "active": true,
+      "sort": 2
+    },
+    {
+      "id": "16-9",
+      "label": "16:9",
+      "value": "16:9",
+      "width": 16,
+      "height": 9,
+      "active": true,
+      "sort": 3
+    }
+  ]
+}
