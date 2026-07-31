@@ -9,7 +9,8 @@
     };
 
     const FALLBACK_URL = "./fallback.json";
-    const DEFAULT_TIMEOUT_MS = 9000;
+    const DEFAULT_TIMEOUT_MS = 30000;
+    const RETRY_DELAY_MS = 1200;
 
     function getMetaApiUrl() {
         return document.querySelector('meta[name="prompt-api-url"]')?.content?.trim() || "";
@@ -20,10 +21,12 @@
         return value ? value.trim() : "";
     }
 
+    function getStoredApiUrl() {
+        return localStorage.getItem(STORAGE.apiUrl)?.trim() || "";
+    }
+
     function getApiUrl() {
-        return getUrlParamApi()
-            || localStorage.getItem(STORAGE.apiUrl)
-            || getMetaApiUrl();
+        return getUrlParamApi() || getStoredApiUrl() || getMetaApiUrl();
     }
 
     function isForceFallback() {
@@ -35,22 +38,91 @@
         return `${url}${separator}refresh=1&_=${Date.now()}`;
     }
 
-    async function fetchJson(url, timeoutMs = DEFAULT_TIMEOUT_MS) {
+    function validateApiUrl(url) {
+        const clean = String(url || "").trim();
+        if (!clean) throw new Error("Apps Script URL is empty.");
+
+        let parsed;
+        try {
+            parsed = new URL(clean);
+        } catch {
+            throw new Error("Apps Script URL is not valid.");
+        }
+
+        if (parsed.protocol !== "https:") {
+            throw new Error("Apps Script URL must use HTTPS.");
+        }
+
+        if (parsed.pathname.endsWith("/dev")) {
+            throw new Error("Use the deployed Web App URL ending in /exec, not the test URL ending in /dev.");
+        }
+
+        if (!parsed.pathname.endsWith("/exec")) {
+            throw new Error("Apps Script Web App URL must end in /exec.");
+        }
+
+        return clean;
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function readableFetchError(error) {
+        if (error?.name === "AbortError") {
+            return "request timed out while Apps Script was starting";
+        }
+        return String(error?.message || error || "unknown API error");
+    }
+
+    async function fetchJsonOnce(url, timeoutMs = DEFAULT_TIMEOUT_MS) {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
         try {
             const response = await fetch(url, {
                 method: "GET",
                 cache: "no-store",
+                redirect: "follow",
                 signal: controller.signal
             });
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const json = await response.json();
-            if (json?.ok === false) throw new Error(json.error || "API returned an error.");
+
+            const text = await response.text();
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}${text ? `: ${text.slice(0, 140)}` : ""}`);
+            }
+
+            let json;
+            try {
+                json = JSON.parse(text);
+            } catch {
+                const looksLikeHtml = /^\s*</.test(text);
+                throw new Error(looksLikeHtml
+                    ? "API returned an HTML/login page. Check Web App access and use the /exec URL."
+                    : "API response is not valid JSON.");
+            }
+
+            if (json?.ok === false) {
+                throw new Error(json.error || "API returned an error.");
+            }
+
             return json;
         } finally {
             clearTimeout(timeout);
         }
+    }
+
+    async function fetchJson(url, timeoutMs = DEFAULT_TIMEOUT_MS, attempts = 2) {
+        let lastError;
+        for (let attempt = 1; attempt <= attempts; attempt += 1) {
+            try {
+                return await fetchJsonOnce(url, timeoutMs);
+            } catch (error) {
+                lastError = error;
+                if (attempt < attempts) await sleep(RETRY_DELAY_MS);
+            }
+        }
+        throw lastError;
     }
 
     function asBoolean(value) {
@@ -157,17 +229,30 @@
     }
 
     async function loadFallback() {
-        return validate(normalize(await fetchJson(`${FALLBACK_URL}?_=${Date.now()}`, 5000)));
+        return validate(normalize(await fetchJson(`${FALLBACK_URL}?_=${Date.now()}`, 8000, 1)));
     }
 
     async function load(options = {}) {
-        const apiUrl = getApiUrl();
+        const rawApiUrl = getApiUrl();
         const forceFallback = isForceFallback();
         const forceRefresh = Boolean(options.forceRefresh);
 
         if (forceRefresh) clearLocalCache();
 
-        if (!forceFallback && apiUrl) {
+        if (!forceFallback && rawApiUrl) {
+            let apiUrl;
+            try {
+                apiUrl = validateApiUrl(rawApiUrl);
+            } catch (urlError) {
+                const data = await loadFallback();
+                return {
+                    data,
+                    source: "fallback",
+                    message: `API unavailable (${readableFetchError(urlError)}) · fallback database loaded`,
+                    error: urlError
+                };
+            }
+
             try {
                 const requestUrl = forceRefresh ? appendRefreshParam(apiUrl) : apiUrl;
                 const data = validate(normalize(await fetchJson(requestUrl)));
@@ -181,12 +266,13 @@
                 };
             } catch (apiError) {
                 console.warn("API load failed:", apiError);
+                const reason = readableFetchError(apiError);
                 const cached = forceRefresh ? null : getCachedData(24 * 60);
                 if (cached) {
                     return {
                         data: cached,
                         source: "cache",
-                        message: "API unavailable · cached database loaded",
+                        message: `API unavailable (${reason}) · cached database loaded`,
                         error: apiError
                     };
                 }
@@ -195,11 +281,11 @@
                     return {
                         data,
                         source: "fallback",
-                        message: "API unavailable · fallback database loaded",
+                        message: `API unavailable (${reason}) · fallback database loaded`,
                         error: apiError
                     };
                 } catch (fallbackError) {
-                    throw new Error(`API failed (${apiError.message}) and fallback failed (${fallbackError.message}).`);
+                    throw new Error(`API failed (${reason}) and fallback failed (${fallbackError.message}).`);
                 }
             }
         }
@@ -213,8 +299,7 @@
     }
 
     function saveApiUrl(url) {
-        const clean = String(url || "").trim();
-        if (!clean) throw new Error("Please enter a valid Apps Script URL.");
+        const clean = validateApiUrl(url);
         localStorage.setItem(STORAGE.apiUrl, clean);
         localStorage.removeItem(STORAGE.forceFallback);
         clearLocalCache();
@@ -231,12 +316,23 @@
         clearLocalCache();
     }
 
+    function getDiagnostics() {
+        return {
+            urlParam: getUrlParamApi(),
+            storedUrl: getStoredApiUrl(),
+            metaUrl: getMetaApiUrl(),
+            effectiveUrl: getApiUrl(),
+            forceFallback: isForceFallback()
+        };
+    }
+
     global.PromptDataLoader = {
         load,
         getApiUrl,
         saveApiUrl,
         forceFallback,
         resetSource,
-        clearLocalCache
+        clearLocalCache,
+        getDiagnostics
     };
 })(window);
