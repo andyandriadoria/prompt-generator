@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Smart AI image prompt generator powered by Google Sheets.">
     <!-- Paste the deployed Google Apps Script Web App URL below for public use. -->
-    <meta name="prompt-api-url" content="https://script.google.com/macros/s/AKfycbz81juqJ3M8Bo-vIfjOvMzVkBf1HaAHTXGygQs-Z5vEDsC5uMqWjUTaMCSbp3itPkuXHw/exec">
-    <title>Prompt Gen 4.1</title>
+    <meta name="prompt-api-url" content="">
+    <title>Prompt Gen 4.2</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -22,8 +22,8 @@
         <header class="hero">
             <div class="hero-copy">
                 <span class="eyebrow">✨ AI Image Prompt Builder</span>
-                <h1 id="appTitle">Prompt Gen 4.1</h1>
-                <p class="subtitle"><span id="appSubtitle">Smart AI Image Prompt Builder</span> · by <span id="creatorName">Ndoy Creator</span></p>
+                <h1 id="appTitle">Prompt Gen 4.2</h1>
+                <p class="subtitle"><span id="appSubtitle">Smart AI Image Prompt Builder · Style Presets</span> · by <span id="creatorName">Ndoy Creator</span></p>
             </div>
             <div class="hero-actions">
                 <div class="data-status" id="dataStatus" role="status" aria-live="polite">
@@ -58,6 +58,41 @@
                         <p class="help-text">“Refresh Now” bypasses the Apps Script cache. For public use, configure the <code>prompt-api-url</code> meta tag inside <code>index.html</code>.</p>
                     </div>
                 </details>
+
+                <section class="style-presets" aria-labelledby="stylePresetTitle">
+                    <div class="style-presets-head">
+                        <div>
+                            <span class="mini-eyebrow">🎨 Prompt Style Presets</span>
+                            <h2 id="stylePresetTitle">Choose a complete visual direction</h2>
+                            <p>One click can apply camera, angle, lighting, aspect ratio, and style language.</p>
+                        </div>
+                        <button type="button" id="clearStylePresetBtn" class="ghost-button compact-action">Clear Style</button>
+                    </div>
+
+                    <div class="style-preset-toolbar">
+                        <fieldset class="style-apply-mode">
+                            <legend>Apply behavior</legend>
+                            <div class="segmented-control">
+                                <label><input type="radio" name="styleApplyMode" value="replace" checked><span>Replace technical settings</span></label>
+                                <label><input type="radio" name="styleApplyMode" value="merge"><span>Fill empty settings only</span></label>
+                            </div>
+                        </fieldset>
+                        <label class="negative-prompt-option">
+                            <input type="checkbox" id="includeNegativePrompt">
+                            <span><strong>Include negative prompt</strong><small>Adds the preset’s “avoid” guidance to the result.</small></span>
+                        </label>
+                    </div>
+
+                    <div class="style-preset-grid" id="stylePresetGrid" role="list" aria-label="Prompt style presets"></div>
+
+                    <div class="style-preset-summary" id="stylePresetSummary" data-active="false">
+                        <div class="style-preset-summary-icon" id="stylePresetSummaryIcon">✨</div>
+                        <div>
+                            <strong id="stylePresetSummaryTitle">No style selected</strong>
+                            <span id="stylePresetSummaryText">Choose a style card to shape the visual language and technical settings.</span>
+                        </div>
+                    </div>
+                </section>
 
                 <section class="smart-compatibility" aria-labelledby="smartCompatibilityTitle">
                     <div class="smart-compatibility-head">
@@ -191,19 +226,22 @@
             <aside class="panel output-panel">
                 <div class="output-heading">
                     <span>Generated Prompt</span>
-                    <small id="promptStats">0 characters</small>
+                    <div class="output-meta">
+                        <span class="active-style-badge" id="activeStyleBadge" hidden>No style</span>
+                        <small id="promptStats">0 characters</small>
+                    </div>
                 </div>
                 <textarea id="output" readonly placeholder="Your generated prompt will appear here…"></textarea>
                 <div class="output-tip">
                     <strong>Smart tip</strong>
-                    <span>Search dropdowns by label, category, or tag. Compatibility scores appear beside each choice.</span>
+                    <span>Select a style card first, then use searchable dropdowns. Smart Compatibility will prioritize choices that fit the active style.</span>
                 </div>
             </aside>
         </section>
 
         <footer class="page-footer">
-            <span id="footerVersion">Prompt Gen 4.1</span>
-            <span>Searchable · Smart Compatibility · Google Sheets-ready</span>
+            <span id="footerVersion">Prompt Gen 4.2</span>
+            <span>Style Presets · Searchable · Smart Compatibility · Google Sheets-ready</span>
         </footer>
     </main>
 

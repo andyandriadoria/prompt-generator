@@ -4,6 +4,7 @@
     let database = null;
     let messageTimer = null;
     let initializedOnce = false;
+    let activeStylePresetId = "";
     const elements = {};
     const searchable = new Map();
 
@@ -36,6 +37,9 @@
             "apiUrlInput", "saveApiUrlBtn", "refreshDataBtn", "useFallbackBtn", "resetSourceBtn",
             "compatibilityToggle", "compatibilityMode", "compatibilityResult",
             "compatibilityScore", "compatibilityLabel", "compatibilityHint", "compatibilityMessages",
+            "stylePresetGrid", "stylePresetSummary", "stylePresetSummaryIcon",
+            "stylePresetSummaryTitle", "stylePresetSummaryText", "clearStylePresetBtn",
+            "includeNegativePrompt", "activeStyleBadge",
             "promptForm", "characterPreset", "subjectGender", "features",
             "action", "expression", "outfit", "manualOutfit", "manualOutfitRow",
             "setting", "cameraAngle", "lighting", "cameraType", "aspectRatioGroup",
@@ -52,6 +56,20 @@
         elements.refreshDataBtn.addEventListener("click", () => loadDatabase({ forceRefresh: true }));
         elements.useFallbackBtn.addEventListener("click", selectFallbackSource);
         elements.resetSourceBtn.addEventListener("click", resetDataSource);
+        elements.clearStylePresetBtn.addEventListener("click", clearStylePreset);
+        elements.stylePresetGrid.addEventListener("click", event => {
+            const card = event.target.closest("[data-style-preset-id]");
+            if (card) selectStylePreset(card.dataset.stylePresetId, true);
+        });
+        document.querySelectorAll('input[name="styleApplyMode"]').forEach(input => {
+            input.addEventListener("change", () => {
+                localStorage.setItem("promptGenStyleApplyMode", input.value);
+            });
+        });
+        elements.includeNegativePrompt.addEventListener("change", () => {
+            localStorage.setItem("promptGenIncludeNegativePrompt", elements.includeNegativePrompt.checked ? "true" : "false");
+            maybeGenerate();
+        });
 
         elements.compatibilityToggle.addEventListener("change", () => {
             localStorage.setItem("promptGenSmartCompatibility", elements.compatibilityToggle.checked ? "true" : "false");
@@ -91,6 +109,7 @@
             database = result.data;
             applyAppConfig();
             populateAllControls();
+            renderStylePresets();
             initOrRefreshSearchableControls();
             setDefaults();
             setStatus(result.source === "api" ? "online" : "warning", result.message);
@@ -109,10 +128,10 @@
 
     function applyAppConfig() {
         const config = database.config || {};
-        const title = config.appTitle || "Prompt Gen 4.1";
+        const title = config.appTitle || "Prompt Gen 4.2";
         elements.appTitle.textContent = title;
         document.title = title;
-        elements.appSubtitle.textContent = config.subtitle || "Smart AI Image Prompt Builder";
+        elements.appSubtitle.textContent = config.subtitle || "Smart AI Image Prompt Builder · Style Presets";
         elements.creatorName.textContent = config.creatorName || "Ndoy Creator";
         elements.footerVersion.textContent = title;
 
@@ -123,6 +142,12 @@
             elements.compatibilityMode.value = optionExists(elements.compatibilityMode, config.compatibilityMode)
                 ? config.compatibilityMode
                 : "prioritize";
+        }
+        if (!initializedOnce && !localStorage.getItem("promptGenStyleApplyMode")) {
+            setRadioValue("styleApplyMode", config.styleApplyMode || "replace");
+        }
+        if (!initializedOnce && localStorage.getItem("promptGenIncludeNegativePrompt") === null) {
+            elements.includeNegativePrompt.checked = asBoolean(config.includeNegativePrompt, false);
         }
         updateToggleLabel();
     }
@@ -275,6 +300,12 @@
         setRadioValue("aspectRatio", config.defaultAspectRatio || "9:16");
         handleCharacterChange(false);
         toggleManualOutfit();
+        const storedStyle = localStorage.getItem("promptGenStylePreset") || config.defaultStylePreset || "";
+        if (storedStyle && database.stylePresets.some(item => item.id === storedStyle)) {
+            selectStylePreset(storedStyle, true, false);
+        } else {
+            clearStylePreset(false);
+        }
         markAllFields();
         syncAllSearchable();
     }
@@ -322,11 +353,14 @@
         const selectedCameraAngle = getSelectedItem(elements.cameraAngle, database.cameraAngles);
         const selectedLighting = getSelectedItem(elements.lighting, database.lighting);
         const selectedCameraType = getSelectedItem(elements.cameraType, database.cameraStyles);
+        const selectedStylePreset = getActiveStylePreset();
         const outfit = elements.outfit.value === "manual_outfit"
             ? elements.manualOutfit.value.trim()
             : selectedOutfit?.prompt || "";
         return {
             config: database.config || {},
+            stylePreset: selectedStylePreset,
+            includeNegativePrompt: elements.includeNegativePrompt.checked,
             features: elements.features.value.trim(),
             gender: elements.subjectGender.value,
             characterGender: selectedCharacter?.gender || "",
@@ -368,7 +402,11 @@
             pose: getSelectedItem(elements.action, database.poses),
             expression: getSelectedItem(elements.expression, database.expressions),
             outfit,
-            setting: getSelectedItem(elements.setting, database.settings)
+            setting: getSelectedItem(elements.setting, database.settings),
+            cameraAngle: getSelectedItem(elements.cameraAngle, database.cameraAngles),
+            lighting: getSelectedItem(elements.lighting, database.lighting),
+            cameraType: getSelectedItem(elements.cameraType, database.cameraStyles),
+            style: getActiveStylePreset()
         };
     }
 
@@ -396,7 +434,10 @@
             ["action", "pose", database.poses],
             ["expression", "expression", database.expressions],
             ["outfit", "outfit", database.outfits],
-            ["setting", "setting", database.settings.filter(item => String(item.type).toLowerCase() === (getRadioValue("settingType") || "outdoor"))]
+            ["setting", "setting", database.settings.filter(item => String(item.type).toLowerCase() === (getRadioValue("settingType") || "outdoor"))],
+            ["cameraAngle", "cameraAngle", database.cameraAngles],
+            ["lighting", "lighting", database.lighting],
+            ["cameraType", "cameraType", database.cameraStyles]
         ];
 
         targets.forEach(([controlId, targetType, candidates]) => {
@@ -404,23 +445,23 @@
             searchable.get(controlId)?.setCompatibility(ranking, mode);
         });
 
-        ["characterPreset", "cameraAngle", "lighting", "cameraType"].forEach(id => {
-            searchable.get(id)?.setCompatibility(new Map(), "all");
-        });
+        searchable.get("characterPreset")?.setCompatibility(new Map(), "all");
     }
 
     function renderCompatibility(result, selection, enabled) {
         elements.compatibilityScore.textContent = String(result.score);
         elements.compatibilityLabel.textContent = result.label;
         elements.compatibilityResult.dataset.level = result.level;
-        const selectedCount = [selection.pose, selection.expression, selection.outfit, selection.setting].filter(Boolean).length;
+        const selectedCount = [selection.pose, selection.expression, selection.outfit, selection.setting, selection.style].filter(Boolean).length;
         elements.compatibilityHint.textContent = !enabled
             ? "All options are shown in their original order."
             : selectedCount < 2
                 ? "Choose more elements to receive a meaningful compatibility assessment."
                 : result.messages.length
                     ? "Review the suggestions below or choose a higher-scoring option from a searchable dropdown."
-                    : "Your current pose, outfit, expression, and setting work well together.";
+                    : selection.style
+                        ? `Your current choices align well with the “${selection.style.label}” style.`
+                        : "Your current pose, outfit, expression, and setting work well together.";
 
         elements.compatibilityMessages.innerHTML = "";
         result.messages.forEach(item => {
@@ -429,6 +470,124 @@
             li.textContent = item.text;
             elements.compatibilityMessages.append(li);
         });
+    }
+
+    function renderStylePresets() {
+        const presets = Array.isArray(database?.stylePresets) ? database.stylePresets : [];
+        elements.stylePresetGrid.innerHTML = "";
+
+        if (!presets.length) {
+            const empty = document.createElement("p");
+            empty.className = "help-text";
+            empty.textContent = "No active style presets were found in the database.";
+            elements.stylePresetGrid.append(empty);
+            updateStylePresetUI();
+            return;
+        }
+
+        presets.forEach(preset => {
+            const card = document.createElement("button");
+            card.type = "button";
+            card.className = "style-preset-card";
+            card.dataset.stylePresetId = preset.id;
+            card.setAttribute("role", "listitem");
+            card.setAttribute("aria-pressed", preset.id === activeStylePresetId ? "true" : "false");
+
+            const icon = document.createElement("span");
+            icon.className = "style-preset-icon";
+            icon.textContent = preset.icon || "✨";
+
+            const copy = document.createElement("span");
+            copy.className = "style-preset-copy";
+            const title = document.createElement("strong");
+            title.textContent = preset.label;
+            const description = document.createElement("small");
+            description.textContent = preset.description || preset.style_prompt || "";
+            copy.append(title, description);
+
+            const meta = document.createElement("span");
+            meta.className = "style-preset-meta";
+            const camera = database.cameraStyles.find(item => item.id === preset.camera_style_id);
+            const ratio = database.aspectRatios.find(item => item.id === preset.aspect_ratio_id);
+            [camera?.label, ratio?.label].filter(Boolean).forEach(value => {
+                const chip = document.createElement("span");
+                chip.textContent = value;
+                meta.append(chip);
+            });
+
+            card.append(icon, copy, meta);
+            elements.stylePresetGrid.append(card);
+        });
+        updateStylePresetUI();
+    }
+
+    function getActiveStylePreset() {
+        if (!activeStylePresetId || !database?.stylePresets) return null;
+        return database.stylePresets.find(item => item.id === activeStylePresetId) || null;
+    }
+
+    function selectStylePreset(id, applySettings = true, notify = true) {
+        const preset = database?.stylePresets?.find(item => item.id === id);
+        if (!preset) return;
+        activeStylePresetId = preset.id;
+        localStorage.setItem("promptGenStylePreset", preset.id);
+        if (applySettings) applyStyleTechnicalSettings(preset);
+        updateStylePresetUI();
+        updateCompatibility();
+        generatePrompt();
+        if (notify) showMessage(`Style applied: ${preset.label}.`);
+    }
+
+    function applyStyleTechnicalSettings(preset) {
+        const mode = getRadioValue("styleApplyMode") || "replace";
+        let changed = 0;
+        const applySelect = (select, id) => {
+            if (!id || (mode === "merge" && select.value)) return;
+            const before = select.value;
+            setSelectByItemId(select, id);
+            if (select.value !== before) changed += 1;
+        };
+        applySelect(elements.cameraType, preset.camera_style_id || preset.cameraStyleId);
+        applySelect(elements.cameraAngle, preset.camera_angle_id || preset.cameraAngleId);
+        applySelect(elements.lighting, preset.lighting_id || preset.lightingId);
+
+        const ratio = database.aspectRatios.find(item => item.id === (preset.aspect_ratio_id || preset.aspectRatioId));
+        if (ratio && (mode === "replace" || !getRadioValue("aspectRatio"))) {
+            const before = getRadioValue("aspectRatio");
+            setRadioValue("aspectRatio", ratio.value || ratio.label);
+            if (before !== getRadioValue("aspectRatio")) changed += 1;
+        }
+
+        markAllFields();
+        syncAllSearchable();
+        return changed;
+    }
+
+    function clearStylePreset(notify = true) {
+        activeStylePresetId = "";
+        localStorage.removeItem("promptGenStylePreset");
+        updateStylePresetUI();
+        updateCompatibility();
+        generatePrompt();
+        if (notify) showMessage("Style cleared. Technical settings were kept.");
+    }
+
+    function updateStylePresetUI() {
+        const preset = getActiveStylePreset();
+        elements.stylePresetGrid.querySelectorAll("[data-style-preset-id]").forEach(card => {
+            const active = card.dataset.stylePresetId === preset?.id;
+            card.classList.toggle("is-active", active);
+            card.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+
+        elements.stylePresetSummary.dataset.active = preset ? "true" : "false";
+        elements.stylePresetSummaryIcon.textContent = preset?.icon || "✨";
+        elements.stylePresetSummaryTitle.textContent = preset?.label || "No style selected";
+        elements.stylePresetSummaryText.textContent = preset
+            ? `${preset.description || "Style preset active."} Technical defaults remain editable.`
+            : "Choose a style card to shape the visual language and technical settings.";
+        elements.activeStyleBadge.hidden = !preset;
+        elements.activeStyleBadge.textContent = preset ? `${preset.icon || "✨"} ${preset.label}` : "No style";
     }
 
     function generatePrompt() {
@@ -466,11 +625,16 @@
         const expression = pickCompatibleCandidate("expression", database.expressions, selection);
         setSelectByItemId(elements.expression, expression?.id);
 
-        elements.cameraAngle.value = randomOptionValue(elements.cameraAngle);
-        elements.lighting.value = randomOptionValue(elements.lighting);
-        elements.cameraType.value = randomOptionValue(elements.cameraType);
-        const ratios = database.aspectRatios.map(item => item.value || item.label);
-        setRadioValue("aspectRatio", randomItem(ratios));
+        const activeStyle = getActiveStylePreset();
+        if (activeStyle) {
+            applyStyleTechnicalSettings(activeStyle);
+        } else {
+            elements.cameraAngle.value = randomOptionValue(elements.cameraAngle);
+            elements.lighting.value = randomOptionValue(elements.lighting);
+            elements.cameraType.value = randomOptionValue(elements.cameraType);
+            const ratios = database.aspectRatios.map(item => item.value || item.label);
+            setRadioValue("aspectRatio", randomItem(ratios));
+        }
 
         markAllFields();
         syncAllSearchable();
@@ -484,10 +648,10 @@
         const ranking = CompatibilityEngine.rankCandidates(database, selection, type, candidates);
         const scored = candidates
             .map(item => ({ item, result: ranking.get(item.id) }))
-            .sort((a, b) => (b.result?.score ?? 100) - (a.result?.score ?? 100));
-        const bestScore = scored[0]?.result?.score ?? 100;
+            .sort((a, b) => (b.result?.rankingScore ?? b.result?.score ?? 100) - (a.result?.rankingScore ?? a.result?.score ?? 100));
+        const bestScore = scored[0]?.result?.rankingScore ?? scored[0]?.result?.score ?? 100;
         const pool = scored
-            .filter(entry => !entry.result?.blocked && (entry.result?.score ?? 100) >= Math.max(70, bestScore - 12))
+            .filter(entry => !entry.result?.blocked && (entry.result?.rankingScore ?? entry.result?.score ?? 100) >= Math.max(70, bestScore - 12))
             .slice(0, 24);
         return randomItem(pool.length ? pool : scored)?.item || null;
     }
@@ -499,6 +663,9 @@
         elements.output.value = "";
         elements.promptStats.textContent = "0 characters";
         elements.characterPreset.value = "custom";
+        activeStylePresetId = "";
+        localStorage.removeItem("promptGenStylePreset");
+        updateStylePresetUI();
         elements.subjectGender.value = database?.config?.defaultGender || "auto";
         setRadioValue("settingType", database?.config?.defaultSettingType || "outdoor");
         populateSettings();
@@ -554,6 +721,10 @@
             if (el !== elements.output) el.disabled = disabled;
         });
         elements.randomPromptBtn.disabled = disabled;
+        elements.clearStylePresetBtn.disabled = disabled;
+        elements.includeNegativePrompt.disabled = disabled;
+        document.querySelectorAll('input[name="styleApplyMode"]').forEach(input => { input.disabled = disabled; });
+        elements.stylePresetGrid.querySelectorAll("button").forEach(button => { button.disabled = disabled; });
         searchable.forEach(control => control.setDisabled(disabled));
     }
 
@@ -586,6 +757,10 @@
         if (enabled !== null) elements.compatibilityToggle.checked = enabled === "true";
         const mode = localStorage.getItem("promptGenCompatibilityMode");
         if (mode && optionExists(elements.compatibilityMode, mode)) elements.compatibilityMode.value = mode;
+        const styleMode = localStorage.getItem("promptGenStyleApplyMode");
+        if (styleMode) setRadioValue("styleApplyMode", styleMode);
+        const includeNegative = localStorage.getItem("promptGenIncludeNegativePrompt");
+        if (includeNegative !== null) elements.includeNegativePrompt.checked = includeNegative === "true";
         updateToggleLabel();
     }
 

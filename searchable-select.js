@@ -199,8 +199,10 @@
                 filtered = filtered.slice().sort((a, b) => {
                     if (a.value === "" && b.value !== "") return -1;
                     if (b.value === "" && a.value !== "") return 1;
-                    const scoreA = this.rankings.get(a.id)?.score ?? 100;
-                    const scoreB = this.rankings.get(b.id)?.score ?? 100;
+                    const resultA = this.rankings.get(a.id);
+                    const resultB = this.rankings.get(b.id);
+                    const scoreA = resultA?.rankingScore ?? resultA?.score ?? 100;
+                    const scoreB = resultB?.rankingScore ?? resultB?.score ?? 100;
                     return scoreB - scoreA || a.originalIndex - b.originalIndex;
                 });
             }

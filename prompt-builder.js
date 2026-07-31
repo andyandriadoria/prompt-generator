@@ -79,10 +79,11 @@
         const gender = normalizeGender(selectedGender);
         const p = PRONOUNS[gender];
         const config = state.config || {};
+        const stylePreset = state.stylePreset || null;
         const parts = [];
 
         if (features) {
-            const opening = String(config.promptOpening || "A hyper-realistic photograph of").trim();
+            const opening = String(stylePreset?.prompt_opening || stylePreset?.promptOpening || config.promptOpening || "A hyper-realistic photograph of").trim();
             parts.push(ensureSentence(`${opening} ${withArticle(features)}`));
         }
 
@@ -100,6 +101,11 @@
 
         if (state.setting) {
             parts.push(replacePronouns(settingSentence(state.setting), gender));
+        }
+
+        const stylePrompt = String(stylePreset?.style_prompt || stylePreset?.stylePrompt || "").trim();
+        if (stylePrompt) {
+            parts.push(ensureSentence(`Visual style: ${replacePronouns(stylePrompt, gender)}`));
         }
 
         if (state.cameraAngle) {
@@ -121,6 +127,11 @@
         const suffix = String(config.promptSuffix || "").trim();
         if (suffix) {
             parts.push(ensureSentence(`Quality details: ${suffix}`));
+        }
+
+        const negativePrompt = String(stylePreset?.negative_prompt || stylePreset?.negativePrompt || "").trim();
+        if (state.includeNegativePrompt && negativePrompt) {
+            parts.push(ensureSentence(`Avoid: ${negativePrompt}`));
         }
 
         return parts

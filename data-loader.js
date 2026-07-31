@@ -102,6 +102,7 @@
         return {
             meta: payload.meta || {},
             config: normalizeConfig(payload.config),
+            stylePresets: normalizeList(payload.stylePresets || []),
             characters: normalizeList(payload.characters),
             poses: normalizeList(payload.poses),
             expressions: normalizeList(payload.expressions),

@@ -1,14 +1,14 @@
 {
   "meta": {
-    "version": "4.1.0",
+    "version": "4.2.0",
     "generatedAt": "2026-07-31",
     "source": "fallback.json",
     "originalFile": "Prompt Gen.html"
   },
   "config": {
-    "appTitle": "Prompt Gen 4.1",
+    "appTitle": "Prompt Gen 4.2",
     "creatorName": "Ndoy Creator",
-    "subtitle": "Smart AI Image Prompt Builder",
+    "subtitle": "Smart AI Image Prompt Builder · Style Presets",
     "defaultCharacter": "custom",
     "defaultGender": "auto",
     "defaultSettingType": "outdoor",
@@ -19,8 +19,164 @@
     "apiCacheMinutes": "10",
     "smartCompatibility": "TRUE",
     "compatibilityMode": "prioritize",
-    "searchableDropdowns": "TRUE"
+    "searchableDropdowns": "TRUE",
+    "defaultStylePreset": "",
+    "styleApplyMode": "replace",
+    "includeNegativePrompt": "FALSE"
   },
+  "stylePresets": [
+    {
+      "id": "hyper-realistic-iphone",
+      "label": "Hyper-Realistic iPhone",
+      "icon": "📱",
+      "category": "Photography",
+      "description": "Natural smartphone realism with candid framing, authentic skin texture, and subtle HDR.",
+      "style_prompt": "Authentic iPhone photography with natural exposure, realistic skin pores, subtle HDR, slight sensor texture, candid framing, and believable smartphone depth of field.",
+      "prompt_opening": "A hyper-realistic iPhone photograph of",
+      "camera_style_id": "iphone-smartphone-look-casual",
+      "camera_angle_id": "eye-level-shot",
+      "lighting_id": "natural-light",
+      "aspect_ratio_id": "9-16",
+      "recommended_tags": "selfie|casual|lifestyle|street|retail|home|natural|daylight|indonesian|outdoor|indoor",
+      "excluded_tags": "cartoon|illustration|papercut|miniature|diorama",
+      "negative_prompt": "plastic skin, excessive beauty filters, artificial facial smoothing, fake bokeh, overprocessed HDR, distorted hands",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "iphone",
+        "smartphone",
+        "realistic",
+        "candid",
+        "photography"
+      ]
+    },
+    {
+      "id": "cinematic-movie-still",
+      "label": "Cinematic Movie Still",
+      "icon": "🎬",
+      "category": "Cinematic",
+      "description": "Dramatic storytelling, atmospheric depth, film grain, and widescreen composition.",
+      "style_prompt": "Cinematic movie still with dramatic directional lighting, atmospheric depth, subtle film grain, rich contrast, realistic color grading, and a strong storytelling composition.",
+      "prompt_opening": "A cinematic movie still of",
+      "camera_style_id": "cinematic-camera-movie-shot",
+      "camera_angle_id": "3-4-angle-medium-shot",
+      "lighting_id": "cinematic-light",
+      "aspect_ratio_id": "16-9",
+      "recommended_tags": "cinematic|night|urban|sci_fi|combat|fantasy|dramatic|street|vehicle|action",
+      "excluded_tags": "flat_lighting|catalog|passport",
+      "negative_prompt": "flat lighting, washed-out contrast, cheap CGI appearance, oversaturated colors, awkward framing",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "cinematic",
+        "movie",
+        "film",
+        "dramatic",
+        "widescreen"
+      ]
+    },
+    {
+      "id": "fashion-editorial",
+      "label": "Fashion Editorial",
+      "icon": "✦",
+      "category": "Editorial",
+      "description": "Magazine-ready styling with refined posture, fabric detail, and polished lighting.",
+      "style_prompt": "High-fashion editorial photography with polished composition, controlled professional lighting, refined posture, luxurious fabric detail, clean color treatment, and magazine-ready styling.",
+      "prompt_opening": "A high-fashion editorial photograph of",
+      "camera_style_id": "dslr-look-realistic-detailed",
+      "camera_angle_id": "3-4-angle-full-body-shot",
+      "lighting_id": "studio-lighting",
+      "aspect_ratio_id": "4-5",
+      "recommended_tags": "fashion|formal|traditional|streetwear|uniform|dress|kebaya|kimono|full_body|studio|retail",
+      "excluded_tags": "sleep|bath|landfill|combat_mecha",
+      "negative_prompt": "wrinkled clothing, muddy fabric texture, awkward posture, distorted accessories, cluttered composition",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "fashion",
+        "editorial",
+        "magazine",
+        "studio",
+        "portrait"
+      ]
+    },
+    {
+      "id": "indonesian-lifestyle-candid",
+      "label": "Indonesian Lifestyle Candid",
+      "icon": "🌿",
+      "category": "Lifestyle",
+      "description": "Warm, authentic everyday Indonesia with local atmosphere and documentary spontaneity.",
+      "style_prompt": "Authentic Indonesian lifestyle photography with natural tropical light, believable local surroundings, warm human atmosphere, documentary-style composition, and spontaneous everyday realism.",
+      "prompt_opening": "An authentic Indonesian lifestyle photograph of",
+      "camera_style_id": "iphone-smartphone-look-casual",
+      "camera_angle_id": "eye-level-shot",
+      "lighting_id": "daylight",
+      "aspect_ratio_id": "4-5",
+      "recommended_tags": "indonesian|warkop|warung|village|market|residential|street|casual|cafe|tropical|outdoor|lifestyle",
+      "excluded_tags": "space|sci_fi|fantasy|mecha|gothic",
+      "negative_prompt": "generic western streetscape, sterile studio look, unrealistic tropical vegetation, artificial skin smoothing",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "indonesian",
+        "lifestyle",
+        "candid",
+        "documentary",
+        "local"
+      ]
+    },
+    {
+      "id": "japanese-nostalgia-1980s",
+      "label": "Japanese Nostalgia 1980s",
+      "icon": "📼",
+      "category": "Analog",
+      "description": "Warm Showa-era mood with faded film color, halation, and nostalgic analog texture.",
+      "style_prompt": "Nostalgic 1980s Japanese analog photography with warm Showa-era atmosphere, gently faded film colors, soft halation around lights, fine grain, and authentic vintage commercial styling.",
+      "prompt_opening": "A nostalgic 1980s Japanese film photograph of",
+      "camera_style_id": "film-camera-look-vintage-aesthetic",
+      "camera_angle_id": "medium-shot",
+      "lighting_id": "interior-lighting-warm",
+      "aspect_ratio_id": "4-5",
+      "recommended_tags": "japanese|japan|1980s|retro|showa|arcade|bookstore|vinyl|sushi|cafe|alley|retail|film",
+      "excluded_tags": "futuristic|modern_minimal|space|mecha",
+      "negative_prompt": "modern LED showroom aesthetic, ultra-clean digital sharpness, futuristic signage, sterile contemporary interior",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "japanese",
+        "1980s",
+        "retro",
+        "showa",
+        "film",
+        "analog"
+      ]
+    },
+    {
+      "id": "miniature-diorama",
+      "label": "Miniature Diorama",
+      "icon": "🏠",
+      "category": "Creative",
+      "description": "Handcrafted scale-model realism with macro depth, tiny textures, and collectible presentation.",
+      "style_prompt": "Ultra-detailed miniature diorama photography with handcrafted scale-model textures, realistic tiny materials, macro-lens perspective, shallow depth of field, subtle tilt-shift character, and museum-quality presentation.",
+      "prompt_opening": "An ultra-detailed miniature diorama photograph of",
+      "camera_style_id": "dslr-look-realistic-detailed",
+      "camera_angle_id": "3-4-angle-full-body-shot",
+      "lighting_id": "studio-lighting",
+      "aspect_ratio_id": "4-5",
+      "recommended_tags": "miniature|diorama|papercut|village|architecture|product|studio|aerial|overhead|wide|handcrafted",
+      "excluded_tags": "selfie|mirror|sensual|lingerie|bath",
+      "negative_prompt": "full-scale environment, life-size proportions, flat plastic toy appearance, missing handcrafted texture, excessive blur",
+      "active": true,
+      "sort": 6,
+      "tags": [
+        "miniature",
+        "diorama",
+        "macro",
+        "handcrafted",
+        "scale_model"
+      ]
+    }
+  ],
   "characters": [
     {
       "id": "ndoy",
@@ -4477,6 +4633,21 @@
       "sort": 3,
       "tags": [
         "aspect_ratio"
+      ]
+    },
+    {
+      "id": "4-5",
+      "label": "4:5",
+      "value": "4:5",
+      "width": 4,
+      "height": 5,
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "aspect_ratio",
+        "portrait",
+        "editorial",
+        "instagram"
       ]
     }
   ],
