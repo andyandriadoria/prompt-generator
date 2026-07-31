@@ -30,6 +30,11 @@
         return localStorage.getItem(STORAGE.forceFallback) === "true";
     }
 
+    function appendRefreshParam(url) {
+        const separator = url.includes("?") ? "&" : "?";
+        return `${url}${separator}refresh=1&_=${Date.now()}`;
+    }
+
     async function fetchJson(url, timeoutMs = DEFAULT_TIMEOUT_MS) {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), timeoutMs);
@@ -39,10 +44,10 @@
                 cache: "no-store",
                 signal: controller.signal
             });
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-            return await response.json();
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const json = await response.json();
+            if (json?.ok === false) throw new Error(json.error || "API returned an error.");
+            return json;
         } finally {
             clearTimeout(timeout);
         }
@@ -56,10 +61,24 @@
         return true;
     }
 
+    function parseTags(value) {
+        if (Array.isArray(value)) {
+            return value.map(item => String(item).trim().toLowerCase()).filter(Boolean);
+        }
+        return String(value || "")
+            .split(",")
+            .map(item => item.trim().toLowerCase())
+            .filter(Boolean);
+    }
+
     function normalizeList(value) {
         if (!Array.isArray(value)) return [];
         return value
-            .map(item => ({ ...item, active: asBoolean(item.active) }))
+            .map(item => ({
+                ...item,
+                active: asBoolean(item.active),
+                tags: parseTags(item.tags)
+            }))
             .filter(item => item.active !== false)
             .sort((a, b) => Number(a.sort || 0) - Number(b.sort || 0));
     }
@@ -75,23 +94,24 @@
     }
 
     function normalize(raw) {
-        const data = raw?.data && typeof raw.data === "object" ? raw.data : raw;
-        if (!data || typeof data !== "object") {
+        const payload = raw?.data && typeof raw.data === "object" ? raw.data : raw;
+        if (!payload || typeof payload !== "object") {
             throw new Error("Database response is not a valid object.");
         }
 
         return {
-            meta: data.meta || {},
-            config: normalizeConfig(data.config),
-            characters: normalizeList(data.characters),
-            poses: normalizeList(data.poses),
-            expressions: normalizeList(data.expressions),
-            outfits: normalizeList(data.outfits),
-            settings: normalizeList(data.settings),
-            cameraAngles: normalizeList(data.cameraAngles),
-            lighting: normalizeList(data.lighting),
-            cameraStyles: normalizeList(data.cameraStyles),
-            aspectRatios: normalizeList(data.aspectRatios)
+            meta: payload.meta || {},
+            config: normalizeConfig(payload.config),
+            characters: normalizeList(payload.characters),
+            poses: normalizeList(payload.poses),
+            expressions: normalizeList(payload.expressions),
+            outfits: normalizeList(payload.outfits),
+            settings: normalizeList(payload.settings),
+            cameraAngles: normalizeList(payload.cameraAngles),
+            lighting: normalizeList(payload.lighting),
+            cameraStyles: normalizeList(payload.cameraStyles),
+            aspectRatios: normalizeList(payload.aspectRatios),
+            compatibilityRules: normalizeList(payload.compatibilityRules)
         };
     }
 
@@ -116,6 +136,11 @@
         }
     }
 
+    function clearLocalCache() {
+        localStorage.removeItem(STORAGE.cache);
+        localStorage.removeItem(STORAGE.cacheTime);
+    }
+
     function getCachedData(maxAgeMinutes = 60) {
         try {
             const raw = localStorage.getItem(STORAGE.cache);
@@ -131,25 +156,31 @@
     }
 
     async function loadFallback() {
-        return validate(normalize(await fetchJson(FALLBACK_URL, 5000)));
+        return validate(normalize(await fetchJson(`${FALLBACK_URL}?_=${Date.now()}`, 5000)));
     }
 
-    async function load() {
+    async function load(options = {}) {
         const apiUrl = getApiUrl();
         const forceFallback = isForceFallback();
+        const forceRefresh = Boolean(options.forceRefresh);
+
+        if (forceRefresh) clearLocalCache();
 
         if (!forceFallback && apiUrl) {
             try {
-                const data = validate(normalize(await fetchJson(apiUrl)));
+                const requestUrl = forceRefresh ? appendRefreshParam(apiUrl) : apiUrl;
+                const data = validate(normalize(await fetchJson(requestUrl)));
                 saveCache(data);
                 return {
                     data,
                     source: "api",
-                    message: "Google Sheets API connected"
+                    message: forceRefresh
+                        ? "Google Sheets refreshed"
+                        : "Google Sheets API connected"
                 };
             } catch (apiError) {
                 console.warn("API load failed:", apiError);
-                const cached = getCachedData(24 * 60);
+                const cached = forceRefresh ? null : getCachedData(24 * 60);
                 if (cached) {
                     return {
                         data: cached,
@@ -185,15 +216,18 @@
         if (!clean) throw new Error("Please enter a valid Apps Script URL.");
         localStorage.setItem(STORAGE.apiUrl, clean);
         localStorage.removeItem(STORAGE.forceFallback);
+        clearLocalCache();
     }
 
     function forceFallback() {
         localStorage.setItem(STORAGE.forceFallback, "true");
+        clearLocalCache();
     }
 
     function resetSource() {
         localStorage.removeItem(STORAGE.apiUrl);
         localStorage.removeItem(STORAGE.forceFallback);
+        clearLocalCache();
     }
 
     global.PromptDataLoader = {
@@ -201,6 +235,7 @@
         getApiUrl,
         saveApiUrl,
         forceFallback,
-        resetSource
+        resetSource,
+        clearLocalCache
     };
 })(window);

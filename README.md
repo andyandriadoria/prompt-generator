@@ -1,102 +1,102 @@
-# Prompt Gen 4.0 — GitHub Pages + Google Sheets
+# Prompt Gen 4.1 — Smart Compatibility + Searchable Dropdown
 
-Paket ini mengubah Prompt Gen 3.1 menjadi aplikasi modular dengan database dinamis.
+Prompt Gen 4.1 is a static GitHub Pages app whose content is managed from Google Sheets through a Google Apps Script JSON API.
 
-## Isi paket
+## Main improvements
 
-- `index.html` — struktur halaman.
-- `style.css` — tampilan light/dark dan responsive.
-- `app.js` — interaksi form, random, reset, copy, dan pengaturan sumber data.
-- `data-loader.js` — mengambil data Google Sheets API, cache browser, dan fallback.
-- `prompt-builder.js` — merangkai prompt dan menyesuaikan pronoun.
-- `fallback.json` — seluruh database bawaan dari Prompt Gen 3.1.
-- `Database_Prompt_Gen_4.xlsx` — database siap diimpor ke Google Sheets.
-- `google-apps-script/Code.gs` — API JSON untuk membaca seluruh sheet.
+- Searchable dropdowns for character, pose, expression, outfit, setting, camera angle, lighting, and camera style.
+- Search by option label, category, or TAGS from Google Sheets.
+- Compatibility score from 0–100 for the selected combination.
+- Compatible choices are prioritized inside dropdown results.
+- Three display modes: prioritize, original order, or hide weak matches.
+- Smart Random chooses higher-scoring combinations instead of fully random combinations.
+- `Refresh Now` bypasses both browser cache and Apps Script cache.
+- Apps Script automatically clears its API cache when the spreadsheet is edited.
 
-## A. Unggah ke GitHub Pages
+## Files uploaded to GitHub
 
-1. Buat repository baru, misalnya `prompt-gen`.
-2. Unggah seluruh file web pada folder utama repository:
-   `index.html`, `style.css`, `app.js`, `data-loader.js`, `prompt-builder.js`, dan `fallback.json`.
-3. Buka **Settings → Pages**.
-4. Pilih **Deploy from a branch**.
-5. Pilih branch `main` dan folder `/root`.
-6. Simpan. Alamatnya akan berbentuk:
-   `https://USERNAME.github.io/prompt-gen/`
+Upload these files directly to the repository root:
 
-Aplikasi sudah dapat berjalan memakai `fallback.json` meskipun Google Sheets belum disambungkan.
-
-## B. Buat database Google Sheets
-
-1. Buka Google Sheets.
-2. Pilih **File → Import → Upload**.
-3. Unggah `Database_Prompt_Gen_4.xlsx`.
-4. Pilih **Replace spreadsheet** atau buat spreadsheet baru.
-5. Jangan mengganti nama sheet berikut:
-   `CONFIG`, `CHARACTERS`, `POSES`, `EXPRESSIONS`, `OUTFITS`, `SETTINGS`,
-   `CAMERA_ANGLES`, `LIGHTING`, `CAMERA_STYLES`, `ASPECT_RATIOS`.
-
-## C. Pasang API Google Apps Script
-
-1. Dari Google Sheets tersebut, buka **Extensions → Apps Script**.
-2. Hapus kode awal.
-3. Salin seluruh isi `google-apps-script/Code.gs`.
-4. Simpan.
-5. Jalankan fungsi `setup()` satu kali.
-6. Setujui permintaan izin.
-7. Pilih **Deploy → New deployment**.
-8. Type: **Web app**.
-9. Execute as: **Me**.
-10. Who has access: **Anyone**.
-11. Klik **Deploy**, lalu salin URL yang berakhiran `/exec`.
-
-## D. Sambungkan GitHub ke Google Sheets
-
-Ada dua cara.
-
-### Cara publik permanen
-
-Buka `index.html`, lalu isi URL pada bagian:
-
-```html
-<meta name="prompt-api-url" content="PASTE_URL_APPS_SCRIPT_DI_SINI">
+```text
+index.html
+style.css
+app.js
+data-loader.js
+prompt-builder.js
+compatibility-engine.js
+searchable-select.js
+fallback.json
+README.md
 ```
 
-Commit perubahan tersebut satu kali. Setelah itu seluruh isi dropdown dikelola dari Google Sheets tanpa mengedit kode lagi.
+Do not upload the Excel workbook as part of the website. Import it to Google Sheets instead.
 
-### Cara uji cepat lewat browser
+## Google Sheets setup
 
-Buka bagian **Database connection** pada aplikasi, tempel URL Apps Script, lalu klik **Save & Reload**. URL disimpan di browser melalui `localStorage`.
+1. Import `Database_Prompt_Gen_4_1.xlsx` into Google Sheets.
+2. Keep all sheet names and header names unchanged.
+3. Open **Extensions → Apps Script**.
+4. Replace the default script with `google-apps-script/Code.gs`.
+5. Run `setup()` once and approve access.
+6. Deploy as a Web app:
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+7. Copy the `/exec` URL.
+8. Paste the URL into this meta tag in `index.html`:
 
-## E. Menambah atau mengubah pilihan
+```html
+<meta name="prompt-api-url" content="https://script.google.com/macros/s/DEPLOYMENT_ID/exec">
+```
 
-Tambahkan baris baru pada sheet yang sesuai.
+When updating an existing Apps Script deployment, choose **Deploy → Manage deployments → Edit → New version → Deploy**.
 
-- `CHARACTERS`: preset karakter dan gender.
-- `POSES`: pose atau action.
-- `EXPRESSIONS`: ekspresi.
-- `OUTFITS`: pakaian.
-- `SETTINGS`: setting indoor/outdoor.
-- `CAMERA_ANGLES`: sudut kamera.
-- `LIGHTING`: pencahayaan.
-- `CAMERA_STYLES`: gaya kamera.
-- `ASPECT_RATIOS`: rasio gambar.
-- `CONFIG`: judul, default, dan kalimat pembentuk prompt.
+## Updating the database
 
-Kolom penting:
+Add or edit rows in Google Sheets, then click **Refresh Now** on the website. The `onEdit()` trigger also clears server-side cache automatically.
 
-- `ID`: harus unik dan sebaiknya tidak diubah setelah dipakai.
-- `LABEL`: teks yang terlihat di dropdown.
-- `PROMPT` atau `FEATURES`: teks yang dimasukkan ke hasil prompt.
-- `ACTIVE`: `TRUE` untuk tampil, `FALSE` untuk disembunyikan.
-- `SORT`: urutan tampilan.
-- `TYPE` pada `SETTINGS`: `outdoor` atau `indoor`.
+Important columns:
 
-Google Apps Script memakai cache sekitar 5 menit. Setelah mengubah database, tunggu cache habis atau jalankan fungsi `clearApiCache()` dari Apps Script.
+- `ID`: unique stable identifier.
+- `LABEL`: text visible in the dropdown.
+- `PROMPT`: English text inserted into the generated prompt.
+- `CATEGORY`: visual grouping and searchable metadata.
+- `TAGS`: comma-separated keywords used by search and Smart Compatibility.
+- `ACTIVE`: `TRUE` displays the row; `FALSE` hides it.
+- `SORT`: smaller numbers appear earlier.
 
-## Catatan
+## Compatibility rules
 
-- Jangan menyimpan password, token, atau data pribadi sensitif di Google Sheets.
-- `fallback.json` adalah cadangan lokal. Perubahan di Google Sheets tidak otomatis memperbarui file fallback.
-- Saat menjalankan file di komputer, gunakan local server; jangan hanya membuka `index.html` melalui `file://`.
-  Contoh: `python -m http.server 8000`.
+Rules are stored in `COMPATIBILITY_RULES`.
+
+| Column | Purpose |
+|---|---|
+| `SOURCE_TYPE` | `pose`, `outfit`, `setting`, `expression`, or `character` |
+| `SOURCE_TAG` | One or more source tags separated by `|` |
+| `RELATION` | `prefers`, `requires`, `excludes`, or `supports` |
+| `TARGET_TYPE` | Type being checked |
+| `TARGET_TAG` | Accepted or excluded target tags separated by `|` |
+| `SEVERITY` | `info`, `warn`, or `block` |
+| `WEIGHT` | Score reduction when the rule is violated |
+| `MESSAGE` | Explanation shown to the user |
+
+Example:
+
+```text
+pose | bath | requires | setting | bathroom|water|pool | block | 65
+```
+
+This means a pose tagged `bath` should use a setting tagged `bathroom`, `water`, or `pool`.
+
+## Compatibility philosophy
+
+The default mode does not lock creative choices. It gives scores and suggestions, then places more coherent choices at the top. Use **Hide weak matches** only when you want stronger filtering.
+
+## Local testing
+
+Because `fallback.json` is loaded with `fetch()`, open the project through a local web server rather than double-clicking `index.html`.
+
+```bash
+python -m http.server 8000
+```
+
+Then open `http://localhost:8000`.

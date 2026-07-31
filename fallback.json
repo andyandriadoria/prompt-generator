@@ -1,14 +1,14 @@
 {
   "meta": {
-    "version": "4.0.0",
+    "version": "4.1.0",
     "generatedAt": "2026-07-31",
     "source": "fallback.json",
     "originalFile": "Prompt Gen.html"
   },
   "config": {
-    "appTitle": "Prompt Gen 4.0",
+    "appTitle": "Prompt Gen 4.1",
     "creatorName": "Ndoy Creator",
-    "subtitle": "Dynamic AI Image Prompt Builder",
+    "subtitle": "Smart AI Image Prompt Builder",
     "defaultCharacter": "custom",
     "defaultGender": "auto",
     "defaultSettingType": "outdoor",
@@ -16,7 +16,10 @@
     "promptOpening": "A hyper-realistic photograph of",
     "promptSuffix": "highly detailed, realistic skin texture, natural proportions",
     "autoGenerate": "TRUE",
-    "apiCacheMinutes": "10"
+    "apiCacheMinutes": "10",
+    "smartCompatibility": "TRUE",
+    "compatibilityMode": "prioritize",
+    "searchableDropdowns": "TRUE"
   },
   "characters": [
     {
@@ -26,7 +29,12 @@
       "gender": "male",
       "category": "Preset",
       "active": true,
-      "sort": 1
+      "sort": 1,
+      "tags": [
+        "male",
+        "character",
+        "preset"
+      ]
     },
     {
       "id": "dwi",
@@ -35,7 +43,12 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 2
+      "sort": 2,
+      "tags": [
+        "preset",
+        "character",
+        "female"
+      ]
     },
     {
       "id": "dwidoria",
@@ -44,7 +57,12 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 3
+      "sort": 3,
+      "tags": [
+        "preset",
+        "character",
+        "female"
+      ]
     },
     {
       "id": "midori",
@@ -53,7 +71,12 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 4
+      "sort": 4,
+      "tags": [
+        "preset",
+        "character",
+        "female"
+      ]
     },
     {
       "id": "hayun",
@@ -62,7 +85,13 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 5
+      "sort": 5,
+      "tags": [
+        "preset",
+        "young_adult",
+        "character",
+        "female"
+      ]
     },
     {
       "id": "liora",
@@ -71,7 +100,13 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 6
+      "sort": 6,
+      "tags": [
+        "preset",
+        "young_adult",
+        "character",
+        "female"
+      ]
     },
     {
       "id": "soo",
@@ -80,7 +115,13 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 7
+      "sort": 7,
+      "tags": [
+        "preset",
+        "indonesian",
+        "character",
+        "female"
+      ]
     },
     {
       "id": "nona",
@@ -89,7 +130,13 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 8
+      "sort": 8,
+      "tags": [
+        "preset",
+        "indonesian",
+        "character",
+        "female"
+      ]
     },
     {
       "id": "seren",
@@ -98,7 +145,13 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 9
+      "sort": 9,
+      "tags": [
+        "preset",
+        "indonesian",
+        "character",
+        "female"
+      ]
     },
     {
       "id": "naee",
@@ -107,7 +160,13 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 10
+      "sort": 10,
+      "tags": [
+        "preset",
+        "indonesian",
+        "character",
+        "female"
+      ]
     },
     {
       "id": "fiona",
@@ -116,7 +175,13 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 11
+      "sort": 11,
+      "tags": [
+        "preset",
+        "indonesian",
+        "character",
+        "female"
+      ]
     },
     {
       "id": "cinci",
@@ -125,7 +190,13 @@
       "gender": "female",
       "category": "Preset",
       "active": true,
-      "sort": 12
+      "sort": 12,
+      "tags": [
+        "preset",
+        "young_adult",
+        "character",
+        "female"
+      ]
     }
   ],
   "poses": [
@@ -136,7 +207,12 @@
       "active": true,
       "sort": 1,
       "category": "General",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "reference",
+        "pose",
+        "general"
+      ]
     },
     {
       "id": "double-peace",
@@ -145,7 +221,11 @@
       "active": true,
       "sort": 2,
       "category": "General",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "pose",
+        "general"
+      ]
     },
     {
       "id": "dynamic-sitting",
@@ -154,7 +234,12 @@
       "active": true,
       "sort": 3,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sitting_kneeling",
+        "sitting",
+        "pose"
+      ]
     },
     {
       "id": "dynamic-standing",
@@ -163,7 +248,11 @@
       "active": true,
       "sort": 4,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "holding-your-hand",
@@ -172,7 +261,13 @@
       "active": true,
       "sort": 5,
       "category": "General",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "walking",
+        "pose",
+        "general",
+        "movement"
+      ]
     },
     {
       "id": "jogging",
@@ -181,7 +276,14 @@
       "active": true,
       "sort": 6,
       "category": "Movement",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sports",
+        "jogging",
+        "running",
+        "pose",
+        "movement"
+      ]
     },
     {
       "id": "jogging-selfie",
@@ -190,7 +292,16 @@
       "active": true,
       "sort": 7,
       "category": "Selfie",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "phone",
+        "selfie",
+        "sports",
+        "jogging",
+        "running",
+        "pose",
+        "movement"
+      ]
     },
     {
       "id": "kneeling",
@@ -199,7 +310,12 @@
       "active": true,
       "sort": 8,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "kneeling",
+        "sitting_kneeling",
+        "pose"
+      ]
     },
     {
       "id": "kneels-on-bed-selfie-1",
@@ -208,7 +324,16 @@
       "active": true,
       "sort": 9,
       "category": "Selfie",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "bed",
+        "phone",
+        "selfie",
+        "mirror",
+        "kneeling",
+        "pose",
+        "bedroom"
+      ]
     },
     {
       "id": "kneels-on-bed-selfie-2",
@@ -217,7 +342,16 @@
       "active": true,
       "sort": 10,
       "category": "Selfie",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "bed",
+        "phone",
+        "selfie",
+        "mirror",
+        "kneeling",
+        "pose",
+        "bedroom"
+      ]
     },
     {
       "id": "look-at-the-mirror",
@@ -226,7 +360,13 @@
       "active": true,
       "sort": 11,
       "category": "General",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "selfie",
+        "pose",
+        "mirror",
+        "general"
+      ]
     },
     {
       "id": "lying-one-arms",
@@ -235,7 +375,11 @@
       "active": true,
       "sort": 12,
       "category": "General",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "pose",
+        "general"
+      ]
     },
     {
       "id": "peeking-at-library",
@@ -244,7 +388,11 @@
       "active": true,
       "sort": 13,
       "category": "General",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "pose",
+        "general"
+      ]
     },
     {
       "id": "running",
@@ -253,7 +401,13 @@
       "active": true,
       "sort": 14,
       "category": "Movement",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "running",
+        "sports",
+        "pose",
+        "movement"
+      ]
     },
     {
       "id": "seated-inside-flying-vehicle",
@@ -262,7 +416,14 @@
       "active": true,
       "sort": 15,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sitting",
+        "vehicle",
+        "pose",
+        "sitting_kneeling",
+        "sci_fi"
+      ]
     },
     {
       "id": "selfie",
@@ -271,7 +432,12 @@
       "active": true,
       "sort": 16,
       "category": "Selfie",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "phone",
+        "selfie",
+        "pose"
+      ]
     },
     {
       "id": "sitting-sensual",
@@ -280,7 +446,13 @@
       "active": true,
       "sort": 17,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sensual",
+        "sitting_kneeling",
+        "sitting",
+        "pose"
+      ]
     },
     {
       "id": "sitting-knees",
@@ -289,7 +461,12 @@
       "active": true,
       "sort": 18,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sitting_kneeling",
+        "sitting",
+        "pose"
+      ]
     },
     {
       "id": "sitting-crossed-legs",
@@ -298,7 +475,12 @@
       "active": true,
       "sort": 19,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sitting_kneeling",
+        "sitting",
+        "pose"
+      ]
     },
     {
       "id": "sitting-bar-stool-1",
@@ -307,7 +489,14 @@
       "active": true,
       "sort": 20,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sitting_kneeling",
+        "sitting",
+        "pose",
+        "studio",
+        "stool"
+      ]
     },
     {
       "id": "sitting-bar-stool-2",
@@ -316,7 +505,14 @@
       "active": true,
       "sort": 21,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sitting_kneeling",
+        "sitting",
+        "pose",
+        "studio",
+        "stool"
+      ]
     },
     {
       "id": "sitting-bar-stool-4",
@@ -325,7 +521,14 @@
       "active": true,
       "sort": 22,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sitting_kneeling",
+        "sitting",
+        "pose",
+        "studio",
+        "stool"
+      ]
     },
     {
       "id": "sitting-bar-stool-5",
@@ -334,7 +537,14 @@
       "active": true,
       "sort": 23,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sitting_kneeling",
+        "sitting",
+        "pose",
+        "studio",
+        "stool"
+      ]
     },
     {
       "id": "sitting-bar-stool-6",
@@ -343,7 +553,14 @@
       "active": true,
       "sort": 24,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sitting_kneeling",
+        "sitting",
+        "pose",
+        "studio",
+        "stool"
+      ]
     },
     {
       "id": "sitting-inside-combat-mecha",
@@ -352,7 +569,15 @@
       "active": true,
       "sort": 25,
       "category": "Sitting / Kneeling",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "combat",
+        "sitting",
+        "mecha",
+        "pose",
+        "sitting_kneeling",
+        "sci_fi"
+      ]
     },
     {
       "id": "selfie-bed-1",
@@ -361,7 +586,15 @@
       "active": true,
       "sort": 26,
       "category": "Selfie",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "bed",
+        "phone",
+        "selfie",
+        "mirror",
+        "pose",
+        "bedroom"
+      ]
     },
     {
       "id": "selfie-bed-2",
@@ -370,7 +603,16 @@
       "active": true,
       "sort": 27,
       "category": "Selfie",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "sitting",
+        "bed",
+        "phone",
+        "selfie",
+        "mirror",
+        "pose",
+        "bedroom"
+      ]
     },
     {
       "id": "selfie-bed-3",
@@ -379,7 +621,16 @@
       "active": true,
       "sort": 28,
       "category": "Selfie",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "bed",
+        "phone",
+        "selfie",
+        "mirror",
+        "kneeling",
+        "pose",
+        "bedroom"
+      ]
     },
     {
       "id": "selfie-bed-4",
@@ -388,7 +639,16 @@
       "active": true,
       "sort": 29,
       "category": "Selfie",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "bed",
+        "phone",
+        "selfie",
+        "mirror",
+        "kneeling",
+        "pose",
+        "bedroom"
+      ]
     },
     {
       "id": "standing-holding-a-basket",
@@ -397,7 +657,11 @@
       "active": true,
       "sort": 30,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "standing-mirror-selfie",
@@ -406,7 +670,14 @@
       "active": true,
       "sort": 31,
       "category": "Selfie",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "phone",
+        "selfie",
+        "mirror",
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "standing-batman-selfie",
@@ -415,7 +686,14 @@
       "active": true,
       "sort": 32,
       "category": "Selfie",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "phone",
+        "selfie",
+        "mirror",
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "standing-beside-bar-stool",
@@ -424,7 +702,13 @@
       "active": true,
       "sort": 33,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "stool",
+        "studio",
+        "pose"
+      ]
     },
     {
       "id": "standing-bent-over",
@@ -433,7 +717,11 @@
       "active": true,
       "sort": 34,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "standing-beside-black-dragon",
@@ -442,7 +730,13 @@
       "active": true,
       "sort": 35,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "dragon",
+        "pose",
+        "fantasy"
+      ]
     },
     {
       "id": "standing-one-hand-hips",
@@ -451,7 +745,11 @@
       "active": true,
       "sort": 36,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "standing-one-hand-crossed",
@@ -460,7 +758,11 @@
       "active": true,
       "sort": 37,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "standing-one-hand-behind-head",
@@ -469,7 +771,11 @@
       "active": true,
       "sort": 38,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "standing-relaxed",
@@ -478,7 +784,11 @@
       "active": true,
       "sort": 39,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "standing-seen-from-behind",
@@ -487,7 +797,11 @@
       "active": true,
       "sort": 40,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "standing-with-stretching-body",
@@ -496,7 +810,11 @@
       "active": true,
       "sort": 41,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "standing",
+        "pose"
+      ]
     },
     {
       "id": "standing-take-a-bath",
@@ -505,7 +823,14 @@
       "active": true,
       "sort": 42,
       "category": "Standing",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "bathroom",
+        "standing",
+        "water",
+        "bath",
+        "pose"
+      ]
     },
     {
       "id": "squat-from-behind",
@@ -514,7 +839,12 @@
       "active": true,
       "sort": 43,
       "category": "Movement",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "pose",
+        "squat",
+        "movement"
+      ]
     },
     {
       "id": "walking",
@@ -523,7 +853,12 @@
       "active": true,
       "sort": 44,
       "category": "Movement",
-      "gender": "all"
+      "gender": "all",
+      "tags": [
+        "walking",
+        "pose",
+        "movement"
+      ]
     }
   ],
   "expressions": [
@@ -533,7 +868,14 @@
       "prompt": "playful confident wink expression, one eye closed in a soft wink, subtle smug smile, relaxed lips, slightly raised cheek, teasing and cheeky vibe.",
       "active": true,
       "sort": 1,
-      "category": "Positive / Playful"
+      "category": "Positive / Playful",
+      "tags": [
+        "positive",
+        "expression",
+        "positive_playful",
+        "playful",
+        "smile"
+      ]
     },
     {
       "id": "puffy-pout",
@@ -541,7 +883,11 @@
       "prompt": "puffy pout expression",
       "active": true,
       "sort": 2,
-      "category": "Neutral"
+      "category": "Neutral",
+      "tags": [
+        "expression",
+        "neutral"
+      ]
     },
     {
       "id": "playful-and-cheeky",
@@ -549,7 +895,14 @@
       "prompt": "playful and cheeky: she’s smiling widely with her teeth showing while sticking her tongue out, and her eyes are looking off to the side of the viewer, giving a fun, exaggerated silly-face vibe",
       "active": true,
       "sort": 3,
-      "category": "Positive / Playful"
+      "category": "Positive / Playful",
+      "tags": [
+        "positive",
+        "expression",
+        "positive_playful",
+        "playful",
+        "smile"
+      ]
     },
     {
       "id": "rolling-eyes",
@@ -557,7 +910,11 @@
       "prompt": "rolling eyes, with an arrogant and disdainful expression",
       "active": true,
       "sort": 4,
-      "category": "Neutral"
+      "category": "Neutral",
+      "tags": [
+        "expression",
+        "neutral"
+      ]
     },
     {
       "id": "fake-mad",
@@ -565,7 +922,13 @@
       "prompt": "exaggerated soft pout expression, lips pushed forward in a cute sulky way, slightly droopy eyes, playful annoyed stare, fake angry expression, innocent bratty energy.",
       "active": true,
       "sort": 5,
-      "category": "Anger"
+      "category": "Anger",
+      "tags": [
+        "positive",
+        "expression",
+        "playful",
+        "anger"
+      ]
     },
     {
       "id": "anger-alis-berkerut-tajam-dengan-mata-melotot",
@@ -573,7 +936,12 @@
       "prompt": "angger with detailed Deeply furrowed brows with glaring eyes: Brows pulled down and together, forming deep creases between them. Eyes wide open, pupils possibly constricted, gaze sharp, piercing, or threatening",
       "active": true,
       "sort": 6,
-      "category": "Anger"
+      "category": "Anger",
+      "tags": [
+        "angry",
+        "expression",
+        "anger"
+      ]
     },
     {
       "id": "anger-rahang-mengeras-dengan-mata-menyala",
@@ -581,7 +949,12 @@
       "prompt": "angger with detailed Clenched jaw with fiery eyes: Jaw muscles visibly tensed. Eyes radiating anger, gaze direct and unwavering",
       "active": true,
       "sort": 7,
-      "category": "Anger"
+      "category": "Anger",
+      "tags": [
+        "angry",
+        "expression",
+        "anger"
+      ]
     },
     {
       "id": "asleep-tertidur",
@@ -589,7 +962,12 @@
       "prompt": "asleep with detailed closed eyes, relaxed facial muscles, peaceful expression",
       "active": true,
       "sort": 8,
-      "category": "Sleep / Tired"
+      "category": "Sleep / Tired",
+      "tags": [
+        "sleep_tired",
+        "sleepy",
+        "expression"
+      ]
     },
     {
       "id": "deep-sleep-tertidur-nganga",
@@ -597,7 +975,12 @@
       "prompt": "snoring softly with detailed mouth open mid-breath, eyes closed, cheeks slightly relaxed",
       "active": true,
       "sort": 9,
-      "category": "Sleep / Tired"
+      "category": "Sleep / Tired",
+      "tags": [
+        "sleep_tired",
+        "sleepy",
+        "expression"
+      ]
     },
     {
       "id": "bashful-tersipu-malu",
@@ -605,7 +988,13 @@
       "prompt": "bashfulwith detailed looking down, slight smile with pursed lips",
       "active": true,
       "sort": 10,
-      "category": "Neutral"
+      "category": "Neutral",
+      "tags": [
+        "positive",
+        "expression",
+        "neutral",
+        "smile"
+      ]
     },
     {
       "id": "calm-and-focused",
@@ -613,7 +1002,12 @@
       "prompt": "calm and focused.",
       "active": true,
       "sort": 11,
-      "category": "Neutral"
+      "category": "Neutral",
+      "tags": [
+        "expression",
+        "neutral",
+        "calm"
+      ]
     },
     {
       "id": "disappointed-kecewa",
@@ -621,7 +1015,11 @@
       "prompt": "disappointed with detailed lips slightly pursed, eyes looking away, one brow raised higher",
       "active": true,
       "sort": 12,
-      "category": "Sadness"
+      "category": "Sadness",
+      "tags": [
+        "expression",
+        "sadness"
+      ]
     },
     {
       "id": "fear-mata-terbuka-lebar-dan-pupil-melebar",
@@ -629,7 +1027,12 @@
       "prompt": "fear with detailed wide-open eyes with dilated pupils: Brows raised. Eyes open very wide, showing much of the whites. Pupils enlarged, gaze tense, wary, or trembling",
       "active": true,
       "sort": 13,
-      "category": "Fear / Surprise"
+      "category": "Fear / Surprise",
+      "tags": [
+        "expression",
+        "fear",
+        "fear_surprise"
+      ]
     },
     {
       "id": "fear-wajah-pucat-dengan-mata-bergetar",
@@ -637,7 +1040,12 @@
       "prompt": "fear with detailed pale face with quivering eyes: Skin appears pale. Eyes might tremble or dart erratically, gaze unfocused",
       "active": true,
       "sort": 14,
-      "category": "Fear / Surprise"
+      "category": "Fear / Surprise",
+      "tags": [
+        "expression",
+        "fear",
+        "fear_surprise"
+      ]
     },
     {
       "id": "gentle-pleasure",
@@ -645,7 +1053,11 @@
       "prompt": "gentle pleasure with detailed eyes gently closed and lips slightly parted, soft moaning expression, face showing deep relaxation and pleasure",
       "active": true,
       "sort": 15,
-      "category": "Sensual"
+      "category": "Sensual",
+      "tags": [
+        "sensual",
+        "expression"
+      ]
     },
     {
       "id": "happiness-senyum-lebar-dengan-mata-berbinar",
@@ -653,7 +1065,13 @@
       "prompt": "happiness with detailed broad smile with sparkling eyes: Lips curved up, showing teeth, with fine lines at the outer corners of the eyes (smiling eyes). Gaze is focused, bright, and slightly narrowed",
       "active": true,
       "sort": 16,
-      "category": "Neutral"
+      "category": "Neutral",
+      "tags": [
+        "positive",
+        "expression",
+        "neutral",
+        "smile"
+      ]
     },
     {
       "id": "happiness-tawa-lepas-dengan-mata-menyipit",
@@ -661,7 +1079,13 @@
       "prompt": "happiness with detailed hearty laugh with squinting eyes: Mouth wide open, possibly showing gums. Head tilted back slightly. Eyes almost closed, forming creases",
       "active": true,
       "sort": 17,
-      "category": "Neutral"
+      "category": "Neutral",
+      "tags": [
+        "positive",
+        "happy",
+        "expression",
+        "neutral"
+      ]
     },
     {
       "id": "happiness-mata-terbuka-lebar-penuh-kagum",
@@ -669,7 +1093,11 @@
       "prompt": "happiness with detailed Wide-eyed wonder: Brows raised, eyes open wide showing much of the whites. Pupils dilated. Staring fixedly at the object of awe",
       "active": true,
       "sort": 18,
-      "category": "Neutral"
+      "category": "Neutral",
+      "tags": [
+        "expression",
+        "neutral"
+      ]
     },
     {
       "id": "holding-back-tears-menahan-tangis",
@@ -677,7 +1105,12 @@
       "prompt": "holding back tears with detailed lips pressed tightly, eyes glossy or slightly teary, tense jawline",
       "active": true,
       "sort": 19,
-      "category": "Sadness"
+      "category": "Sadness",
+      "tags": [
+        "sad",
+        "expression",
+        "sadness"
+      ]
     },
     {
       "id": "kissing",
@@ -685,7 +1118,11 @@
       "prompt": "kissy lips expression",
       "active": true,
       "sort": 20,
-      "category": "Positive / Playful"
+      "category": "Positive / Playful",
+      "tags": [
+        "expression",
+        "positive_playful"
+      ]
     },
     {
       "id": "looks-tired",
@@ -693,7 +1130,12 @@
       "prompt": "looks tired",
       "active": true,
       "sort": 21,
-      "category": "Sleep / Tired"
+      "category": "Sleep / Tired",
+      "tags": [
+        "sleep_tired",
+        "sleepy",
+        "expression"
+      ]
     },
     {
       "id": "moaning",
@@ -701,7 +1143,11 @@
       "prompt": "moaning with detailed a moaning face, invisible black eyeball, mouth opened, intense pleasure expression",
       "active": true,
       "sort": 22,
-      "category": "Sensual"
+      "category": "Sensual",
+      "tags": [
+        "sensual",
+        "expression"
+      ]
     },
     {
       "id": "peaceful-with-eyes-closed",
@@ -709,7 +1155,11 @@
       "prompt": "peaceful with eyes closed",
       "active": true,
       "sort": 23,
-      "category": "Neutral"
+      "category": "Neutral",
+      "tags": [
+        "expression",
+        "neutral"
+      ]
     },
     {
       "id": "sadness-pandangan-kosong-ke-bawah",
@@ -717,7 +1167,12 @@
       "prompt": "sadness with detailed empty downward gaze: Head slightly bowed",
       "active": true,
       "sort": 24,
-      "category": "Sadness"
+      "category": "Sadness",
+      "tags": [
+        "sad",
+        "expression",
+        "sadness"
+      ]
     },
     {
       "id": "sadness-menyipitkan-mata-karena-menahan-tangis",
@@ -725,7 +1180,12 @@
       "prompt": "sadness with detailed squinting: Brows slightly furrowed",
       "active": true,
       "sort": 25,
-      "category": "Sadness"
+      "category": "Sadness",
+      "tags": [
+        "sad",
+        "expression",
+        "sadness"
+      ]
     },
     {
       "id": "serious-serius-tegas",
@@ -733,7 +1193,12 @@
       "prompt": "serious with detailed neutral lips, steady intense gaze, slightly furrowed brows",
       "active": true,
       "sort": 26,
-      "category": "Neutral"
+      "category": "Neutral",
+      "tags": [
+        "serious",
+        "expression",
+        "neutral"
+      ]
     },
     {
       "id": "sleepy-angkat-tangan",
@@ -741,7 +1206,12 @@
       "prompt": "sleepy with detailed stretching arms while yawning, eyes barely open, looking like just woke up",
       "active": true,
       "sort": 27,
-      "category": "Sleep / Tired"
+      "category": "Sleep / Tired",
+      "tags": [
+        "sleep_tired",
+        "sleepy",
+        "expression"
+      ]
     },
     {
       "id": "sleepy-tutup-mulut",
@@ -749,7 +1219,12 @@
       "prompt": "sleepy with detailed yawning with eyes half-closed, covering her mouth with one hand",
       "active": true,
       "sort": 28,
-      "category": "Sleep / Tired"
+      "category": "Sleep / Tired",
+      "tags": [
+        "sleep_tired",
+        "sleepy",
+        "expression"
+      ]
     },
     {
       "id": "smiling",
@@ -757,7 +1232,13 @@
       "prompt": "smiling sweetly",
       "active": true,
       "sort": 29,
-      "category": "Positive / Playful"
+      "category": "Positive / Playful",
+      "tags": [
+        "positive",
+        "expression",
+        "positive_playful",
+        "smile"
+      ]
     },
     {
       "id": "smiling-mouth-close",
@@ -765,7 +1246,13 @@
       "prompt": "smiling (mouth close)",
       "active": true,
       "sort": 30,
-      "category": "Positive / Playful"
+      "category": "Positive / Playful",
+      "tags": [
+        "positive",
+        "expression",
+        "positive_playful",
+        "smile"
+      ]
     },
     {
       "id": "surprise-shock-mata-melotot-dan-mulut-ternganga",
@@ -773,7 +1260,12 @@
       "prompt": "surprise/shock with detailed wide, staring eyes and gaping mouth: Brows raised high. Eyes open very wide, showing much of the whites. Pupils dilated. Staring fixedly at the object of awe",
       "active": true,
       "sort": 31,
-      "category": "Fear / Surprise"
+      "category": "Fear / Surprise",
+      "tags": [
+        "expression",
+        "surprise",
+        "fear_surprise"
+      ]
     },
     {
       "id": "surprise-shock-kerutan-di-dahi-dengan-pandangan-bingung",
@@ -781,7 +1273,12 @@
       "prompt": "surprise/shock with detailed creased forehead with a bewildered look: Brows slightly furrowed",
       "active": true,
       "sort": 32,
-      "category": "Fear / Surprise"
+      "category": "Fear / Surprise",
+      "tags": [
+        "expression",
+        "surprise",
+        "fear_surprise"
+      ]
     }
   ],
   "outfits": [
@@ -791,7 +1288,13 @@
       "prompt": "a classic navy sailor fuku uniform with a red ribbon at the collar, a pleated skirt that falls just above the knee, white knee-high socks, and black loafers. She carries a simple bag in one hand",
       "active": true,
       "sort": 1,
-      "category": "Traditional / Uniform"
+      "category": "Traditional / Uniform",
+      "tags": [
+        "uniform",
+        "outfit",
+        "traditional_uniform",
+        "school_uniform"
+      ]
     },
     {
       "id": "armored-jumpsuit",
@@ -799,7 +1302,15 @@
       "prompt": "a white-orange colored armored jumpsuit with tech interfaces on the sleeves",
       "active": true,
       "sort": 2,
-      "category": "Fantasy / Sci-Fi"
+      "category": "Fantasy / Sci-Fi",
+      "tags": [
+        "outfit",
+        "fashion",
+        "fantasy_sci-fi",
+        "combat",
+        "armor",
+        "sci_fi"
+      ]
     },
     {
       "id": "batman-costume",
@@ -807,7 +1318,16 @@
       "prompt": "a black maskless Batman costume with shiny futuristic armor details. A long black cape flows down her back, following the curves of her body and the direction of the wind. The costume features a metallic texture with golden accents on the gloves and belt",
       "active": true,
       "sort": 3,
-      "category": "Fantasy / Sci-Fi"
+      "category": "Fantasy / Sci-Fi",
+      "tags": [
+        "outfit",
+        "superhero",
+        "fantasy_sci-fi",
+        "fantasy",
+        "combat",
+        "armor",
+        "sci_fi"
+      ]
     },
     {
       "id": "blouse-denim-sneakers",
@@ -815,7 +1335,11 @@
       "prompt": "a bright yellow longslaves blouse tucked slightly in front, comfortable dark denim jeans with slight cuffing at the angles. On her feet are crisp white sneakers with clear texture and laces visible",
       "active": true,
       "sort": 4,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "outfit",
+        "casual"
+      ]
     },
     {
       "id": "blue-kebaya",
@@ -823,7 +1347,14 @@
       "prompt": "a modern royal blue kebaya with sheer ice blue lace details on the sleeves and shoulders. The kebaya is paired with a traditional chocolate brown batik skirt and a bright electric blue sash (selendang) elegantly tied around her waist with a polished silver brooch. On her feet are closed-toe silver heels",
       "active": true,
       "sort": 5,
-      "category": "Traditional / Uniform"
+      "category": "Traditional / Uniform",
+      "tags": [
+        "outfit",
+        "traditional_uniform",
+        "traditional",
+        "formal",
+        "indonesian"
+      ]
     },
     {
       "id": "bra-panties",
@@ -831,7 +1362,13 @@
       "prompt": "a fuchsia bra and matching panties with delicate lace trim",
       "active": true,
       "sort": 6,
-      "category": "Intimate"
+      "category": "Intimate",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "revealing",
+        "intimate"
+      ]
     },
     {
       "id": "bra-underwear-ck",
@@ -839,7 +1376,13 @@
       "prompt": "a black Calvin Klein bralette and underwear hat subtly accentuates her bust",
       "active": true,
       "sort": 7,
-      "category": "Intimate"
+      "category": "Intimate",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "revealing",
+        "intimate"
+      ]
     },
     {
       "id": "bikini",
@@ -847,7 +1390,15 @@
       "prompt": "a bright yellow-colored bikini bra that subtly accentuates her bust, matching with a thong",
       "active": true,
       "sort": 8,
-      "category": "Intimate"
+      "category": "Intimate",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "intimate",
+        "revealing",
+        "water",
+        "swimwear"
+      ]
     },
     {
       "id": "bunny-lingerie",
@@ -855,7 +1406,13 @@
       "prompt": "a bunny leather lingerie that subtly accentuates her bust with bunny ears headband, black fence net hosieries, black pump shoes",
       "active": true,
       "sort": 9,
-      "category": "Intimate"
+      "category": "Intimate",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "revealing",
+        "intimate"
+      ]
     },
     {
       "id": "casual",
@@ -863,7 +1420,11 @@
       "prompt": "a comfortable and stylish casual clothing such as a simple t-shirt paired with jeans, slide sandals",
       "active": true,
       "sort": 10,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "outfit",
+        "casual"
+      ]
     },
     {
       "id": "casual-cyberpunk-outfit",
@@ -871,7 +1432,12 @@
       "prompt": "a stylish casual outfit: a crop bomber jacket with iridescent panels, utility pants with color-blocked patches, and high-tech sneakers",
       "active": true,
       "sort": 11,
-      "category": "Fantasy / Sci-Fi"
+      "category": "Fantasy / Sci-Fi",
+      "tags": [
+        "outfit",
+        "casual",
+        "fantasy_sci-fi"
+      ]
     },
     {
       "id": "combat-suit-tactical-sci-fi",
@@ -879,7 +1445,14 @@
       "prompt": "a tight-fitting black sci-fi leather armor with shoulder guards and tactical straps",
       "active": true,
       "sort": 12,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "outfit",
+        "combat",
+        "armor",
+        "sci_fi",
+        "casual"
+      ]
     },
     {
       "id": "elegant-armor",
@@ -887,7 +1460,14 @@
       "prompt": "elegant engraved armor with a crescent moon emblem",
       "active": true,
       "sort": 13,
-      "category": "Fantasy / Sci-Fi"
+      "category": "Fantasy / Sci-Fi",
+      "tags": [
+        "outfit",
+        "fantasy_sci-fi",
+        "combat",
+        "armor",
+        "sci_fi"
+      ]
     },
     {
       "id": "evening-dress",
@@ -895,7 +1475,13 @@
       "prompt": "a luxurious evening or cocktail dress made of silk in emerald green, featuring details like a thigh-high slit or a graceful low back. She accessorizes with elegant jewelry such as diamond stud earrings and a delicate lariat necklace",
       "active": true,
       "sort": 14,
-      "category": "Formal / Fashion"
+      "category": "Formal / Fashion",
+      "tags": [
+        "fashion",
+        "outfit",
+        "formal",
+        "formal_fashion"
+      ]
     },
     {
       "id": "flower-employee",
@@ -903,7 +1489,11 @@
       "prompt": "a cream-colored shirt with floral patterns and denim overalls with embroidered flowers",
       "active": true,
       "sort": 15,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "outfit",
+        "casual"
+      ]
     },
     {
       "id": "harajuku-gothic",
@@ -911,7 +1501,14 @@
       "prompt": "a stylish, edgy outfit: an fitted white graphic t-shirt tucked into a black sheer skirt with lace trim at the hem, revealing black panties underneath. She completes the look with chunky black dr martens jadon smooth leather platform boots",
       "active": true,
       "sort": 16,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "intimate",
+        "revealing",
+        "casual"
+      ]
     },
     {
       "id": "jumpsuit-handbag",
@@ -919,7 +1516,15 @@
       "prompt": "a fitted black satin jumpsuit with a deep V neckline and a belted waist that accentuates her hourglass figure. Her outfit is paired with black ankle-strap high heels and a large structured designer handbag. She accessorizes a subtle bracelet",
       "active": true,
       "sort": 17,
-      "category": "Formal / Fashion"
+      "category": "Formal / Fashion",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "intimate",
+        "fashion",
+        "revealing",
+        "formal_fashion"
+      ]
     },
     {
       "id": "kamen-raider",
@@ -927,7 +1532,15 @@
       "prompt": "a sexy futuristic female outfit inspired by Kamen Rider armor design, featuring a sleek black and metallic green swimsuit with chrome accents, tight-fitting, glowing red eye visor like a helmet but styled as a fashionable headpiece or mask, utility belt with sci-fi elements around the waist, high-heeled tech boots in sleek black with metallic green chrome plating",
       "active": true,
       "sort": 18,
-      "category": "Fantasy / Sci-Fi"
+      "category": "Fantasy / Sci-Fi",
+      "tags": [
+        "outfit",
+        "superhero",
+        "fantasy_sci-fi",
+        "combat",
+        "armor",
+        "sci_fi"
+      ]
     },
     {
       "id": "kagura",
@@ -935,7 +1548,11 @@
       "prompt": "a white cropped jacket with magenta and gold embroidery on the collar and sleeves over black croptop, a wide black belt with a metallic buckle cinching her waist, and a short, high-waisted pleated skirt in deep black with golden cloud motifs and purple lining. She wears thigh-high stockings magenta with a golden flame pattern and white heeled combat boots with magenta laced and sole. She holds a large traditional paper paperasol over her shoulder, beige with magenta trim and adorned with multiple hanging rectangular talismans inscribed with glowing red kanji",
       "active": true,
       "sort": 19,
-      "category": "Formal / Fashion"
+      "category": "Formal / Fashion",
+      "tags": [
+        "outfit",
+        "formal_fashion"
+      ]
     },
     {
       "id": "kimono",
@@ -943,7 +1560,13 @@
       "prompt": "a colorful kimono, richly decorated with large chrysanthemum floral patterns in shades of red, orange, white, and blue, set against a deep indigo background. Tied with a yellow obi belt. On her feet are traditional wooden geta sandals",
       "active": true,
       "sort": 20,
-      "category": "Traditional / Uniform"
+      "category": "Traditional / Uniform",
+      "tags": [
+        "outfit",
+        "traditional",
+        "traditional_uniform",
+        "japanese"
+      ]
     },
     {
       "id": "lingerie-set",
@@ -951,7 +1574,13 @@
       "prompt": "an elegant, fuchsia lace lingerie set designed with intricate embroidery and sheer panels, including a corset-style bodice, matching garter belt, sheer black stockings and black pump shoes",
       "active": true,
       "sort": 21,
-      "category": "Intimate"
+      "category": "Intimate",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "revealing",
+        "intimate"
+      ]
     },
     {
       "id": "mad-max-outfit",
@@ -959,7 +1588,15 @@
       "prompt": "a full-body armored outfit with metallic and leather details, futuristic shoulder pads, gloves, knee guards, and tactical gear",
       "active": true,
       "sort": 22,
-      "category": "Fantasy / Sci-Fi"
+      "category": "Fantasy / Sci-Fi",
+      "tags": [
+        "outfit",
+        "fantasy_sci-fi",
+        "post_apocalyptic",
+        "combat",
+        "armor",
+        "sci_fi"
+      ]
     },
     {
       "id": "mini-dress-denim-vest-boots",
@@ -967,7 +1604,13 @@
       "prompt": "a white lace mini dress with intricate embroidery and a frayed light denim vest and tan ankle boots",
       "active": true,
       "sort": 23,
-      "category": "Formal / Fashion"
+      "category": "Formal / Fashion",
+      "tags": [
+        "fashion",
+        "outfit",
+        "formal",
+        "formal_fashion"
+      ]
     },
     {
       "id": "nasa-flight-suit",
@@ -975,7 +1618,13 @@
       "prompt": "a slightly worn, orange NASA-style flight suit with U.S. flag and mission patches, and rugged red combat boots",
       "active": true,
       "sort": 24,
-      "category": "Fantasy / Sci-Fi"
+      "category": "Fantasy / Sci-Fi",
+      "tags": [
+        "outfit",
+        "space",
+        "sci_fi",
+        "fantasy_sci-fi"
+      ]
     },
     {
       "id": "pajamas",
@@ -983,7 +1632,14 @@
       "prompt": "a short silk emerald green pajamas set that subtly accentuates her bust",
       "active": true,
       "sort": 25,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "outfit",
+        "sleepwear",
+        "home",
+        "bedroom",
+        "casual"
+      ]
     },
     {
       "id": "relaxed-oversize-t-shirt",
@@ -991,7 +1647,11 @@
       "prompt": "a relaxed oversized T-shirt. The neckline is wide open and random, with one side completely slipped off the shoulder to expose one shoulder, collarbone, and upper chest. Creating a deep neckline that reveals cleavage and décolletage",
       "active": true,
       "sort": 26,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "outfit",
+        "casual"
+      ]
     },
     {
       "id": "school-uniform",
@@ -999,7 +1659,13 @@
       "prompt": "a tight white school uniform, top two buttons unbuttoned, collar turned up,white with grey pleated mini skirt, black and white vans old skool sneakers",
       "active": true,
       "sort": 27,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "uniform",
+        "outfit",
+        "school_uniform",
+        "casual"
+      ]
     },
     {
       "id": "sexy-white-shirt",
@@ -1007,7 +1673,14 @@
       "prompt": "a sheer, short-sleeved white button-up shirt tucked into skirt. Peter Pan collar and buttons down the front that subtly accentuates her bust. Underneath red bra is visible. Pairs with A-line cut black pleated mini skirt, black knee-high socks, white lace-up sneakers with black soles",
       "active": true,
       "sort": 28,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "intimate",
+        "revealing",
+        "casual"
+      ]
     },
     {
       "id": "sheer-camisole",
@@ -1015,7 +1688,13 @@
       "prompt": "a black camisole dress, bunny slippers",
       "active": true,
       "sort": 29,
-      "category": "Intimate"
+      "category": "Intimate",
+      "tags": [
+        "fashion",
+        "outfit",
+        "intimate",
+        "formal"
+      ]
     },
     {
       "id": "shirt-underwear",
@@ -1023,7 +1702,13 @@
       "prompt": "a white crop top t-shirt that subtly accentuates her bust and light gray Calvin Klein underwear",
       "active": true,
       "sort": 30,
-      "category": "Intimate"
+      "category": "Intimate",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "revealing",
+        "intimate"
+      ]
     },
     {
       "id": "space-suit-helmet-off",
@@ -1031,7 +1716,13 @@
       "prompt": "a sleek, modern white space suit with soft gray and chrome accents, helmet off",
       "active": true,
       "sort": 31,
-      "category": "Fantasy / Sci-Fi"
+      "category": "Fantasy / Sci-Fi",
+      "tags": [
+        "outfit",
+        "space",
+        "sci_fi",
+        "fantasy_sci-fi"
+      ]
     },
     {
       "id": "supergirl",
@@ -1039,7 +1730,13 @@
       "prompt": "a sensual female superhero costume inspired by Supergirl, featuring a form-fitting, glossy latex red and deep-blue bodysuit with high-cut hips and plunging neckline, accentuating her curves and toned figure. She wears a short flowing red cape attached to a gold chopper collar, golden belt cinched at her slim waist, and thigh-high red stiletto boots",
       "active": true,
       "sort": 32,
-      "category": "Fantasy / Sci-Fi"
+      "category": "Fantasy / Sci-Fi",
+      "tags": [
+        "superhero",
+        "outfit",
+        "fantasy",
+        "fantasy_sci-fi"
+      ]
     },
     {
       "id": "yoga-outfit",
@@ -1047,7 +1744,15 @@
       "prompt": "a matching soft lavender-colored seamless sports bra with scoop neckline and high-waisted yoga leggings made from soft, stretchy fabric, barefoot",
       "active": true,
       "sort": 33,
-      "category": "Sport"
+      "category": "Sport",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "intimate",
+        "revealing",
+        "sport",
+        "sportswear"
+      ]
     },
     {
       "id": "sporty-pink-white-outfit",
@@ -1055,7 +1760,12 @@
       "prompt": "a tight pastel pink sleeveless sports jersey with deep v-neck, a white pleated mini skirt, white ankle socks and white running shoes",
       "active": true,
       "sort": 34,
-      "category": "Sport"
+      "category": "Sport",
+      "tags": [
+        "sport",
+        "outfit",
+        "sportswear"
+      ]
     },
     {
       "id": "sporty-white-green-outfit",
@@ -1063,7 +1773,13 @@
       "prompt": "a tight white sleeveless sports jersey, a deep green pleated mini skirt, white mid-calf socks with deep green stripes and white running sneakers",
       "active": true,
       "sort": 35,
-      "category": "Sport"
+      "category": "Sport",
+      "tags": [
+        "sport",
+        "outfit",
+        "sportswear",
+        "casual"
+      ]
     },
     {
       "id": "stripped-shirt-jeans-barefoot",
@@ -1071,7 +1787,11 @@
       "prompt": "a striped short-sleeved t-shirt, likely in shades of cream and grey, paired with blue jeans, barefoot",
       "active": true,
       "sort": 36,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "outfit",
+        "casual"
+      ]
     },
     {
       "id": "towel",
@@ -1079,7 +1799,14 @@
       "prompt": "wrapped in a white bath mini towel",
       "active": true,
       "sort": 37,
-      "category": "Intimate"
+      "category": "Intimate",
+      "tags": [
+        "outfit",
+        "bathroom",
+        "intimate",
+        "revealing",
+        "towel"
+      ]
     },
     {
       "id": "tracksuit",
@@ -1087,7 +1814,12 @@
       "prompt": "a royal blue-colored Adidas tracksuit with white strips, the jacket unzipped to reveal a clean white shirt underneath. She pairs the look with matching royal blue-colored Adidas track pants and white adidas samba with blue strips shoes",
       "active": true,
       "sort": 38,
-      "category": "Sport"
+      "category": "Sport",
+      "tags": [
+        "sport",
+        "outfit",
+        "sportswear"
+      ]
     },
     {
       "id": "tron-outfit",
@@ -1095,7 +1827,14 @@
       "prompt": "a sleek outfit tight-fitting armored suit with glowing orange lines, and tactical boots",
       "active": true,
       "sort": 39,
-      "category": "Fantasy / Sci-Fi"
+      "category": "Fantasy / Sci-Fi",
+      "tags": [
+        "outfit",
+        "fantasy_sci-fi",
+        "combat",
+        "armor",
+        "sci_fi"
+      ]
     },
     {
       "id": "urban-retro-outfit",
@@ -1103,7 +1842,11 @@
       "prompt": "a casual yet edgy outfit: a burnt orange oversized hoodie, a black crop top revealing her midriff, and loose teal-green cargo pants with large pockets, paired with white converse chuck taylor shoes. She has a black backpack slung over one shoulder",
       "active": true,
       "sort": 40,
-      "category": "Casual"
+      "category": "Casual",
+      "tags": [
+        "outfit",
+        "casual"
+      ]
     },
     {
       "id": "workout-outfit",
@@ -1111,7 +1854,16 @@
       "prompt": "a neon yellow sports bra and matching v-shape briefs that highlight her curves, pastel-striped socks, chunky off-white gym sneakers.",
       "active": true,
       "sort": 41,
-      "category": "Sport"
+      "category": "Sport",
+      "tags": [
+        "lingerie",
+        "outfit",
+        "intimate",
+        "revealing",
+        "sport",
+        "sportswear",
+        "casual"
+      ]
     }
   ],
   "settings": [
@@ -1122,7 +1874,11 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 1
+      "sort": 1,
+      "tags": [
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-7-11-store-outdoor",
@@ -1131,7 +1887,13 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 2
+      "sort": 2,
+      "tags": [
+        "setting",
+        "commercial",
+        "retail",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-above-classic-city-street-outdoor",
@@ -1140,7 +1902,14 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 3
+      "sort": 3,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "urban",
+        "street"
+      ]
     },
     {
       "id": "outdoor-above-cityscape-outdoor",
@@ -1149,7 +1918,13 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 4
+      "sort": 4,
+      "tags": [
+        "setting",
+        "urban_commercial",
+        "outdoor",
+        "urban"
+      ]
     },
     {
       "id": "outdoor-amazon-jungle-trail",
@@ -1158,7 +1933,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 5
+      "sort": 5,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "forest"
+      ]
     },
     {
       "id": "outdoor-athena-s-sanctuary-outdoor",
@@ -1167,7 +1949,11 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 6
+      "sort": 6,
+      "tags": [
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-chic-urban-fashion-storefront-outdoor",
@@ -1176,7 +1962,14 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 7
+      "sort": 7,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "retail",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-city-park-outdoor",
@@ -1185,7 +1978,17 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 8
+      "sort": 8,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "bed",
+        "urban",
+        "park",
+        "bedroom"
+      ]
     },
     {
       "id": "outdoor-courtyard-masjidil-haram-outdoor",
@@ -1194,7 +1997,13 @@
       "type": "outdoor",
       "category": "Sport",
       "active": true,
-      "sort": 9
+      "sort": 9,
+      "tags": [
+        "sport",
+        "religious",
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-courtyard-masjid-nabawi-outdoor",
@@ -1203,7 +2012,13 @@
       "type": "outdoor",
       "category": "Sport",
       "active": true,
-      "sort": 10
+      "sort": 10,
+      "tags": [
+        "sport",
+        "religious",
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-coastel-outdoor",
@@ -1212,7 +2027,15 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 11
+      "sort": 11,
+      "tags": [
+        "setting",
+        "outdoor",
+        "cafe",
+        "water",
+        "commercial",
+        "beach"
+      ]
     },
     {
       "id": "outdoor-dusty-desert-outdoor",
@@ -1221,7 +2044,15 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 12
+      "sort": 12,
+      "tags": [
+        "nature",
+        "setting",
+        "outdoor",
+        "mountain",
+        "desert",
+        "post_apocalyptic"
+      ]
     },
     {
       "id": "outdoor-forest-pathway-outdoor",
@@ -1230,7 +2061,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 13
+      "sort": 13,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "forest"
+      ]
     },
     {
       "id": "outdoor-forest-trail-outdoor",
@@ -1239,7 +2077,15 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 14
+      "sort": 14,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "mountain",
+        "forest"
+      ]
     },
     {
       "id": "outdoor-front-cafe-outdoor",
@@ -1248,7 +2094,14 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 15
+      "sort": 15,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "cafe",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-futsal-field-outdoor",
@@ -1257,7 +2110,13 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 16
+      "sort": 16,
+      "tags": [
+        "nature_park",
+        "setting",
+        "sports",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-garden-swing-area-outdoor",
@@ -1266,7 +2125,16 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 17
+      "sort": 17,
+      "tags": [
+        "garden",
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "retail",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-garden-pathway-outdoor",
@@ -1275,7 +2143,16 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 18
+      "sort": 18,
+      "tags": [
+        "garden",
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "retail",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-golden-wheat-field-outdoor",
@@ -1284,7 +2161,12 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 19
+      "sort": 19,
+      "tags": [
+        "nature_park",
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-gorengan-cart-outdoor",
@@ -1293,7 +2175,15 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 20
+      "sort": 20,
+      "tags": [
+        "setting",
+        "outdoor",
+        "retail",
+        "urban",
+        "street",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-grassy-park-outdoor",
@@ -1302,7 +2192,15 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 21
+      "sort": 21,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "urban",
+        "park"
+      ]
     },
     {
       "id": "outdoor-green-tea-plantation-outdoor",
@@ -1311,7 +2209,12 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 22
+      "sort": 22,
+      "tags": [
+        "nature_park",
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-indonesian-street-outdoor",
@@ -1320,7 +2223,18 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 23
+      "sort": 23,
+      "tags": [
+        "nature",
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "retail",
+        "urban",
+        "street",
+        "park",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-japanese-alleyway-outdoor",
@@ -1329,7 +2243,16 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 24
+      "sort": 24,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "retail",
+        "urban",
+        "street",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-jogging-park-outdoor",
@@ -1338,7 +2261,17 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 25
+      "sort": 25,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "sports",
+        "urban",
+        "running",
+        "park"
+      ]
     },
     {
       "id": "outdoor-landfill-outdoor",
@@ -1347,7 +2280,11 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 26
+      "sort": 26,
+      "tags": [
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-modern-courtyard-garden-outdoor",
@@ -1356,7 +2293,16 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 27
+      "sort": 27,
+      "tags": [
+        "garden",
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "retail",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-modern-open-courtyard",
@@ -1365,7 +2311,14 @@
       "type": "outdoor",
       "category": "Sport",
       "active": true,
-      "sort": 28
+      "sort": 28,
+      "tags": [
+        "garden",
+        "nature",
+        "setting",
+        "outdoor",
+        "sport"
+      ]
     },
     {
       "id": "outdoor-modern-outdoor-cafe-coutyard",
@@ -1374,7 +2327,15 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 29
+      "sort": 29,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "retail",
+        "cafe",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-modern-park-minimalis-landscape-outdoor",
@@ -1383,7 +2344,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 30
+      "sort": 30,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "park"
+      ]
     },
     {
       "id": "outdoor-modern-urban-park-canopy-outdoor",
@@ -1392,7 +2360,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 31
+      "sort": 31,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "park"
+      ]
     },
     {
       "id": "outdoor-mountain-ridge-outdoor",
@@ -1401,7 +2376,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 32
+      "sort": 32,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "mountain"
+      ]
     },
     {
       "id": "outdoor-night-market-outdoor",
@@ -1410,7 +2392,16 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 33
+      "sort": 33,
+      "tags": [
+        "setting",
+        "outdoor",
+        "village",
+        "urban_commercial",
+        "rural",
+        "commercial",
+        "market"
+      ]
     },
     {
       "id": "outdoor-octagon-cage-outdoor",
@@ -1419,7 +2410,12 @@
       "type": "outdoor",
       "category": "Sport",
       "active": true,
-      "sort": 34
+      "sort": 34,
+      "tags": [
+        "sport",
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-open-air-market-outdoor",
@@ -1428,7 +2424,14 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 35
+      "sort": 35,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "commercial",
+        "market"
+      ]
     },
     {
       "id": "outdoor-outer-space-cartoon-outdoor",
@@ -1437,7 +2440,12 @@
       "type": "outdoor",
       "category": "Fantasy / Sci-Fi",
       "active": true,
-      "sort": 36
+      "sort": 36,
+      "tags": [
+        "fantasy_sci-fi",
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-papercut-art-village-studio",
@@ -1446,7 +2454,15 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 37
+      "sort": 37,
+      "tags": [
+        "nature_park",
+        "setting",
+        "outdoor",
+        "village",
+        "rural",
+        "studio"
+      ]
     },
     {
       "id": "outdoor-front-porch-outdoor",
@@ -1455,7 +2471,13 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 38
+      "sort": 38,
+      "tags": [
+        "setting",
+        "commercial",
+        "retail",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-red-carpet-outdoor",
@@ -1464,7 +2486,13 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 39
+      "sort": 39,
+      "tags": [
+        "event",
+        "setting",
+        "formal",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-residential-street-outdoor",
@@ -1473,7 +2501,18 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 40
+      "sort": 40,
+      "tags": [
+        "nature",
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "retail",
+        "urban",
+        "street",
+        "park",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-resort-pool-outdoor",
@@ -1482,7 +2521,14 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 41
+      "sort": 41,
+      "tags": [
+        "setting",
+        "outdoor",
+        "resort",
+        "pool",
+        "water"
+      ]
     },
     {
       "id": "outdoor-rocky-hilltop-makkah-view-outdoor",
@@ -1491,7 +2537,12 @@
       "type": "outdoor",
       "category": "Religious",
       "active": true,
-      "sort": 42
+      "sort": 42,
+      "tags": [
+        "religious",
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-rooftop-outdoor",
@@ -1500,7 +2551,13 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 43
+      "sort": 43,
+      "tags": [
+        "setting",
+        "urban_commercial",
+        "outdoor",
+        "urban"
+      ]
     },
     {
       "id": "outdoor-running-track-outdoor",
@@ -1509,7 +2566,14 @@
       "type": "outdoor",
       "category": "Sport",
       "active": true,
-      "sort": 44
+      "sort": 44,
+      "tags": [
+        "setting",
+        "outdoor",
+        "sports",
+        "sport",
+        "running"
+      ]
     },
     {
       "id": "outdoor-rural-wooden-bridge",
@@ -1518,7 +2582,11 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 45
+      "sort": 45,
+      "tags": [
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-snowy-landscape-outdoor",
@@ -1527,7 +2595,12 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 46
+      "sort": 46,
+      "tags": [
+        "nature_park",
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-sport-park-outdoor",
@@ -1536,7 +2609,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 47
+      "sort": 47,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "park"
+      ]
     },
     {
       "id": "outdoor-stadium-outdoor",
@@ -1545,7 +2625,14 @@
       "type": "outdoor",
       "category": "Sport",
       "active": true,
-      "sort": 48
+      "sort": 48,
+      "tags": [
+        "stadium",
+        "setting",
+        "outdoor",
+        "sports",
+        "sport"
+      ]
     },
     {
       "id": "outdoor-storefront-outdoor",
@@ -1554,7 +2641,14 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 49
+      "sort": 49,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "retail",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-tall-grass-field-outdoor",
@@ -1563,7 +2657,12 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 50
+      "sort": 50,
+      "tags": [
+        "nature_park",
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-tennis-court-outdoor",
@@ -1572,7 +2671,13 @@
       "type": "outdoor",
       "category": "Sport",
       "active": true,
-      "sort": 51
+      "sort": 51,
+      "tags": [
+        "sport",
+        "setting",
+        "sports",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-tropical-garden-walkway-with-modern-architecture-outdoor",
@@ -1581,7 +2686,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 52
+      "sort": 52,
+      "tags": [
+        "garden",
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-upscale-urban-street-outdoor",
@@ -1590,7 +2702,14 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 53
+      "sort": 53,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "urban",
+        "street"
+      ]
     },
     {
       "id": "outdoor-urban-architecture-stairs-outdoor-indoor",
@@ -1599,7 +2718,11 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 54
+      "sort": 54,
+      "tags": [
+        "setting",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-mall-outdoor-indoor",
@@ -1608,7 +2731,16 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 55
+      "sort": 55,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "retail",
+        "urban",
+        "sci_fi",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-balcony-twilight-outdoor",
@@ -1617,7 +2749,13 @@
       "type": "outdoor",
       "category": "Outdoor",
       "active": true,
-      "sort": 56
+      "sort": 56,
+      "tags": [
+        "setting",
+        "commercial",
+        "retail",
+        "outdoor"
+      ]
     },
     {
       "id": "outdoor-village-desa-outdoor",
@@ -1626,7 +2764,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 57
+      "sort": 57,
+      "tags": [
+        "nature_park",
+        "setting",
+        "outdoor",
+        "village",
+        "rural"
+      ]
     },
     {
       "id": "outdoor-village-nature-outdoor",
@@ -1635,7 +2780,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 58
+      "sort": 58,
+      "tags": [
+        "nature_park",
+        "setting",
+        "outdoor",
+        "village",
+        "rural"
+      ]
     },
     {
       "id": "outdoor-volcano-outdoor",
@@ -1644,7 +2796,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 59
+      "sort": 59,
+      "tags": [
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor",
+        "mountain"
+      ]
     },
     {
       "id": "outdoor-warkop-sidewalk-outdoor",
@@ -1653,7 +2812,16 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 60
+      "sort": 60,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "retail",
+        "urban",
+        "cafe",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-warkop-outdoor",
@@ -1662,7 +2830,17 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 61
+      "sort": 61,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "retail",
+        "urban",
+        "cafe",
+        "street",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-warkop-pinggir-gang-outdoor",
@@ -1671,7 +2849,17 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 62
+      "sort": 62,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "retail",
+        "urban",
+        "cafe",
+        "street",
+        "commercial"
+      ]
     },
     {
       "id": "outdoor-wet-gothic-street-outdoor",
@@ -1680,7 +2868,14 @@
       "type": "outdoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 63
+      "sort": 63,
+      "tags": [
+        "setting",
+        "outdoor",
+        "urban_commercial",
+        "urban",
+        "street"
+      ]
     },
     {
       "id": "outdoor-zen-japanese-garden-outdoor",
@@ -1689,7 +2884,14 @@
       "type": "outdoor",
       "category": "Nature / Park",
       "active": true,
-      "sort": 64
+      "sort": 64,
+      "tags": [
+        "garden",
+        "nature_park",
+        "setting",
+        "nature",
+        "outdoor"
+      ]
     },
     {
       "id": "indoor-airport-indoor",
@@ -1698,7 +2900,15 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 1
+      "sort": 1,
+      "tags": [
+        "nature",
+        "setting",
+        "indoor",
+        "mountain",
+        "travel",
+        "transport"
+      ]
     },
     {
       "id": "indoor-apart-bedroom-indoor",
@@ -1707,7 +2917,15 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 2
+      "sort": 2,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "bed",
+        "bedroom"
+      ]
     },
     {
       "id": "indoor-aquatic-center-indoor",
@@ -1716,7 +2934,15 @@
       "type": "indoor",
       "category": "Sport",
       "active": true,
-      "sort": 3
+      "sort": 3,
+      "tags": [
+        "setting",
+        "indoor",
+        "resort",
+        "pool",
+        "sport",
+        "water"
+      ]
     },
     {
       "id": "indoor-80s-japanese-arcade-game-indoor",
@@ -1725,7 +2951,11 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 4
+      "sort": 4,
+      "tags": [
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-80s-japanese-bookstore-indoor",
@@ -1734,7 +2964,14 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 5
+      "sort": 5,
+      "tags": [
+        "setting",
+        "indoor",
+        "retail",
+        "library",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-80s-japanese-sushi-counter-indoor",
@@ -1743,7 +2980,13 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 6
+      "sort": 6,
+      "tags": [
+        "commercial",
+        "setting",
+        "indoor",
+        "retail"
+      ]
     },
     {
       "id": "indoor-80s-japanese-tokyo-cafe-indoor",
@@ -1752,7 +2995,17 @@
       "type": "indoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 7
+      "sort": 7,
+      "tags": [
+        "setting",
+        "indoor",
+        "urban_commercial",
+        "retail",
+        "urban",
+        "cafe",
+        "street",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-80s-japanese-vinyl-store-indoor",
@@ -1761,7 +3014,14 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 8
+      "sort": 8,
+      "tags": [
+        "setting",
+        "indoor",
+        "retail",
+        "urban",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-bathroom-indoor",
@@ -1770,7 +3030,15 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 9
+      "sort": 9,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "bathroom",
+        "indoor",
+        "mirror",
+        "water"
+      ]
     },
     {
       "id": "indoor-bathtub-indoor",
@@ -1779,7 +3047,17 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 10
+      "sort": 10,
+      "tags": [
+        "setting",
+        "bathroom",
+        "indoor",
+        "mirror",
+        "retail",
+        "urban",
+        "water",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-bathroom-glass-indoor",
@@ -1788,7 +3066,15 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 11
+      "sort": 11,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "bathroom",
+        "indoor",
+        "mirror",
+        "water"
+      ]
     },
     {
       "id": "indoor-bedroom-girls-indoor",
@@ -1797,7 +3083,17 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 12
+      "sort": 12,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "bed",
+        "retail",
+        "bedroom",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-bed-indoor",
@@ -1806,7 +3102,13 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 13
+      "sort": 13,
+      "tags": [
+        "setting",
+        "bedroom",
+        "indoor",
+        "bed"
+      ]
     },
     {
       "id": "indoor-catwalk-indoor",
@@ -1815,7 +3117,11 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 14
+      "sort": 14,
+      "tags": [
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-city-train-studio",
@@ -1824,7 +3130,16 @@
       "type": "indoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 15
+      "sort": 15,
+      "tags": [
+        "setting",
+        "indoor",
+        "vehicle",
+        "urban_commercial",
+        "urban",
+        "transport",
+        "studio"
+      ]
     },
     {
       "id": "indoor-car-indoor",
@@ -1833,7 +3148,13 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 16
+      "sort": 16,
+      "tags": [
+        "setting",
+        "transport",
+        "indoor",
+        "vehicle"
+      ]
     },
     {
       "id": "indoor-comic-con-indoor",
@@ -1842,7 +3163,13 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 17
+      "sort": 17,
+      "tags": [
+        "fantasy",
+        "setting",
+        "indoor",
+        "event"
+      ]
     },
     {
       "id": "indoor-control-room-space-station-indoor",
@@ -1851,7 +3178,17 @@
       "type": "indoor",
       "category": "Fantasy / Sci-Fi",
       "active": true,
-      "sort": 18
+      "sort": 18,
+      "tags": [
+        "setting",
+        "indoor",
+        "industrial",
+        "fantasy_sci-fi",
+        "retail",
+        "space",
+        "sci_fi",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-cozy-cafe-indoor",
@@ -1860,7 +3197,15 @@
       "type": "indoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 19
+      "sort": 19,
+      "tags": [
+        "setting",
+        "indoor",
+        "urban_commercial",
+        "retail",
+        "cafe",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-dining-space-station-indoor",
@@ -1869,7 +3214,16 @@
       "type": "indoor",
       "category": "Fantasy / Sci-Fi",
       "active": true,
-      "sort": 20
+      "sort": 20,
+      "tags": [
+        "setting",
+        "indoor",
+        "fantasy_sci-fi",
+        "retail",
+        "space",
+        "sci_fi",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-fitting-room-indoor",
@@ -1878,7 +3232,14 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 21
+      "sort": 21,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "mirror",
+        "retail"
+      ]
     },
     {
       "id": "indoor-flower-shop-indoor",
@@ -1887,7 +3248,15 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 22
+      "sort": 22,
+      "tags": [
+        "setting",
+        "indoor",
+        "retail",
+        "urban",
+        "street",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-futuristic-lab-indoor",
@@ -1896,7 +3265,16 @@
       "type": "indoor",
       "category": "Fantasy / Sci-Fi",
       "active": true,
-      "sort": 23
+      "sort": 23,
+      "tags": [
+        "setting",
+        "indoor",
+        "vehicle",
+        "industrial",
+        "fantasy_sci-fi",
+        "garage",
+        "sci_fi"
+      ]
     },
     {
       "id": "indoor-girls-bedroom-bunk-dec-indoor",
@@ -1905,7 +3283,15 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 24
+      "sort": 24,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "bed",
+        "bedroom"
+      ]
     },
     {
       "id": "indoor-girls-bedroom-single-bed-indoor",
@@ -1914,7 +3300,17 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 25
+      "sort": 25,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "bed",
+        "retail",
+        "bedroom",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-hotel-lobby-indoor",
@@ -1923,7 +3319,14 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 26
+      "sort": 26,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "hotel",
+        "formal"
+      ]
     },
     {
       "id": "indoor-hotel-room-indoor",
@@ -1932,7 +3335,14 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 27
+      "sort": 27,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "hotel",
+        "formal"
+      ]
     },
     {
       "id": "indoor-gym-indoor",
@@ -1941,7 +3351,15 @@
       "type": "indoor",
       "category": "Sport",
       "active": true,
-      "sort": 28
+      "sort": 28,
+      "tags": [
+        "setting",
+        "indoor",
+        "sports",
+        "mirror",
+        "sport",
+        "gym"
+      ]
     },
     {
       "id": "indoor-hangar-indoor",
@@ -1950,7 +3368,14 @@
       "type": "indoor",
       "category": "Fantasy / Sci-Fi",
       "active": true,
-      "sort": 29
+      "sort": 29,
+      "tags": [
+        "setting",
+        "indoor",
+        "vehicle",
+        "industrial",
+        "fantasy_sci-fi"
+      ]
     },
     {
       "id": "indoor-kitchen-indoor",
@@ -1959,7 +3384,14 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 30
+      "sort": 30,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "kitchen"
+      ]
     },
     {
       "id": "indoor-laundry-room-minimalist-indoor",
@@ -1968,7 +3400,17 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 31
+      "sort": 31,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "laundry",
+        "retail",
+        "urban",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-laundry-room-japandi-indoor",
@@ -1977,7 +3419,16 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 32
+      "sort": 32,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "laundry",
+        "retail",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-library-indoor",
@@ -1986,7 +3437,13 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 33
+      "sort": 33,
+      "tags": [
+        "library",
+        "setting",
+        "quiet",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-library-ngintip-indoor",
@@ -1995,7 +3452,15 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 34
+      "sort": 34,
+      "tags": [
+        "setting",
+        "indoor",
+        "quiet",
+        "retail",
+        "library",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-live-music-venue-indoor",
@@ -2004,7 +3469,14 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 35
+      "sort": 35,
+      "tags": [
+        "setting",
+        "indoor",
+        "retail",
+        "cafe",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-living-room-boho-cozy-indoor",
@@ -2013,7 +3485,16 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 36
+      "sort": 36,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "living_room",
+        "retail",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-living-room-boho-indo-indoor",
@@ -2022,7 +3503,17 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 37
+      "sort": 37,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "living_room",
+        "retail",
+        "cafe",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-living-room-boho-mid-indoor",
@@ -2031,7 +3522,16 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 38
+      "sort": 38,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "living_room",
+        "cafe",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-living-room-modern-indoor",
@@ -2040,7 +3540,17 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 39
+      "sort": 39,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "living_room",
+        "retail",
+        "cafe",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-living-room-simplicity-indoor",
@@ -2049,7 +3559,15 @@
       "type": "indoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 40
+      "sort": 40,
+      "tags": [
+        "setting",
+        "indoor",
+        "home",
+        "living_room",
+        "urban_commercial",
+        "urban"
+      ]
     },
     {
       "id": "indoor-living-room-nordic-indoor",
@@ -2058,7 +3576,17 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 41
+      "sort": 41,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "living_room",
+        "retail",
+        "cafe",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-luxury-bar-indoor",
@@ -2067,7 +3595,14 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 42
+      "sort": 42,
+      "tags": [
+        "setting",
+        "indoor",
+        "home",
+        "bed",
+        "bedroom"
+      ]
     },
     {
       "id": "indoor-mall-indoor",
@@ -2076,7 +3611,14 @@
       "type": "indoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 43
+      "sort": 43,
+      "tags": [
+        "setting",
+        "indoor",
+        "urban_commercial",
+        "retail",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-midori-boutique-indoor",
@@ -2085,7 +3627,11 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 44
+      "sort": 44,
+      "tags": [
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-minimalist-japanese-room-indoor",
@@ -2094,7 +3640,11 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 45
+      "sort": 45,
+      "tags": [
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-minimalist-art-gallery-indoor",
@@ -2103,7 +3653,11 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 46
+      "sort": 46,
+      "tags": [
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-music-exhibition-indoor",
@@ -2112,7 +3666,11 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 47
+      "sort": 47,
+      "tags": [
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-office-cubicle-indoor",
@@ -2121,7 +3679,13 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 48
+      "sort": 48,
+      "tags": [
+        "cafe",
+        "commercial",
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-office-modern-indoor",
@@ -2130,7 +3694,11 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 49
+      "sort": 49,
+      "tags": [
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-outer-space-cartoon-studio",
@@ -2139,7 +3707,13 @@
       "type": "indoor",
       "category": "Fantasy / Sci-Fi",
       "active": true,
-      "sort": 50
+      "sort": 50,
+      "tags": [
+        "studio",
+        "fantasy_sci-fi",
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-padel-court-indoor",
@@ -2148,7 +3722,12 @@
       "type": "indoor",
       "category": "Sport",
       "active": true,
-      "sort": 51
+      "sort": 51,
+      "tags": [
+        "sport",
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-penthouse-indoor",
@@ -2157,7 +3736,12 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 52
+      "sort": 52,
+      "tags": [
+        "setting",
+        "indoor",
+        "urban"
+      ]
     },
     {
       "id": "indoor-pilates-studio-indoor",
@@ -2166,7 +3750,13 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 53
+      "sort": 53,
+      "tags": [
+        "studio",
+        "setting",
+        "indoor",
+        "mirror"
+      ]
     },
     {
       "id": "indoor-public-restroom-indoor",
@@ -2175,7 +3765,12 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 54
+      "sort": 54,
+      "tags": [
+        "setting",
+        "indoor",
+        "mirror"
+      ]
     },
     {
       "id": "indoor-simple-bedroom-indoor",
@@ -2184,7 +3779,15 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 55
+      "sort": 55,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "bed",
+        "bedroom"
+      ]
     },
     {
       "id": "indoor-small-indoor-live-music-venue-indoor",
@@ -2193,7 +3796,15 @@
       "type": "indoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 56
+      "sort": 56,
+      "tags": [
+        "setting",
+        "indoor",
+        "urban_commercial",
+        "retail",
+        "cafe",
+        "commercial"
+      ]
     },
     {
       "id": "indoor-space-cockpit-indoor",
@@ -2202,7 +3813,12 @@
       "type": "indoor",
       "category": "Fantasy / Sci-Fi",
       "active": true,
-      "sort": 57
+      "sort": 57,
+      "tags": [
+        "fantasy_sci-fi",
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-subway-train-indoor",
@@ -2211,7 +3827,13 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 58
+      "sort": 58,
+      "tags": [
+        "setting",
+        "transport",
+        "indoor",
+        "vehicle"
+      ]
     },
     {
       "id": "indoor-supermarket-indoor",
@@ -2220,7 +3842,14 @@
       "type": "indoor",
       "category": "Urban / Commercial",
       "active": true,
-      "sort": 59
+      "sort": 59,
+      "tags": [
+        "setting",
+        "indoor",
+        "urban_commercial",
+        "commercial",
+        "market"
+      ]
     },
     {
       "id": "indoor-traditional-japan-farmhouse-indoor",
@@ -2229,7 +3858,13 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 60
+      "sort": 60,
+      "tags": [
+        "garden",
+        "nature",
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-traditional-japan-bedroom-indoor",
@@ -2238,7 +3873,15 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 61
+      "sort": 61,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "bed",
+        "bedroom"
+      ]
     },
     {
       "id": "indoor-traditional-rural-kitchen-indoor",
@@ -2247,7 +3890,14 @@
       "type": "indoor",
       "category": "Residential / Hospitality",
       "active": true,
-      "sort": 62
+      "sort": 62,
+      "tags": [
+        "residential_hospitality",
+        "setting",
+        "indoor",
+        "home",
+        "kitchen"
+      ]
     },
     {
       "id": "indoor-traditional-rural-studio-indoor",
@@ -2256,7 +3906,12 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 63
+      "sort": 63,
+      "tags": [
+        "studio",
+        "setting",
+        "indoor"
+      ]
     },
     {
       "id": "indoor-yoga-room-indoor",
@@ -2265,7 +3920,11 @@
       "type": "indoor",
       "category": "Indoor",
       "active": true,
-      "sort": 64
+      "sort": 64,
+      "tags": [
+        "setting",
+        "indoor"
+      ]
     }
   ],
   "cameraAngles": [
@@ -2275,7 +3934,11 @@
       "prompt": "aerial view (top-down)",
       "active": true,
       "sort": 1,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "birds-eye-view-shot",
@@ -2283,7 +3946,11 @@
       "prompt": "bird's eye view shot",
       "active": true,
       "sort": 2,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "close-up-shot",
@@ -2291,7 +3958,11 @@
       "prompt": "close-up shot",
       "active": true,
       "sort": 3,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "dutch-angle-shot",
@@ -2299,7 +3970,11 @@
       "prompt": "dutch angle shot",
       "active": true,
       "sort": 4,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "extreme-close-up",
@@ -2307,7 +3982,11 @@
       "prompt": "extreme close-up shot",
       "active": true,
       "sort": 5,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "eye-level-shot",
@@ -2315,7 +3994,11 @@
       "prompt": "eye-level shot",
       "active": true,
       "sort": 6,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "frog-eye-angle-shot",
@@ -2323,7 +4006,11 @@
       "prompt": "frog eye angle shot",
       "active": true,
       "sort": 7,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "ground-level-shot",
@@ -2331,7 +4018,11 @@
       "prompt": "ground level shot",
       "active": true,
       "sort": 8,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "3-4-angle-medium-shot",
@@ -2339,7 +4030,11 @@
       "prompt": "medium close-up, 3/4 angle",
       "active": true,
       "sort": 9,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "3-4-angle-full-body-shot",
@@ -2347,7 +4042,11 @@
       "prompt": "3/4 angle, full-body shot",
       "active": true,
       "sort": 10,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "low-angle-full-body-shot",
@@ -2355,7 +4054,11 @@
       "prompt": "dramatic low angle full-body shot",
       "active": true,
       "sort": 11,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "long-shot",
@@ -2363,7 +4066,11 @@
       "prompt": "long shot",
       "active": true,
       "sort": 12,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "high-angle-medium-shot",
@@ -2371,7 +4078,11 @@
       "prompt": "medium, high angle shot",
       "active": true,
       "sort": 13,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "medium-shot",
@@ -2379,7 +4090,11 @@
       "prompt": "medium shot",
       "active": true,
       "sort": 14,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "medium-close-up-shot",
@@ -2387,7 +4102,11 @@
       "prompt": "medium close-up shot",
       "active": true,
       "sort": 15,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "overhead-shot",
@@ -2395,7 +4114,11 @@
       "prompt": "overhead shot",
       "active": true,
       "sort": 16,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "over-the-shoulder-shot",
@@ -2403,7 +4126,11 @@
       "prompt": "over the shoulder shot",
       "active": true,
       "sort": 17,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "pov",
@@ -2411,7 +4138,11 @@
       "prompt": "POV",
       "active": true,
       "sort": 18,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "side-view-shot",
@@ -2419,7 +4150,11 @@
       "prompt": "side view shot",
       "active": true,
       "sort": 19,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "wide-shot",
@@ -2427,7 +4162,11 @@
       "prompt": "Wide-angle shot",
       "active": true,
       "sort": 20,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     },
     {
       "id": "worms-eye-view-shot",
@@ -2435,7 +4174,11 @@
       "prompt": "worm's eye view shot",
       "active": true,
       "sort": 21,
-      "category": "Camera Angle"
+      "category": "Camera Angle",
+      "tags": [
+        "camera_angle",
+        "cameraangle"
+      ]
     }
   ],
   "lighting": [
@@ -2445,7 +4188,10 @@
       "prompt": "blue hour",
       "active": true,
       "sort": 1,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "cinematic-light",
@@ -2453,7 +4199,10 @@
       "prompt": "cinematic lighting",
       "active": true,
       "sort": 2,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "cooled",
@@ -2461,7 +4210,10 @@
       "prompt": "cinematic lighting with muted cool color grading",
       "active": true,
       "sort": 3,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "daylight",
@@ -2469,7 +4221,10 @@
       "prompt": "daylight",
       "active": true,
       "sort": 4,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "daylight-window-shadows",
@@ -2477,7 +4232,10 @@
       "prompt": "daylight with window shadows across her body",
       "active": true,
       "sort": 5,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "evening-golden-hour",
@@ -2485,7 +4243,10 @@
       "prompt": "evening golden hour",
       "active": true,
       "sort": 6,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "gloomy",
@@ -2493,7 +4254,10 @@
       "prompt": "gloomy vibes and cinematic lighting",
       "active": true,
       "sort": 7,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "high-key-lighting",
@@ -2501,7 +4265,10 @@
       "prompt": "high-key lighting",
       "active": true,
       "sort": 8,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "interior-lighting-bright",
@@ -2509,7 +4276,10 @@
       "prompt": "bright interior lighting",
       "active": true,
       "sort": 9,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "interior-lighting-warm",
@@ -2517,7 +4287,10 @@
       "prompt": "warm interior lighting",
       "active": true,
       "sort": 10,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "low-light",
@@ -2525,7 +4298,10 @@
       "prompt": "low light",
       "active": true,
       "sort": 11,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "morning-golden-hour",
@@ -2533,7 +4309,10 @@
       "prompt": "morning golden hour",
       "active": true,
       "sort": 12,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "natural-light",
@@ -2541,7 +4320,10 @@
       "prompt": "natural light",
       "active": true,
       "sort": 13,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "interior-lighting",
@@ -2549,7 +4331,10 @@
       "prompt": "interior lighting",
       "active": true,
       "sort": 14,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "nighttime-cinematic",
@@ -2557,7 +4342,10 @@
       "prompt": "Nighttime scene, The lighting is vivid and cinematic, with a strong contrast",
       "active": true,
       "sort": 15,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "night-low-light",
@@ -2565,7 +4353,10 @@
       "prompt": "night low light",
       "active": true,
       "sort": 16,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "studio-lighting",
@@ -2573,7 +4364,10 @@
       "prompt": "studio lighting",
       "active": true,
       "sort": 17,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "teal-and-orange",
@@ -2581,7 +4375,10 @@
       "prompt": "cinematic lighting with teal and orange color grading",
       "active": true,
       "sort": 18,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     },
     {
       "id": "twilight",
@@ -2589,7 +4386,10 @@
       "prompt": "twilight",
       "active": true,
       "sort": 19,
-      "category": "Lighting"
+      "category": "Lighting",
+      "tags": [
+        "lighting"
+      ]
     }
   ],
   "cameraStyles": [
@@ -2599,7 +4399,11 @@
       "prompt": "professional photo aesthetic",
       "active": true,
       "sort": 1,
-      "category": "Camera Style"
+      "category": "Camera Style",
+      "tags": [
+        "camera_style",
+        "camerastyle"
+      ]
     },
     {
       "id": "film-camera-look-vintage-aesthetic",
@@ -2607,7 +4411,11 @@
       "prompt": "film camera, soft grain texture, warm vintage tones, nostalgic atmosphere",
       "active": true,
       "sort": 2,
-      "category": "Camera Style"
+      "category": "Camera Style",
+      "tags": [
+        "camera_style",
+        "camerastyle"
+      ]
     },
     {
       "id": "iphone-smartphone-look-casual",
@@ -2615,7 +4423,11 @@
       "prompt": "iPhone camera, slightly overexposed highlights, realistic skin texture",
       "active": true,
       "sort": 3,
-      "category": "Camera Style"
+      "category": "Camera Style",
+      "tags": [
+        "camera_style",
+        "camerastyle"
+      ]
     },
     {
       "id": "cinematic-camera-movie-shot",
@@ -2623,7 +4435,11 @@
       "prompt": "film camera, shallow focus, atmospheric depth, film still aesthetic",
       "active": true,
       "sort": 4,
-      "category": "Camera Style"
+      "category": "Camera Style",
+      "tags": [
+        "camera_style",
+        "camerastyle"
+      ]
     }
   ],
   "aspectRatios": [
@@ -2634,7 +4450,10 @@
       "width": 9,
       "height": 16,
       "active": true,
-      "sort": 1
+      "sort": 1,
+      "tags": [
+        "aspect_ratio"
+      ]
     },
     {
       "id": "1-1",
@@ -2643,7 +4462,10 @@
       "width": 1,
       "height": 1,
       "active": true,
-      "sort": 2
+      "sort": 2,
+      "tags": [
+        "aspect_ratio"
+      ]
     },
     {
       "id": "16-9",
@@ -2652,7 +4474,337 @@
       "width": 16,
       "height": 9,
       "active": true,
+      "sort": 3,
+      "tags": [
+        "aspect_ratio"
+      ]
+    }
+  ],
+  "compatibilityRules": [
+    {
+      "id": "rule-001",
+      "source_type": "pose",
+      "source_tag": "selfie",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "mirror|bedroom|bathroom|retail|vehicle",
+      "severity": "info",
+      "weight": 8,
+      "message": "Selfie poses work best in settings with a mirror, bedroom, bathroom, fitting room, car, or retail interior.",
+      "active": true,
+      "sort": 1
+    },
+    {
+      "id": "rule-002",
+      "source_type": "pose",
+      "source_tag": "mirror",
+      "relation": "requires",
+      "target_type": "setting",
+      "target_tag": "mirror",
+      "severity": "warn",
+      "weight": 28,
+      "message": "This mirror pose needs a setting that includes a visible mirror.",
+      "active": true,
+      "sort": 2
+    },
+    {
+      "id": "rule-003",
+      "source_type": "pose",
+      "source_tag": "bed",
+      "relation": "requires",
+      "target_type": "setting",
+      "target_tag": "bedroom|bed|hotel",
+      "severity": "warn",
+      "weight": 32,
+      "message": "Bed poses are most believable in a bedroom, bed, or hotel-room setting.",
+      "active": true,
       "sort": 3
+    },
+    {
+      "id": "rule-004",
+      "source_type": "pose",
+      "source_tag": "bath",
+      "relation": "requires",
+      "target_type": "setting",
+      "target_tag": "bathroom|water|pool",
+      "severity": "block",
+      "weight": 65,
+      "message": "Bathing poses require a bathroom, shower, bathtub, pool, or other water-based setting.",
+      "active": true,
+      "sort": 4
+    },
+    {
+      "id": "rule-005",
+      "source_type": "pose",
+      "source_tag": "jogging|running",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "sports|park|street|outdoor",
+      "severity": "warn",
+      "weight": 18,
+      "message": "Running and jogging poses fit outdoor, park, street, track, or sport settings.",
+      "active": true,
+      "sort": 5
+    },
+    {
+      "id": "rule-006",
+      "source_type": "pose",
+      "source_tag": "sports",
+      "relation": "prefers",
+      "target_type": "outfit",
+      "target_tag": "sportswear|casual",
+      "severity": "info",
+      "weight": 10,
+      "message": "Sport actions look more natural with sportswear or a casual outfit.",
+      "active": true,
+      "sort": 6
+    },
+    {
+      "id": "rule-007",
+      "source_type": "pose",
+      "source_tag": "combat|mecha",
+      "relation": "prefers",
+      "target_type": "outfit",
+      "target_tag": "combat|armor|sci_fi|superhero",
+      "severity": "warn",
+      "weight": 18,
+      "message": "Combat or mecha poses pair best with armor, tactical, sci-fi, or superhero outfits.",
+      "active": true,
+      "sort": 7
+    },
+    {
+      "id": "rule-008",
+      "source_type": "pose",
+      "source_tag": "combat|mecha",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "sci_fi|industrial|desert|fantasy",
+      "severity": "warn",
+      "weight": 16,
+      "message": "Combat scenes are stronger in sci-fi, industrial, desert, or fantasy environments.",
+      "active": true,
+      "sort": 8
+    },
+    {
+      "id": "rule-009",
+      "source_type": "pose",
+      "source_tag": "vehicle",
+      "relation": "requires",
+      "target_type": "setting",
+      "target_tag": "vehicle|transport|garage|industrial|space",
+      "severity": "warn",
+      "weight": 30,
+      "message": "Vehicle poses need a car, transport, garage, hangar, or space-station setting.",
+      "active": true,
+      "sort": 9
+    },
+    {
+      "id": "rule-010",
+      "source_type": "pose",
+      "source_tag": "dragon|fantasy",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "fantasy|nature|mountain|forest",
+      "severity": "info",
+      "weight": 12,
+      "message": "Fantasy and dragon poses work best in fantasy or dramatic natural environments.",
+      "active": true,
+      "sort": 10
+    },
+    {
+      "id": "rule-011",
+      "source_type": "outfit",
+      "source_tag": "swimwear",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "water|pool|beach|resort|bathroom",
+      "severity": "warn",
+      "weight": 26,
+      "message": "Swimwear is most coherent in a pool, beach, resort, bathroom, or water-based setting.",
+      "active": true,
+      "sort": 11
+    },
+    {
+      "id": "rule-012",
+      "source_type": "outfit",
+      "source_tag": "sleepwear",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "bedroom|bed|hotel|home",
+      "severity": "warn",
+      "weight": 22,
+      "message": "Sleepwear looks most natural in a bedroom, bed, hotel, or home interior.",
+      "active": true,
+      "sort": 12
+    },
+    {
+      "id": "rule-013",
+      "source_type": "outfit",
+      "source_tag": "lingerie|intimate",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "bedroom|bathroom|hotel|studio|home",
+      "severity": "warn",
+      "weight": 22,
+      "message": "Intimate outfits are usually more coherent in private indoor or studio settings.",
+      "active": true,
+      "sort": 13
+    },
+    {
+      "id": "rule-014",
+      "source_type": "outfit",
+      "source_tag": "sportswear",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "sports|gym|park|outdoor",
+      "severity": "info",
+      "weight": 12,
+      "message": "Sportswear pairs naturally with gym, sport, park, and outdoor settings.",
+      "active": true,
+      "sort": 14
+    },
+    {
+      "id": "rule-015",
+      "source_type": "outfit",
+      "source_tag": "traditional",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "formal|garden|religious|urban|village",
+      "severity": "info",
+      "weight": 8,
+      "message": "Traditional outfits work well in formal, garden, cultural, urban, or village settings.",
+      "active": true,
+      "sort": 15
+    },
+    {
+      "id": "rule-016",
+      "source_type": "outfit",
+      "source_tag": "formal|fashion",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "formal|hotel|event|urban|retail",
+      "severity": "info",
+      "weight": 10,
+      "message": "Formal fashion works best in hotels, events, urban architecture, or retail settings.",
+      "active": true,
+      "sort": 16
+    },
+    {
+      "id": "rule-017",
+      "source_type": "outfit",
+      "source_tag": "sci_fi|armor|superhero",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "sci_fi|industrial|fantasy|space",
+      "severity": "warn",
+      "weight": 15,
+      "message": "Sci-fi, armor, and superhero outfits fit futuristic, industrial, fantasy, or space settings.",
+      "active": true,
+      "sort": 17
+    },
+    {
+      "id": "rule-018",
+      "source_type": "setting",
+      "source_tag": "religious",
+      "relation": "excludes",
+      "target_type": "outfit",
+      "target_tag": "lingerie|swimwear|revealing",
+      "severity": "block",
+      "weight": 80,
+      "message": "Religious settings should not be paired with lingerie, swimwear, or revealing outfits.",
+      "active": true,
+      "sort": 18
+    },
+    {
+      "id": "rule-019",
+      "source_type": "setting",
+      "source_tag": "religious",
+      "relation": "excludes",
+      "target_type": "pose",
+      "target_tag": "sensual|bath",
+      "severity": "block",
+      "weight": 80,
+      "message": "Religious settings should not be paired with sensual or bathing poses.",
+      "active": true,
+      "sort": 19
+    },
+    {
+      "id": "rule-020",
+      "source_type": "expression",
+      "source_tag": "sleepy",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "bedroom|bed|home|hotel",
+      "severity": "info",
+      "weight": 9,
+      "message": "Sleepy or asleep expressions are more believable in a bedroom, bed, home, or hotel setting.",
+      "active": true,
+      "sort": 20
+    },
+    {
+      "id": "rule-021",
+      "source_type": "expression",
+      "source_tag": "sensual",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "bedroom|bathroom|hotel|studio",
+      "severity": "warn",
+      "weight": 15,
+      "message": "Sensual expressions are more coherent in private indoor or studio settings.",
+      "active": true,
+      "sort": 21
+    },
+    {
+      "id": "rule-022",
+      "source_type": "pose",
+      "source_tag": "sensual",
+      "relation": "excludes",
+      "target_type": "setting",
+      "target_tag": "religious",
+      "severity": "block",
+      "weight": 80,
+      "message": "Sensual poses are incompatible with religious settings.",
+      "active": true,
+      "sort": 22
+    },
+    {
+      "id": "rule-023",
+      "source_type": "outfit",
+      "source_tag": "school_uniform",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "school|library|urban|indoor",
+      "severity": "info",
+      "weight": 9,
+      "message": "School uniforms work best in school, library, urban, or indoor settings.",
+      "active": true,
+      "sort": 23
+    },
+    {
+      "id": "rule-024",
+      "source_type": "outfit",
+      "source_tag": "post_apocalyptic",
+      "relation": "prefers",
+      "target_type": "setting",
+      "target_tag": "desert|industrial|post_apocalyptic",
+      "severity": "warn",
+      "weight": 16,
+      "message": "Post-apocalyptic outfits fit desert, industrial, or ruined environments.",
+      "active": true,
+      "sort": 24
+    },
+    {
+      "id": "rule-025",
+      "source_type": "setting",
+      "source_tag": "water",
+      "relation": "prefers",
+      "target_type": "outfit",
+      "target_tag": "swimwear|casual|sportswear",
+      "severity": "info",
+      "weight": 7,
+      "message": "Water-based settings often look most natural with swimwear, casual, or sportswear outfits.",
+      "active": true,
+      "sort": 25
     }
   ]
 }

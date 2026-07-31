@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Dynamic AI image prompt generator powered by Google Sheets.">
+    <meta name="description" content="Smart AI image prompt generator powered by Google Sheets.">
     <!-- Paste the deployed Google Apps Script Web App URL below for public use. -->
-    <meta name="prompt-api-url" content="https://script.google.com/macros/s/AKfycbzOVWityXnoz4YkO4yeSJ42xdpl1RgOF3Lpd6F7Ed8yaKo1AfwqPB1XuhuDN9TaugUsmg/exec">
-    <title>Prompt Gen 4.0</title>
+    <meta name="prompt-api-url" content="">
+    <title>Prompt Gen 4.1</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script defer src="prompt-builder.js"></script>
+    <script defer src="compatibility-engine.js"></script>
+    <script defer src="searchable-select.js"></script>
     <script defer src="data-loader.js"></script>
     <script defer src="app.js"></script>
 </head>
@@ -20,8 +22,8 @@
         <header class="hero">
             <div class="hero-copy">
                 <span class="eyebrow">✨ AI Image Prompt Builder</span>
-                <h1 id="appTitle">Prompt Gen 4.0</h1>
-                <p class="subtitle"><span id="appSubtitle">Dynamic AI Image Prompt Builder</span> · by <span id="creatorName">Ndoy Creator</span></p>
+                <h1 id="appTitle">Prompt Gen 4.1</h1>
+                <p class="subtitle"><span id="appSubtitle">Smart AI Image Prompt Builder</span> · by <span id="creatorName">Ndoy Creator</span></p>
             </div>
             <div class="hero-actions">
                 <div class="data-status" id="dataStatus" role="status" aria-live="polite">
@@ -35,7 +37,11 @@
         <section class="main-grid">
             <section class="panel controls-panel">
                 <div class="top-actions">
-                    <button type="button" class="primary-button" id="randomPromptBtn">🎲 Random Prompt</button>
+                    <div class="smart-random-copy">
+                        <strong>Smart Random</strong>
+                        <small>Builds a more coherent combination</small>
+                    </div>
+                    <button type="button" class="primary-button" id="randomPromptBtn">🎲 Smart Random</button>
                 </div>
 
                 <details class="database-settings">
@@ -45,12 +51,43 @@
                         <input id="apiUrlInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
                         <div class="compact-buttons">
                             <button type="button" id="saveApiUrlBtn">Save & Reload</button>
+                            <button type="button" id="refreshDataBtn" class="refresh-button">Refresh Now</button>
                             <button type="button" id="useFallbackBtn" class="secondary-button">Use Fallback</button>
                             <button type="button" id="resetSourceBtn" class="ghost-button">Reset Source</button>
                         </div>
-                        <p class="help-text">The public deployment can also be configured once in the <code>prompt-api-url</code> meta tag inside <code>index.html</code>.</p>
+                        <p class="help-text">“Refresh Now” bypasses the Apps Script cache. For public use, configure the <code>prompt-api-url</code> meta tag inside <code>index.html</code>.</p>
                     </div>
                 </details>
+
+                <section class="smart-compatibility" aria-labelledby="smartCompatibilityTitle">
+                    <div class="smart-compatibility-head">
+                        <div>
+                            <span class="mini-eyebrow">🧠 Smart Compatibility</span>
+                            <h2 id="smartCompatibilityTitle">Keep combinations coherent</h2>
+                        </div>
+                        <label class="toggle-switch">
+                            <input id="compatibilityToggle" type="checkbox" checked>
+                            <span class="toggle-track" aria-hidden="true"></span>
+                            <span class="toggle-label">Enabled</span>
+                        </label>
+                    </div>
+                    <div class="compatibility-toolbar">
+                        <label for="compatibilityMode">Dropdown behavior</label>
+                        <select id="compatibilityMode">
+                            <option value="prioritize">Prioritize best matches</option>
+                            <option value="all">Show all in original order</option>
+                            <option value="hide">Hide weak matches</option>
+                        </select>
+                    </div>
+                    <div class="compatibility-result" id="compatibilityResult" data-level="great">
+                        <div class="compatibility-score-ring"><span id="compatibilityScore">100</span><small>/100</small></div>
+                        <div class="compatibility-result-copy">
+                            <strong id="compatibilityLabel">Excellent match</strong>
+                            <span id="compatibilityHint">Choose a pose, outfit, and setting to receive smart suggestions.</span>
+                        </div>
+                    </div>
+                    <ul class="compatibility-messages" id="compatibilityMessages" aria-live="polite"></ul>
+                </section>
 
                 <form id="promptForm" novalidate>
                     <div class="field-row">
@@ -157,12 +194,16 @@
                     <small id="promptStats">0 characters</small>
                 </div>
                 <textarea id="output" readonly placeholder="Your generated prompt will appear here…"></textarea>
+                <div class="output-tip">
+                    <strong>Smart tip</strong>
+                    <span>Search dropdowns by label, category, or tag. Compatibility scores appear beside each choice.</span>
+                </div>
             </aside>
         </section>
 
         <footer class="page-footer">
-            <span id="footerVersion">Prompt Gen 4.0</span>
-            <span>Google Sheets-ready · GitHub Pages-ready</span>
+            <span id="footerVersion">Prompt Gen 4.1</span>
+            <span>Searchable · Smart Compatibility · Google Sheets-ready</span>
         </footer>
     </main>
 
