@@ -62,6 +62,9 @@
                 this.open();
                 this.input.select();
             });
+            this.input.addEventListener("click", () => {
+                if (!this.opened) this.open();
+            });
             this.input.addEventListener("input", () => {
                 this.open();
                 this.render(this.input.value);
@@ -72,13 +75,25 @@
                 event.stopPropagation();
                 this.clear();
             });
-            this.arrow.addEventListener("mousedown", event => {
+
+            // Pointer events work consistently with mouse, touch, and stylus.
+            this.arrow.addEventListener("pointerdown", event => {
                 event.preventDefault();
+                event.stopPropagation();
                 this.opened ? this.close() : this.open();
-                this.input.focus();
+                this.input.focus({ preventScroll: true });
             });
+
+            // Tapping the empty area around the input also opens the menu.
+            this.inputWrap.addEventListener("pointerdown", event => {
+                if ([this.input, this.clearButton, this.arrow].includes(event.target)) return;
+                event.preventDefault();
+                this.open();
+                this.input.focus({ preventScroll: true });
+            });
+
             this.select.addEventListener("change", () => this.syncFromNative());
-            document.addEventListener("mousedown", event => {
+            document.addEventListener("pointerdown", event => {
                 if (!this.wrapper.contains(event.target)) this.close();
             });
         }

@@ -955,7 +955,25 @@ body.dark-mode .compatibility-option-badge.is-blocked { color: #f0b4a7; }
     .toggle-switch { align-self: flex-start; }
     .compatibility-toolbar { grid-template-columns: 1fr; gap: 7px; }
     .compatibility-result { align-items: flex-start; }
-    .searchable-menu { position: fixed; top: 12%; left: 10px; right: 10px; max-height: 70vh; }
+
+    /*
+     * Keep the menu anchored to its field on phones.
+     * The previous fixed positioning was trapped by the panel's backdrop-filter
+     * containing block, which could place the menu outside the portrait viewport.
+     */
+    .controls-panel { overflow: visible; }
+    .searchable-select.is-open { z-index: 1000; }
+    .searchable-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: min(52vh, 360px);
+        z-index: 1001;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+    }
 }
 
 /* Prompt Gen 4.2 — Prompt Style Presets */
