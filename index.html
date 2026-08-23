@@ -3,34 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Smart AI image prompt generator powered by Google Sheets.">
-    <!-- Paste the deployed Google Apps Script Web App URL below for public use. -->
-    <meta name="prompt-api-url" content="https://script.google.com/macros/s/AKfycbz81juqJ3M8Bo-vIfjOvMzVkBf1HaAHTXGygQs-Z5vEDsC5uMqWjUTaMCSbp3itPkuXHw/exec">
-    <title>Prompt Gen 4.2</title>
+    <meta name="description" content="Multi-mode AI image prompt generator powered by Google Sheets.">
+    <!-- Paste your deployed Google Apps Script Web App URL here for public use. -->
+    <meta name="prompt-api-url" content="">
+    <title>Prompt Gen 4.3</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4.2.3">
-    <script defer src="prompt-builder.js"></script>
-    <script defer src="compatibility-engine.js"></script>
-    <script defer src="searchable-select.js?v=4.2.3"></script>
-    <script defer src="data-loader.js"></script>
-    <script defer src="app.js"></script>
+    <link rel="stylesheet" href="style.css?v=4.3.0">
+    <script defer src="prompt-builder.js?v=4.3.0"></script>
+    <script defer src="catalog-prompt-builder.js?v=4.3.0"></script>
+    <script defer src="compatibility-engine.js?v=4.3.0"></script>
+    <script defer src="searchable-select.js?v=4.3.0"></script>
+    <script defer src="data-loader.js?v=4.3.0"></script>
+    <script defer src="app.js?v=4.3.0"></script>
 </head>
 <body>
     <main class="app-shell">
         <header class="hero">
             <div class="hero-copy">
                 <span class="eyebrow">✨ AI Image Prompt Builder</span>
-                <h1 id="appTitle">Prompt Gen 4.2</h1>
-                <p class="subtitle"><span id="appSubtitle">Smart AI Image Prompt Builder · Style Presets</span> · by <span id="creatorName">Ndoy Creator</span></p>
+                <h1 id="appTitle">Prompt Gen 4.3</h1>
+                <p class="subtitle"><span id="appSubtitle">Multi-Mode Prompt Builder</span> · by <span id="creatorName">Ndoy Creator</span></p>
             </div>
             <div class="hero-actions">
                 <div class="data-status" id="dataStatus" role="status" aria-live="polite">
                     <span class="status-dot"></span>
                     <span id="dataStatusText">Loading database…</span>
                 </div>
-                <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">🌙 Dark Mode</button>
+                <button class="theme-toggle" id="themeToggle" type="button">🌙 Dark Mode</button>
             </div>
         </header>
 
@@ -38,8 +39,8 @@
             <section class="panel controls-panel">
                 <div class="top-actions">
                     <div class="smart-random-copy">
-                        <strong>Smart Random</strong>
-                        <small>Builds a more coherent combination</small>
+                        <strong id="randomModeTitle">Smart Random</strong>
+                        <small id="randomModeHint">Builds a more coherent combination</small>
                     </div>
                     <button type="button" class="primary-button" id="randomPromptBtn">🎲 Smart Random</button>
                 </div>
@@ -55,165 +56,162 @@
                             <button type="button" id="useFallbackBtn" class="secondary-button">Use Fallback</button>
                             <button type="button" id="resetSourceBtn" class="ghost-button">Reset Source</button>
                         </div>
-                        <p class="help-text">“Refresh Now” bypasses the Apps Script cache. For public use, configure the <code>prompt-api-url</code> meta tag inside <code>index.html</code>.</p>
+                        <p class="help-text">For public use, set the <code>prompt-api-url</code> meta tag in <code>index.html</code>. “Refresh Now” bypasses API/browser cache.</p>
                     </div>
                 </details>
 
-                <section class="style-presets" aria-labelledby="stylePresetTitle">
-                    <div class="style-presets-head">
+                <section class="prompt-mode-panel" aria-labelledby="promptModeTitle">
+                    <div class="prompt-mode-head">
                         <div>
-                            <span class="mini-eyebrow">🎨 Prompt Style Presets</span>
-                            <h2 id="stylePresetTitle">Choose a complete visual direction</h2>
-                            <p>One click can apply camera, angle, lighting, aspect ratio, and style language.</p>
+                            <span class="mini-eyebrow">🧭 Prompt Mode</span>
+                            <h2 id="promptModeTitle">Choose how the prompt is built</h2>
+                            <p>Creative mode builds scenes freely. Reference Outfit Catalog keeps clothing from a reference image unchanged.</p>
                         </div>
-                        <button type="button" id="clearStylePresetBtn" class="ghost-button compact-action">Clear Style</button>
                     </div>
+                    <div class="prompt-mode-grid" id="promptModeGrid" role="list" aria-label="Prompt modes"></div>
+                </section>
 
-                    <div class="style-preset-toolbar">
-                        <fieldset class="style-apply-mode">
-                            <legend>Apply behavior</legend>
-                            <div class="segmented-control">
-                                <label><input type="radio" name="styleApplyMode" value="replace" checked><span>Replace technical settings</span></label>
-                                <label><input type="radio" name="styleApplyMode" value="merge"><span>Fill empty settings only</span></label>
+                <div id="creativeModeSections">
+                    <section class="style-presets" aria-labelledby="stylePresetTitle">
+                        <div class="style-presets-head">
+                            <div>
+                                <span class="mini-eyebrow">🎨 Prompt Style Presets</span>
+                                <h2 id="stylePresetTitle">Choose a complete visual direction</h2>
+                                <p>One click can apply camera, angle, lighting, aspect ratio, and style language.</p>
                             </div>
-                        </fieldset>
-                        <label class="negative-prompt-option">
-                            <input type="checkbox" id="includeNegativePrompt">
-                            <span><strong>Include negative prompt</strong><small>Adds the preset’s “avoid” guidance to the result.</small></span>
-                        </label>
-                    </div>
-
-                    <div class="style-preset-grid" id="stylePresetGrid" role="list" aria-label="Prompt style presets"></div>
-
-                    <div class="style-preset-summary" id="stylePresetSummary" data-active="false">
-                        <div class="style-preset-summary-icon" id="stylePresetSummaryIcon">✨</div>
-                        <div>
-                            <strong id="stylePresetSummaryTitle">No style selected</strong>
-                            <span id="stylePresetSummaryText">Choose a style card to shape the visual language and technical settings.</span>
+                            <button type="button" id="clearStylePresetBtn" class="ghost-button compact-action">Clear Style</button>
                         </div>
-                    </div>
-                </section>
 
-                <section class="smart-compatibility" aria-labelledby="smartCompatibilityTitle">
-                    <div class="smart-compatibility-head">
-                        <div>
-                            <span class="mini-eyebrow">🧠 Smart Compatibility</span>
-                            <h2 id="smartCompatibilityTitle">Keep combinations coherent</h2>
+                        <div class="style-preset-toolbar">
+                            <fieldset class="style-apply-mode">
+                                <legend>Apply behavior</legend>
+                                <div class="segmented-control">
+                                    <label><input type="radio" name="styleApplyMode" value="replace" checked><span>Replace technical settings</span></label>
+                                    <label><input type="radio" name="styleApplyMode" value="merge"><span>Fill empty settings only</span></label>
+                                </div>
+                            </fieldset>
+                            <label class="negative-prompt-option">
+                                <input type="checkbox" id="includeNegativePrompt">
+                                <span><strong>Include negative prompt</strong><small>Adds the preset’s “avoid” guidance to the result.</small></span>
+                            </label>
                         </div>
-                        <label class="toggle-switch">
-                            <input id="compatibilityToggle" type="checkbox" checked>
-                            <span class="toggle-track" aria-hidden="true"></span>
-                            <span class="toggle-label">Enabled</span>
-                        </label>
-                    </div>
-                    <div class="compatibility-toolbar">
-                        <label for="compatibilityMode">Dropdown behavior</label>
-                        <select id="compatibilityMode">
-                            <option value="prioritize">Prioritize best matches</option>
-                            <option value="all">Show all in original order</option>
-                            <option value="hide">Hide weak matches</option>
-                        </select>
-                    </div>
-                    <div class="compatibility-result" id="compatibilityResult" data-level="great">
-                        <div class="compatibility-score-ring"><span id="compatibilityScore">100</span><small>/100</small></div>
-                        <div class="compatibility-result-copy">
-                            <strong id="compatibilityLabel">Excellent match</strong>
-                            <span id="compatibilityHint">Choose a pose, outfit, and setting to receive smart suggestions.</span>
+
+                        <div class="style-preset-grid" id="stylePresetGrid" role="list" aria-label="Prompt style presets"></div>
+                        <div class="style-preset-summary" id="stylePresetSummary" data-active="false">
+                            <div class="style-preset-summary-icon" id="stylePresetSummaryIcon">✨</div>
+                            <div>
+                                <strong id="stylePresetSummaryTitle">No style selected</strong>
+                                <span id="stylePresetSummaryText">Choose a style card to shape the visual language and technical settings.</span>
+                            </div>
                         </div>
-                    </div>
-                    <ul class="compatibility-messages" id="compatibilityMessages" aria-live="polite"></ul>
-                </section>
+                    </section>
+
+                    <section class="smart-compatibility" aria-labelledby="smartCompatibilityTitle">
+                        <div class="smart-compatibility-head">
+                            <div>
+                                <span class="mini-eyebrow">🧠 Smart Compatibility</span>
+                                <h2 id="smartCompatibilityTitle">Keep combinations coherent</h2>
+                            </div>
+                            <label class="toggle-switch">
+                                <input id="compatibilityToggle" type="checkbox" checked>
+                                <span class="toggle-track" aria-hidden="true"></span>
+                                <span class="toggle-label">Enabled</span>
+                            </label>
+                        </div>
+                        <div class="compatibility-toolbar">
+                            <label for="compatibilityMode">Dropdown behavior</label>
+                            <select id="compatibilityMode">
+                                <option value="prioritize">Prioritize best matches</option>
+                                <option value="all">Show all in original order</option>
+                                <option value="hide">Hide weak matches</option>
+                            </select>
+                        </div>
+                        <div class="compatibility-result" id="compatibilityResult" data-level="great">
+                            <div class="compatibility-score-ring"><span id="compatibilityScore">100</span><small>/100</small></div>
+                            <div class="compatibility-result-copy">
+                                <strong id="compatibilityLabel">Excellent match</strong>
+                                <span id="compatibilityHint">Choose a pose, outfit, and setting to receive smart suggestions.</span>
+                            </div>
+                        </div>
+                        <ul class="compatibility-messages" id="compatibilityMessages" aria-live="polite"></ul>
+                    </section>
+                </div>
 
                 <form id="promptForm" novalidate>
-                    <div class="field-row">
-                        <label for="characterPreset">Character Preset</label>
-                        <select id="characterPreset">
-                            <option value="custom">-- Custom Character --</option>
-                        </select>
-                    </div>
-
-                    <div class="field-row">
-                        <label for="subjectGender">Subject / Pronoun</label>
-                        <select id="subjectGender">
-                            <option value="auto">Auto from character</option>
-                            <option value="female">Female — she/her</option>
-                            <option value="male">Male — he/him</option>
-                            <option value="neutral">Neutral — they/them</option>
-                        </select>
-                    </div>
-
-                    <div class="field-row">
-                        <label for="features">Physical Features</label>
-                        <textarea id="features" class="short-textarea" placeholder="Describe face, hair, skin tone, age, and other features"></textarea>
-                    </div>
-
-                    <div class="field-row">
-                        <label for="action">Pose / Action</label>
-                        <select id="action">
-                            <option value="">-- Select Pose / Action --</option>
-                        </select>
-                    </div>
-
-                    <div class="field-row">
-                        <label for="expression">Facial Expression</label>
-                        <select id="expression">
-                            <option value="">-- Select Facial Expression --</option>
-                        </select>
-                    </div>
-
-                    <div class="field-row">
-                        <label for="outfit">Outfit</label>
-                        <select id="outfit">
-                            <option value="">-- Select Outfit --</option>
-                            <option value="manual_outfit">Enter custom outfit</option>
-                        </select>
-                    </div>
-
-                    <div class="field-row manual-outfit-field" id="manualOutfitRow" hidden>
-                        <label for="manualOutfit">Manual Outfit</label>
-                        <textarea id="manualOutfit" class="short-textarea" placeholder="Example: a white oversized shirt, beige wide-leg pants, and brown leather sandals"></textarea>
-                    </div>
-
-                    <fieldset class="field-row fieldset-row">
-                        <legend>Setting Type</legend>
-                        <div class="radio-group">
-                            <label><input type="radio" name="settingType" value="outdoor" checked> Outdoor</label>
-                            <label><input type="radio" name="settingType" value="indoor"> Indoor</label>
+                    <section id="creativeFields" class="mode-fields">
+                        <div class="field-row">
+                            <label for="characterPreset">Character Preset</label>
+                            <select id="characterPreset"><option value="custom">-- Custom Character --</option></select>
                         </div>
-                    </fieldset>
+                        <div class="field-row">
+                            <label for="subjectGender">Subject / Pronoun</label>
+                            <select id="subjectGender">
+                                <option value="auto">Auto from character</option>
+                                <option value="female">Female — she/her</option>
+                                <option value="male">Male — he/him</option>
+                                <option value="neutral">Neutral — they/them</option>
+                            </select>
+                        </div>
+                        <div class="field-row">
+                            <label for="features">Physical Features</label>
+                            <textarea id="features" class="short-textarea" placeholder="Describe face, hair, skin tone, age, and other features"></textarea>
+                        </div>
+                        <div class="field-row"><label for="action">Pose / Action</label><select id="action"><option value="">-- Select Pose / Action --</option></select></div>
+                        <div class="field-row"><label for="expression">Facial Expression</label><select id="expression"><option value="">-- Select Facial Expression --</option></select></div>
+                        <div class="field-row"><label for="outfit">Outfit</label><select id="outfit"><option value="">-- Select Outfit --</option></select></div>
+                        <div class="field-row manual-outfit-field" id="manualOutfitRow" hidden>
+                            <label for="manualOutfit">Manual Outfit</label>
+                            <textarea id="manualOutfit" class="short-textarea" placeholder="Example: a white oversized shirt, beige wide-leg pants, and brown leather sandals"></textarea>
+                        </div>
+                        <fieldset class="field-row fieldset-row">
+                            <legend>Setting Type</legend>
+                            <div class="radio-group">
+                                <label><input type="radio" name="settingType" value="outdoor" checked> Outdoor</label>
+                                <label><input type="radio" name="settingType" value="indoor"> Indoor</label>
+                            </div>
+                        </fieldset>
+                        <div class="field-row"><label for="setting">Setting</label><select id="setting"><option value="">-- Select Setting --</option></select></div>
+                        <div class="field-row"><label for="cameraAngle">Camera Angle</label><select id="cameraAngle"><option value="">-- Select Camera Angle --</option></select></div>
+                        <div class="field-row"><label for="lighting">Lighting</label><select id="lighting"><option value="">-- Select Lighting --</option></select></div>
+                        <div class="field-row"><label for="cameraType">Camera Style</label><select id="cameraType"><option value="">-- Select Camera Style --</option></select></div>
+                        <fieldset class="field-row fieldset-row">
+                            <legend>Aspect Ratio</legend>
+                            <div class="radio-group" id="aspectRatioGroup"></div>
+                        </fieldset>
+                    </section>
 
-                    <div class="field-row">
-                        <label for="setting">Setting</label>
-                        <select id="setting">
-                            <option value="">-- Select Setting --</option>
-                        </select>
-                    </div>
-
-                    <div class="field-row">
-                        <label for="cameraAngle">Camera Angle</label>
-                        <select id="cameraAngle">
-                            <option value="">-- Select Camera Angle --</option>
-                        </select>
-                    </div>
-
-                    <div class="field-row">
-                        <label for="lighting">Lighting</label>
-                        <select id="lighting">
-                            <option value="">-- Select Lighting --</option>
-                        </select>
-                    </div>
-
-                    <div class="field-row">
-                        <label for="cameraType">Camera Style</label>
-                        <select id="cameraType">
-                            <option value="">-- Select Camera Style --</option>
-                        </select>
-                    </div>
-
-                    <fieldset class="field-row fieldset-row">
-                        <legend>Aspect Ratio</legend>
-                        <div class="radio-group" id="aspectRatioGroup"></div>
-                    </fieldset>
+                    <section id="catalogFields" class="mode-fields catalog-fields" hidden>
+                        <div class="catalog-mode-intro">
+                            <span class="catalog-mode-icon">👗</span>
+                            <div>
+                                <strong>Reference Outfit Catalog</strong>
+                                <p>Designed for reference-image workflows where the original clothing must remain unchanged.</p>
+                            </div>
+                        </div>
+                        <div class="field-row"><label for="catalogSubject">Subject</label><select id="catalogSubject"><option value="custom">-- Custom Subject --</option></select></div>
+                        <div class="field-row" id="catalogCustomSubjectRow" hidden>
+                            <label for="catalogCustomSubject">Custom Subject</label>
+                            <input id="catalogCustomSubject" type="text" placeholder="Example: A young Indonesian hijabi girl">
+                        </div>
+                        <div class="field-row"><label for="catalogType">Catalog / Campaign Type</label><select id="catalogType"><option value="">-- Select Catalog Type --</option></select></div>
+                        <div class="field-row"><label for="preservationLevel">Outfit Preservation</label><select id="preservationLevel"><option value="">-- Select Preservation Level --</option></select></div>
+                        <div class="field-row"><label for="catalogSetting">Setting</label><select id="catalogSetting"><option value="">-- Select Catalog Setting --</option></select></div>
+                        <div class="field-row" id="catalogCustomSettingRow" hidden>
+                            <label for="catalogCustomSetting">Custom Setting</label>
+                            <textarea id="catalogCustomSetting" class="short-textarea" placeholder="Example: inside an elegant luxury living room"></textarea>
+                        </div>
+                        <div class="field-row"><label for="catalogPose">Pose / Presentation</label><select id="catalogPose"><option value="">-- Select Catalog Pose --</option></select></div>
+                        <div class="field-row"><label for="catalogShot">Shot Type</label><select id="catalogShot"><option value="">-- Select Shot Type --</option></select></div>
+                        <div class="field-row"><label for="catalogAspectRatio">Aspect Ratio</label><select id="catalogAspectRatio"><option value="">-- Select Aspect Ratio --</option></select></div>
+                        <div class="field-row">
+                            <label for="catalogExtraInstruction">Extra Instruction <span class="optional-label">optional</span></label>
+                            <textarea id="catalogExtraInstruction" class="short-textarea" placeholder="Example: soft natural daylight, clean catalog composition"></textarea>
+                        </div>
+                        <div class="catalog-safety-note" id="catalogSafetyNote">
+                            <strong>Child-safe logic</strong>
+                            <span>When a child subject is selected, the generator automatically adds age-appropriate presentation and prioritizes child-safe catalog types and poses.</span>
+                        </div>
+                    </section>
 
                     <div class="button-group">
                         <button type="button" id="generatePromptBtn">Generate Prompt</button>
@@ -227,24 +225,24 @@
                 <div class="output-heading">
                     <span>Generated Prompt</span>
                     <div class="output-meta">
+                        <span class="active-style-badge" id="activeModeBadge">Creative</span>
                         <span class="active-style-badge" id="activeStyleBadge" hidden>No style</span>
                         <small id="promptStats">0 characters</small>
                     </div>
                 </div>
                 <textarea id="output" readonly placeholder="Your generated prompt will appear here…"></textarea>
                 <div class="output-tip">
-                    <strong>Smart tip</strong>
-                    <span>Select a style card first, then use searchable dropdowns. Smart Compatibility will prioritize choices that fit the active style.</span>
+                    <strong id="outputTipTitle">Smart tip</strong>
+                    <span id="outputTipText">Select a style card first, then use searchable dropdowns. Smart Compatibility will prioritize choices that fit the active style.</span>
                 </div>
             </aside>
         </section>
 
         <footer class="page-footer">
-            <span id="footerVersion">Prompt Gen 4.2</span>
-            <span>Style Presets · Searchable · Smart Compatibility · Google Sheets-ready</span>
+            <span id="footerVersion">Prompt Gen 4.3</span>
+            <span>Multi-Mode · Reference Outfit Catalog · Searchable · Smart Compatibility · Google Sheets-ready</span>
         </footer>
     </main>
-
     <div class="message-box" id="messageBox" role="status" aria-live="polite"></div>
 </body>
 </html>

@@ -1,14 +1,14 @@
 {
   "meta": {
-    "version": "4.2.0",
-    "generatedAt": "2026-07-31",
+    "version": "4.3.0",
+    "generatedAt": "2026-08-23",
     "source": "fallback.json",
     "originalFile": "Prompt Gen.html"
   },
   "config": {
-    "appTitle": "Prompt Gen 4.2",
+    "appTitle": "Prompt Gen 4.3",
     "creatorName": "Ndoy Creator",
-    "subtitle": "Smart AI Image Prompt Builder · Style Presets",
+    "subtitle": "Multi-Mode Prompt Builder · Reference Outfit Catalog",
     "defaultCharacter": "custom",
     "defaultGender": "auto",
     "defaultSettingType": "outdoor",
@@ -22,7 +22,15 @@
     "searchableDropdowns": "TRUE",
     "defaultStylePreset": "",
     "styleApplyMode": "replace",
-    "includeNegativePrompt": "FALSE"
+    "includeNegativePrompt": "FALSE",
+    "defaultPromptMode": "creative",
+    "defaultCatalogAspectRatio": "4:5",
+    "defaultPreservationLevel": "exact-strict",
+    "defaultCatalogType": "modest-children",
+    "defaultCatalogPose": "natural-pose",
+    "defaultCatalogShot": "medium-shot",
+    "defaultCatalogSubject": "young-indonesian-hijabi-girl",
+    "defaultCatalogSetting": "luxury-living-room"
   },
   "stylePresets": [
     {
@@ -4976,6 +4984,795 @@
       "message": "Water-based settings often look most natural with swimwear, casual, or sportswear outfits.",
       "active": true,
       "sort": 25
+    }
+  ],
+  "promptModes": [
+    {
+      "id": "creative",
+      "label": "Creative Prompt Builder",
+      "icon": "✨",
+      "description": "Flexible character, scene, style, camera, and lighting builder.",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "creative",
+        "general"
+      ]
+    },
+    {
+      "id": "outfit_catalog",
+      "label": "Reference Outfit Catalog",
+      "icon": "👗",
+      "description": "Strict reference-image fashion prompts that preserve the original outfit.",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "reference",
+        "outfit",
+        "catalog",
+        "fashion"
+      ]
+    }
+  ],
+  "catalogSubjects": [
+    {
+      "id": "young-indonesian-hijabi-girl",
+      "label": "Young Indonesian Hijabi Girl",
+      "prompt": "A young Indonesian hijabi girl",
+      "age_group": "child",
+      "child_safe": true,
+      "category": "Children",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "child",
+        "girl",
+        "indonesian",
+        "hijabi",
+        "modest"
+      ]
+    },
+    {
+      "id": "young-indonesian-girl",
+      "label": "Young Indonesian Girl",
+      "prompt": "A young Indonesian girl",
+      "age_group": "child",
+      "child_safe": true,
+      "category": "Children",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "child",
+        "girl",
+        "indonesian"
+      ]
+    },
+    {
+      "id": "young-indonesian-boy",
+      "label": "Young Indonesian Boy",
+      "prompt": "A young Indonesian boy",
+      "age_group": "child",
+      "child_safe": true,
+      "category": "Children",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "child",
+        "boy",
+        "indonesian"
+      ]
+    },
+    {
+      "id": "indonesian-hijabi-woman",
+      "label": "Indonesian Hijabi Woman",
+      "prompt": "An Indonesian hijabi woman",
+      "age_group": "adult",
+      "child_safe": false,
+      "category": "Adults",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "adult",
+        "woman",
+        "indonesian",
+        "hijabi",
+        "modest"
+      ]
+    },
+    {
+      "id": "asian-hijabi-woman",
+      "label": "Asian Hijabi Woman",
+      "prompt": "A hijabi Asian woman",
+      "age_group": "adult",
+      "child_safe": false,
+      "category": "Adults",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "adult",
+        "woman",
+        "asian",
+        "hijabi",
+        "modest"
+      ]
+    },
+    {
+      "id": "indonesian-woman",
+      "label": "Indonesian Woman",
+      "prompt": "An Indonesian woman",
+      "age_group": "adult",
+      "child_safe": false,
+      "category": "Adults",
+      "active": true,
+      "sort": 6,
+      "tags": [
+        "adult",
+        "woman",
+        "indonesian"
+      ]
+    },
+    {
+      "id": "indonesian-man",
+      "label": "Indonesian Man",
+      "prompt": "An Indonesian man",
+      "age_group": "adult",
+      "child_safe": false,
+      "category": "Adults",
+      "active": true,
+      "sort": 7,
+      "tags": [
+        "adult",
+        "man",
+        "indonesian"
+      ]
+    },
+    {
+      "id": "asian-man",
+      "label": "Asian Man",
+      "prompt": "An Asian man",
+      "age_group": "adult",
+      "child_safe": false,
+      "category": "Adults",
+      "active": true,
+      "sort": 8,
+      "tags": [
+        "adult",
+        "man",
+        "asian"
+      ]
+    }
+  ],
+  "catalogTypes": [
+    {
+      "id": "modest-children",
+      "label": "Modest Children's Clothing Catalog",
+      "prompt": "a modest children's clothing catalog",
+      "closing_prompt": "Family-friendly children's fashion photography.",
+      "audience": "child",
+      "category": "Catalog",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "children",
+        "modest",
+        "catalog",
+        "family-friendly"
+      ]
+    },
+    {
+      "id": "children-fashion",
+      "label": "Children's Fashion Catalog",
+      "prompt": "a children's fashion catalog",
+      "closing_prompt": "Family-friendly children's fashion photography.",
+      "audience": "child",
+      "category": "Catalog",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "children",
+        "catalog",
+        "family-friendly"
+      ]
+    },
+    {
+      "id": "modest-clothing",
+      "label": "Modest Clothing Catalog",
+      "prompt": "a modest clothing catalog",
+      "closing_prompt": "Elegant modest fashion photography.",
+      "audience": "all",
+      "category": "Catalog",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "modest",
+        "catalog",
+        "fashion"
+      ]
+    },
+    {
+      "id": "premium-boutique",
+      "label": "Premium Boutique Campaign",
+      "prompt": "a premium boutique fashion campaign",
+      "closing_prompt": "Premium boutique fashion photography with refined commercial presentation.",
+      "audience": "all",
+      "category": "Campaign",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "boutique",
+        "premium",
+        "campaign",
+        "fashion"
+      ]
+    },
+    {
+      "id": "ecommerce-fashion",
+      "label": "E-commerce Fashion Catalog",
+      "prompt": "an e-commerce fashion catalog",
+      "closing_prompt": "Clean commercial fashion photography suitable for product-focused e-commerce presentation.",
+      "audience": "all",
+      "category": "Commercial",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "ecommerce",
+        "catalog",
+        "commercial"
+      ]
+    },
+    {
+      "id": "lifestyle-fashion",
+      "label": "Lifestyle Fashion Campaign",
+      "prompt": "a lifestyle fashion campaign",
+      "closing_prompt": "Natural lifestyle fashion photography with a clean, authentic commercial feel.",
+      "audience": "all",
+      "category": "Campaign",
+      "active": true,
+      "sort": 6,
+      "tags": [
+        "lifestyle",
+        "campaign",
+        "fashion"
+      ]
+    }
+  ],
+  "preservationLevels": [
+    {
+      "id": "exact-strict",
+      "label": "Exact Outfit Preservation",
+      "category": "Recommended",
+      "intro_prompt": "Without changing the existing outfit in any way, including its exact color, fabric, pattern, texture, cut, proportions, and every original detail, create a photorealistic image in a {{aspect_ratio}} aspect ratio.",
+      "closing_prompt": "No text, no accessories that alter the outfit, and no modification or distortion of the clothing.",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "strict",
+        "exact",
+        "recommended"
+      ]
+    },
+    {
+      "id": "ultra-strict",
+      "label": "Ultra Strict Preservation",
+      "category": "Maximum Control",
+      "intro_prompt": "Use the reference outfit exactly as shown. Do not redesign, recolor, restyle, simplify, replace, crop, obscure, or reinterpret any part of the clothing. Preserve its exact color, fabric, pattern, print placement, texture, stitching, cut, silhouette, proportions, layering, and every original detail. Create a photorealistic image in a {{aspect_ratio}} aspect ratio.",
+      "closing_prompt": "No text. Do not add, remove, redesign, recolor, restyle, distort, cover, or replace any part of the outfit, and do not add accessories that change the original clothing silhouette.",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "ultra",
+        "strict",
+        "maximum"
+      ]
+    },
+    {
+      "id": "compact-strict",
+      "label": "Compact Strict Preservation",
+      "category": "Concise",
+      "intro_prompt": "Keep the reference outfit completely unchanged, preserving all original colors, fabrics, patterns, textures, cuts, proportions, and details. Create a photorealistic image in a {{aspect_ratio}} aspect ratio.",
+      "closing_prompt": "No text and no clothing alteration, redesign, or distortion.",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "compact",
+        "strict",
+        "concise"
+      ]
+    }
+  ],
+  "catalogSettings": [
+    {
+      "id": "luxury-living-room",
+      "label": "Elegant Luxury Living Room",
+      "prompt": "inside an elegant luxury living room",
+      "category": "Interior",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "indoor",
+        "living-room",
+        "luxury",
+        "home"
+      ]
+    },
+    {
+      "id": "modern-library",
+      "label": "Modern Contemporary Library",
+      "prompt": "inside a modern contemporary library with warm wood accents and floor-to-ceiling windows",
+      "category": "Interior",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "indoor",
+        "library",
+        "modern",
+        "wood"
+      ]
+    },
+    {
+      "id": "airport-lounge",
+      "label": "Premium Airport Lounge",
+      "prompt": "inside a premium modern airport lounge beside a large floor-to-ceiling window overlooking the airport apron",
+      "category": "Interior",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "indoor",
+        "airport",
+        "lounge",
+        "premium"
+      ]
+    },
+    {
+      "id": "hotel-lobby",
+      "label": "Elegant Hotel Lobby",
+      "prompt": "inside an elegant hotel lobby with contemporary interior design and polished marble flooring",
+      "category": "Interior",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "indoor",
+        "hotel",
+        "lobby",
+        "luxury"
+      ]
+    },
+    {
+      "id": "hotel-room",
+      "label": "Contemporary Hotel Room",
+      "prompt": "inside a luxurious contemporary hotel room with refined neutral interiors",
+      "category": "Interior",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "indoor",
+        "hotel",
+        "room"
+      ]
+    },
+    {
+      "id": "boutique-interior",
+      "label": "Premium Boutique Interior",
+      "prompt": "inside a refined premium fashion boutique with clean display shelving and soft ambient lighting",
+      "category": "Retail",
+      "active": true,
+      "sort": 6,
+      "tags": [
+        "indoor",
+        "boutique",
+        "retail",
+        "fashion"
+      ]
+    },
+    {
+      "id": "fitting-room",
+      "label": "Minimalist Fitting Room",
+      "prompt": "inside a clean minimalist fitting room with a full-length mirror and neutral walls",
+      "category": "Retail",
+      "active": true,
+      "sort": 7,
+      "tags": [
+        "indoor",
+        "fitting-room",
+        "retail",
+        "mirror"
+      ]
+    },
+    {
+      "id": "front-cafe",
+      "label": "White Tropical Café Front",
+      "prompt": "in front of a white-walled café with glass doors, white-painted iron chairs and tables, tropical plants, and natural stone flooring",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 8,
+      "tags": [
+        "outdoor",
+        "cafe",
+        "tropical"
+      ]
+    },
+    {
+      "id": "urban-architecture-stairs",
+      "label": "Urban Architecture Stairs",
+      "prompt": "at an elegant urban architecture scene with dark gray stone stairs, warm built-in step lights, and reflective glass walls",
+      "category": "Urban",
+      "active": true,
+      "sort": 9,
+      "tags": [
+        "urban",
+        "stairs",
+        "architecture",
+        "glass"
+      ]
+    },
+    {
+      "id": "modern-courtyard",
+      "label": "Modern Courtyard Garden",
+      "prompt": "in a modern courtyard garden with curved seating, clean stone pathways, subtle warm lighting, and minimalist landscaping",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 10,
+      "tags": [
+        "outdoor",
+        "courtyard",
+        "garden",
+        "modern"
+      ]
+    },
+    {
+      "id": "outdoor-cafe-courtyard",
+      "label": "Modern Outdoor Café Courtyard",
+      "prompt": "in a modern outdoor café courtyard surrounded by glass walls, greenery, and warm ambient lighting",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 11,
+      "tags": [
+        "outdoor",
+        "cafe",
+        "courtyard",
+        "modern"
+      ]
+    },
+    {
+      "id": "city-park",
+      "label": "Modern City Park",
+      "prompt": "in a clean modern city park with landscaped greenery, paved walkways, and soft natural daylight",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 12,
+      "tags": [
+        "outdoor",
+        "park",
+        "city",
+        "natural"
+      ]
+    },
+    {
+      "id": "tropical-garden",
+      "label": "Tropical Garden Walkway",
+      "prompt": "in a serene tropical garden with lush greenery, modern stepping paths, and subtle architectural lighting",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 13,
+      "tags": [
+        "outdoor",
+        "tropical",
+        "garden"
+      ]
+    },
+    {
+      "id": "front-porch",
+      "label": "Modern Minimalist Front Porch",
+      "prompt": "at a modern minimalist front porch with warm wood, light stone, large glass panels, and clean landscaping",
+      "category": "Residential",
+      "active": true,
+      "sort": 14,
+      "tags": [
+        "outdoor",
+        "porch",
+        "modern",
+        "residential"
+      ]
+    },
+    {
+      "id": "upscale-urban-street",
+      "label": "Upscale Urban Street",
+      "prompt": "on a sophisticated urban street with elegant architecture, stone paving, and manicured greenery",
+      "category": "Urban",
+      "active": true,
+      "sort": 15,
+      "tags": [
+        "outdoor",
+        "urban",
+        "street",
+        "upscale"
+      ]
+    },
+    {
+      "id": "mall",
+      "label": "Upscale Shopping Mall",
+      "prompt": "inside an upscale modern shopping mall with layered contemporary architecture and warm architectural lighting",
+      "category": "Retail",
+      "active": true,
+      "sort": 16,
+      "tags": [
+        "indoor",
+        "mall",
+        "retail",
+        "modern"
+      ]
+    },
+    {
+      "id": "minimal-studio",
+      "label": "Minimal Fashion Studio",
+      "prompt": "inside a clean minimalist fashion studio with a seamless neutral backdrop and soft diffused studio lighting",
+      "category": "Studio",
+      "active": true,
+      "sort": 17,
+      "tags": [
+        "indoor",
+        "studio",
+        "fashion",
+        "minimal"
+      ]
+    },
+    {
+      "id": "warm-home-interior",
+      "label": "Warm Contemporary Home",
+      "prompt": "inside a warm contemporary home interior with natural wood, neutral furniture, and soft daylight",
+      "category": "Interior",
+      "active": true,
+      "sort": 18,
+      "tags": [
+        "indoor",
+        "home",
+        "warm",
+        "contemporary"
+      ]
+    },
+    {
+      "id": "modern-gallery",
+      "label": "Minimal Art Gallery",
+      "prompt": "inside a minimalist contemporary art gallery with clean white walls, polished floors, and soft gallery lighting",
+      "category": "Interior",
+      "active": true,
+      "sort": 19,
+      "tags": [
+        "indoor",
+        "gallery",
+        "minimal"
+      ]
+    },
+    {
+      "id": "resort-terrace",
+      "label": "Luxury Resort Terrace",
+      "prompt": "on an elegant luxury resort terrace with refined outdoor seating, tropical landscaping, and soft natural daylight",
+      "category": "Outdoor",
+      "active": true,
+      "sort": 20,
+      "tags": [
+        "outdoor",
+        "resort",
+        "terrace",
+        "luxury"
+      ]
+    }
+  ],
+  "catalogPoses": [
+    {
+      "id": "natural-pose",
+      "label": "Natural Pose",
+      "prompt": "Natural pose",
+      "child_safe": true,
+      "category": "General",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "natural",
+        "catalog",
+        "safe"
+      ]
+    },
+    {
+      "id": "relaxed-standing",
+      "label": "Relaxed Standing Pose",
+      "prompt": "Relaxed natural standing pose",
+      "child_safe": true,
+      "category": "Standing",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "standing",
+        "relaxed",
+        "catalog"
+      ]
+    },
+    {
+      "id": "calm-candid",
+      "label": "Calm Candid Pose",
+      "prompt": "Calm candid pose with relaxed posture",
+      "child_safe": true,
+      "category": "General",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "candid",
+        "relaxed",
+        "catalog"
+      ]
+    },
+    {
+      "id": "natural-sitting",
+      "label": "Natural Sitting Pose",
+      "prompt": "Sitting naturally with a relaxed, composed posture",
+      "child_safe": true,
+      "category": "Sitting",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "sitting",
+        "natural",
+        "catalog"
+      ]
+    },
+    {
+      "id": "gentle-walking",
+      "label": "Gentle Walking Pose",
+      "prompt": "Walking naturally with a relaxed catalog-style presentation",
+      "child_safe": true,
+      "category": "Movement",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "walking",
+        "natural",
+        "catalog"
+      ]
+    },
+    {
+      "id": "hands-relaxed",
+      "label": "Standing, Hands Relaxed",
+      "prompt": "Standing naturally with both hands relaxed",
+      "child_safe": true,
+      "category": "Standing",
+      "active": true,
+      "sort": 6,
+      "tags": [
+        "standing",
+        "hands",
+        "safe"
+      ]
+    },
+    {
+      "id": "slight-turn",
+      "label": "Slight Three-Quarter Turn",
+      "prompt": "Natural standing pose with a subtle three-quarter body turn",
+      "child_safe": true,
+      "category": "Standing",
+      "active": true,
+      "sort": 7,
+      "tags": [
+        "standing",
+        "three-quarter",
+        "catalog"
+      ]
+    },
+    {
+      "id": "seated-sideways",
+      "label": "Relaxed Sideways Sitting",
+      "prompt": "Sitting slightly sideways in a relaxed, elegant catalog pose",
+      "child_safe": true,
+      "category": "Sitting",
+      "active": true,
+      "sort": 8,
+      "tags": [
+        "sitting",
+        "sideways",
+        "catalog"
+      ]
+    },
+    {
+      "id": "confident-standing",
+      "label": "Confident Standing Pose",
+      "prompt": "Confident standing pose with clean fashion-catalog posture",
+      "child_safe": false,
+      "category": "Adult Fashion",
+      "active": true,
+      "sort": 9,
+      "tags": [
+        "standing",
+        "confident",
+        "fashion"
+      ]
+    },
+    {
+      "id": "editorial-candid",
+      "label": "Soft Editorial Candid",
+      "prompt": "Soft editorial candid pose with understated movement and elegant posture",
+      "child_safe": false,
+      "category": "Adult Fashion",
+      "active": true,
+      "sort": 10,
+      "tags": [
+        "editorial",
+        "candid",
+        "fashion"
+      ]
+    }
+  ],
+  "catalogShots": [
+    {
+      "id": "medium-shot",
+      "label": "Medium Shot",
+      "prompt": "medium shot",
+      "category": "Catalog",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "medium",
+        "portrait"
+      ]
+    },
+    {
+      "id": "full-body",
+      "label": "Full Body Visible",
+      "prompt": "full body visible",
+      "category": "Catalog",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "full-body",
+        "catalog"
+      ]
+    },
+    {
+      "id": "three-quarter",
+      "label": "Three-Quarter Shot",
+      "prompt": "three-quarter shot",
+      "category": "Catalog",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "three-quarter",
+        "catalog"
+      ]
+    },
+    {
+      "id": "seated-full-body",
+      "label": "Seated Full Body",
+      "prompt": "seated full-body shot with the complete outfit visible",
+      "category": "Catalog",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "seated",
+        "full-body"
+      ]
+    },
+    {
+      "id": "medium-close-up",
+      "label": "Medium Close-Up",
+      "prompt": "medium close-up",
+      "category": "Portrait",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "close-up",
+        "portrait"
+      ]
+    },
+    {
+      "id": "full-length-front",
+      "label": "Full-Length Front View",
+      "prompt": "full-length front-facing catalog shot with the complete outfit clearly visible",
+      "category": "E-commerce",
+      "active": true,
+      "sort": 6,
+      "tags": [
+        "full-length",
+        "front",
+        "ecommerce"
+      ]
     }
   ]
 }

@@ -1328,3 +1328,195 @@ body.dark-mode .active-style-badge { color: #ffd977; }
     .output-heading { align-items: flex-start; }
     .output-meta { align-items: flex-end; flex-direction: column; }
 }
+
+/* Prompt Gen 4.3 — Multi-Mode + Reference Outfit Catalog */
+.prompt-mode-panel {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding: 18px;
+    border: 1px solid rgba(255, 189, 46, 0.30);
+    border-radius: var(--radius-lg);
+    background:
+        radial-gradient(circle at top right, rgba(255, 189, 46, 0.14), transparent 18rem),
+        rgba(255, 255, 255, 0.30);
+}
+
+body.dark-mode .prompt-mode-panel {
+    background:
+        radial-gradient(circle at top right, rgba(255, 189, 46, 0.10), transparent 18rem),
+        rgba(15, 23, 42, 0.20);
+}
+
+.prompt-mode-head h2 {
+    margin: 4px 0 3px;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+}
+
+.prompt-mode-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.prompt-mode-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.prompt-mode-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) 24px;
+    align-items: center;
+    gap: 12px;
+    min-height: 92px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: rgba(255, 255, 252, 0.72);
+    color: var(--text);
+    text-align: left;
+    box-shadow: none;
+}
+
+body.dark-mode .prompt-mode-card { background: rgba(15, 23, 42, 0.38); }
+
+.prompt-mode-card:hover {
+    border-color: rgba(255, 189, 46, 0.55);
+    box-shadow: 0 12px 24px rgba(86, 77, 67, 0.10);
+}
+
+.prompt-mode-card.is-active {
+    border-color: rgba(255, 189, 46, 0.90);
+    background: rgba(255, 189, 46, 0.12);
+    box-shadow: 0 0 0 3px rgba(255, 189, 46, 0.10);
+}
+
+.prompt-mode-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: rgba(255, 189, 46, 0.16);
+    font-size: 22px;
+}
+
+.prompt-mode-card > span:nth-child(2) {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+}
+
+.prompt-mode-card strong { font-size: 13px; }
+.prompt-mode-card small {
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+.prompt-mode-check {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(127, 127, 127, 0.10);
+    color: transparent;
+    font-size: 12px;
+}
+
+.prompt-mode-card.is-active .prompt-mode-check {
+    background: var(--primary);
+    color: #1f1f1f;
+}
+
+.mode-fields { display: grid; gap: 14px; }
+
+.catalog-fields {
+    padding: 18px;
+    border: 1px solid rgba(139, 75, 61, 0.22);
+    border-radius: var(--radius-lg);
+    background:
+        radial-gradient(circle at top left, rgba(139, 75, 61, 0.08), transparent 18rem),
+        rgba(255, 255, 255, 0.24);
+}
+
+body.dark-mode .catalog-fields {
+    background:
+        radial-gradient(circle at top left, rgba(154, 88, 71, 0.14), transparent 18rem),
+        rgba(15, 23, 42, 0.18);
+}
+
+.catalog-mode-intro {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: rgba(255, 189, 46, 0.08);
+}
+
+.catalog-mode-intro .catalog-mode-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: rgba(255, 189, 46, 0.16);
+    font-size: 22px;
+}
+
+.catalog-mode-intro strong { font-size: 13px; }
+.catalog-mode-intro p {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.catalog-safety-note {
+    display: grid;
+    gap: 3px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(142, 168, 47, 0.07);
+}
+
+.catalog-safety-note[data-active="true"] {
+    border-color: rgba(142, 168, 47, 0.35);
+    background: rgba(142, 168, 47, 0.12);
+}
+
+.catalog-safety-note strong { font-size: 11px; }
+.catalog-safety-note span {
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.optional-label {
+    margin-left: 5px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.active-style-badge[data-mode="outfit_catalog"] {
+    border-color: rgba(139, 75, 61, 0.28);
+    background: rgba(139, 75, 61, 0.10);
+}
+
+@media (max-width: 680px) {
+    .prompt-mode-grid { grid-template-columns: 1fr; }
+    .prompt-mode-card { min-height: 84px; }
+    .catalog-fields { padding: 14px; }
+    .catalog-mode-intro { align-items: flex-start; }
+}

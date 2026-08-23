@@ -174,6 +174,7 @@
         return {
             meta: payload.meta || {},
             config: normalizeConfig(payload.config),
+            promptModes: normalizeList(payload.promptModes || []),
             stylePresets: normalizeList(payload.stylePresets || []),
             characters: normalizeList(payload.characters),
             poses: normalizeList(payload.poses),
@@ -184,14 +185,21 @@
             lighting: normalizeList(payload.lighting),
             cameraStyles: normalizeList(payload.cameraStyles),
             aspectRatios: normalizeList(payload.aspectRatios),
-            compatibilityRules: normalizeList(payload.compatibilityRules)
+            compatibilityRules: normalizeList(payload.compatibilityRules),
+            catalogSubjects: normalizeList(payload.catalogSubjects || []),
+            catalogTypes: normalizeList(payload.catalogTypes || []),
+            catalogSettings: normalizeList(payload.catalogSettings || []),
+            catalogPoses: normalizeList(payload.catalogPoses || []),
+            catalogShots: normalizeList(payload.catalogShots || []),
+            preservationLevels: normalizeList(payload.preservationLevels || [])
         };
     }
 
     function validate(data) {
         const required = [
             "characters", "poses", "expressions", "outfits",
-            "settings", "cameraAngles", "lighting", "cameraStyles", "aspectRatios"
+            "settings", "cameraAngles", "lighting", "cameraStyles", "aspectRatios",
+            "catalogSubjects", "catalogTypes", "catalogSettings", "catalogPoses", "catalogShots", "preservationLevels"
         ];
         const missing = required.filter(key => !Array.isArray(data[key]));
         if (missing.length) {

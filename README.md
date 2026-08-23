@@ -1,137 +1,67 @@
-# Prompt Gen 4.2 — Prompt Style Presets
+# Prompt Gen 4.3 — Multi Mode
 
-Prompt Gen 4.2 is a GitHub Pages prompt builder whose content is managed from Google Sheets through a Google Apps Script JSON API.
+Prompt Gen 4.3 is a static GitHub Pages web app backed by Google Sheets through a Google Apps Script JSON API.
 
-## What is new in 4.2
+## Modes
 
-- Six one-click visual style cards:
-  - Hyper-Realistic iPhone
-  - Cinematic Movie Still
-  - Fashion Editorial
-  - Indonesian Lifestyle Candid
-  - Japanese Nostalgia 1980s
-  - Miniature Diorama
-- A style can set the prompt opening, camera style, camera angle, lighting, and aspect ratio.
-- Two apply behaviors:
-  - **Replace technical settings**: applies the complete preset.
-  - **Fill empty settings only**: preserves technical choices already selected.
-- Optional negative-prompt guidance.
-- The active style appears beside the generated-prompt counter.
-- Smart Compatibility uses `RECOMMENDED_TAGS` and `EXCLUDED_TAGS` to rank dropdown options.
-- New **4:5** aspect ratio for editorial and Instagram-oriented images.
-- Style definitions are fully editable from the `STYLE_PRESETS` Google Sheets tab.
+### 1. Creative Prompt Builder
+The existing flexible generator with:
+- Prompt Style Presets
+- Smart Compatibility
+- Searchable Dropdowns
+- Smart Random
+- Camera, lighting, setting and aspect ratio controls
 
-Existing 4.1 features remain available: Searchable Dropdown, Smart Compatibility, Smart Random, dark mode, fallback database, API cache controls, and automatic pronouns.
+### 2. Reference Outfit Catalog
+A new strict template-driven generator for image-reference fashion workflows. It preserves the original outfit while changing the model, pose, framing and environment.
 
-## Files uploaded to GitHub
-
-Upload or replace these files directly in the repository root:
+Default output pattern:
 
 ```text
-index.html
-style.css
-app.js
-data-loader.js
-prompt-builder.js
-compatibility-engine.js
-searchable-select.js
-fallback.json
-README.md
+Without changing the existing outfit in any way, including its exact color, fabric, pattern, texture, cut, proportions, and every original detail, create a photorealistic image in a 4:5 aspect ratio.
+
+A young Indonesian hijabi girl wearing the exact outfit from the reference image, photographed for a modest children's clothing catalog inside an elegant luxury living room. Natural pose, age-appropriate presentation, medium shot.
+
+Family-friendly children's fashion photography. No text, no accessories that alter the outfit, and no modification or distortion of the clothing.
 ```
 
-Do not upload the Excel workbooks as website files. The Excel files are for Google Sheets setup or migration.
+## GitHub root files
 
-## Choose the correct database path
+Upload/replace these in the repository root:
 
-### A. New installation
+- `index.html`
+- `style.css`
+- `app.js`
+- `prompt-builder.js`
+- `catalog-prompt-builder.js`
+- `compatibility-engine.js`
+- `searchable-select.js`
+- `data-loader.js`
+- `fallback.json`
 
-Import:
+`README.md` is optional for the website but useful for the repository.
 
-```text
-Database_Prompt_Gen_4_2.xlsx
-```
+## Google Sheets upgrade
 
-into a new Google Sheet.
+For an existing Prompt Gen 4.2 database, use `Upgrade_4_2_to_4_3.xlsx` instead of replacing your whole spreadsheet. This protects rows you have already edited or added.
 
-### B. Upgrade from an edited Prompt Gen 4.1 Google Sheet
+For a fresh install, use `Database_Prompt_Gen_4_3.xlsx`.
 
-Use:
+## Apps Script
 
-```text
-Upgrade_4_1_to_4_2.xlsx
-```
+Copy `google-apps-script/Code.gs` into the Apps Script project, run `setup()` once, and deploy a **New version** of the existing Web App. The `/exec` URL stays the same.
 
-This is safer because it does not require replacing the database that you already edited. Follow `MIGRATION_4_1_TO_4_2.md`.
+The API keeps the 4.2.2 cache-size fix: each collection is cached separately, and oversized collections are served without failing the API.
 
-## Google Apps Script setup
+## API source priority
 
-1. Open the Prompt Gen Google Sheet.
-2. Open **Extensions → Apps Script**.
-3. Replace the existing script with `google-apps-script/Code.gs`.
-4. Run `setup()` once.
-5. Open **Deploy → Manage deployments**.
-6. Edit the active deployment.
-7. Select **New version** and click **Deploy**.
-8. The `/exec` URL normally remains unchanged.
+The browser uses:
+1. `?api=` URL parameter
+2. URL saved through **Save & Reload**
+3. `<meta name="prompt-api-url">` inside `index.html`
 
-The 4.2 script adds this API collection:
+For normal public use, set the meta URL and use **Reset Source** once on browsers that previously saved another URL.
 
-```text
-STYLE_PRESETS → stylePresets
-```
+## Version
 
-## Permanent API URL
-
-Keep the Apps Script `/exec` URL in `index.html`:
-
-```html
-<meta name="prompt-api-url" content="https://script.google.com/macros/s/DEPLOYMENT_ID/exec">
-```
-
-When the URL is already configured in your existing `index.html`, copy it into the new 4.2 file before uploading it to GitHub.
-
-## STYLE_PRESETS columns
-
-| Column | Purpose |
-|---|---|
-| `ID` | Unique stable identifier |
-| `LABEL` | Card title shown on the website |
-| `ICON` | Emoji or short visual symbol |
-| `CATEGORY` | Style grouping |
-| `DESCRIPTION` | Short description shown on the card |
-| `STYLE_PROMPT` | Visual-language sentence added to the generated prompt |
-| `PROMPT_OPENING` | Replaces the normal prompt opening while the style is active |
-| `CAMERA_STYLE_ID` | Default ID from `CAMERA_STYLES` |
-| `CAMERA_ANGLE_ID` | Default ID from `CAMERA_ANGLES` |
-| `LIGHTING_ID` | Default ID from `LIGHTING` |
-| `ASPECT_RATIO_ID` | Default ID from `ASPECT_RATIOS` |
-| `RECOMMENDED_TAGS` | Tags prioritized by Smart Compatibility; separate with `|` |
-| `EXCLUDED_TAGS` | Tags penalized by Smart Compatibility; separate with `|` |
-| `NEGATIVE_PROMPT` | Optional “Avoid” guidance |
-| `TAGS` | General keywords |
-| `ACTIVE` | `TRUE` shows the card; `FALSE` hides it |
-| `SORT` | Card order |
-
-## Editing or adding a style
-
-1. Duplicate an existing row in `STYLE_PRESETS`.
-2. Give it a unique `ID`.
-3. Change the label, description, and style prompt.
-4. Use valid IDs from the technical sheets.
-5. Add recommended and excluded tags.
-6. Set `ACTIVE=TRUE`.
-7. Click **Refresh Now** on the website.
-
-## Local testing
-
-Because `fallback.json` is loaded with `fetch()`, run a local web server instead of opening `index.html` by double-clicking it.
-
-```bash
-python -m http.server 8000
-```
-
-Open:
-
-```text
-http://localhost:8000
-```
+Prompt Gen 4.3.0
