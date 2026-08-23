@@ -716,12 +716,18 @@
     async function saveApiSource() {
         try {
             PromptDataLoader.saveApiUrl(elements.apiUrlInput.value);
-            showMessage("API URL saved. Refreshing data…");
+            showMessage("Browser API override saved. Refreshing data…");
             await loadDatabase({ forceRefresh: true });
         } catch (error) { showMessage(error.message); }
     }
     async function selectFallbackSource() { PromptDataLoader.forceFallback(); showMessage("Fallback source selected."); await loadDatabase(); }
-    async function resetDataSource() { PromptDataLoader.resetSource(); elements.apiUrlInput.value = PromptDataLoader.getApiUrl(); showMessage("Data source reset."); await loadDatabase({ forceRefresh: true }); }
+    async function resetDataSource() {
+        PromptDataLoader.resetSource();
+        elements.apiUrlInput.value = PromptDataLoader.getApiUrl();
+        const source = PromptDataLoader.getApiSource?.() || "default source";
+        showMessage(source === "config.js" ? "Browser override cleared. Using config.js." : "Data source reset.");
+        await loadDatabase({ forceRefresh: true });
+    }
 
     function setControlsDisabled(disabled) {
         elements.promptForm.querySelectorAll("input, select, textarea, button").forEach(el => { if (el !== elements.output) el.disabled = disabled; });

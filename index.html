@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Multi-mode AI image prompt generator powered by Google Sheets.">
-    <!-- Paste your deployed Google Apps Script Web App URL here for public use. -->
-    <meta name="prompt-api-url" content="https://script.google.com/macros/s/AKfycbz81juqJ3M8Bo-vIfjOvMzVkBf1HaAHTXGygQs-Z5vEDsC5uMqWjUTaMCSbp3itPkuXHw/exec">
+    <!-- Legacy fallback only. Permanent deployment settings live in config.js. -->
+    <meta name="prompt-api-url" content="">
     <title>Prompt Gen 4.3</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4.3.0">
-    <script defer src="prompt-builder.js?v=4.3.0"></script>
-    <script defer src="catalog-prompt-builder.js?v=4.3.0"></script>
-    <script defer src="compatibility-engine.js?v=4.3.0"></script>
-    <script defer src="searchable-select.js?v=4.3.0"></script>
-    <script defer src="data-loader.js?v=4.3.0"></script>
-    <script defer src="app.js?v=4.3.0"></script>
+    <link rel="stylesheet" href="style.css?v=4.3.1">
+    <!-- Installation-specific config: keep this file when upgrading Prompt Gen. -->
+    <script src="config.js"></script>
+    <script defer src="prompt-builder.js?v=4.3.1"></script>
+    <script defer src="catalog-prompt-builder.js?v=4.3.1"></script>
+    <script defer src="compatibility-engine.js?v=4.3.1"></script>
+    <script defer src="searchable-select.js?v=4.3.1"></script>
+    <script defer src="data-loader.js?v=4.3.1"></script>
+    <script defer src="app.js?v=4.3.1"></script>
 </head>
 <body>
     <main class="app-shell">
@@ -49,14 +51,14 @@
                     <summary>Database connection</summary>
                     <div class="database-settings-body">
                         <label for="apiUrlInput">Google Apps Script Web App URL</label>
-                        <input id="apiUrlInput" type="url" placeholder="hhttps://script.google.com/macros/s/AKfycbz81juqJ3M8Bo-vIfjOvMzVkBf1HaAHTXGygQs-Z5vEDsC5uMqWjUTaMCSbp3itPkuXHw/exec" autocomplete="off">
+                        <input id="apiUrlInput" type="url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
                         <div class="compact-buttons">
-                            <button type="button" id="saveApiUrlBtn">Save & Reload</button>
+                            <button type="button" id="saveApiUrlBtn">Use Browser Override</button>
                             <button type="button" id="refreshDataBtn" class="refresh-button">Refresh Now</button>
                             <button type="button" id="useFallbackBtn" class="secondary-button">Use Fallback</button>
-                            <button type="button" id="resetSourceBtn" class="ghost-button">Reset Source</button>
+                            <button type="button" id="resetSourceBtn" class="ghost-button">Use config.js</button>
                         </div>
-                        <p class="help-text">For public use, set the <code>prompt-api-url</code> meta tag in <code>index.html</code>. “Refresh Now” bypasses API/browser cache.</p>
+                        <p class="help-text"><strong>Permanent public source:</strong> <code>config.js</code>. The field above is only a browser-specific test override. “Use config.js” clears that override; “Refresh Now” bypasses API/browser cache.</p>
                     </div>
                 </details>
 

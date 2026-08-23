@@ -12,6 +12,10 @@
     const DEFAULT_TIMEOUT_MS = 30000;
     const RETRY_DELAY_MS = 1200;
 
+    function getConfigApiUrl() {
+        return String(global.PROMPT_GEN_CONFIG?.apiUrl || "").trim();
+    }
+
     function getMetaApiUrl() {
         return document.querySelector('meta[name="prompt-api-url"]')?.content?.trim() || "";
     }
@@ -25,8 +29,16 @@
         return localStorage.getItem(STORAGE.apiUrl)?.trim() || "";
     }
 
+    function getApiSource() {
+        if (getUrlParamApi()) return "url-parameter";
+        if (getStoredApiUrl()) return "browser-override";
+        if (getConfigApiUrl()) return "config.js";
+        if (getMetaApiUrl()) return "legacy-meta";
+        return "none";
+    }
+
     function getApiUrl() {
-        return getUrlParamApi() || getStoredApiUrl() || getMetaApiUrl();
+        return getUrlParamApi() || getStoredApiUrl() || getConfigApiUrl() || getMetaApiUrl();
     }
 
     function isForceFallback() {
@@ -328,8 +340,10 @@
         return {
             urlParam: getUrlParamApi(),
             storedUrl: getStoredApiUrl(),
+            configUrl: getConfigApiUrl(),
             metaUrl: getMetaApiUrl(),
             effectiveUrl: getApiUrl(),
+            effectiveSource: getApiSource(),
             forceFallback: isForceFallback()
         };
     }
@@ -337,6 +351,8 @@
     global.PromptDataLoader = {
         load,
         getApiUrl,
+        getApiSource,
+        getConfigApiUrl,
         saveApiUrl,
         forceFallback,
         resetSource,
