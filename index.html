@@ -6,45 +6,55 @@
     <meta name="description" content="Multi-mode AI image prompt generator powered by Google Sheets.">
     <!-- Legacy fallback only. Permanent deployment settings live in config.js. -->
     <meta name="prompt-api-url" content="">
-    <title>Prompt Gen 4.3</title>
+    <title>Prompt Gen 4.4</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4.3.1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=4.4.0">
     <!-- Installation-specific config: keep this file when upgrading Prompt Gen. -->
     <script src="config.js"></script>
-    <script defer src="prompt-builder.js?v=4.3.1"></script>
-    <script defer src="catalog-prompt-builder.js?v=4.3.1"></script>
-    <script defer src="compatibility-engine.js?v=4.3.1"></script>
-    <script defer src="searchable-select.js?v=4.3.1"></script>
-    <script defer src="data-loader.js?v=4.3.1"></script>
-    <script defer src="app.js?v=4.3.1"></script>
+    <script defer src="prompt-builder.js?v=4.4.0"></script>
+    <script defer src="catalog-prompt-builder.js?v=4.4.0"></script>
+    <script defer src="compatibility-engine.js?v=4.4.0"></script>
+    <script defer src="searchable-select.js?v=4.4.0"></script>
+    <script defer src="data-loader.js?v=4.4.0"></script>
+    <script defer src="app.js?v=4.4.0"></script>
 </head>
-<body>
+<body class="dark-mode">
     <main class="app-shell">
         <header class="hero">
-            <div class="hero-copy">
-                <span class="eyebrow">✨ AI Image Prompt Builder</span>
-                <h1 id="appTitle">Prompt Gen 4.3</h1>
-                <p class="subtitle"><span id="appSubtitle">Multi-Mode Prompt Builder</span> · by <span id="creatorName">Ndoy Creator</span></p>
+            <div class="hero-brand">
+                <div class="brand-mark" aria-hidden="true"><span>PG</span></div>
+                <div class="hero-copy">
+                    <span class="eyebrow">AI CREATIVE WORKSTATION <span class="eyebrow-version">v4.4</span></span>
+                    <h1 id="appTitle">Prompt Gen 4.4</h1>
+                    <p class="subtitle"><span id="appSubtitle">Multi-Mode Prompt Builder</span> <span class="subtitle-separator">/</span> <span id="creatorName">Ndoy Creator</span></p>
+                </div>
             </div>
             <div class="hero-actions">
                 <div class="data-status" id="dataStatus" role="status" aria-live="polite">
                     <span class="status-dot"></span>
+                    <span class="status-prefix">DATA</span>
                     <span id="dataStatusText">Loading database…</span>
                 </div>
-                <button class="theme-toggle" id="themeToggle" type="button">🌙 Dark Mode</button>
+                <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle appearance">Dark</button>
             </div>
         </header>
 
         <section class="main-grid">
             <section class="panel controls-panel">
-                <div class="top-actions">
-                    <div class="smart-random-copy">
-                        <strong id="randomModeTitle">Smart Random</strong>
-                        <small id="randomModeHint">Builds a more coherent combination</small>
+                <div class="workspace-bar">
+                    <div class="workspace-title">
+                        <span class="workspace-index">01</span>
+                        <div>
+                            <strong>Build Console</strong>
+                            <small id="randomModeHint">Configure, test, and compose your prompt system.</small>
+                        </div>
                     </div>
-                    <button type="button" class="primary-button" id="randomPromptBtn">🎲 Smart Random</button>
+                    <div class="workspace-actions">
+                        <span class="workspace-mode-label" id="randomModeTitle">Smart Random</span>
+                        <button type="button" class="primary-button compact-primary" id="randomPromptBtn">↻ Randomize</button>
+                    </div>
                 </div>
 
                 <details class="database-settings">
@@ -225,14 +235,30 @@
 
             <aside class="panel output-panel">
                 <div class="output-heading">
-                    <span>Generated Prompt</span>
+                    <div class="output-title-group">
+                        <span class="output-kicker">LIVE OUTPUT</span>
+                        <strong>Generated Prompt</strong>
+                    </div>
                     <div class="output-meta">
                         <span class="active-style-badge" id="activeModeBadge">Creative</span>
                         <span class="active-style-badge" id="activeStyleBadge" hidden>No style</span>
                         <small id="promptStats">0 characters</small>
                     </div>
                 </div>
-                <textarea id="output" readonly placeholder="Your generated prompt will appear here…"></textarea>
+                <div class="prompt-dna" id="promptDna" aria-label="Prompt DNA completeness">
+                    <div class="prompt-dna-head"><span>PROMPT DNA</span><small>live structure</small></div>
+                    <div class="prompt-dna-grid">
+                        <span class="dna-node" id="dnaSubject"><i></i><b>Subject</b></span>
+                        <span class="dna-node" id="dnaScene"><i></i><b>Scene</b></span>
+                        <span class="dna-node" id="dnaStyle"><i></i><b>Style</b></span>
+                        <span class="dna-node" id="dnaCamera"><i></i><b>Framing</b></span>
+                        <span class="dna-node" id="dnaLight"><i></i><b>Light</b></span>
+                    </div>
+                </div>
+                <div class="output-editor-shell">
+                    <div class="editor-topline"><span>prompt.txt</span><span class="editor-live-dot">LIVE</span></div>
+                    <textarea id="output" readonly placeholder="Your generated prompt will appear here…"></textarea>
+                </div>
                 <div class="output-tip">
                     <strong id="outputTipTitle">Smart tip</strong>
                     <span id="outputTipText">Select a style card first, then use searchable dropdowns. Smart Compatibility will prioritize choices that fit the active style.</span>
@@ -241,8 +267,9 @@
         </section>
 
         <footer class="page-footer">
-            <span id="footerVersion">Prompt Gen 4.3</span>
-            <span>Multi-Mode · Reference Outfit Catalog · Searchable · Smart Compatibility · Google Sheets-ready</span>
+            <span id="footerVersion">Prompt Gen 4.4</span>
+            <span class="footer-center">AI Creative Workstation</span>
+            <span>Ndoy Creator</span>
         </footer>
     </main>
     <div class="message-box" id="messageBox" role="status" aria-live="polite"></div>

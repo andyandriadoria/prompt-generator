@@ -61,7 +61,8 @@
             "preservationLevel", "catalogSetting", "catalogCustomSetting", "catalogCustomSettingRow",
             "catalogPose", "catalogShot", "catalogAspectRatio", "catalogExtraInstruction", "catalogSafetyNote",
             "randomPromptBtn", "generatePromptBtn", "resetFormBtn", "copyToClipboardBtn",
-            "output", "promptStats", "messageBox"
+            "output", "promptStats", "messageBox",
+            "dnaSubject", "dnaScene", "dnaStyle", "dnaCamera", "dnaLight"
         ].forEach(id => { elements[id] = document.getElementById(id); });
     }
 
@@ -157,7 +158,7 @@
 
     function applyAppConfig() {
         const config = database.config || {};
-        const title = config.appTitle || "Prompt Gen 4.3";
+        const title = config.appTitle || "Prompt Gen 4.4";
         elements.appTitle.textContent = title;
         document.title = title;
         elements.appSubtitle.textContent = config.subtitle || "Multi-Mode Prompt Builder";
@@ -310,7 +311,7 @@
         elements.activeModeBadge.dataset.mode = currentMode;
         elements.randomModeTitle.textContent = isCatalog ? "Catalog Random" : "Smart Random";
         elements.randomModeHint.textContent = isCatalog ? "Builds a safe, coherent catalog setup" : "Builds a more coherent combination";
-        elements.randomPromptBtn.textContent = isCatalog ? "🎲 Catalog Random" : "🎲 Smart Random";
+        elements.randomPromptBtn.textContent = isCatalog ? "↻ Catalog Random" : "↻ Smart Random";
         elements.outputTipTitle.textContent = isCatalog ? "Reference outfit tip" : "Smart tip";
         elements.outputTipText.textContent = isCatalog
             ? "Attach the clothing reference image when using the prompt. Strict preservation language is automatically included."
@@ -462,6 +463,50 @@
         elements.output.value = prompt;
         elements.promptStats.textContent = `${prompt.length.toLocaleString()} characters`;
         markFilled(elements.output);
+        updatePromptDna();
+    }
+
+
+    function updatePromptDna() {
+        if (!database) return;
+        const setNode = (element, state) => {
+            if (!element) return;
+            element.classList.toggle("is-ready", state === "ready");
+            element.classList.toggle("is-partial", state === "partial");
+        };
+
+        if (currentMode === "outfit_catalog") {
+            const subjectReady = elements.catalogSubject.value === "custom"
+                ? Boolean(elements.catalogCustomSubject.value.trim())
+                : Boolean(elements.catalogSubject.value);
+            const sceneReady = elements.catalogSetting.value === "manual_setting"
+                ? Boolean(elements.catalogCustomSetting.value.trim())
+                : Boolean(elements.catalogSetting.value);
+            const styleReady = Boolean(elements.catalogType.value && elements.preservationLevel.value);
+            const framingReady = Boolean(elements.catalogShot.value || elements.catalogPose.value);
+            const extra = elements.catalogExtraInstruction.value.trim();
+            const hasLight = /\b(light|lighting|daylight|sunlight|studio|softbox|golden|ambient|neon|window)\b/i.test(extra);
+
+            setNode(elements.dnaSubject, subjectReady ? "ready" : "empty");
+            setNode(elements.dnaScene, sceneReady ? "ready" : "empty");
+            setNode(elements.dnaStyle, styleReady ? "ready" : "partial");
+            setNode(elements.dnaCamera, framingReady ? "ready" : "empty");
+            setNode(elements.dnaLight, hasLight ? "ready" : (extra ? "partial" : "empty"));
+            return;
+        }
+
+        const characterReady = elements.characterPreset.value !== "custom" || Boolean(elements.features.value.trim());
+        const sceneReady = Boolean(elements.setting.value);
+        const styleReady = Boolean(activeStylePresetId);
+        const stylePartial = !styleReady && Boolean(elements.cameraType.value);
+        const cameraReady = Boolean(elements.cameraAngle.value || elements.cameraType.value);
+        const lightReady = Boolean(elements.lighting.value);
+
+        setNode(elements.dnaSubject, characterReady ? "ready" : "empty");
+        setNode(elements.dnaScene, sceneReady ? "ready" : "empty");
+        setNode(elements.dnaStyle, styleReady ? "ready" : (stylePartial ? "partial" : "empty"));
+        setNode(elements.dnaCamera, cameraReady ? "ready" : "empty");
+        setNode(elements.dnaLight, lightReady ? "ready" : "empty");
     }
 
     function buildCompatibilitySelection() {
@@ -755,7 +800,9 @@
     }
 
     function restoreTheme() {
-        document.body.classList.toggle("dark-mode", localStorage.getItem("promptGenTheme") === "dark");
+        const storedTheme = localStorage.getItem("promptGenTheme");
+        const useDark = storedTheme === null ? true : storedTheme === "dark";
+        document.body.classList.toggle("dark-mode", useDark);
         updateThemeButton();
     }
     function restorePreferences() {
@@ -778,7 +825,7 @@
         localStorage.setItem("promptGenTheme", document.body.classList.contains("dark-mode") ? "dark" : "light");
         updateThemeButton();
     }
-    function updateThemeButton() { elements.themeToggle.textContent = document.body.classList.contains("dark-mode") ? "☀️ Light Mode" : "🌙 Dark Mode"; }
+    function updateThemeButton() { elements.themeToggle.textContent = document.body.classList.contains("dark-mode") ? "☀ Light" : "◐ Dark"; }
 
     function showMessage(text) {
         clearTimeout(messageTimer);
