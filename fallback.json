@@ -36,7 +36,7 @@
     {
       "id": "hyper-realistic-iphone",
       "label": "Hyper-Realistic iPhone",
-      "icon": "📱",
+      "icon": "smartphone",
       "category": "Photography",
       "description": "Natural smartphone realism with candid framing, authentic skin texture, and subtle HDR.",
       "style_prompt": "Authentic iPhone photography with natural exposure, realistic skin pores, subtle HDR, slight sensor texture, candid framing, and believable smartphone depth of field.",
@@ -61,7 +61,7 @@
     {
       "id": "cinematic-movie-still",
       "label": "Cinematic Movie Still",
-      "icon": "🎬",
+      "icon": "film",
       "category": "Cinematic",
       "description": "Dramatic storytelling, atmospheric depth, film grain, and widescreen composition.",
       "style_prompt": "Cinematic movie still with dramatic directional lighting, atmospheric depth, subtle film grain, rich contrast, realistic color grading, and a strong storytelling composition.",
@@ -86,7 +86,7 @@
     {
       "id": "fashion-editorial",
       "label": "Fashion Editorial",
-      "icon": "✦",
+      "icon": "gem",
       "category": "Editorial",
       "description": "Magazine-ready styling with refined posture, fabric detail, and polished lighting.",
       "style_prompt": "High-fashion editorial photography with polished composition, controlled professional lighting, refined posture, luxurious fabric detail, clean color treatment, and magazine-ready styling.",
@@ -111,7 +111,7 @@
     {
       "id": "indonesian-lifestyle-candid",
       "label": "Indonesian Lifestyle Candid",
-      "icon": "🌿",
+      "icon": "sun",
       "category": "Lifestyle",
       "description": "Warm, authentic everyday Indonesia with local atmosphere and documentary spontaneity.",
       "style_prompt": "Authentic Indonesian lifestyle photography with natural tropical light, believable local surroundings, warm human atmosphere, documentary-style composition, and spontaneous everyday realism.",
@@ -136,7 +136,7 @@
     {
       "id": "japanese-nostalgia-1980s",
       "label": "Japanese Nostalgia 1980s",
-      "icon": "📼",
+      "icon": "cassette",
       "category": "Analog",
       "description": "Warm Showa-era mood with faded film color, halation, and nostalgic analog texture.",
       "style_prompt": "Nostalgic 1980s Japanese analog photography with warm Showa-era atmosphere, gently faded film colors, soft halation around lights, fine grain, and authentic vintage commercial styling.",
@@ -162,7 +162,7 @@
     {
       "id": "miniature-diorama",
       "label": "Miniature Diorama",
-      "icon": "🏠",
+      "icon": "cube",
       "category": "Creative",
       "description": "Handcrafted scale-model realism with macro depth, tiny textures, and collectible presentation.",
       "style_prompt": "Ultra-detailed miniature diorama photography with handcrafted scale-model textures, realistic tiny materials, macro-lens perspective, shallow depth of field, subtle tilt-shift character, and museum-quality presentation.",
@@ -4990,7 +4990,7 @@
     {
       "id": "creative",
       "label": "Creative Prompt Builder",
-      "icon": "✨",
+      "icon": "sparkles",
       "description": "Flexible character, scene, style, camera, and lighting builder.",
       "active": true,
       "sort": 1,
@@ -5002,7 +5002,7 @@
     {
       "id": "outfit_catalog",
       "label": "Reference Outfit Catalog",
-      "icon": "👗",
+      "icon": "shirt",
       "description": "Strict reference-image fashion prompts that preserve the original outfit.",
       "active": true,
       "sort": 2,

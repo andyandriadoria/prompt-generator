@@ -2397,3 +2397,242 @@ body:not(.dark-mode) .editor-topline { background: #0f1217; }
         -webkit-overflow-scrolling: touch;
     }
 }
+
+
+/* ==========================================================================
+   PROMPT GEN 4.4.1 — READABILITY + MONOLINE ICON SYSTEM
+   Accessibility pass: no essential UI copy below 10px desktop / 11px mobile.
+   Monoline icons: 24px viewBox, 1.8px stroke, round caps/joins.
+   ========================================================================== */
+
+:root {
+    --type-ui: 13px;
+    --type-body: 14px;
+    --type-small: 11px;
+    --type-micro: 10px;
+    --icon-stroke: 1.8;
+}
+
+body { font-size: var(--type-body); }
+
+.ui-icon {
+    display: block;
+    width: 1.15em;
+    height: 1.15em;
+    flex: 0 0 auto;
+    color: currentColor;
+}
+
+.section-line-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    margin-right: 7px;
+    color: var(--accent);
+}
+.section-line-icon .ui-icon { width: 16px; height: 16px; }
+
+.mini-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px !important;
+    line-height: 1.25;
+    letter-spacing: .10em;
+}
+
+.eyebrow { font-size: 10px !important; }
+.eyebrow-version { font-size: 10px !important; }
+.subtitle { font-size: 13px !important; line-height: 1.45; }
+
+.data-status,
+.theme-toggle,
+.workspace-mode-label,
+.compact-primary,
+.database-settings summary,
+.database-settings-body label,
+.help-text,
+.field-row > label,
+.fieldset-row > legend,
+.optional-label,
+.toggle-label,
+.compatibility-toolbar label,
+.style-apply-mode legend,
+.style-preset-meta,
+.output-kicker,
+.output-meta small,
+.prompt-dna-head,
+.prompt-dna-head small,
+.dna-node,
+.output-tip strong,
+.output-tip span,
+.page-footer,
+.editor-topline {
+    font-size: 10px !important;
+}
+
+.workspace-title strong { font-size: 15px !important; }
+.workspace-title small { font-size: 11px !important; line-height: 1.45; }
+
+.prompt-mode-head h2,
+.style-presets h2,
+.smart-compatibility h2 { font-size: 18px !important; }
+.prompt-mode-head p,
+.style-presets-head p { font-size: 12px !important; line-height: 1.55; }
+
+.prompt-mode-card strong { font-size: 13px !important; }
+.prompt-mode-card small { font-size: 11px !important; line-height: 1.45; }
+
+.style-preset-copy strong { font-size: 12px !important; }
+.style-preset-copy small { font-size: 10px !important; line-height: 1.45; }
+.style-preset-meta span { font-size: 10px !important; }
+
+.negative-prompt-option strong { font-size: 11px !important; }
+.negative-prompt-option small { font-size: 10px !important; line-height: 1.4; }
+
+.style-preset-summary strong { font-size: 12px !important; }
+.style-preset-summary span { font-size: 10px !important; line-height: 1.45; }
+
+.compatibility-toolbar select { font-size: 12px !important; }
+.compatibility-score-ring span { font-size: 18px !important; }
+.compatibility-score-ring small { font-size: 10px !important; }
+.compatibility-result-copy strong { font-size: 12px !important; }
+.compatibility-result-copy span { font-size: 10px !important; line-height: 1.45; }
+.compatibility-messages { font-size: 10px !important; }
+
+input, select { font-size: 13px !important; min-height: 42px; }
+textarea { font-size: 13px !important; line-height: 1.65; }
+#output { font-size: 13px !important; line-height: 1.7; }
+
+.searchable-input { font-size: 13px !important; }
+.searchable-option-label { font-size: 12px !important; }
+.searchable-option-meta { font-size: 10px !important; line-height: 1.35; }
+.compatibility-option-badge { font-size: 10px !important; }
+
+.catalog-mode-intro strong { font-size: 12px !important; }
+.catalog-mode-intro p { font-size: 10px !important; line-height: 1.5; }
+.catalog-safety-note strong { font-size: 11px !important; }
+.catalog-safety-note span { font-size: 10px !important; line-height: 1.5; }
+
+.button-group button,
+.compact-buttons button,
+.primary-button,
+.secondary-button,
+.ghost-button,
+.danger-button { font-size: 12px !important; }
+
+.button-group button,
+.compact-primary,
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+.button-group button .ui-icon,
+.compact-primary .ui-icon,
+.theme-toggle .ui-icon { width: 16px; height: 16px; }
+
+.prompt-mode-icon,
+.style-preset-icon,
+.style-preset-summary-icon,
+.catalog-mode-icon {
+    display: grid;
+    place-items: center;
+}
+.prompt-mode-icon .ui-icon { width: 20px; height: 20px; }
+.style-preset-icon .ui-icon { width: 19px; height: 19px; }
+.style-preset-summary-icon .ui-icon { width: 18px; height: 18px; }
+.catalog-mode-icon .ui-icon { width: 19px; height: 19px; }
+
+.prompt-mode-check .ui-icon { width: 14px; height: 14px; stroke-width: 2.2; }
+.badge-icon { width: 13px; height: 13px; display: inline-block; vertical-align: -2px; margin-right: 4px; }
+
+.active-style-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Remove emoji-based compatibility bullets. */
+.compatibility-messages li::before,
+.compatibility-messages li.is-warn::before,
+.compatibility-messages li.is-block::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    flex: 0 0 7px;
+    margin-top: .42em;
+}
+.compatibility-messages li.is-warn::before { border-radius: 2px; transform: rotate(45deg); }
+.compatibility-messages li.is-block::before { border-radius: 1px; background: currentColor; }
+
+/* Give dense metadata more breathing room without making the interface bulky. */
+.prompt-dna-head { line-height: 1.3; }
+.dna-node b { font-size: 10px !important; }
+.output-meta small { line-height: 1.3; }
+.page-footer { line-height: 1.4; }
+
+@media (max-width: 680px) {
+    body { font-size: 14px; }
+
+    .brand-mark span { font-size: 12px !important; }
+    h1 { font-size: 30px !important; }
+    .eyebrow { font-size: 10px !important; }
+    .subtitle { font-size: 12px !important; }
+    .data-status { font-size: 10px !important; }
+    .theme-toggle { font-size: 10px !important; }
+
+    .workspace-title strong { font-size: 14px !important; }
+    .workspace-title small { font-size: 11px !important; }
+    .workspace-mode-label { font-size: 10px !important; }
+    .compact-primary { font-size: 11px !important; }
+
+    .prompt-mode-head h2,
+    .style-presets h2,
+    .smart-compatibility h2 { font-size: 17px !important; }
+    .prompt-mode-head p,
+    .style-presets-head p { font-size: 11px !important; }
+
+    .field-row > label,
+    .fieldset-row > legend { font-size: 11px !important; }
+
+    input, select, textarea, .searchable-input {
+        font-size: 16px !important; /* avoids iOS zoom and improves touch readability */
+    }
+
+    .searchable-option-label { font-size: 13px !important; }
+    .searchable-option-meta { font-size: 11px !important; }
+    .compatibility-option-badge { font-size: 10px !important; }
+
+    .style-preset-copy strong { font-size: 12px !important; }
+    .style-preset-copy small,
+    .style-preset-summary span,
+    .catalog-mode-intro p,
+    .catalog-safety-note span,
+    .negative-prompt-option small,
+    .compatibility-result-copy span,
+    .output-tip span { font-size: 11px !important; }
+
+    .style-preset-meta span,
+    .mini-eyebrow,
+    .help-text,
+    .output-kicker,
+    .output-meta small,
+    .prompt-dna-head,
+    .prompt-dna-head small,
+    .dna-node,
+    .page-footer,
+    .editor-topline { font-size: 11px !important; }
+
+    #output { min-height: 330px; font-size: 14px !important; line-height: 1.72; }
+    .button-group button { font-size: 12px !important; min-height: 44px; }
+}
+
+/* Respect users who request larger default text. */
+@media (prefers-contrast: more) {
+    :root { --muted: #B9C0CB; }
+    .panel, .prompt-mode-card, .style-preset-card, input, select, textarea { border-color: rgba(255,255,255,.16); }
+}

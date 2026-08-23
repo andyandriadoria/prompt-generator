@@ -10,8 +10,8 @@
     const searchable = new Map();
 
     const MODE_FALLBACKS = [
-        { id: "creative", label: "Creative Prompt Builder", icon: "✨", description: "Flexible character, scene, style, camera, and lighting builder.", active: true, sort: 1 },
-        { id: "outfit_catalog", label: "Reference Outfit Catalog", icon: "👗", description: "Strict reference-image fashion prompts that preserve the original outfit.", active: true, sort: 2 }
+        { id: "creative", label: "Creative Prompt Builder", icon: "sparkles", description: "Flexible character, scene, style, camera, and lighting builder.", active: true, sort: 1 },
+        { id: "outfit_catalog", label: "Reference Outfit Catalog", icon: "shirt", description: "Strict reference-image fashion prompts that preserve the original outfit.", active: true, sort: 2 }
     ];
 
     const SEARCHABLE_CONFIG = {
@@ -38,6 +38,8 @@
         restoreTheme();
         restorePreferences();
         bindEvents();
+        PromptIcons.hydrate(document);
+        updateThemeButton();
         elements.apiUrlInput.value = PromptDataLoader.getApiUrl();
         await loadDatabase();
     }
@@ -293,7 +295,7 @@
             button.type = "button";
             button.className = "prompt-mode-card";
             button.dataset.promptModeId = mode.id;
-            button.innerHTML = `<span class="prompt-mode-icon">${escapeHtml(mode.icon || "✨")}</span><span><strong>${escapeHtml(mode.label)}</strong><small>${escapeHtml(mode.description || "")}</small></span><span class="prompt-mode-check">✓</span>`;
+            button.innerHTML = `<span class="prompt-mode-icon">${PromptIcons.svg(mode.icon || mode.id || "sparkles")}</span><span><strong>${escapeHtml(mode.label)}</strong><small>${escapeHtml(mode.description || "")}</small></span><span class="prompt-mode-check">${PromptIcons.svg("check")}</span>`;
             elements.promptModeGrid.append(button);
         });
     }
@@ -311,7 +313,7 @@
         elements.activeModeBadge.dataset.mode = currentMode;
         elements.randomModeTitle.textContent = isCatalog ? "Catalog Random" : "Smart Random";
         elements.randomModeHint.textContent = isCatalog ? "Builds a safe, coherent catalog setup" : "Builds a more coherent combination";
-        elements.randomPromptBtn.textContent = isCatalog ? "↻ Catalog Random" : "↻ Smart Random";
+        elements.randomPromptBtn.innerHTML = `${PromptIcons.svg("refresh")}<span class="button-label">${isCatalog ? "Catalog Random" : "Smart Random"}</span>`;
         elements.outputTipTitle.textContent = isCatalog ? "Reference outfit tip" : "Smart tip";
         elements.outputTipText.textContent = isCatalog
             ? "Attach the clothing reference image when using the prompt. Strict preservation language is automatically included."
@@ -607,7 +609,7 @@
             card.dataset.stylePresetId = preset.id;
             const ratio = findLabel(database.aspectRatios, preset.aspect_ratio_id);
             const lighting = findLabel(database.lighting, preset.lighting_id);
-            card.innerHTML = `<span class="style-preset-icon">${escapeHtml(preset.icon || "✨")}</span><span class="style-preset-copy"><strong>${escapeHtml(preset.label)}</strong><small>${escapeHtml(preset.description || "")}</small><span class="style-preset-meta">${ratio ? `<span>${escapeHtml(ratio)}</span>` : ""}${lighting ? `<span>${escapeHtml(lighting)}</span>` : ""}</span></span>`;
+            card.innerHTML = `<span class="style-preset-icon">${PromptIcons.svg(preset.icon || "sparkles")}</span><span class="style-preset-copy"><strong>${escapeHtml(preset.label)}</strong><small>${escapeHtml(preset.description || "")}</small><span class="style-preset-meta">${ratio ? `<span>${escapeHtml(ratio)}</span>` : ""}${lighting ? `<span>${escapeHtml(lighting)}</span>` : ""}</span></span>`;
             elements.stylePresetGrid.append(card);
         });
         updateStylePresetUI();
@@ -659,11 +661,11 @@
             card.classList.toggle("is-active", card.dataset.stylePresetId === preset?.id);
         });
         elements.stylePresetSummary.dataset.active = preset ? "true" : "false";
-        elements.stylePresetSummaryIcon.textContent = preset?.icon || "✨";
+        elements.stylePresetSummaryIcon.innerHTML = PromptIcons.svg(preset?.icon || "sparkles");
         elements.stylePresetSummaryTitle.textContent = preset?.label || "No style selected";
         elements.stylePresetSummaryText.textContent = preset?.description || "Choose a style card to shape the visual language and technical settings.";
         elements.activeStyleBadge.hidden = currentMode === "outfit_catalog" || !preset;
-        elements.activeStyleBadge.textContent = preset ? `${preset.icon || "✨"} ${preset.label}` : "No style";
+        elements.activeStyleBadge.innerHTML = preset ? `${PromptIcons.svg(preset.icon || "sparkles", "ui-icon badge-icon")}<span>${escapeHtml(preset.label)}</span>` : "No style";
     }
 
     function randomizeCurrentMode() {
@@ -825,7 +827,10 @@
         localStorage.setItem("promptGenTheme", document.body.classList.contains("dark-mode") ? "dark" : "light");
         updateThemeButton();
     }
-    function updateThemeButton() { elements.themeToggle.textContent = document.body.classList.contains("dark-mode") ? "☀ Light" : "◐ Dark"; }
+    function updateThemeButton() {
+        const isDark = document.body.classList.contains("dark-mode");
+        elements.themeToggle.innerHTML = `${PromptIcons.svg(isDark ? "sun" : "moon")}<span>${isDark ? "Light" : "Dark"}</span>`;
+    }
 
     function showMessage(text) {
         clearTimeout(messageTimer);

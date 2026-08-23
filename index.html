@@ -10,15 +10,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4.4.0">
+    <link rel="stylesheet" href="style.css?v=4.4.1">
     <!-- Installation-specific config: keep this file when upgrading Prompt Gen. -->
     <script src="config.js"></script>
-    <script defer src="prompt-builder.js?v=4.4.0"></script>
-    <script defer src="catalog-prompt-builder.js?v=4.4.0"></script>
-    <script defer src="compatibility-engine.js?v=4.4.0"></script>
-    <script defer src="searchable-select.js?v=4.4.0"></script>
-    <script defer src="data-loader.js?v=4.4.0"></script>
-    <script defer src="app.js?v=4.4.0"></script>
+    <script defer src="icon-system.js?v=4.4.1"></script>
+    <script defer src="prompt-builder.js?v=4.4.1"></script>
+    <script defer src="catalog-prompt-builder.js?v=4.4.1"></script>
+    <script defer src="compatibility-engine.js?v=4.4.1"></script>
+    <script defer src="searchable-select.js?v=4.4.1"></script>
+    <script defer src="data-loader.js?v=4.4.1"></script>
+    <script defer src="app.js?v=4.4.1"></script>
 </head>
 <body class="dark-mode">
     <main class="app-shell">
@@ -53,7 +54,7 @@
                     </div>
                     <div class="workspace-actions">
                         <span class="workspace-mode-label" id="randomModeTitle">Smart Random</span>
-                        <button type="button" class="primary-button compact-primary" id="randomPromptBtn">↻ Randomize</button>
+                        <button type="button" class="primary-button compact-primary" id="randomPromptBtn"><span data-line-icon="refresh"></span><span class="button-label">Randomize</span></button>
                     </div>
                 </div>
 
@@ -75,7 +76,7 @@
                 <section class="prompt-mode-panel" aria-labelledby="promptModeTitle">
                     <div class="prompt-mode-head">
                         <div>
-                            <span class="mini-eyebrow">🧭 Prompt Mode</span>
+                            <span class="mini-eyebrow"><span class="section-line-icon" data-line-icon="compass"></span>Prompt Mode</span>
                             <h2 id="promptModeTitle">Choose how the prompt is built</h2>
                             <p>Creative mode builds scenes freely. Reference Outfit Catalog keeps clothing from a reference image unchanged.</p>
                         </div>
@@ -87,7 +88,7 @@
                     <section class="style-presets" aria-labelledby="stylePresetTitle">
                         <div class="style-presets-head">
                             <div>
-                                <span class="mini-eyebrow">🎨 Prompt Style Presets</span>
+                                <span class="mini-eyebrow"><span class="section-line-icon" data-line-icon="palette"></span>Prompt Style Presets</span>
                                 <h2 id="stylePresetTitle">Choose a complete visual direction</h2>
                                 <p>One click can apply camera, angle, lighting, aspect ratio, and style language.</p>
                             </div>
@@ -110,7 +111,7 @@
 
                         <div class="style-preset-grid" id="stylePresetGrid" role="list" aria-label="Prompt style presets"></div>
                         <div class="style-preset-summary" id="stylePresetSummary" data-active="false">
-                            <div class="style-preset-summary-icon" id="stylePresetSummaryIcon">✨</div>
+                            <div class="style-preset-summary-icon" id="stylePresetSummaryIcon" data-line-icon="sparkles"></div>
                             <div>
                                 <strong id="stylePresetSummaryTitle">No style selected</strong>
                                 <span id="stylePresetSummaryText">Choose a style card to shape the visual language and technical settings.</span>
@@ -121,7 +122,7 @@
                     <section class="smart-compatibility" aria-labelledby="smartCompatibilityTitle">
                         <div class="smart-compatibility-head">
                             <div>
-                                <span class="mini-eyebrow">🧠 Smart Compatibility</span>
+                                <span class="mini-eyebrow"><span class="section-line-icon" data-line-icon="brain"></span>Smart Compatibility</span>
                                 <h2 id="smartCompatibilityTitle">Keep combinations coherent</h2>
                             </div>
                             <label class="toggle-switch">
@@ -194,7 +195,7 @@
 
                     <section id="catalogFields" class="mode-fields catalog-fields" hidden>
                         <div class="catalog-mode-intro">
-                            <span class="catalog-mode-icon">👗</span>
+                            <span class="catalog-mode-icon" data-line-icon="shirt"></span>
                             <div>
                                 <strong>Reference Outfit Catalog</strong>
                                 <p>Designed for reference-image workflows where the original clothing must remain unchanged.</p>
@@ -226,9 +227,9 @@
                     </section>
 
                     <div class="button-group">
-                        <button type="button" id="generatePromptBtn">Generate Prompt</button>
-                        <button type="button" id="resetFormBtn" class="danger-button">Reset Form</button>
-                        <button type="button" id="copyToClipboardBtn" class="secondary-button">Copy Prompt</button>
+                        <button type="button" id="generatePromptBtn"><span data-line-icon="wand"></span><span>Generate Prompt</span></button>
+                        <button type="button" id="resetFormBtn" class="danger-button"><span data-line-icon="reset"></span><span>Reset Form</span></button>
+                        <button type="button" id="copyToClipboardBtn" class="secondary-button"><span data-line-icon="copy"></span><span>Copy Prompt</span></button>
                     </div>
                 </form>
             </section>
