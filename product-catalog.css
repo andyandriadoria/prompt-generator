@@ -20,22 +20,22 @@ body.dark-mode .product-catalog-fields {
 .product-mode-intro {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 13px;
+    gap: 11px;
+    padding: 10px 12px;
     border: 1px solid var(--border);
-    border-radius: 14px;
-    background: color-mix(in srgb, var(--tech) 6%, var(--surface-2));
+    border-radius: 13px;
+    background: color-mix(in srgb, var(--tech) 5%, var(--surface-2));
 }
 
 .product-mode-icon {
     position: relative;
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    flex: 0 0 44px;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
     border: 1px solid rgba(114, 167, 255, .28);
-    border-radius: 13px;
+    border-radius: 12px;
     background: color-mix(in srgb, var(--tech) 9%, var(--surface-2));
     color: color-mix(in srgb, var(--tech) 72%, var(--text));
     box-shadow: inset 0 0 0 1px rgba(255,255,255,.02), 0 8px 20px rgba(9,11,15,.08);
@@ -54,8 +54,8 @@ body.dark-mode .product-catalog-fields {
 }
 
 .product-mode-icon .ui-icon {
-    width: 20px;
-    height: 20px;
+    width: 19px;
+    height: 19px;
 }
 
 .product-mode-intro strong {
@@ -66,10 +66,10 @@ body.dark-mode .product-catalog-fields {
 }
 
 .product-mode-intro p {
-    margin: 3px 0 0;
+    margin: 2px 0 0;
     color: var(--muted);
-    font-size: 11px;
-    line-height: 1.5;
+    font-size: 10px;
+    line-height: 1.45;
 }
 
 .product-campaign-fields {
@@ -132,15 +132,22 @@ body.product-catalog-ready .prompt-mode-grid:has(.product-mode-card) {
     color: color-mix(in srgb, var(--tech) 72%, var(--text));
 }
 
+/* Global selection language stays amber; blue remains the Product identity. */
 .prompt-mode-card.product-mode-card.is-active {
-    border-color: rgba(114, 167, 255, .54);
-    background: linear-gradient(145deg, color-mix(in srgb, var(--tech) 8%, var(--surface-1)), color-mix(in srgb, var(--tech) 3%, var(--surface-2)));
-    box-shadow: inset 0 0 0 1px rgba(114, 167, 255, .035), 0 12px 30px rgba(114, 167, 255, .07);
+    border-color: var(--primary-line);
+    background: linear-gradient(145deg, color-mix(in srgb, var(--primary) 7%, var(--surface-1)), color-mix(in srgb, var(--tech) 3%, var(--surface-2)));
+    box-shadow: inset 0 0 0 1px rgba(255, 184, 0, .03), 0 12px 30px rgba(255, 184, 0, .06);
+}
+
+.prompt-mode-card.product-mode-card.is-active .prompt-mode-icon {
+    border-color: rgba(114, 167, 255, .34);
+    background: color-mix(in srgb, var(--tech) 11%, var(--surface-2));
+    color: var(--tech);
 }
 
 .prompt-mode-card.product-mode-card.is-active .prompt-mode-check {
-    background: var(--tech);
-    color: #07101c;
+    background: var(--primary);
+    color: #15110a;
 }
 
 .active-style-badge[data-mode="reference_product_catalog"] {
@@ -152,6 +159,14 @@ body.product-catalog-ready .prompt-mode-grid:has(.product-mode-card) {
 body.product-catalog-active .style-presets,
 body.product-catalog-active .smart-compatibility {
     display: none !important;
+}
+
+body.product-catalog-active #dnaSubject b::after,
+body.product-catalog-active #dnaScene b::after,
+body.product-catalog-active #dnaStyle b::after,
+body.product-catalog-active #dnaCamera b::after,
+body.product-catalog-active #dnaLight b::after {
+    content: "";
 }
 
 @media (max-width: 920px) {
@@ -170,9 +185,9 @@ body.product-catalog-active .smart-compatibility {
     }
 
     .product-mode-icon {
-        width: 40px;
-        height: 40px;
-        flex-basis: 40px;
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
         border-radius: 11px;
     }
 
