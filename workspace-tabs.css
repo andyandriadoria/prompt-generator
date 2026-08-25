@@ -202,6 +202,14 @@ body.dark-mode .workspace-shell-nav {
     box-shadow: 0 0 0 3px rgba(124, 255, 178, .08), 0 0 12px rgba(124, 255, 178, .16);
 }
 
+/* 4.5 QA readability guardrail: new workspace metadata must not regress below 10px desktop. */
+.dna-state-label,
+.signal-stat span,
+.history-day-label small,
+.workspace-tab-count {
+    font-size: 10px !important;
+}
+
 @media (max-width: 680px) {
     .workspace-shell-nav {
         margin-bottom: 8px;
@@ -241,4 +249,11 @@ body.dark-mode .workspace-shell-nav {
     .workspace-placeholder p { font-size: 12px; }
     .workspace-placeholder-meta,
     .workspace-foundation-status { font-size: 11px; }
+
+    .dna-state-label,
+    .signal-stat span,
+    .history-day-label small,
+    .workspace-tab-count {
+        font-size: 11px !important;
+    }
 }
