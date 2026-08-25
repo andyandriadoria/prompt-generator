@@ -3,31 +3,38 @@
 
     const STORAGE_KEY = "promptGenWorkspace";
     const WORKSPACES = [
-        {
-            id: "build",
-            label: "Build",
-            description: "Compose prompt",
-            icon: "wand"
-        },
-        {
-            id: "inspect",
-            label: "Inspect",
-            description: "Prompt intelligence",
-            icon: "brain"
-        },
-        {
-            id: "history",
-            label: "History",
-            description: "Saved sessions",
-            icon: "reset"
-        }
+        { id: "build", label: "Build", description: "Compose prompt", icon: "wand" },
+        { id: "inspect", label: "Inspect", description: "Prompt intelligence", icon: "brain" },
+        { id: "history", label: "History", description: "Saved sessions", icon: "reset" }
     ];
 
     let activeWorkspace = "build";
     let tabButtons = [];
     let workspacePanes = [];
 
+    loadInspectorAssets();
     document.addEventListener("DOMContentLoaded", initWorkspaceShell);
+
+    function loadInspectorAssets() {
+        if (!document.querySelector('link[data-prompt-inspector-style]')) {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = "prompt-inspector.css?v=4.5-inspect-1";
+            link.dataset.promptInspectorStyle = "true";
+            document.head.append(link);
+        }
+
+        if (!document.querySelector('script[data-prompt-inspector-script]')) {
+            const script = document.createElement("script");
+            script.src = "prompt-inspector.js?v=4.5-inspect-1";
+            script.async = false;
+            script.dataset.promptInspectorScript = "true";
+            script.addEventListener("load", () => {
+                window.dispatchEvent(new CustomEvent("promptgen:workspace-shell-ready"));
+            });
+            document.head.append(script);
+        }
+    }
 
     function initWorkspaceShell() {
         const appShell = document.querySelector(".app-shell");
@@ -46,8 +53,8 @@
             id: "inspect",
             icon: "brain",
             eyebrow: "Prompt Intelligence",
-            title: "Inspect workspace is ready for its analysis layer",
-            description: "The Workspace Shell is active. Prompt Health, expanded Prompt DNA, compatibility findings, conflict detection, and recommendations will be added here in the next implementation step.",
+            title: "Inspect workspace is loading its intelligence layer",
+            description: "Prompt Health, expanded Prompt DNA, coherence findings, and recommendations are initializing from the current Build state.",
             phase: "Step 2"
         });
 
@@ -70,6 +77,8 @@
 
         const storedWorkspace = readStoredWorkspace();
         setActiveWorkspace(storedWorkspace, { persist: false, focus: false, notify: false });
+
+        window.dispatchEvent(new CustomEvent("promptgen:workspace-shell-ready"));
     }
 
     function prepareBuildPane(buildPane) {
@@ -177,12 +186,7 @@
     }
 
     function setActiveWorkspace(workspaceId, options = {}) {
-        const {
-            persist = true,
-            focus = false,
-            notify = true
-        } = options;
-
+        const { persist = true, focus = false, notify = true } = options;
         const nextWorkspace = isValidWorkspace(workspaceId) ? workspaceId : "build";
         activeWorkspace = nextWorkspace;
 
@@ -201,7 +205,6 @@
         });
 
         document.body.dataset.workspace = nextWorkspace;
-
         if (persist) writeStoredWorkspace(nextWorkspace);
 
         if (notify) {
@@ -224,7 +227,7 @@
         try {
             localStorage.setItem(STORAGE_KEY, workspaceId);
         } catch (_) {
-            // Workspace navigation still works when storage is unavailable.
+            // Navigation remains usable when storage is unavailable.
         }
     }
 
@@ -239,11 +242,7 @@
 
     function escapeHtml(value) {
         return String(value ?? "").replace(/[&<>"']/g, character => ({
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;"
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
         }[character]));
     }
 
