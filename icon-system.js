@@ -4,6 +4,7 @@
   const paths = {
     sparkles: '<path d="M12 3l1.15 3.1L16 7.25l-2.85 1.15L12 11.5l-1.15-3.1L8 7.25l2.85-1.15L12 3Z"/><path d="M5.5 13.5l.75 2 2 .75-2 .75-.75 2-.75-2-2-.75 2-.75.75-2Z"/><path d="M18.5 12l.55 1.45L20.5 14l-1.45.55L18.5 16l-.55-1.45L16.5 14l1.45-.55L18.5 12Z"/>',
     shirt: '<path d="M8 4.5 5.5 6 3 9l3 2v8h12v-8l3-2-2.5-3L16 4.5c-.7 1-2 1.5-4 1.5S8.7 5.5 8 4.5Z"/>',
+    package: '<path d="m4 7 8-4 8 4v10l-8 4-8-4V7Z"/><path d="m4 7 8 4 8-4M12 11v10M8 5l8 4"/>',
     smartphone: '<rect x="7" y="2.8" width="10" height="18.4" rx="2.2"/><path d="M10 5h4M11.25 18.4h1.5"/>',
     film: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 5v14M17 5v14M3 9h4M3 15h4M17 9h4M17 15h4"/>',
     gem: '<path d="m4 8 4-4h8l4 4-8 12L4 8Z"/><path d="m8 4 4 4 4-4M4 8h16M12 8v12"/>',
@@ -18,7 +19,7 @@
     history: '<path d="M3.5 12a8.5 8.5 0 1 0 2.2-5.7L3.5 8.5"/><path d="M3.5 4.5v4h4"/><path d="M12 7.5V12l3 1.8"/>',
     moon: '<path d="M20 15.5A8.2 8.2 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/>',
     copy: '<rect x="8" y="8" width="10" height="10" rx="2"/><path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"/>',
-    wand: '<path d="m4 20 10-10M11 5l.8-2 .8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8ZM17 12l.6-1.5.6 1.5 1.5.6-1.5.6-.6 1.5-.6-1.5-1.5-.6 1.5-.6Z"/><path d="m3 17 4 4"/>',
+    wand: '<path d="m4 20 10-10M11 5l.8-2 .8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.75-2ZM17 12l.6-1.5.6 1.5 1.5.6-1.5.6-.6 1.5-.6-1.5-1.5-.6 1.5-.6Z"/><path d="m3 17 4 4"/>',
     reset: '<path d="M4 4v6h6"/><path d="M5 10a7.5 7.5 0 1 1 2 7"/>',
     check: '<path d="m5 12.5 4 4 10-10"/>',
     shield: '<path d="M12 3 5 6v5c0 4.4 2.8 7.8 7 10 4.2-2.2 7-5.6 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>',
@@ -34,7 +35,7 @@
   function normalize(name) {
     const aliases = {
       "✨":"sparkles","👗":"shirt","📱":"smartphone","🎬":"film","✦":"gem","🌿":"sun","📼":"cassette","🏠":"cube",
-      "creative":"sparkles","outfit_catalog":"shirt","outfit-catalog":"shirt"
+      "creative":"sparkles","outfit_catalog":"shirt","outfit-catalog":"shirt","reference_product_catalog":"package","product_catalog":"package","product-catalog":"package"
     };
     return aliases[name] || name || "sparkles";
   }
