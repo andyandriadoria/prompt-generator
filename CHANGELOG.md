@@ -1,26 +1,42 @@
 # Prompt Gen — Changelog
 
-## 4.5 — Workspace Tabs + Prompt Intelligence + History
+## 4.5 — Workspace Tabs + Prompt Intelligence + History + Reference Product Catalog
 
 Focus:
 - introduce a persistent workspace layer without changing Prompt Mode semantics;
 - add prompt analysis and local session recovery;
+- add a third production Prompt Mode for reference-product catalog generation;
 - preserve the 4.4.1 Obsidian/readability baseline.
 
 Key changes:
 - added Build / Inspect / History workspace tabs;
-- Build keeps the existing Creative and Reference Outfit Catalog workflow;
+- Build now supports Creative, Reference Outfit Catalog, and Reference Product Catalog workflows;
 - added Prompt Intelligence v1 with Prompt Health, expanded Prompt DNA, completeness/coherence findings, prioritized improvements, and output diagnostics;
-- added browser-local Prompt History v1 with a 50-item cap;
+- added Product-aware Prompt Intelligence dimensions for Product, Presentation, Preservation, Scene, Shot, Composition, Ratio, and optional Campaign Copy;
+- added browser-local Prompt History v1 with a 50-item cap for the core history store;
+- added Product Catalog local history + restore integration for explicit Generate actions;
 - History saves only explicit Generate Prompt actions, not automatic live generation;
-- History stores Build-state snapshots and supports restore, search/filter, preview, copy, delete, and clear;
-- added semantic `history` monoline SVG icon;
+- History supports restore, search/filter, preview, copy, delete, and clear;
+- added semantic `history` and `package` monoline SVG icons;
 - QA fixed new workspace metadata to respect the 10 px desktop / 11 px mobile readability floor;
 - synchronized release title to Prompt Gen 4.5 and renamed the production spreadsheet to `Database_Prompt_Gen_4_5`;
+- added Reference Product Catalog with product-first preservation, presentation filtering, Product Random, conditional worn/campaign fields, three-block natural prompt writing, and pair/set/collection-aware preservation;
+- added Product Catalog Obsidian styling with amber selection language and electric-blue Product identity accent;
+- added eight Google Sheets collections:
+  - `PRODUCT_TYPES`
+  - `PRODUCT_PRESENTATIONS`
+  - `PRODUCT_SETTINGS`
+  - `PRODUCT_SHOTS`
+  - `PRODUCT_COMPOSITIONS`
+  - `PRODUCT_WEAR_CONTEXTS`
+  - `PRODUCT_TEXT_OVERLAYS`
+  - `PRODUCT_PRESERVATION_LEVELS`;
+- added Product Catalog CONFIG defaults for product type, presentation, setting, shot, composition, aspect ratio, preservation, and text overlay;
+- expanded Apps Script `SHEET_MAP` to expose Product Catalog collections through the existing `/exec` URL while preserving sectioned/safe CacheService behavior;
+- redeployed the existing Apps Script deployment once for the Product Catalog API expansion;
+- activated `reference_product_catalog` in `PROMPT_MODES` after Build / Inspect / History QA;
 - preserved `config.js`;
-- no Google Sheets schema change;
-- no API contract change;
-- no Apps Script redeploy required.
+- `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog data and metadata.
 
 ## 4.4.1 — Readability + Monoline Icons
 
