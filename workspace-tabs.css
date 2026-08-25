@@ -210,6 +210,197 @@ body.dark-mode .workspace-shell-nav {
     font-size: 10px !important;
 }
 
+/* ========================================================================== 
+   Prompt Gen 4.5 — Style Preset Card Refinement
+   Four active presets, balanced grid, futuristic squircle icon docks.
+   ========================================================================== */
+
+.style-preset-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    align-items: stretch;
+}
+
+.style-preset-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: start;
+    gap: 13px;
+    min-width: 0;
+    min-height: 210px;
+    padding: 15px;
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+        linear-gradient(150deg, color-mix(in srgb, var(--surface-1) 98%, transparent), color-mix(in srgb, var(--surface-2) 92%, transparent));
+    transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+body.dark-mode .style-preset-card {
+    background: linear-gradient(150deg, #131820, #10151c);
+}
+
+/* Remove the inherited legacy circular header blob that becomes an oval banner. */
+.style-preset-card::after {
+    display: none !important;
+    content: none !important;
+}
+
+.style-preset-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--primary) 38%, var(--line-strong));
+    box-shadow: 0 12px 28px rgba(7, 10, 15, .08);
+}
+
+body.dark-mode .style-preset-card:hover {
+    box-shadow: 0 16px 34px rgba(0, 0, 0, .24);
+}
+
+.style-preset-card.is-active {
+    border-color: var(--primary-line);
+    background:
+        linear-gradient(150deg, color-mix(in srgb, var(--primary) 9%, var(--surface-1)), color-mix(in srgb, var(--primary) 4%, var(--surface-2)));
+    box-shadow: inset 0 0 0 1px rgba(255, 184, 0, .045), 0 10px 28px rgba(255, 184, 0, .08);
+}
+
+body.dark-mode .style-preset-card.is-active {
+    background:
+        radial-gradient(circle at 0 0, rgba(255, 184, 0, .08), transparent 55%),
+        linear-gradient(150deg, #171a1d, #11151b);
+}
+
+.style-preset-card.is-active::before {
+    top: 12px;
+    right: 12px;
+    z-index: 5;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(18, 18, 18, .08);
+    border-radius: 7px;
+    background: var(--primary);
+    color: #121212;
+    font-size: 9px;
+    box-shadow: 0 5px 14px rgba(255, 184, 0, .18);
+}
+
+/* Futuristic squircle icon dock: compact, monoline, no decorative pill/blob. */
+.style-preset-icon {
+    position: relative;
+    inset: auto;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line-strong);
+    border-radius: 13px;
+    background: var(--surface-2);
+    color: var(--text);
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, .018),
+        0 7px 18px rgba(11, 15, 21, .055);
+}
+
+.style-preset-icon::after {
+    content: "";
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    width: 5px;
+    height: 5px;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    opacity: .22;
+}
+
+.style-preset-icon .ui-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.style-preset-card:nth-child(1) .style-preset-icon {
+    border-color: rgba(255, 184, 0, .28);
+    background: color-mix(in srgb, var(--primary) 8%, var(--surface-2));
+    color: color-mix(in srgb, var(--primary) 78%, var(--text));
+}
+
+.style-preset-card:nth-child(2) .style-preset-icon {
+    border-color: rgba(114, 167, 255, .24);
+    background: color-mix(in srgb, var(--tech) 8%, var(--surface-2));
+    color: color-mix(in srgb, var(--tech) 72%, var(--text));
+}
+
+.style-preset-card:nth-child(3) .style-preset-icon {
+    border-color: color-mix(in srgb, var(--line-strong) 86%, var(--text));
+    background: color-mix(in srgb, var(--text) 4%, var(--surface-2));
+    color: var(--text);
+}
+
+.style-preset-card:nth-child(4) .style-preset-icon {
+    border-color: rgba(124, 255, 178, .24);
+    background: color-mix(in srgb, var(--mint) 8%, var(--surface-2));
+    color: color-mix(in srgb, var(--mint) 68%, var(--text));
+}
+
+.style-preset-copy {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    align-content: start;
+    gap: 7px;
+    min-width: 0;
+    height: 100%;
+}
+
+.style-preset-copy strong {
+    padding-right: 24px;
+    font-family: "Space Grotesk", "Inter", sans-serif;
+    font-size: 13px !important;
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -.025em;
+}
+
+.style-preset-copy small {
+    display: -webkit-box;
+    min-height: 47px;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 11px !important;
+    font-weight: 500;
+    line-height: 1.42;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.style-preset-meta {
+    grid-column: auto;
+    align-self: end;
+    margin-top: auto;
+    gap: 6px;
+}
+
+.style-preset-meta span {
+    padding: 5px 7px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--surface-2) 94%, transparent);
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px !important;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+@media (max-width: 980px) {
+    .style-preset-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .style-preset-card {
+        min-height: 190px;
+    }
+}
+
 @media (max-width: 680px) {
     .workspace-shell-nav {
         margin-bottom: 8px;
@@ -255,5 +446,46 @@ body.dark-mode .workspace-shell-nav {
     .history-day-label small,
     .workspace-tab-count {
         font-size: 11px !important;
+    }
+
+    .style-preset-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .style-preset-card {
+        min-height: 178px;
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .style-preset-icon {
+        width: 39px;
+        height: 39px;
+        border-radius: 11px;
+    }
+
+    .style-preset-icon .ui-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .style-preset-copy strong {
+        font-size: 12px !important;
+    }
+
+    .style-preset-copy small {
+        min-height: 45px;
+        font-size: 11px !important;
+    }
+}
+
+@media (max-width: 430px) {
+    .style-preset-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .style-preset-card {
+        min-height: 158px;
     }
 }
