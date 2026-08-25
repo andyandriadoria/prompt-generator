@@ -8,27 +8,65 @@
     function sentence(value) {
         const text = clean(value);
         if (!text) return "";
-        return /[.!?]$/.test(text) ? text : `${text}.`;
+        const normalized = text.charAt(0).toUpperCase() + text.slice(1);
+        return /[.!?]$/.test(normalized) ? normalized : `${normalized}.`;
+    }
+
+    function stripTerminal(value) {
+        return clean(value).replace(/[.!?]+$/, "");
     }
 
     function applyTemplate(template, variables) {
         return clean(template).replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, (_, key) => clean(variables[key] || ""));
     }
 
+    function compositionGuard(state) {
+        const id = state.composition?.id || "single-product";
+        if (id === "pair") return "When the reference contains a pair, preserve both products and their relationship exactly as shown";
+        if (id === "set") return "When the reference contains a coordinated set, preserve every item in the product set exactly as shown";
+        if (id === "collection") return "When the reference contains multiple products, preserve every visible product in the reference collection exactly as shown";
+        return "";
+    }
+
     function buildCampaignText(state) {
         if (!state.textOverlay || state.textOverlay.id === "none") return "";
 
-        const parts = [state.textOverlay.prompt];
+        const parts = [stripTerminal(state.textOverlay.prompt)];
         if (state.textOverlay.headline && clean(state.headline)) {
-            parts.push(`Use the headline “${clean(state.headline)}”`);
+            parts.push(`use the headline “${clean(state.headline)}”`);
         }
         if (state.textOverlay.tagline && clean(state.tagline)) {
-            parts.push(`with the supporting tagline “${clean(state.tagline)}”`);
+            parts.push(`the supporting tagline “${clean(state.tagline)}”`);
         }
         if (state.textOverlay.footer && clean(state.footer)) {
-            parts.push(`and the footer line “${clean(state.footer)}”`);
+            parts.push(`the footer line “${clean(state.footer)}”`);
         }
-        return sentence(parts.filter(Boolean).join(", "));
+        return sentence(parts.filter(Boolean).join(", with "));
+    }
+
+    function buildPresentationBlock(state) {
+        const display = stripTerminal(state.presentation?.prompt);
+        const wear = stripTerminal(state.wearContext?.prompt);
+        const setting = stripTerminal(state.setting?.prompt);
+        const shot = stripTerminal(state.shot?.prompt);
+        const composition = stripTerminal(state.composition?.prompt);
+
+        const firstParts = [display, wear, setting].filter(Boolean);
+        const first = firstParts.length ? sentence(firstParts.join(" ")) : "";
+
+        let second = "";
+        if (shot && composition) second = sentence(`${shot}, ${composition}`);
+        else second = sentence(shot || composition);
+
+        const campaign = buildCampaignText(state);
+        return [first, second, campaign].filter(Boolean).join(" ");
+    }
+
+    function buildQualityBlock(state, preservation) {
+        const quality = "Keep the product as the clear visual focal point with realistic material rendering, refined commercial styling, controlled lighting, and high-end catalog photography";
+        const extra = sentence(state.extraInstruction);
+        const closing = sentence(preservation.closing_prompt || preservation.closingPrompt || "No product redesign, distortion, recoloring, material substitution, removal, addition, or modification of any original product detail.");
+        return [sentence(quality), extra, closing].filter(Boolean).join(" ");
     }
 
     function build(state = {}) {
@@ -43,20 +81,15 @@
         const introTemplate = preservation.intro_template || preservation.introTemplate ||
             "Using the provided reference image as the source product, create a photorealistic catalog image while preserving the {{product_noun}} exactly as shown. Do not alter its {{preserve_details}}. Create the image in a {{aspect_ratio}} aspect ratio.";
 
-        const chunks = [
+        const intro = [
             sentence(applyTemplate(introTemplate, variables)),
-            sentence(state.presentation?.prompt),
-            sentence(state.wearContext?.prompt),
-            sentence(state.setting?.prompt),
-            sentence(state.shot?.prompt),
-            sentence(state.composition?.prompt),
-            buildCampaignText(state),
-            "Keep the product as the clear visual focal point. Use clean premium catalog photography, realistic material rendering, refined commercial styling, controlled lighting, and high-end product presentation.",
-            sentence(state.extraInstruction),
-            sentence(preservation.closing_prompt || preservation.closingPrompt || "No product redesign, distortion, recoloring, material substitution, removal, addition, or modification of any original product detail.")
-        ];
+            sentence(compositionGuard(state))
+        ].filter(Boolean).join(" ");
 
-        return chunks.filter(Boolean).join("\n\n");
+        const presentation = buildPresentationBlock(state);
+        const quality = buildQualityBlock(state, preservation);
+
+        return [intro, presentation, quality].filter(Boolean).join("\n\n");
     }
 
     global.ProductCatalogPromptBuilder = { build };
