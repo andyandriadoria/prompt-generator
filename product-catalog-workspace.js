@@ -66,10 +66,6 @@
         renderProductHistory();
     }
 
-    /* ----------------------------------------------------------------------
-       Build Prompt DNA
-       ---------------------------------------------------------------------- */
-
     function scheduleBuildDnaLabels() {
         global.setTimeout(updateBuildDnaLabels, 30);
     }
@@ -84,10 +80,6 @@
             if (label) label.textContent = labels[index];
         });
     }
-
-    /* ----------------------------------------------------------------------
-       Product Inspector
-       ---------------------------------------------------------------------- */
 
     function scheduleInspectorRefresh() {
         if (refreshFrame) cancelAnimationFrame(refreshFrame);
@@ -223,10 +215,6 @@
         text("signalNote", "Product Catalog Prompt Health prioritizes product-preservation fidelity, required presentation structure, and clean three-block prompt flow.");
     }
 
-    /* ----------------------------------------------------------------------
-       Product History
-       ---------------------------------------------------------------------- */
-
     function enhanceHistoryFilter() {
         const filter = byId("historyModeFilter");
         if (!filter || [...filter.options].some(option => option.value === MODE_ID)) return;
@@ -360,6 +348,7 @@
         const filterValue = filter.value || "all";
         const showProduct = filterValue === "all" || filterValue === MODE_ID;
         const filtered = productHistory.filter(item => !query || [item.prompt, item.modeLabel, item.styleLabel].join(" ").toLowerCase().includes(query));
+        const baseVisibleItems = [...list.querySelectorAll(".history-item:not([data-product-history-id])")].filter(item => !item.closest("[hidden]") && !item.hidden).length;
 
         const noResults = list.querySelector(".history-no-results");
         if (filterValue === MODE_ID) {
@@ -367,7 +356,6 @@
                 if (!child.matches("[data-product-history-group]")) child.hidden = true;
             });
             if (noResults) noResults.hidden = true;
-            text("historyBrowserCount", `${filtered.length} item${filtered.length === 1 ? "" : "s"}`);
         } else {
             [...list.children].forEach(child => { child.hidden = false; });
         }
@@ -390,6 +378,14 @@
             });
             list.append(section);
         }
+
+        const visibleProductCount = showProduct ? filtered.length : 0;
+        const visibleCombined = filterValue === MODE_ID ? visibleProductCount : baseVisibleItems + visibleProductCount;
+        text("historyBrowserCount", `${visibleCombined} item${visibleCombined === 1 ? "" : "s"}`);
+
+        const empty = byId("historyEmpty");
+        if (empty) empty.hidden = visibleCombined > 0 || getCombinedStoredCount() > 0;
+        if (noResults) noResults.hidden = visibleCombined > 0;
 
         updateCombinedHistoryCount();
         if (selectedProductHistoryId) renderProductPreview();
@@ -457,10 +453,15 @@
         setHistoryStatus("Product Catalog history item deleted.", "success");
     }
 
+    function getCombinedStoredCount() {
+        return Number(global.PromptHistory?.count?.() || 0) + productHistory.length;
+    }
+
     function updateCombinedHistoryCount() {
-        const baseCount = Number(global.PromptHistory?.count?.() || 0);
-        const total = baseCount + productHistory.length;
+        const total = getCombinedStoredCount();
         text("historyCount", total);
+        const clearButton = byId("historyClearBtn");
+        if (clearButton) clearButton.disabled = total === 0;
         const tab = byId("workspace-tab-history");
         if (!tab) return;
         let badge = tab.querySelector(".workspace-tab-count");
@@ -479,10 +480,6 @@
         status.textContent = message || "";
         status.dataset.tone = tone || "info";
     }
-
-    /* ----------------------------------------------------------------------
-       Shared helpers
-       ---------------------------------------------------------------------- */
 
     function isProductActive() {
         return Boolean(global.ProductCatalogMode?.isActive?.()) || byId("activeModeBadge")?.dataset?.mode === MODE_ID;
