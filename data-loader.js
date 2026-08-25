@@ -203,7 +203,15 @@
             catalogSettings: normalizeList(payload.catalogSettings || []),
             catalogPoses: normalizeList(payload.catalogPoses || []),
             catalogShots: normalizeList(payload.catalogShots || []),
-            preservationLevels: normalizeList(payload.preservationLevels || [])
+            preservationLevels: normalizeList(payload.preservationLevels || []),
+            productTypes: normalizeList(payload.productTypes || []),
+            productPresentations: normalizeList(payload.productPresentations || []),
+            productSettings: normalizeList(payload.productSettings || []),
+            productShots: normalizeList(payload.productShots || []),
+            productCompositions: normalizeList(payload.productCompositions || []),
+            productWearContexts: normalizeList(payload.productWearContexts || []),
+            productTextOverlays: normalizeList(payload.productTextOverlays || []),
+            productPreservationLevels: normalizeList(payload.productPreservationLevels || [])
         };
     }
 
