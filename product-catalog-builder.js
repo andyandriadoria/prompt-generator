@@ -1,13 +1,20 @@
 (function (global) {
     "use strict";
 
-    loadWorkspaceBridge();
+    waitForWorkspaceBridgeTargets();
+
+    function waitForWorkspaceBridgeTargets(attempt = 0) {
+        if (document.querySelector('script[data-product-catalog-workspace]')) return;
+        const ready = document.getElementById("historyModeFilter") && document.getElementById("expandedDnaGrid");
+        if (ready) return loadWorkspaceBridge();
+        if (attempt > 120) return console.warn("Product Catalog workspace bridge could not find Inspect/History targets.");
+        global.setTimeout(() => waitForWorkspaceBridgeTargets(attempt + 1), 100);
+    }
 
     function loadWorkspaceBridge() {
         if (document.querySelector('script[data-product-catalog-workspace]')) return;
         const script = document.createElement("script");
         script.src = "product-catalog-workspace.js?v=4.5-product-2";
-        script.defer = true;
         script.dataset.productCatalogWorkspace = "true";
         document.head.append(script);
     }
