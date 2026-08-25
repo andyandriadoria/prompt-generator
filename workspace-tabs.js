@@ -5,35 +5,44 @@
     const WORKSPACES = [
         { id: "build", label: "Build", description: "Compose prompt", icon: "wand" },
         { id: "inspect", label: "Inspect", description: "Prompt intelligence", icon: "brain" },
-        { id: "history", label: "History", description: "Saved sessions", icon: "reset" }
+        { id: "history", label: "History", description: "Saved sessions", icon: "history" }
     ];
 
     let activeWorkspace = "build";
     let tabButtons = [];
     let workspacePanes = [];
 
-    loadInspectorAssets();
+    loadWorkspaceAssets();
     document.addEventListener("DOMContentLoaded", initWorkspaceShell);
 
-    function loadInspectorAssets() {
-        if (!document.querySelector('link[data-prompt-inspector-style]')) {
-            const link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.href = "prompt-inspector.css?v=4.5-inspect-1";
-            link.dataset.promptInspectorStyle = "true";
-            document.head.append(link);
-        }
+    function loadWorkspaceAssets() {
+        loadStyle("prompt-inspector.css?v=4.5-inspect-1", "prompt-inspector-style");
+        loadScript("prompt-inspector.js?v=4.5-inspect-1", "prompt-inspector-script");
+        loadStyle("prompt-history.css?v=4.5-history-1", "prompt-history-style");
+        loadScript("prompt-history.js?v=4.5-history-1", "prompt-history-script");
+    }
 
-        if (!document.querySelector('script[data-prompt-inspector-script]')) {
-            const script = document.createElement("script");
-            script.src = "prompt-inspector.js?v=4.5-inspect-1";
-            script.async = false;
-            script.dataset.promptInspectorScript = "true";
-            script.addEventListener("load", () => {
-                window.dispatchEvent(new CustomEvent("promptgen:workspace-shell-ready"));
-            });
-            document.head.append(script);
-        }
+    function loadStyle(href, key) {
+        if (document.querySelector(`link[data-workspace-asset="${key}"]`)) return;
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+        link.dataset.workspaceAsset = key;
+        document.head.append(link);
+    }
+
+    function loadScript(src, key) {
+        if (document.querySelector(`script[data-workspace-asset="${key}"]`)) return;
+        const script = document.createElement("script");
+        script.src = src;
+        script.async = false;
+        script.dataset.workspaceAsset = key;
+        script.addEventListener("load", dispatchShellReady);
+        document.head.append(script);
+    }
+
+    function dispatchShellReady() {
+        window.dispatchEvent(new CustomEvent("promptgen:workspace-shell-ready"));
     }
 
     function initWorkspaceShell() {
@@ -60,10 +69,10 @@
 
         const historyPane = createPlaceholderPane({
             id: "history",
-            icon: "reset",
+            icon: "history",
             eyebrow: "Prompt Archive",
-            title: "History workspace is ready for local prompt sessions",
-            description: "The navigation and workspace state are now in place. Local-first prompt history, restore, copy, and delete actions will be connected here after Inspect is implemented.",
+            title: "History workspace is loading local prompt sessions",
+            description: "Recent explicit Generate actions, prompt previews, restore, copy, and delete controls are initializing in this browser.",
             phase: "Step 3"
         });
 
@@ -78,7 +87,7 @@
         const storedWorkspace = readStoredWorkspace();
         setActiveWorkspace(storedWorkspace, { persist: false, focus: false, notify: false });
 
-        window.dispatchEvent(new CustomEvent("promptgen:workspace-shell-ready"));
+        dispatchShellReady();
     }
 
     function prepareBuildPane(buildPane) {
