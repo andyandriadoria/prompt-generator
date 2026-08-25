@@ -1,0 +1,522 @@
+/* Prompt Gen 4.5 — Prompt Intelligence v1 */
+
+.inspector-workspace {
+    display: grid;
+    gap: 16px;
+}
+
+.inspector-head,
+.health-panel,
+.inspector-context-panel,
+.dna-inspector-panel,
+.findings-panel,
+.improvements-panel,
+.prompt-signal-panel {
+    padding: 18px;
+}
+
+.inspector-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.inspector-head-copy {
+    max-width: 760px;
+}
+
+.inspector-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--primary);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+}
+
+.inspector-kicker-icon {
+    display: inline-grid;
+    place-items: center;
+}
+
+.inspector-kicker-icon .ui-icon {
+    width: 15px;
+    height: 15px;
+}
+
+.inspector-head h2 {
+    margin: 7px 0 5px;
+    font-size: clamp(23px, 3vw, 32px);
+    line-height: 1.05;
+    letter-spacing: -.035em;
+}
+
+.inspector-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.inspector-head-actions {
+    display: flex;
+    gap: 8px;
+    flex: 0 0 auto;
+}
+
+.inspector-action {
+    min-height: 36px;
+    padding: 8px 11px;
+    font-size: 11px !important;
+}
+
+.inspector-action .ui-icon {
+    width: 15px;
+    height: 15px;
+}
+
+.inspector-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(290px, .75fr);
+    gap: 16px;
+}
+
+.inspector-lower-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.health-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(240px, .9fr);
+    gap: 22px;
+    align-items: center;
+}
+
+.health-score-block {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.health-score-ring {
+    display: grid;
+    place-content: center;
+    flex: 0 0 108px;
+    width: 108px;
+    height: 108px;
+    border: 7px solid rgba(124,255,178,.16);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,255,178,.09), transparent 68%);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.015);
+    text-align: center;
+}
+
+.health-score-ring[data-level="good"] {
+    border-color: rgba(255,184,0,.34);
+    background: radial-gradient(circle, rgba(255,184,0,.10), transparent 68%);
+}
+
+.health-score-ring[data-level="review"] {
+    border-color: rgba(114,167,255,.34);
+    background: radial-gradient(circle, rgba(114,167,255,.10), transparent 68%);
+}
+
+.health-score-ring[data-level="weak"] {
+    border-color: rgba(201,85,72,.34);
+    background: radial-gradient(circle, rgba(201,85,72,.10), transparent 68%);
+}
+
+.health-score-ring span {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: .9;
+}
+
+.health-score-ring small {
+    margin-top: 5px;
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+}
+
+.health-score-copy {
+    min-width: 0;
+}
+
+.inspector-section-label {
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+}
+
+.health-score-copy h3,
+.inspector-panel-heading h3 {
+    margin: 4px 0 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 17px;
+    letter-spacing: -.025em;
+}
+
+.health-score-copy p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.health-metrics {
+    display: grid;
+    gap: 13px;
+}
+
+.health-metric {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 10px;
+}
+
+.health-metric span {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.health-metric strong {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+}
+
+.metric-track {
+    grid-column: 1 / -1;
+    height: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--surface-3);
+}
+
+.metric-track i {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--primary), #ffd85a);
+    transition: width .24s ease;
+}
+
+.inspector-panel-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.inspect-mode-badge,
+.dna-summary,
+.finding-count,
+.signal-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 5px 8px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-2);
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+}
+
+.inspect-mode-badge[data-mode="outfit_catalog"] {
+    border-color: var(--primary-line);
+    background: var(--primary-soft);
+    color: var(--primary);
+}
+
+.context-list {
+    display: grid;
+    gap: 0;
+    margin: 0;
+}
+
+.context-list > div {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.context-list > div:last-child { border-bottom: 0; }
+
+.context-list dt,
+.context-list dd {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.context-list dt { color: var(--muted); }
+.context-list dd { color: var(--text); font-weight: 600; }
+
+.expanded-dna-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.dna-inspector-card {
+    display: grid;
+    gap: 7px;
+    min-height: 128px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-2);
+}
+
+.dna-inspector-card[data-state="ready"] { border-color: rgba(124,255,178,.20); }
+.dna-inspector-card[data-state="partial"] { border-color: rgba(255,184,0,.28); }
+.dna-inspector-card[data-state="missing"] { border-color: rgba(201,85,72,.28); }
+.dna-inspector-card[data-state="optional"] { opacity: .82; }
+
+.dna-inspector-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.dna-inspector-icon {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-3);
+    color: var(--muted);
+}
+
+.dna-inspector-card[data-state="ready"] .dna-inspector-icon { color: var(--success); }
+.dna-inspector-card[data-state="partial"] .dna-inspector-icon { color: var(--primary); }
+.dna-inspector-card[data-state="missing"] .dna-inspector-icon { color: #d87868; }
+
+.dna-inspector-icon .ui-icon {
+    width: 15px;
+    height: 15px;
+}
+
+.dna-state-label {
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.dna-inspector-card strong {
+    font-size: 12px;
+}
+
+.dna-inspector-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+.inspector-list {
+    display: grid;
+    gap: 8px;
+}
+
+.inspector-list-item {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: var(--surface-2);
+}
+
+.inspector-list-icon,
+.improvement-index,
+.improvement-icon {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-3);
+    color: var(--muted);
+}
+
+.inspector-list-item[data-tone="positive"] .inspector-list-icon { color: var(--success); }
+.inspector-list-item[data-tone="warning"] .inspector-list-icon { color: #d87868; }
+.inspector-list-item[data-tone="info"] .inspector-list-icon { color: var(--secondary); }
+
+.inspector-list-icon .ui-icon,
+.improvement-icon .ui-icon {
+    width: 15px;
+    height: 15px;
+}
+
+.inspector-list-item strong {
+    display: block;
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+.inspector-list-item p {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.improvement-item {
+    grid-template-columns: 30px minmax(0, 1fr) 24px;
+}
+
+.improvement-index {
+    color: var(--primary);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+}
+
+.improvement-icon {
+    width: 24px;
+    height: 24px;
+    border: 0;
+    background: transparent;
+}
+
+.prompt-signal-panel {
+    display: grid;
+}
+
+.signal-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.signal-stat {
+    display: grid;
+    gap: 5px;
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-2);
+}
+
+.signal-stat span {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.signal-stat strong {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+}
+
+.signal-badge[data-signal="clean"] {
+    border-color: rgba(124,255,178,.24);
+    color: var(--success);
+}
+
+.signal-badge[data-signal="review"] {
+    border-color: rgba(255,184,0,.28);
+    color: var(--primary);
+}
+
+.signal-note {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+@media (max-width: 1100px) {
+    .health-panel { grid-template-columns: 1fr; }
+    .expanded-dna-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 920px) {
+    .inspector-grid,
+    .inspector-lower-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 680px) {
+    .inspector-workspace { gap: 8px; }
+
+    .inspector-head,
+    .health-panel,
+    .inspector-context-panel,
+    .dna-inspector-panel,
+    .findings-panel,
+    .improvements-panel,
+    .prompt-signal-panel {
+        padding: 12px;
+        border-radius: 14px;
+    }
+
+    .inspector-head {
+        flex-direction: column;
+        gap: 13px;
+    }
+
+    .inspector-head h2 { font-size: 23px; }
+    .inspector-head p { font-size: 11px; }
+    .inspector-head-actions { width: 100%; }
+    .inspector-action { flex: 1 1 0; min-width: 0; }
+
+    .health-score-block { align-items: flex-start; }
+    .health-score-ring {
+        width: 88px;
+        height: 88px;
+        flex-basis: 88px;
+        border-width: 6px;
+    }
+    .health-score-ring span { font-size: 29px; }
+
+    .health-score-copy h3,
+    .inspector-panel-heading h3 { font-size: 16px; }
+
+    .context-list > div { grid-template-columns: 105px minmax(0,1fr); }
+    .context-list dt,
+    .context-list dd { font-size: 11px; }
+
+    .expanded-dna-grid { grid-template-columns: 1fr 1fr; gap: 7px; }
+    .dna-inspector-card { min-height: 118px; padding: 10px; }
+    .dna-inspector-card strong { font-size: 12px; }
+    .dna-inspector-card p { font-size: 11px; }
+    .dna-state-label { font-size: 10px; }
+
+    .inspector-list-item strong { font-size: 12px; }
+    .inspector-list-item p { font-size: 11px; }
+
+    .signal-grid { grid-template-columns: 1fr 1fr; }
+    .signal-stat span { font-size: 10px; }
+    .signal-stat strong { font-size: 13px; }
+    .signal-note { font-size: 11px; }
+
+    .inspector-section-label,
+    .inspector-kicker,
+    .inspect-mode-badge,
+    .dna-summary,
+    .finding-count,
+    .signal-badge { font-size: 11px; }
+}
