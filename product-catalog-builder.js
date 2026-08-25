@@ -14,7 +14,7 @@
     function loadWorkspaceBridge() {
         if (document.querySelector('script[data-product-catalog-workspace]')) return;
         const script = document.createElement("script");
-        script.src = "product-catalog-workspace.js?v=4.5-product-2";
+        script.src = "product-catalog-workspace.js?v=4.5-product-3";
         script.dataset.productCatalogWorkspace = "true";
         document.head.append(script);
     }
@@ -50,15 +50,9 @@
         if (!state.textOverlay || state.textOverlay.id === "none") return "";
 
         const parts = [stripTerminal(state.textOverlay.prompt)];
-        if (state.textOverlay.headline && clean(state.headline)) {
-            parts.push(`use the headline “${clean(state.headline)}”`);
-        }
-        if (state.textOverlay.tagline && clean(state.tagline)) {
-            parts.push(`the supporting tagline “${clean(state.tagline)}”`);
-        }
-        if (state.textOverlay.footer && clean(state.footer)) {
-            parts.push(`the footer line “${clean(state.footer)}”`);
-        }
+        if (state.textOverlay.headline && clean(state.headline)) parts.push(`use the headline “${clean(state.headline)}”`);
+        if (state.textOverlay.tagline && clean(state.tagline)) parts.push(`the supporting tagline “${clean(state.tagline)}”`);
+        if (state.textOverlay.footer && clean(state.footer)) parts.push(`the footer line “${clean(state.footer)}”`);
         return sentence(parts.filter(Boolean).join(", with "));
     }
 
@@ -81,9 +75,13 @@
     }
 
     function buildQualityBlock(state, preservation) {
-        const quality = "Keep the product as the clear visual focal point with realistic material rendering, refined commercial styling, controlled lighting, and high-end catalog photography";
+        const closingText = clean(preservation.closing_prompt || preservation.closingPrompt || "No product redesign, distortion, recoloring, material substitution, removal, addition, or modification of any original product detail.");
+        const closingOwnsFocalPoint = /clear (?:visual )?focal point/i.test(closingText);
+        const quality = closingOwnsFocalPoint
+            ? "Use realistic material rendering, refined commercial styling, controlled lighting, and high-end catalog photography"
+            : "Keep the product as the clear visual focal point with realistic material rendering, refined commercial styling, controlled lighting, and high-end catalog photography";
         const extra = sentence(state.extraInstruction);
-        const closing = sentence(preservation.closing_prompt || preservation.closingPrompt || "No product redesign, distortion, recoloring, material substitution, removal, addition, or modification of any original product detail.");
+        const closing = sentence(closingText);
         return [sentence(quality), extra, closing].filter(Boolean).join(" ");
     }
 
@@ -106,7 +104,6 @@
 
         const presentation = buildPresentationBlock(state);
         const quality = buildQualityBlock(state, preservation);
-
         return [intro, presentation, quality].filter(Boolean).join("\n\n");
     }
 
