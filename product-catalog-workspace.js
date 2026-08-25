@@ -290,8 +290,12 @@
     function observeHistory() {
         const list = byId("historyList");
         if (!list || historyObserver) return;
-        historyObserver = new MutationObserver(() => {
-            if (global.PromptWorkspaceTabs?.getActive?.() === "history") scheduleProductHistoryRender();
+        historyObserver = new MutationObserver(mutations => {
+            const externalChange = mutations.some(mutation => {
+                const nodes = [...mutation.addedNodes, ...mutation.removedNodes];
+                return nodes.some(node => node.nodeType === 1 && !node.matches?.("[data-product-history-group]"));
+            });
+            if (externalChange && global.PromptWorkspaceTabs?.getActive?.() === "history") scheduleProductHistoryRender();
         });
         historyObserver.observe(list, { childList: true, subtree: false });
     }
