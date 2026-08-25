@@ -78,12 +78,17 @@ Current CONFIG baseline:
 
 ## Prompt Style Presets
 
+Active production presets:
+
 1. Hyper-Realistic iPhone
 2. Cinematic Movie Still
 3. Fashion Editorial
 4. Indonesian Lifestyle Candid
-5. Japanese Nostalgia 1980s
-6. Miniature Diorama
+
+Inactive / retained in Google Sheets for compatibility and possible future reuse:
+
+- Japanese Nostalgia 1980s (`ACTIVE = FALSE`)
+- Miniature Diorama (`ACTIVE = FALSE`)
 
 Current semantic icon keys:
 - Creative Prompt Builder → `sparkles`
@@ -92,8 +97,8 @@ Current semantic icon keys:
 - Cinematic Movie Still → `film`
 - Fashion Editorial → `gem`
 - Indonesian Lifestyle Candid → `sun`
-- Japanese Nostalgia 1980s → `cassette`
-- Miniature Diorama → `cube`
+- Japanese Nostalgia 1980s → `cassette` (inactive)
+- Miniature Diorama → `cube` (inactive)
 - History workspace → `history`
 
 ## Current Frontend Direction
@@ -120,7 +125,6 @@ Do not regress below these practical targets:
 - generated prompt: 13 px desktop / 14 px mobile;
 - mobile form controls: 16 px where appropriate;
 - section headings: about 17–18 px.
-
 
 ## Workspace Baseline 4.5
 
