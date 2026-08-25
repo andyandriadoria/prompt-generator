@@ -48,15 +48,39 @@ Current CONFIG baseline:
 | defaultCatalogShot | medium-shot |
 | defaultCatalogSubject | young-indonesian-hijabi-girl |
 | defaultCatalogSetting | luxury-living-room |
+| defaultProductType | clothing |
+| defaultProductPresentation | hanging-product |
+| defaultProductSetting | minimal-studio |
+| defaultProductShot | full-product |
+| defaultProductComposition | single-product |
+| defaultProductAspectRatio | 4:5 |
+| defaultProductPreservation | exact-strict |
+| defaultProductTextOverlay | none |
+
+Active Prompt Modes:
+- Creative Prompt Builder
+- Reference Outfit Catalog
+- Reference Product Catalog (`ACTIVE = TRUE`)
+
+Reference Product Catalog collections:
+- `PRODUCT_TYPES`
+- `PRODUCT_PRESENTATIONS`
+- `PRODUCT_SETTINGS`
+- `PRODUCT_SHOTS`
+- `PRODUCT_COMPOSITIONS`
+- `PRODUCT_WEAR_CONTEXTS`
+- `PRODUCT_TEXT_OVERLAYS`
+- `PRODUCT_PRESERVATION_LEVELS`
 
 ## Active Features
 
 - Creative Prompt Builder
 - Reference Outfit Catalog
+- Reference Product Catalog
 - Prompt Mode switching
 - Smart Compatibility
 - Searchable Dropdowns
-- Smart / Catalog Random
+- Smart / Catalog / Product Random
 - Prompt Style Presets
 - Prompt DNA indicator
 - Google Sheets API loading
@@ -72,9 +96,46 @@ Current CONFIG baseline:
 - monoline SVG icon system
 - Workspace Tabs: Build / Inspect / History
 - Prompt Intelligence v1 in Inspect
+- Product-aware Prompt Intelligence in Inspect
 - local-first Prompt History v1 with state restore
-- child-safe catalog logic
+- Product Catalog local history + restore integration
+- child-safe outfit catalog logic
 - strict / ultra-strict / compact outfit preservation
+- exact / exact-strict / ultra-strict product preservation
+
+## Reference Product Catalog Baseline
+
+Purpose:
+- generate product-first commercial/catalog prompts from a reference product image;
+- preserve the original visible product while allowing environment, presentation, framing, and campaign styling to change.
+
+Supported product types:
+- Clothing
+- Jewelry
+- Shoes
+- Accessory
+- Other Product
+
+Supported presentation directions include:
+- Hanging Product
+- Tabletop Still Life
+- Mannequin / Bust Display
+- Worn Close-Up
+- Rack / Collection Display
+- Campaign Poster
+
+Prompt architecture:
+1. preservation + reference fidelity;
+2. presentation / setting / framing;
+3. quality + final constraints.
+
+Product Catalog uses composition-aware preservation language for Single Product, Pair, Product Set, and Collection. Conditional fields appear only where relevant, including Wear Context for worn-close-up workflows and campaign text fields for Campaign Poster.
+
+Implementation files:
+- `product-catalog-builder.js`
+- `product-catalog-mode.js`
+- `product-catalog-workspace.js`
+- `product-catalog.css`
 
 ## Prompt Style Presets
 
@@ -93,6 +154,7 @@ Inactive / retained in Google Sheets for compatibility and possible future reuse
 Current semantic icon keys:
 - Creative Prompt Builder → `sparkles`
 - Reference Outfit Catalog → `shirt`
+- Reference Product Catalog → `package`
 - Hyper-Realistic iPhone → `smartphone`
 - Cinematic Movie Still → `film`
 - Fashion Editorial → `gem`
@@ -116,6 +178,10 @@ Characteristics:
 - desktop workbench layout;
 - output panel styled like an editor.
 
+Reference Product Catalog follows the same Obsidian selection language:
+- amber = active / selected state;
+- electric blue = Product Catalog identity accent / package icon.
+
 ## Current Readability Baseline
 
 Do not regress below these practical targets:
@@ -128,13 +194,13 @@ Do not regress below these practical targets:
 
 ## Workspace Baseline 4.5
 
-Prompt Gen 4.5 adds a persistent workspace layer above Prompt Mode. Workspace and Prompt Mode are separate concepts:
+Workspace and Prompt Mode are separate concepts:
 
-- **Build** — existing Creative / Reference Outfit Catalog authoring workflow.
-- **Inspect** — Prompt Intelligence v1 with Prompt Health, expanded Prompt DNA, completeness/coherence findings, recommendations, and output diagnostics.
-- **History** — browser-local prompt history, maximum 50 explicit Generate actions, with search/filter, preview, restore, copy, delete, and clear.
+- **Build** — Creative / Reference Outfit Catalog / Reference Product Catalog authoring workflows.
+- **Inspect** — Prompt Intelligence with Prompt Health, expanded Prompt DNA, completeness/coherence findings, recommendations, and output diagnostics. Product Catalog uses Product / Presentation / Preservation / Scene / Shot / Composition / Ratio dimensions, with optional Campaign Copy.
+- **History** — browser-local prompt history with search/filter, preview, restore, copy, delete, and clear. Product Catalog explicit Generate actions are included and can be restored to Build.
 
-History must not save every automatic preview when `autoGenerate=TRUE`; only explicit **Generate Prompt** actions are committed. Restoring an item restores the saved Build state where the referenced options still exist in the current database.
+History must not save every automatic preview when `autoGenerate=TRUE`; only explicit **Generate Prompt** actions are committed.
 
 Workspace implementation files:
 - `workspace-tabs.js`
@@ -143,6 +209,7 @@ Workspace implementation files:
 - `prompt-inspector.css`
 - `prompt-history.js`
 - `prompt-history.css`
+- `product-catalog-workspace.js`
 
 ## Persistent API Configuration
 
@@ -161,12 +228,26 @@ Normal production should resolve to `config.js`.
 
 - Google Sheets is the source of truth for content data.
 - Apps Script exposes the data as JSON.
+- Apps Script collection mapping is explicit via `SHEET_MAP`; the eight `PRODUCT_*` collections are included in the deployed API mapping.
 - Apps Script cache must not put an oversized full payload into one CacheService value.
 - API cache behavior must remain sectioned/safe to avoid `Argumen terlalu besar: value`.
 - `Refresh Now` should bypass stale state as intended.
 - `fallback.json` must remain compatible with the API payload structure.
-- QA note for 4.5: `fallback.json` remains structurally compatible but its embedded legacy version metadata/title still predates 4.5; normal production is unaffected because live CONFIG comes from Google Sheets. Sync this metadata in the next fallback maintenance pass.
+- `PRODUCT_*` collections are treated as optional by the frontend loader so older fallback payloads do not break Creative / Outfit Catalog.
+- QA note for 4.5: `fallback.json` remains structurally compatible but its embedded legacy version metadata/title still predates 4.5 and does not yet include Product Catalog data; normal production is unaffected because live CONFIG/content comes from Google Sheets. Sync this in the next fallback maintenance pass.
 - Frontend-only updates should not require Apps Script redeployment.
+- `config.js` was preserved during the Reference Product Catalog expansion.
+
+## Release / Deployment Status
+
+Reference Product Catalog production activation completed on 2026-08-25.
+
+- Google Sheets schema/content: updated with eight `PRODUCT_*` collections and Product defaults.
+- `PROMPT_MODES`: `reference_product_catalog` is active.
+- Apps Script: redeployed once to expose the new Product collections through the existing `/exec` deployment URL.
+- Frontend: Product builder, mode controller, Product Inspect, Product History/restore, and Obsidian styling are live.
+- `config.js`: unchanged.
+- Update ZIP: not generated for this expansion.
 
 ## Next Product Opportunities
 
@@ -177,5 +258,6 @@ Potential future directions, not yet baseline features:
 - deeper semantic conflict / redundancy detection
 - richer prompt completeness diagnostics
 - Scene Preset Cards for Reference Outfit Catalog
+- fallback payload refresh to include current 4.5 Product Catalog collections
 
 Do not treat these as implemented unless production source confirms them.
