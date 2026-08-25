@@ -1,6 +1,17 @@
 (function (global) {
     "use strict";
 
+    loadWorkspaceBridge();
+
+    function loadWorkspaceBridge() {
+        if (document.querySelector('script[data-product-catalog-workspace]')) return;
+        const script = document.createElement("script");
+        script.src = "product-catalog-workspace.js?v=4.5-product-2";
+        script.defer = true;
+        script.dataset.productCatalogWorkspace = "true";
+        document.head.append(script);
+    }
+
     function clean(value) {
         return String(value || "").replace(/\s+/g, " ").trim();
     }
