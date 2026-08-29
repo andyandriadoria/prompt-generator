@@ -61,4 +61,12 @@
     }
 
     global.CatalogPromptBuilder = { build };
+
+    // Reference Outfit Catalog extension. Kept separate so the base builder stays compact.
+    if (!document.querySelector('script[data-outfit-focus-style]')) {
+        const extension = document.createElement("script");
+        extension.src = "outfit-focus-style.js?v=4.5-outfit-focus-1";
+        extension.dataset.outfitFocusStyle = "true";
+        document.head.append(extension);
+    }
 })(window);
