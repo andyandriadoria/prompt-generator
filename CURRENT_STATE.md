@@ -1,6 +1,6 @@
 # Prompt Gen — Current State
 
-**Baseline date:** 2026-08-25  
+**Baseline date:** 2026-08-29  
 **Production baseline:** Prompt Gen 4.5
 
 This file is the primary baseline for future Prompt Gen work.
@@ -48,6 +48,7 @@ Current CONFIG baseline:
 | defaultCatalogShot | medium-shot |
 | defaultCatalogSubject | young-indonesian-hijabi-girl |
 | defaultCatalogSetting | luxury-living-room |
+| defaultOutfitFocusStyle | headless-outfit-crop |
 | defaultProductType | clothing |
 | defaultProductPresentation | hanging-product |
 | defaultProductSetting | minimal-studio |
@@ -61,6 +62,9 @@ Active Prompt Modes:
 - Creative Prompt Builder
 - Reference Outfit Catalog
 - Reference Product Catalog (`ACTIVE = TRUE`)
+
+Reference Outfit Catalog additive collection:
+- `OUTFIT_FOCUS_STYLES`
 
 Reference Product Catalog collections:
 - `PRODUCT_TYPES`
@@ -101,7 +105,52 @@ Reference Product Catalog collections:
 - Product Catalog local history + restore integration
 - child-safe outfit catalog logic
 - strict / ultra-strict / compact outfit preservation
+- Outfit Focus Style inside Reference Outfit Catalog
+- no-face / outfit-first presentation presets
 - exact / exact-strict / ultra-strict product preservation
+
+## Reference Outfit Catalog — Outfit Focus Style
+
+`Outfit Focus Style` is an additive presentation control inside **Reference Outfit Catalog**. It is not a separate Prompt Mode.
+
+Purpose:
+- create outfit-first reference-image prompts where the face is hidden, cropped, turned away, obscured, or absent from the frame;
+- keep the original outfit as the visual priority;
+- support seller-style, hanger, selfie, and no-face modest-fashion presentations without weakening outfit preservation language.
+
+Current production presets:
+1. Hidden Face — Holding Outfit
+2. Held Hanger — Clean Lifestyle
+3. Neck-Down Selfie
+4. Headless Outfit Crop
+5. Modest Full Outfit — No Face
+
+Data source:
+- Google Sheets collection: `OUTFIT_FOCUS_STYLES`
+- default CONFIG key: `defaultOutfitFocusStyle = headless-outfit-crop`
+
+Important behavior:
+- `OUTFIT_USAGE` drives whether the garment is worn, held in front of the subject, or displayed on a hanger;
+- `Hidden Face — Holding Outfit` uses `held-front` behavior and explicitly states that the garment is not being worn;
+- `Held Hanger — Clean Lifestyle` uses `hanger-held` behavior and explicitly states that no person is wearing the outfit;
+- selfie/crop/no-face presets use `worn` behavior;
+- face visibility language is explicit and outfit-first;
+- adult subjects are prevented from staying paired with child-only catalog types when the frontend detects an audience mismatch;
+- the current `Shot Type` remains the framing source for `Modest Full Outfit — No Face`; the style prompt itself no longer hardcodes full-body / three-quarter framing;
+- Outfit Focus Style can suppress conflicting shot wording for focus styles whose framing must override the selected shot;
+- child subjects continue to use child-safe options and family-friendly catalog language.
+
+Implementation file:
+- `outfit-focus-style.js`
+
+API / loader:
+- Apps Script `SHEET_MAP` exposes `OUTFIT_FOCUS_STYLES` as `outfitFocusStyles`;
+- `data-loader.js` treats `outfitFocusStyles` as an optional additive collection so older fallback payloads do not break the existing app.
+
+History / Inspect:
+- explicit Generate actions persist the selected Outfit Focus Style in local history;
+- restore reapplies the saved focus style;
+- Inspect receives an additive Outfit Focus DNA card when Reference Outfit Catalog is active.
 
 ## Reference Product Catalog Baseline
 
@@ -197,8 +246,8 @@ Do not regress below these practical targets:
 Workspace and Prompt Mode are separate concepts:
 
 - **Build** — Creative / Reference Outfit Catalog / Reference Product Catalog authoring workflows.
-- **Inspect** — Prompt Intelligence with Prompt Health, expanded Prompt DNA, completeness/coherence findings, recommendations, and output diagnostics. Product Catalog uses Product / Presentation / Preservation / Scene / Shot / Composition / Ratio dimensions, with optional Campaign Copy.
-- **History** — browser-local prompt history with search/filter, preview, restore, copy, delete, and clear. Product Catalog explicit Generate actions are included and can be restored to Build.
+- **Inspect** — Prompt Intelligence with Prompt Health, expanded Prompt DNA, completeness/coherence findings, recommendations, and output diagnostics. Product Catalog uses Product / Presentation / Preservation / Scene / Shot / Composition / Ratio dimensions, with optional Campaign Copy. Reference Outfit Catalog can append an Outfit Focus DNA card when Outfit Focus Style is active.
+- **History** — browser-local prompt history with search/filter, preview, restore, copy, delete, and clear. Product Catalog explicit Generate actions are included and can be restored to Build. Reference Outfit Catalog history also retains `outfitFocusStyle` for explicit Generate actions.
 
 History must not save every automatic preview when `autoGenerate=TRUE`; only explicit **Generate Prompt** actions are committed.
 
@@ -210,6 +259,7 @@ Workspace implementation files:
 - `prompt-history.js`
 - `prompt-history.css`
 - `product-catalog-workspace.js`
+- `outfit-focus-style.js`
 
 ## Persistent API Configuration
 
@@ -228,26 +278,29 @@ Normal production should resolve to `config.js`.
 
 - Google Sheets is the source of truth for content data.
 - Apps Script exposes the data as JSON.
-- Apps Script collection mapping is explicit via `SHEET_MAP`; the eight `PRODUCT_*` collections are included in the deployed API mapping.
+- Apps Script collection mapping is explicit via `SHEET_MAP`; Product Catalog collections and `OUTFIT_FOCUS_STYLES` are included in the deployed API mapping.
 - Apps Script cache must not put an oversized full payload into one CacheService value.
 - API cache behavior must remain sectioned/safe to avoid `Argumen terlalu besar: value`.
 - `Refresh Now` should bypass stale state as intended.
 - `fallback.json` must remain compatible with the API payload structure.
-- `PRODUCT_*` collections are treated as optional by the frontend loader so older fallback payloads do not break Creative / Outfit Catalog.
-- QA note for 4.5: `fallback.json` remains structurally compatible but its embedded legacy version metadata/title still predates 4.5 and does not yet include Product Catalog data; normal production is unaffected because live CONFIG/content comes from Google Sheets. Sync this in the next fallback maintenance pass.
+- `PRODUCT_*` and `outfitFocusStyles` are treated as optional additive collections by the frontend loader so older fallback payloads do not break Creative / core Outfit Catalog.
+- QA note for 4.5: `fallback.json` remains structurally compatible but its embedded legacy version metadata/title still predates 4.5 and does not yet include Product Catalog or Outfit Focus Style data; normal production is unaffected because live CONFIG/content comes from Google Sheets. Sync this in the next fallback maintenance pass.
 - Frontend-only updates should not require Apps Script redeployment.
-- `config.js` was preserved during the Reference Product Catalog expansion.
+- `config.js` was preserved during the Reference Product Catalog and Outfit Focus Style expansions.
 
 ## Release / Deployment Status
 
 Reference Product Catalog production activation completed on 2026-08-25.
 
-- Google Sheets schema/content: updated with eight `PRODUCT_*` collections and Product defaults.
-- `PROMPT_MODES`: `reference_product_catalog` is active.
-- Apps Script: redeployed once to expose the new Product collections through the existing `/exec` deployment URL.
-- Frontend: Product builder, mode controller, Product Inspect, Product History/restore, and Obsidian styling are live.
+Outfit Focus Style enhancement for Reference Outfit Catalog completed on 2026-08-29.
+
+- Google Sheets schema/content: added `OUTFIT_FOCUS_STYLES`, `defaultOutfitFocusStyle`, and `OUTFIT_USAGE` metadata.
+- Apps Script: redeployed once to expose `OUTFIT_FOCUS_STYLES` through the existing `/exec` deployment URL.
+- Frontend: modular `outfit-focus-style.js` is live and augments Reference Outfit Catalog without creating a fourth Prompt Mode.
+- QA: Hidden Face, Held Hanger, Neck-Down Selfie, Headless Outfit Crop, and Modest Full Outfit — No Face were tested in production UI.
+- Final framing polish: `Modest Full Outfit — No Face` now defers framing to the selected `CATALOG_SHOTS` value instead of hardcoding full-body / three-quarter wording.
 - `config.js`: unchanged.
-- Update ZIP: not generated for this expansion.
+- Update ZIP: not generated for the final frontend patch.
 
 ## Next Product Opportunities
 
@@ -258,6 +311,6 @@ Potential future directions, not yet baseline features:
 - deeper semantic conflict / redundancy detection
 - richer prompt completeness diagnostics
 - Scene Preset Cards for Reference Outfit Catalog
-- fallback payload refresh to include current 4.5 Product Catalog collections
+- fallback payload refresh to include current 4.5 Product Catalog and Outfit Focus Style collections
 
 Do not treat these as implemented unless production source confirms them.
