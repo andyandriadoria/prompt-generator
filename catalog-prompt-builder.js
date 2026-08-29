@@ -69,4 +69,12 @@
         extension.dataset.outfitFocusStyle = "true";
         document.head.append(extension);
     }
+
+    // Compatibility layer for focus styles that require a specific framing.
+    if (!document.querySelector('script[data-outfit-focus-compatibility]')) {
+        const compatibility = document.createElement("script");
+        compatibility.src = "outfit-focus-compatibility.js?v=4.5-outfit-focus-2";
+        compatibility.dataset.outfitFocusCompatibility = "true";
+        document.head.append(compatibility);
+    }
 })(window);
