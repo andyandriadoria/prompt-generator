@@ -204,6 +204,7 @@
             catalogPoses: normalizeList(payload.catalogPoses || []),
             catalogShots: normalizeList(payload.catalogShots || []),
             preservationLevels: normalizeList(payload.preservationLevels || []),
+            outfitFocusStyles: normalizeList(payload.outfitFocusStyles || []),
             productTypes: normalizeList(payload.productTypes || []),
             productPresentations: normalizeList(payload.productPresentations || []),
             productSettings: normalizeList(payload.productSettings || []),
