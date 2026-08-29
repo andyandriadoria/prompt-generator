@@ -1,11 +1,12 @@
 # Prompt Gen — Changelog
 
-## 4.5 — Workspace Tabs + Prompt Intelligence + History + Reference Product Catalog
+## 4.5 — Workspace Tabs + Prompt Intelligence + History + Reference Product Catalog + Outfit Focus Style
 
 Focus:
 - introduce a persistent workspace layer without changing Prompt Mode semantics;
 - add prompt analysis and local session recovery;
 - add a third production Prompt Mode for reference-product catalog generation;
+- expand Reference Outfit Catalog with outfit-first / no-face presentation controls;
 - preserve the 4.4.1 Obsidian/readability baseline.
 
 Key changes:
@@ -35,8 +36,25 @@ Key changes:
 - expanded Apps Script `SHEET_MAP` to expose Product Catalog collections through the existing `/exec` URL while preserving sectioned/safe CacheService behavior;
 - redeployed the existing Apps Script deployment once for the Product Catalog API expansion;
 - activated `reference_product_catalog` in `PROMPT_MODES` after Build / Inspect / History QA;
-- preserved `config.js`;
-- `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog data and metadata.
+- added `OUTFIT_FOCUS_STYLES` as an additive Google Sheets collection for Reference Outfit Catalog;
+- added CONFIG default `defaultOutfitFocusStyle = headless-outfit-crop`;
+- added five Outfit Focus Style presets:
+  - Hidden Face — Holding Outfit
+  - Held Hanger — Clean Lifestyle
+  - Neck-Down Selfie
+  - Headless Outfit Crop
+  - Modest Full Outfit — No Face;
+- added `OUTFIT_USAGE` metadata so each focus preset can explicitly behave as `held-front`, `hanger-held`, or `worn`;
+- added modular `outfit-focus-style.js` instead of expanding `app.js` monolithically;
+- added explicit no-face / cropped-face / outfit-priority prompt language without weakening reference outfit preservation;
+- added audience guard so adult subjects are not left paired with child-only catalog types;
+- added History save/restore support for `outfitFocusStyle` on explicit Generate actions;
+- added an additive Outfit Focus DNA card in Inspect;
+- QA fixed conflicts where hanger/held-front styles still inherited “wearing the exact outfit” wording;
+- QA fixed focus styles that conflicted with selected `Shot Type`;
+- final polish changed `Modest Full Outfit — No Face` so framing comes from `CATALOG_SHOTS` instead of hardcoding full-body / three-quarter language;
+- preserved `config.js` throughout;
+- `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog and Outfit Focus Style data/metadata.
 
 ## 4.4.1 — Readability + Monoline Icons
 
