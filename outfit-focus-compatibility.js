@@ -28,7 +28,9 @@
             }
         },
         "headless-outfit-crop": {
-            disabledFields: {}
+            disabledFields: {
+                catalogShot: "Controlled by Outfit Focus Style · Headless Crop"
+            }
         },
         [PHONE_COVERED_STYLE_ID]: {
             disabledFields: {
@@ -92,8 +94,7 @@
         if (!hint) {
             hint = document.createElement("small");
             hint.className = "focus-controlled-note";
-            const host = row.querySelector(":scope > div") || row;
-            host.append(hint);
+            row.append(hint);
         }
         hint.textContent = note;
     }
@@ -240,9 +241,13 @@
                 font-size: 10px;
                 line-height: 1.35;
                 opacity: .72;
+                grid-column: 2;
             }
             @media (max-width: 680px) {
-                .focus-controlled-note { font-size: 11px; }
+                .focus-controlled-note {
+                    font-size: 11px;
+                    grid-column: 1 / -1;
+                }
             }
         `;
         document.head.append(style);
