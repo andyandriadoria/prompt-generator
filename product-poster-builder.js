@@ -68,5 +68,14 @@ Use all supplied text exactly as written. Do not change product names, brand nam
         return blocks.join("\n\n");
     }
 
+    function loadDefaultsModule() {
+        if (document.querySelector('script[data-product-poster-defaults]')) return;
+        const script = document.createElement("script");
+        script.src = "product-poster-defaults.js?v=4.5-poster-1";
+        script.dataset.productPosterDefaults = "true";
+        document.head.append(script);
+    }
+
+    loadDefaultsModule();
     global.ProductPosterPromptBuilder = { build, FIXED_ASPECT_RATIO };
 })(window);
