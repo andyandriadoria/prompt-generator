@@ -7,6 +7,7 @@ Focus:
 - add prompt analysis and local session recovery;
 - add a third production Prompt Mode for reference-product catalog generation;
 - expand Reference Outfit Catalog with outfit-first / no-face presentation controls;
+- unify Creative and Reference Outfit Catalog scene settings around one master source;
 - preserve the 4.4.1 Obsidian/readability baseline.
 
 Key changes:
@@ -38,23 +39,34 @@ Key changes:
 - activated `reference_product_catalog` in `PROMPT_MODES` after Build / Inspect / History QA;
 - added `OUTFIT_FOCUS_STYLES` as an additive Google Sheets collection for Reference Outfit Catalog;
 - added CONFIG default `defaultOutfitFocusStyle = headless-outfit-crop`;
-- added five Outfit Focus Style presets:
+- added Outfit Focus Style presentation presets and refined the production set to:
   - Hidden Face — Holding Outfit
   - Held Hanger — Clean Lifestyle
-  - Neck-Down Selfie
+  - POV Outfit Selfie
   - Headless Outfit Crop
-  - Modest Full Outfit — No Face;
+  - Phone-Covered Outfit Selfie;
+- retained stable legacy IDs where practical so History restore remains compatible after preset renaming/repositioning;
 - added `OUTFIT_USAGE` metadata so each focus preset can explicitly behave as `held-front`, `hanger-held`, or `worn`;
 - added modular `outfit-focus-style.js` instead of expanding `app.js` monolithically;
-- added explicit no-face / cropped-face / outfit-priority prompt language without weakening reference outfit preservation;
+- added `outfit-focus-compatibility.js` for field relevance, controlled-field states, and presentation-specific compatibility behavior;
+- added explicit no-face / cropped-face / phone-obscured / outfit-priority prompt language without weakening reference outfit preservation;
 - added audience guard so adult subjects are not left paired with child-only catalog types;
 - added History save/restore support for `outfitFocusStyle` on explicit Generate actions;
 - added an additive Outfit Focus DNA card in Inspect;
 - QA fixed conflicts where hanger/held-front styles still inherited “wearing the exact outfit” wording;
 - QA fixed focus styles that conflicted with selected `Shot Type`;
-- final polish changed `Modest Full Outfit — No Face` so framing comes from `CATALOG_SHOTS` instead of hardcoding full-body / three-quarter language;
+- `Held Hanger — Clean Lifestyle` now ignores non-relevant model/pose fields and avoids duplicate hanger wording;
+- `POV Outfit Selfie` now explicitly requests handheld front-camera/top-down OOTD framing, rejects mirror/reflection interpretation, and prioritizes the complete outfit down to the feet;
+- `Phone-Covered Outfit Selfie` now explicitly keeps the smartphone visible in front of the face while rejecting mirror-selfie/reflection interpretation;
+- added field-intelligence UI states so non-relevant fields can be disabled or marked `Controlled by Outfit Focus Style`;
+- unified Creative Prompt Builder and Reference Outfit Catalog settings around the master `SETTINGS` collection;
+- added genuinely unique Catalog settings to `SETTINGS` while avoiding duplicate scene concepts;
+- retained `CATALOG_SETTINGS` as a legacy compatibility source instead of deleting it immediately;
+- added legacy Catalog Setting alias resolution so old History sessions can restore to canonical master Setting IDs;
+- Creative retains Indoor / Outdoor filtering while Reference Outfit Catalog sees the combined master Setting list;
+- no Apps Script redeploy was required for the shared Setting migration;
 - preserved `config.js` throughout;
-- `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog and Outfit Focus Style data/metadata.
+- `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 ## 4.4.1 — Readability + Monoline Icons
 
