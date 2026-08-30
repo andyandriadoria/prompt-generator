@@ -2,6 +2,7 @@
     "use strict";
 
     const MODE_ID = "reference_product_poster";
+    const FIXED_ASPECT_RATIO = "9:16";
     const PREVIEW_PARAM = "productPosterPreview";
     const FALLBACK_MODE = {
         id: MODE_ID,
@@ -63,7 +64,7 @@
         if (document.querySelector('link[data-product-poster-style]')) return;
         const link = document.createElement("link");
         link.rel = "stylesheet";
-        link.href = "product-poster.css?v=4.5-poster-1";
+        link.href = "product-poster.css?v=4.5-poster-2";
         link.dataset.productPosterStyle = "true";
         document.head.append(link);
     }
@@ -78,18 +79,14 @@
         section.className = "mode-fields product-poster-fields";
         section.hidden = true;
         section.innerHTML = `
+            <input type="hidden" id="posterAspectRatio" value="${FIXED_ASPECT_RATIO}">
+
             <div class="poster-mode-intro">
                 <span class="poster-mode-icon">${global.PromptIcons.svg("poster")}</span>
                 <div>
                     <strong>Product Poster Builder</strong>
-                    <p>Use one existing photograph as a locked base image, then add premium poster typography, product information, and monoline detail icons.</p>
+                    <p>Use one existing photograph as a locked base image, then add premium poster typography, product information, and monoline detail icons. Output format is fixed at 9:16.</p>
                 </div>
-            </div>
-
-            <div class="field-row">
-                <label for="posterAspectRatio">Aspect Ratio</label>
-                <select id="posterAspectRatio"><option value="">-- Select Aspect Ratio --</option></select>
-                <p class="poster-field-help">If the selected ratio differs from the source photo, the prompt extends only the surrounding canvas instead of cropping the original photograph.</p>
             </div>
 
             <div class="field-row">
@@ -139,7 +136,6 @@
         try {
             const result = await global.PromptDataLoader.load(options);
             database = result.data;
-            populateAspectRatios();
             ensurePosterModeCard();
             refreshModeCopy();
             document.body.classList.toggle("product-poster-ready", isFeatureReady());
@@ -149,7 +145,7 @@
     }
 
     function isFeatureReady() {
-        return Boolean(database && Array.isArray(database.aspectRatios) && database.aspectRatios.length);
+        return Boolean(database);
     }
 
     function previewEnabled() {
@@ -215,6 +211,7 @@
         if (elements.catalogFields) elements.catalogFields.hidden = true;
         if (elements.productFields) elements.productFields.hidden = true;
         if (elements.posterFields) elements.posterFields.hidden = false;
+        if (elements.posterAspectRatio) elements.posterAspectRatio.value = FIXED_ASPECT_RATIO;
         if (elements.activeStyleBadge) elements.activeStyleBadge.hidden = true;
         if (elements.randomPromptBtn) elements.randomPromptBtn.hidden = true;
 
@@ -223,9 +220,9 @@
             elements.activeModeBadge.dataset.mode = MODE_ID;
         }
         if (elements.randomModeTitle) elements.randomModeTitle.textContent = "Poster Builder";
-        if (elements.randomModeHint) elements.randomModeHint.textContent = "Locked-photo poster composition";
+        if (elements.randomModeHint) elements.randomModeHint.textContent = "Locked-photo poster composition · 9:16";
         if (elements.outputTipTitle) elements.outputTipTitle.textContent = "Product poster tip";
-        if (elements.outputTipText) elements.outputTipText.textContent = "Attach the exact photograph you want to preserve. Enter product information exactly as it should appear; the generated prompt tells the image model to keep the original photo intact.";
+        if (elements.outputTipText) elements.outputTipText.textContent = "Attach the exact photograph you want to preserve. Enter product information exactly as it should appear; the generated prompt keeps the original photo intact and uses a fixed 9:16 poster format.";
 
         elements.promptModeGrid.querySelectorAll("[data-prompt-mode-id]").forEach(card => {
             const active = card.dataset.promptModeId === MODE_ID;
@@ -255,32 +252,17 @@
         });
     }
 
-    function populateAspectRatios() {
-        if (!elements.posterAspectRatio || !database) return;
-        elements.posterAspectRatio.innerHTML = "";
-        const placeholder = new Option("-- Select Aspect Ratio --", "");
-        placeholder.dataset.placeholder = "true";
-        elements.posterAspectRatio.append(placeholder);
-        (database.aspectRatios || []).forEach(item => {
-            const value = item.value || item.label || item.id;
-            const option = new Option(item.label || value, value);
-            option.dataset.id = item.id || "";
-            elements.posterAspectRatio.append(option);
-        });
-        const config = database.config || {};
-        const preferred = config.defaultProductPosterAspectRatio || config.defaultProductAspectRatio || "4:5";
-        if ([...elements.posterAspectRatio.options].some(option => option.value === preferred)) elements.posterAspectRatio.value = preferred;
-    }
-
-    function handlePosterFieldEvent() {
+    function handlePosterFieldEvent(event) {
         if (!posterActive) return;
+        event.stopPropagation();
         updatePosterDna();
         if (asBoolean(database?.config?.autoGenerate, true)) generatePosterPrompt(false);
     }
 
     function collectState() {
+        if (elements.posterAspectRatio) elements.posterAspectRatio.value = FIXED_ASPECT_RATIO;
         return {
-            aspectRatio: elements.posterAspectRatio?.value || "4:5",
+            aspectRatio: FIXED_ASPECT_RATIO,
             productInformation: elements.posterProductInformation?.value?.trim() || "",
             extraInstruction: elements.posterExtraInstruction?.value?.trim() || ""
         };
@@ -296,9 +278,7 @@
         }
         if (elements.promptStats) elements.promptStats.textContent = `${prompt.length.toLocaleString()} characters`;
         updatePosterDna();
-        if (explicit) {
-            global.dispatchEvent(new CustomEvent("promptgen:postergenerated", { detail: { prompt, state } }));
-        }
+        if (explicit) global.dispatchEvent(new CustomEvent("promptgen:postergenerated", { detail: { prompt, state } }));
         return prompt;
     }
 
@@ -318,9 +298,7 @@
     }
 
     function resetPosterForm() {
-        const config = database?.config || {};
-        const preferred = config.defaultProductPosterAspectRatio || config.defaultProductAspectRatio || "4:5";
-        if (elements.posterAspectRatio) elements.posterAspectRatio.value = preferred;
+        if (elements.posterAspectRatio) elements.posterAspectRatio.value = FIXED_ASPECT_RATIO;
         if (elements.posterProductInformation) elements.posterProductInformation.value = "";
         if (elements.posterExtraInstruction) elements.posterExtraInstruction.value = "";
         generatePosterPrompt(false);
@@ -330,14 +308,14 @@
     function serializeState() {
         const state = collectState();
         return {
-            posterAspectRatio: state.aspectRatio,
+            posterAspectRatio: FIXED_ASPECT_RATIO,
             posterProductInformation: state.productInformation,
             posterExtraInstruction: state.extraInstruction
         };
     }
 
     function restoreState(state = {}) {
-        if (elements.posterAspectRatio) elements.posterAspectRatio.value = state.posterAspectRatio || state.aspectRatio || "4:5";
+        if (elements.posterAspectRatio) elements.posterAspectRatio.value = FIXED_ASPECT_RATIO;
         if (elements.posterProductInformation) elements.posterProductInformation.value = state.posterProductInformation || state.productInformation || "";
         if (elements.posterExtraInstruction) elements.posterExtraInstruction.value = state.posterExtraInstruction || state.extraInstruction || "";
         generatePosterPrompt(false);
@@ -348,7 +326,7 @@
         if (!posterActive) return;
         const nodes = [elements.dnaSubject, elements.dnaScene, elements.dnaStyle, elements.dnaCamera, elements.dnaLight];
         const labels = ["Base Photo", "Product Info", "Poster Style", "Ratio", "Text Fidelity"];
-        const states = ["ready", elements.posterProductInformation?.value?.trim() ? "ready" : "partial", "ready", elements.posterAspectRatio?.value ? "ready" : "partial", "ready"];
+        const states = ["ready", elements.posterProductInformation?.value?.trim() ? "ready" : "partial", "ready", "ready", "ready"];
         nodes.forEach((node, index) => {
             if (!node) return;
             const label = node.querySelector("b");
@@ -362,21 +340,21 @@
         const box = elements.messageBox || document.getElementById("messageBox");
         if (!box) return;
         box.textContent = message;
-        box.classList.add("show");
+        box.classList.add("is-visible");
         global.clearTimeout(showMessage.timer);
-        showMessage.timer = global.setTimeout(() => box.classList.remove("show"), 2200);
+        showMessage.timer = global.setTimeout(() => box.classList.remove("is-visible"), 2200);
+    }
+
+    function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"']/g, character => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        }[character]));
     }
 
     function asBoolean(value, fallback = false) {
         if (typeof value === "boolean") return value;
         if (value == null || value === "") return fallback;
-        return ["true", "1", "yes", "y"].includes(String(value).toLowerCase());
-    }
-
-    function escapeHtml(value) {
-        return String(value ?? "").replace(/[&<>"']/g, character => ({
-            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-        }[character]));
+        return ["true", "1", "yes", "y", "on"].includes(String(value).toLowerCase());
     }
 
     global.ProductPosterMode = {
