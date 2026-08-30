@@ -1,17 +1,18 @@
 (function (global) {
     "use strict";
 
+    const FIXED_ASPECT_RATIO = "9:16";
+
     function clean(value) {
         return String(value == null ? "" : value).trim();
     }
 
     function build(state = {}) {
-        const aspectRatio = clean(state.aspectRatio) || "4:5";
         const productInformation = clean(state.productInformation);
         const extraInstruction = clean(state.extraInstruction);
 
         const productBlock = [
-            `Aspect Ratio: ${aspectRatio}`,
+            `Aspect Ratio: ${FIXED_ASPECT_RATIO}`,
             productInformation
         ].filter(Boolean).join("\n");
 
@@ -20,7 +21,7 @@
 
 Preserve the original photograph exactly as it is. Do not change, regenerate, retouch, redesign, crop, reposition, distort, or alter the model, face, expression, hijab, outfit, accessories, pose, body proportions, product details, background, lighting, shadows, framing, camera angle, or any other original visual element within the original photograph.
 
-Treat the original photograph as a locked base layer. If the selected aspect ratio differs from the original photograph, do not crop, stretch, distort, or reframe the original image. Keep the complete original photograph intact and extend only the surrounding canvas beyond the original frame as needed to reach the requested aspect ratio. Any newly added canvas area must continue the existing background naturally and seamlessly without changing the original photograph itself.
+Create the final poster in a 9:16 aspect ratio. Treat the original photograph as a locked base layer. If the original photograph uses a different aspect ratio, do not crop, stretch, distort, or reframe it. Keep the complete original photograph intact and extend only the surrounding canvas beyond the original frame as needed to reach 9:16. Any newly added canvas area must continue the existing background naturally and seamlessly without changing the original photograph itself.
 
 The photograph itself must remain visually unchanged. Only add typography, product information, minimalist icons, and subtle graphic elements needed for the poster layout.`,
 `PRODUCT INFORMATION
@@ -67,5 +68,5 @@ Use all supplied text exactly as written. Do not change product names, brand nam
         return blocks.join("\n\n");
     }
 
-    global.ProductPosterPromptBuilder = { build };
+    global.ProductPosterPromptBuilder = { build, FIXED_ASPECT_RATIO };
 })(window);
