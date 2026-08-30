@@ -5,6 +5,7 @@
     sparkles: '<path d="M12 3l1.15 3.1L16 7.25l-2.85 1.15L12 11.5l-1.15-3.1L8 7.25l2.85-1.15L12 3Z"/><path d="M5.5 13.5l.75 2 2 .75-2 .75-.75 2-.75-2-2-.75 2-.75.75-2Z"/><path d="M18.5 12l.55 1.45L20.5 14l-1.45.55L18.5 16l-.55-1.45L16.5 14l1.45-.55L18.5 12Z"/>',
     shirt: '<path d="M8 4.5 5.5 6 3 9l3 2v8h12v-8l3-2-2.5-3L16 4.5c-.7 1-2 1.5-4 1.5S8.7 5.5 8 4.5Z"/>',
     package: '<path d="m4 7 8-4 8 4v10l-8 4-8-4V7Z"/><path d="m4 7 8 4 8-4M12 11v10M8 5l8 4"/>',
+    poster: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M7 7h10M7 11h6M7 15h4"/><circle cx="16" cy="15" r="2"/>',
     smartphone: '<rect x="7" y="2.8" width="10" height="18.4" rx="2.2"/><path d="M10 5h4M11.25 18.4h1.5"/>',
     film: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 5v14M17 5v14M3 9h4M3 15h4M17 9h4M17 15h4"/>',
     gem: '<path d="m4 8 4-4h8l4 4-8 12L4 8Z"/><path d="m8 4 4 4 4-4M4 8h16M12 8v12"/>',
@@ -35,7 +36,8 @@
   function normalize(name) {
     const aliases = {
       "✨":"sparkles","👗":"shirt","📱":"smartphone","🎬":"film","✦":"gem","🌿":"sun","📼":"cassette","🏠":"cube",
-      "creative":"sparkles","outfit_catalog":"shirt","outfit-catalog":"shirt","reference_product_catalog":"package","product_catalog":"package","product-catalog":"package"
+      "creative":"sparkles","outfit_catalog":"shirt","outfit-catalog":"shirt","reference_product_catalog":"package","product_catalog":"package","product-catalog":"package",
+      "reference_product_poster":"poster","product_poster":"poster","product-poster":"poster"
     };
     return aliases[name] || name || "sparkles";
   }
