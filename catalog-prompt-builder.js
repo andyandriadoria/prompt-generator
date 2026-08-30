@@ -70,10 +70,10 @@
         document.head.append(extension);
     }
 
-    // Compatibility layer for focus styles that require a specific framing.
+    // Compatibility + field-intelligence layer for Outfit Focus styles.
     if (!document.querySelector('script[data-outfit-focus-compatibility]')) {
         const compatibility = document.createElement("script");
-        compatibility.src = "outfit-focus-compatibility.js?v=4.5-outfit-focus-2";
+        compatibility.src = "outfit-focus-compatibility.js?v=4.5-outfit-focus-3";
         compatibility.dataset.outfitFocusCompatibility = "true";
         document.head.append(compatibility);
     }
