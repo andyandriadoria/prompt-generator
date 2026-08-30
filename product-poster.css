@@ -49,11 +49,23 @@
 }
 
 .poster-field-help {
-    margin-top: 7px;
+    grid-column: 2;
+    margin-top: -7px;
 }
 
 .poster-mode-card .prompt-mode-icon {
     color: var(--primary-2);
+}
+
+/* Four active modes read more cleanly as a balanced 2 × 2 matrix. */
+body.product-poster-ready .prompt-mode-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 920px) {
+    body.product-poster-ready .prompt-mode-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 720px) {
@@ -65,5 +77,10 @@
     .poster-mode-intro,
     .poster-preservation-note {
         padding: 14px;
+    }
+
+    .poster-field-help {
+        grid-column: 1;
+        margin-top: 0;
     }
 }
