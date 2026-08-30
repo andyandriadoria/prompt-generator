@@ -69,14 +69,14 @@
         if (pose) displayParts.push(sentence(pose));
         if (shot) displayParts.push(sentence(shot));
         displayParts.push(child
-            ? "Use a clearly artificial, featureless child mannequin with age-appropriate child proportions and a polished childwear retail-display presentation."
-            : "Use a clearly artificial, featureless adult mannequin with a polished retail-display posture and refined showroom presentation.");
-        displayParts.push("Keep the mannequin non-expressive and visually secondary to the clothing; avoid human-model realism, realistic skin texture, facial expression, or lifelike identity.");
+            ? "Use a clearly artificial child mannequin with a smooth featureless head, age-appropriate child proportions, and a composed static posture appropriate to the selected setting."
+            : "Use a clearly artificial adult mannequin with a smooth featureless head and a composed static posture appropriate to the selected setting.");
+        displayParts.push("Do not give the mannequin realistic skin, facial features, hair, expression, or human identity. Keep the mannequin visually secondary to the clothing.");
         displayParts.push("Keep the outfit, its silhouette, construction, fabric, pattern, texture, color, cut, proportions, layering, and styling as the clear visual priority.");
 
         const quality = child
-            ? "Create clean premium childwear catalog photography with refined boutique merchandising and an age-appropriate commercial display feel."
-            : "Create clean premium fashion catalog photography with refined commercial visual-merchandising presentation.";
+            ? "Create clean premium childwear fashion photography with refined composition appropriate to the selected catalog or campaign type and setting, while keeping the presentation age-appropriate."
+            : "Create clean premium fashion photography with refined composition appropriate to the selected catalog or campaign type and setting.";
         const closingTemplate = preservation.closing_prompt || preservation.closingPrompt ||
             "No text, no accessories that alter the outfit, and no modification or distortion of the clothing.";
         const closing = [quality, sentence(closingTemplate), sentence(state.extraInstruction)]
@@ -224,7 +224,7 @@
                 note.className = "mannequin-pose-note";
                 row.append(note);
             }
-            note.textContent = "Mannequin options are grouped as Display Pose, Presentation Style, and Mannequin Arrangement.";
+            note.textContent = "Mannequin options are grouped as Display Pose, Presentation Style, and Mannequin Arrangement. Neutral options adapt to the selected setting; Boutique Window remains a location-specific choice.";
         } else {
             note?.remove();
         }
