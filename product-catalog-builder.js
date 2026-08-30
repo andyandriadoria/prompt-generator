@@ -8,18 +8,18 @@
         if (document.querySelector('script[data-product-poster-builder]')) return;
 
         const builder = document.createElement("script");
-        builder.src = "product-poster-builder.js?v=4.5-poster-1";
+        builder.src = "product-poster-builder.js?v=4.5-poster-2";
         builder.dataset.productPosterBuilder = "true";
         builder.onload = () => {
             if (!document.querySelector('script[data-product-poster-mode]')) {
                 const mode = document.createElement("script");
-                mode.src = "product-poster-mode.js?v=4.5-poster-1";
+                mode.src = "product-poster-mode.js?v=4.5-poster-2";
                 mode.dataset.productPosterMode = "true";
                 document.head.append(mode);
             }
             if (!document.querySelector('script[data-product-poster-workspace]')) {
                 const workspace = document.createElement("script");
-                workspace.src = "product-poster-workspace.js?v=4.5-poster-1";
+                workspace.src = "product-poster-workspace.js?v=4.5-poster-2";
                 workspace.dataset.productPosterWorkspace = "true";
                 document.head.append(workspace);
             }
