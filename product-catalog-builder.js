@@ -8,7 +8,7 @@
         if (document.querySelector('script[data-product-poster-builder]')) return;
 
         const builder = document.createElement("script");
-        builder.src = "product-poster-builder.js?v=4.5-poster-2";
+        builder.src = "product-poster-builder.js?v=4.5-poster-3";
         builder.dataset.productPosterBuilder = "true";
         builder.onload = () => {
             if (!document.querySelector('script[data-product-poster-mode]')) {
