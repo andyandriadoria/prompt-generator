@@ -204,4 +204,12 @@
         compatibility.dataset.outfitFocusCompatibility = "true";
         document.head.append(compatibility);
     }
+
+    // Mannequin presentation layer for Reference Outfit Catalog.
+    if (!document.querySelector('script[data-mannequin-catalog]')) {
+        const mannequin = document.createElement("script");
+        mannequin.src = "mannequin-catalog.js?v=4.5-mannequin-1";
+        mannequin.dataset.mannequinCatalog = "true";
+        document.head.append(mannequin);
+    }
 })(window);
