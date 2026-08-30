@@ -244,6 +244,15 @@
         document.body.classList.remove("product-poster-active");
         if (elements.posterFields) elements.posterFields.hidden = true;
         if (elements.randomPromptBtn) elements.randomPromptBtn.hidden = false;
+        resetBuildDnaLabels();
+    }
+
+    function resetBuildDnaLabels() {
+        const labels = ["Subject", "Scene", "Style", "Framing", "Light"];
+        [elements.dnaSubject, elements.dnaScene, elements.dnaStyle, elements.dnaCamera, elements.dnaLight].forEach((node, index) => {
+            const label = node?.querySelector?.("b");
+            if (label) label.textContent = labels[index];
+        });
     }
 
     function populateAspectRatios() {
@@ -287,7 +296,9 @@
         }
         if (elements.promptStats) elements.promptStats.textContent = `${prompt.length.toLocaleString()} characters`;
         updatePosterDna();
-        if (explicit) global.dispatchEvent(new CustomEvent("promptgen:postergenerated", { detail: { prompt, state } }));
+        if (explicit) {
+            global.dispatchEvent(new CustomEvent("promptgen:postergenerated", { detail: { prompt, state } }));
+        }
         return prompt;
     }
 
