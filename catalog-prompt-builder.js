@@ -1,6 +1,22 @@
 (function (global) {
     "use strict";
 
+    const LEGACY_SETTING_ALIASES = {
+        "hotel-lobby": "indoor-hotel-lobby-indoor",
+        "hotel-room": "indoor-hotel-room-indoor",
+        "fitting-room": "indoor-fitting-room-indoor",
+        "front-cafe": "outdoor-front-cafe-outdoor",
+        "urban-architecture-stairs": "outdoor-urban-architecture-stairs-outdoor-indoor",
+        "modern-courtyard": "outdoor-modern-courtyard-garden-outdoor",
+        "outdoor-cafe-courtyard": "outdoor-modern-outdoor-cafe-coutyard",
+        "city-park": "outdoor-city-park-outdoor",
+        "tropical-garden": "outdoor-tropical-garden-walkway-with-modern-architecture-outdoor",
+        "front-porch": "outdoor-front-porch-outdoor",
+        "upscale-urban-street": "outdoor-upscale-urban-street-outdoor",
+        "mall": "indoor-mall-indoor",
+        "modern-gallery": "indoor-minimalist-art-gallery-indoor"
+    };
+
     function sentence(text) {
         const clean = String(text || "").trim().replace(/\s+/g, " ");
         if (!clean) return "";
@@ -60,7 +76,118 @@
             .join("\n\n");
     }
 
+    function installSharedSettingsSource() {
+        if (global.__PROMPT_GEN_SHARED_SETTINGS__) return;
+        global.__PROMPT_GEN_SHARED_SETTINGS__ = true;
+
+        const wrapLoader = loader => {
+            if (!loader || loader.__sharedSettingsWrapped) return loader;
+            const originalLoad = loader.load.bind(loader);
+            loader.load = async function (...args) {
+                const result = await originalLoad(...args);
+                applySharedSettings(result?.data);
+                return result;
+            };
+            loader.__sharedSettingsWrapped = true;
+            return loader;
+        };
+
+        if (global.PromptDataLoader) {
+            global.PromptDataLoader = wrapLoader(global.PromptDataLoader);
+            return;
+        }
+
+        let pendingLoader;
+        Object.defineProperty(global, "PromptDataLoader", {
+            configurable: true,
+            enumerable: true,
+            get() {
+                return pendingLoader;
+            },
+            set(value) {
+                pendingLoader = wrapLoader(value);
+                Object.defineProperty(global, "PromptDataLoader", {
+                    configurable: true,
+                    enumerable: true,
+                    writable: true,
+                    value: pendingLoader
+                });
+            }
+        });
+    }
+
+    function applySharedSettings(data) {
+        if (!data || data.__sharedSettingsApplied) return data;
+
+        const primary = Array.isArray(data.settings) ? data.settings : [];
+        const legacy = Array.isArray(data.catalogSettings) ? data.catalogSettings : [];
+        const shared = [...primary];
+        const byId = new Map(shared.map(item => [item.id, item]));
+        const activeAliases = {};
+
+        legacy.forEach(item => {
+            if (!item?.id) return;
+            const aliasTarget = LEGACY_SETTING_ALIASES[item.id];
+            if (aliasTarget && byId.has(aliasTarget)) {
+                activeAliases[item.id] = aliasTarget;
+                return;
+            }
+            if (byId.has(item.id)) return;
+
+            const normalized = {
+                ...item,
+                type: item.type || inferSettingType(item),
+                category: item.category || "Other"
+            };
+            shared.push(normalized);
+            byId.set(normalized.id, normalized);
+        });
+
+        data.settings = shared;
+        data.catalogSettings = shared;
+        data.settingAliases = activeAliases;
+        data.__sharedSettingsApplied = true;
+
+        if (data.config?.defaultCatalogSetting && activeAliases[data.config.defaultCatalogSetting]) {
+            data.config.defaultCatalogSetting = activeAliases[data.config.defaultCatalogSetting];
+        }
+
+        migrateHistorySettingIds(activeAliases);
+        return data;
+    }
+
+    function inferSettingType(item) {
+        const tags = Array.isArray(item?.tags) ? item.tags.join(" ") : String(item?.tags || "");
+        const category = String(item?.category || "");
+        const text = `${tags} ${category} ${item?.label || ""}`.toLowerCase();
+        if (/\boutdoor\b|\bveranda\b|\bporch\b|\bcourtyard\b|\bstreet\b|\bpark\b|\bterrace\b/.test(text)) return "outdoor";
+        return "indoor";
+    }
+
+    function migrateHistorySettingIds(aliases) {
+        if (!aliases || !Object.keys(aliases).length) return;
+        try {
+            const key = "promptGenHistoryV1";
+            const raw = localStorage.getItem(key);
+            if (!raw) return;
+            const items = JSON.parse(raw);
+            if (!Array.isArray(items)) return;
+
+            let changed = false;
+            items.forEach(item => {
+                const savedId = item?.state?.catalogSetting;
+                if (!savedId || !aliases[savedId]) return;
+                item.state.catalogSetting = aliases[savedId];
+                changed = true;
+            });
+            if (changed) localStorage.setItem(key, JSON.stringify(items));
+        } catch (error) {
+            console.warn("Unable to migrate legacy catalog setting IDs:", error);
+        }
+    }
+
     global.CatalogPromptBuilder = { build };
+    installSharedSettingsSource();
 
     // Reference Outfit Catalog extension. Kept separate so the base builder stays compact.
     if (!document.querySelector('script[data-outfit-focus-style]')) {
