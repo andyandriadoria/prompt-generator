@@ -58,12 +58,12 @@
 }
 
 /* Four active modes read more cleanly as a balanced 2 × 2 matrix. */
-body.product-poster-ready .prompt-mode-grid {
+body.product-poster-ready .prompt-mode-grid:has(.poster-mode-card) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 @media (max-width: 920px) {
-    body.product-poster-ready .prompt-mode-grid {
+    body.product-poster-ready .prompt-mode-grid:has(.poster-mode-card) {
         grid-template-columns: 1fr;
     }
 }
