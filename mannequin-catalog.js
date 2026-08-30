@@ -5,7 +5,11 @@
     const MANNEQUIN_POSE_PREFIX = "mannequin-";
     const DEFAULT_MANNEQUIN_POSE = "mannequin-standing-display";
     const DEFAULT_HUMAN_POSE = "natural-pose";
+    const ADAPTIVE_REFERENCE_POSE = "mannequin-adaptive-reference-pose";
     const FOCUS_SELECT_ID = "outfitFocusStyle";
+    const CUSTOM_POSE_ROW_ID = "mannequinCustomPoseRow";
+    const CUSTOM_POSE_INPUT_ID = "mannequinCustomPoseDirection";
+    const HISTORY_KEY = "promptGenHistoryV1";
 
     let builderWrapped = false;
     let syncTimer = 0;
@@ -20,6 +24,7 @@
             && global.OutfitFocusCompatibility;
         if (ready) {
             wrapBuilder();
+            injectCustomPoseField();
             scheduleSync(40);
             return;
         }
@@ -55,6 +60,7 @@
         const setting = clean(state.setting);
         const pose = stripTerminal(state.pose);
         const shot = stripTerminal(state.shot);
+        const customPose = clean(document.getElementById(CUSTOM_POSE_INPUT_ID)?.value);
         const child = isChildMannequinState(state);
 
         const introTemplate = preservation.intro_prompt || preservation.introPrompt ||
@@ -67,10 +73,13 @@
 
         const displayParts = [];
         if (pose) displayParts.push(sentence(pose));
+        if (customPose) {
+            displayParts.push(sentence(`Apply this additional mannequin pose direction while preserving the outfit exactly: ${customPose}`));
+        }
         if (shot) displayParts.push(sentence(shot));
         displayParts.push(child
-            ? "Use a clearly artificial child mannequin with a smooth featureless head, age-appropriate child proportions, and a composed static posture appropriate to the selected setting."
-            : "Use a clearly artificial adult mannequin with a smooth featureless head and a composed static posture appropriate to the selected setting.");
+            ? "Use a clearly artificial child mannequin with a smooth featureless head, age-appropriate child proportions, and a physically plausible mannequin pose appropriate to the selected setting."
+            : "Use a clearly artificial adult mannequin with a smooth featureless head and a physically plausible mannequin pose appropriate to the selected setting.");
         displayParts.push("Do not give the mannequin realistic skin, facial features, hair, expression, or human identity. Keep the mannequin visually secondary to the clothing.");
         displayParts.push("Keep the outfit, its silhouette, construction, fabric, pattern, texture, color, cut, proportions, layering, and styling as the clear visual priority.");
 
@@ -87,6 +96,25 @@
             .map(paragraph)
             .filter(Boolean)
             .join("\n\n");
+    }
+
+    function injectCustomPoseField() {
+        if (document.getElementById(CUSTOM_POSE_ROW_ID)) return;
+        const poseSelect = document.getElementById("catalogPose");
+        const poseRow = poseSelect?.closest(".field-row");
+        if (!poseRow) return;
+
+        const row = document.createElement("div");
+        row.className = "field-row mannequin-custom-pose-row";
+        row.id = CUSTOM_POSE_ROW_ID;
+        row.hidden = true;
+        row.innerHTML = `
+            <label for="${CUSTOM_POSE_INPUT_ID}">Custom Pose Direction <span class="optional-label">optional</span></label>
+            <div>
+                <textarea id="${CUSTOM_POSE_INPUT_ID}" class="short-textarea" placeholder="Example: slight hip shift, one hand holding the existing bag, ankles lightly crossed"></textarea>
+                <small class="help-text mannequin-custom-pose-help">Refine the mannequin pose in your own words. This never overrides outfit preservation.</small>
+            </div>`;
+        poseRow.insertAdjacentElement("afterend", row);
     }
 
     function isMannequinState(state = {}) {
@@ -139,6 +167,23 @@
         if (!option) return;
         select.value = option.value;
         select.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    function syncCustomPoseField() {
+        injectCustomPoseField();
+        const row = document.getElementById(CUSTOM_POSE_ROW_ID);
+        const input = document.getElementById(CUSTOM_POSE_INPUT_ID);
+        if (!row || !input) return;
+        const mannequin = isCurrentMannequinSubject();
+        row.hidden = !mannequin;
+        input.disabled = !mannequin;
+
+        const help = row.querySelector(".mannequin-custom-pose-help");
+        if (help && mannequin && selectedPoseId() === ADAPTIVE_REFERENCE_POSE) {
+            help.textContent = "Optional refinement. Adaptive Reference Pose already follows the reference pose cues; use this only to fine-tune them.";
+        } else if (help) {
+            help.textContent = "Refine the mannequin pose in your own words. This never overrides outfit preservation.";
+        }
     }
 
     function syncFocusAvailability() {
@@ -224,16 +269,18 @@
                 note.className = "mannequin-pose-note";
                 row.append(note);
             }
-            note.textContent = "Mannequin options are grouped as Display Pose, Presentation Style, and Mannequin Arrangement. Neutral options adapt to the selected setting; Boutique Window remains a location-specific choice.";
+            note.textContent = "Choose a neutral, adaptive, fashion, presentation, or arrangement pose. Adaptive Reference Pose follows the pose cues from the supplied reference image.";
         } else {
             note?.remove();
         }
     }
 
     function syncAll() {
+        injectCustomPoseField();
         normalizePoseSelection();
         global.setTimeout(() => {
             syncFocusAvailability();
+            syncCustomPoseField();
             updatePoseHelper();
             filterSearchablePoseMenu();
         }, 40);
@@ -254,6 +301,7 @@
 
         document.addEventListener("input", event => {
             if (event.target?.id === "catalogCustomSubject") scheduleSync(100);
+            if (event.target?.id === CUSTOM_POSE_INPUT_ID) scheduleSync(20);
             if (event.target?.closest?.(".field-row")?.querySelector?.("#catalogPose")) {
                 global.setTimeout(filterSearchablePoseMenu, 0);
             }
@@ -266,14 +314,60 @@
         }, true);
 
         document.addEventListener("click", event => {
-            if (event.target.closest?.("#randomPromptBtn, #resetFormBtn, #historyRestoreBtn, [data-prompt-mode-id=\"outfit_catalog\"]")) {
+            if (event.target.closest?.("#randomPromptBtn, #resetFormBtn, [data-prompt-mode-id=\"outfit_catalog\"]")) {
+                if (event.target.closest?.("#resetFormBtn")) {
+                    const input = document.getElementById(CUSTOM_POSE_INPUT_ID);
+                    if (input) input.value = "";
+                }
                 scheduleSync(140);
+            }
+
+            if (event.target.closest?.("#generatePromptBtn") && isCurrentMannequinSubject()) {
+                global.setTimeout(() => patchLatestHistory(0), 90);
+            }
+
+            if (event.target.closest?.("#historyRestoreBtn")) {
+                const id = document.querySelector(".history-item.is-active")?.dataset?.historyId || "";
+                if (id) global.setTimeout(() => restoreCustomPoseFromHistory(id), 110);
+                scheduleSync(150);
             }
         }, true);
 
         global.addEventListener("promptgen:modechange", event => {
             if (event.detail?.mode === "outfit_catalog") scheduleSync(100);
         });
+    }
+
+    function patchLatestHistory(attempt) {
+        try {
+            const raw = localStorage.getItem(HISTORY_KEY);
+            const items = raw ? JSON.parse(raw) : [];
+            if (!Array.isArray(items) || !items.length) {
+                if (attempt < 3) global.setTimeout(() => patchLatestHistory(attempt + 1), 80);
+                return;
+            }
+            const latest = items[0];
+            if (latest?.mode !== "outfit_catalog" || Date.now() - Number(latest.timestamp || 0) > 10000) {
+                if (attempt < 3) global.setTimeout(() => patchLatestHistory(attempt + 1), 80);
+                return;
+            }
+            latest.state = latest.state || {};
+            latest.state.mannequinCustomPoseDirection = document.getElementById(CUSTOM_POSE_INPUT_ID)?.value || "";
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(items));
+            global.PromptHistory?.refresh?.();
+        } catch (_) {}
+    }
+
+    function restoreCustomPoseFromHistory(id) {
+        try {
+            const items = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+            const item = Array.isArray(items) ? items.find(entry => entry.id === id) : null;
+            const saved = item?.state?.mannequinCustomPoseDirection;
+            const input = document.getElementById(CUSTOM_POSE_INPUT_ID);
+            if (!input || saved === undefined) return;
+            input.value = saved || "";
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+        } catch (_) {}
     }
 
     function sentence(value) {
@@ -311,12 +405,14 @@
                 font-size: 10px;
                 line-height: 1.4;
             }
+            .mannequin-custom-pose-row textarea { min-height: 84px; }
             @media (max-width: 680px) {
                 .mannequin-controlled-note,
                 .mannequin-pose-note {
                     grid-column: 1 / -1;
                     font-size: 11px;
                 }
+                .mannequin-custom-pose-row textarea { min-height: 96px; }
             }
         `;
         document.head.append(style);
