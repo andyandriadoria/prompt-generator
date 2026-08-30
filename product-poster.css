@@ -1,0 +1,69 @@
+.product-poster-fields {
+    display: grid;
+    gap: 16px;
+}
+
+.poster-mode-intro,
+.poster-preservation-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--card-solid) 88%, var(--primary) 12%);
+}
+
+.poster-mode-icon,
+.poster-preservation-note > span {
+    display: grid;
+    place-items: center;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 189, 46, 0.3);
+    color: var(--primary-2);
+    background: rgba(255, 189, 46, 0.10);
+}
+
+.poster-mode-intro strong,
+.poster-preservation-note strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.poster-mode-intro p,
+.poster-preservation-note p,
+.poster-field-help {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.poster-info-textarea {
+    min-height: 220px;
+    resize: vertical;
+    line-height: 1.55;
+}
+
+.poster-field-help {
+    margin-top: 7px;
+}
+
+.poster-mode-card .prompt-mode-icon {
+    color: var(--primary-2);
+}
+
+@media (max-width: 720px) {
+    .poster-info-textarea {
+        min-height: 250px;
+        font-size: 16px;
+    }
+
+    .poster-mode-intro,
+    .poster-preservation-note {
+        padding: 14px;
+    }
+}
