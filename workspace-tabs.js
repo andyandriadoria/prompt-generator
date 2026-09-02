@@ -17,6 +17,8 @@
     function loadWorkspaceAssets() {
         loadStyle("prompt-history.css?v=4.5-history-1", "prompt-history-style");
         loadScript("prompt-history.js?v=4.5-history-1", "prompt-history-script");
+        loadStyle("setting-preview.css?v=4.5-setting-preview-1", "setting-preview-style");
+        loadScript("setting-preview.js?v=4.5-setting-preview-1", "setting-preview-script");
     }
 
     function loadStyle(href, key) {
