@@ -3,6 +3,14 @@
 
     let attempts = 0;
 
+    function installSettingHistoryMigration() {
+        if (document.querySelector('script[data-setting-history-migration]')) return;
+        const migration = document.createElement("script");
+        migration.src = "setting-history-migration.js?v=4.5-settings-id-1";
+        migration.dataset.settingHistoryMigration = "true";
+        document.head.append(migration);
+    }
+
     function placeOutfitFocusField() {
         const row = document.getElementById("outfitFocusStyleRow");
         const subject = document.getElementById("catalogSubject");
@@ -25,6 +33,7 @@
     }
 
     function init() {
+        installSettingHistoryMigration();
         placeOutfitFocusField();
         global.addEventListener("promptgen:modechange", () => global.setTimeout(placeOutfitFocusField, 30));
     }
