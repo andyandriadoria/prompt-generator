@@ -197,6 +197,14 @@
         document.head.append(extension);
     }
 
+    // Layout controller: keep presentation-level controls before dependent pose/framing fields.
+    if (!document.querySelector('script[data-outfit-focus-layout]')) {
+        const layout = document.createElement("script");
+        layout.src = "outfit-focus-layout.js?v=4.5-outfit-focus-layout-1";
+        layout.dataset.outfitFocusLayout = "true";
+        document.head.append(layout);
+    }
+
     // Compatibility + field-intelligence layer for Outfit Focus styles.
     if (!document.querySelector('script[data-outfit-focus-compatibility]')) {
         const compatibility = document.createElement("script");
