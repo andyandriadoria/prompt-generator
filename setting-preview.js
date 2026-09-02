@@ -2,6 +2,7 @@
     "use strict";
 
     const CACHE_KEY = "promptGenApiCache";
+    const MAX_META_PILLS = 4;
     let database = null;
     let loaderWrapped = false;
     let initialized = false;
@@ -145,16 +146,52 @@
     }
 
     function buildMeta(item) {
-        const tags = normalizeTags(item.tags)
+        const category = String(item.category || "").trim();
+        const labelTokens = meaningfulTokens(item.label);
+        const candidates = normalizeTags(item.tags)
             .filter(tag => !["setting", "indoor", "outdoor"].includes(tag.toLowerCase()))
-            .slice(0, 5);
-        const pills = [item.category, ...tags].filter(Boolean);
+            .filter(tag => normalizeText(tag) !== normalizeText(category))
+            .filter(tag => !isCoveredByLabel(tag, labelTokens));
+
+        const selectedTags = [];
+        candidates.forEach(tag => {
+            if (selectedTags.length >= MAX_META_PILLS - (category ? 1 : 0)) return;
+            const tagTokens = meaningfulTokens(tag);
+            if (!tagTokens.length) return;
+            const duplicatesExistingConcept = selectedTags.some(existing => sharesConcept(tagTokens, meaningfulTokens(existing)));
+            if (!duplicatesExistingConcept) selectedTags.push(tag);
+        });
+
+        const pills = [category, ...selectedTags].filter(Boolean).slice(0, MAX_META_PILLS);
         return pills.map(value => `<span>${escapeHtml(value)}</span>`).join("");
     }
 
     function normalizeTags(value) {
         if (Array.isArray(value)) return value.map(tag => String(tag).trim()).filter(Boolean);
         return String(value || "").split(",").map(tag => tag.trim()).filter(Boolean);
+    }
+
+    function normalizeText(value) {
+        return String(value || "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, " ")
+            .trim()
+            .replace(/\s+/g, " ");
+    }
+
+    function meaningfulTokens(value) {
+        const ignored = new Set(["the", "a", "an", "and", "with", "of", "in", "at", "for"]);
+        return normalizeText(value).split(" ").filter(token => token && !ignored.has(token));
+    }
+
+    function isCoveredByLabel(tag, labelTokens) {
+        const tagTokens = meaningfulTokens(tag);
+        return Boolean(tagTokens.length && tagTokens.every(token => labelTokens.includes(token)));
+    }
+
+    function sharesConcept(leftTokens, rightTokens) {
+        if (!leftTokens.length || !rightTokens.length) return false;
+        return leftTokens.some(token => rightTokens.includes(token));
     }
 
     function normalizePreviewUrl(url) {
