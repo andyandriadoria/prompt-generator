@@ -1,6 +1,7 @@
 (function (global) {
     "use strict";
 
+    const CACHE_KEY = "promptGenApiCache";
     let database = null;
     let loaderWrapped = false;
     let initialized = false;
@@ -54,6 +55,21 @@
         });
 
         refreshAll();
+        hydrateFromCache();
+    }
+
+    function hydrateFromCache(attempt = 0) {
+        if (database) return;
+        try {
+            const raw = localStorage.getItem(CACHE_KEY);
+            const cached = raw ? JSON.parse(raw) : null;
+            if (cached && Array.isArray(cached.settings)) {
+                database = cached;
+                refreshAll();
+                return;
+            }
+        } catch (_) {}
+        if (attempt < 50) global.setTimeout(() => hydrateFromCache(attempt + 1), 120);
     }
 
     function injectPreview(selectId, previewId) {
