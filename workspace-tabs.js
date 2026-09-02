@@ -4,7 +4,6 @@
     const STORAGE_KEY = "promptGenWorkspace";
     const WORKSPACES = [
         { id: "build", label: "Build", description: "Compose prompt", icon: "wand" },
-        { id: "inspect", label: "Inspect", description: "Prompt intelligence", icon: "brain" },
         { id: "history", label: "History", description: "Saved sessions", icon: "history" }
     ];
 
@@ -16,8 +15,6 @@
     document.addEventListener("DOMContentLoaded", initWorkspaceShell);
 
     function loadWorkspaceAssets() {
-        loadStyle("prompt-inspector.css?v=4.5-inspect-1", "prompt-inspector-style");
-        loadScript("prompt-inspector.js?v=4.5-inspect-1", "prompt-inspector-script");
         loadStyle("prompt-history.css?v=4.5-history-1", "prompt-history-style");
         loadScript("prompt-history.js?v=4.5-history-1", "prompt-history-script");
     }
@@ -58,26 +55,16 @@
         const navigation = createWorkspaceNavigation();
         hero.insertAdjacentElement("afterend", navigation);
 
-        const inspectPane = createPlaceholderPane({
-            id: "inspect",
-            icon: "brain",
-            eyebrow: "Prompt Intelligence",
-            title: "Inspect workspace is loading its intelligence layer",
-            description: "Prompt Health, expanded Prompt DNA, coherence findings, and recommendations are initializing from the current Build state.",
-            phase: "Step 2"
-        });
-
         const historyPane = createPlaceholderPane({
             id: "history",
             icon: "history",
             eyebrow: "Prompt Archive",
             title: "History workspace is loading local prompt sessions",
             description: "Recent explicit Generate actions, prompt previews, restore, copy, and delete controls are initializing in this browser.",
-            phase: "Step 3"
+            phase: "Step 2"
         });
 
-        buildPane.insertAdjacentElement("afterend", inspectPane);
-        inspectPane.insertAdjacentElement("afterend", historyPane);
+        buildPane.insertAdjacentElement("afterend", historyPane);
 
         tabButtons = [...navigation.querySelectorAll("[data-workspace-tab]")];
         workspacePanes = [...appShell.querySelectorAll("[data-workspace-pane]")];
@@ -106,6 +93,7 @@
 
         const tabList = document.createElement("div");
         tabList.className = "workspace-tabs";
+        tabList.style.gridTemplateColumns = `repeat(${WORKSPACES.length}, minmax(0, 1fr))`;
         tabList.setAttribute("role", "tablist");
         tabList.setAttribute("aria-label", "Workspaces");
 
