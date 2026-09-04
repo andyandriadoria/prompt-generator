@@ -15,7 +15,7 @@
     document.addEventListener("DOMContentLoaded", initWorkspaceShell);
 
     function loadWorkspaceAssets() {
-        loadScript("creative-setting-unified.js?v=4.5-setting-unified-1", "creative-setting-unified-script");
+        loadScript("creative-setting-unified.js?v=4.5-setting-unified-2", "creative-setting-unified-script");
         loadStyle("prompt-history.css?v=4.5-history-1", "prompt-history-style");
         loadScript("prompt-history.js?v=4.5-history-1", "prompt-history-script");
         loadStyle("setting-preview.css?v=4.5-setting-preview-2", "setting-preview-style");
