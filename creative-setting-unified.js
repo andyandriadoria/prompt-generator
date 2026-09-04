@@ -7,7 +7,16 @@
     let searchablePatched = false;
     let initialized = false;
 
+    removeLegacySettingTypeWhenReady();
     waitForDependencies();
+
+    function removeLegacySettingTypeWhenReady() {
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", removeLegacySettingType, { once: true });
+        } else {
+            removeLegacySettingType();
+        }
+    }
 
     function waitForDependencies(attempt = 0) {
         if (global.PromptDataLoader && global.SearchableSelectControl) {
@@ -67,7 +76,7 @@
     }
 
     function init() {
-        hideLegacySettingType();
+        removeLegacySettingType();
         activateUnifiedSetting();
 
         global.addEventListener("promptgen:modechange", () => global.setTimeout(activateUnifiedSetting, 30));
@@ -95,17 +104,14 @@
         if (attempt < 60) global.setTimeout(() => hydrateFromCache(attempt + 1), 120);
     }
 
-    function hideLegacySettingType() {
+    function removeLegacySettingType() {
         const input = document.querySelector('input[name="settingType"]');
-        const row = input?.closest(".field-row");
-        if (!row) return;
-        row.hidden = true;
-        row.dataset.legacySettingType = "true";
-        row.setAttribute("aria-hidden", "true");
+        const row = input?.closest(".field-row") || input?.closest("fieldset");
+        if (row) row.remove();
     }
 
     function activateUnifiedSetting() {
-        hideLegacySettingType();
+        removeLegacySettingType();
         patchSearchableRefresh();
 
         const select = document.getElementById("setting");
@@ -113,11 +119,9 @@
 
         const changed = ensureUnifiedSettingOptions(select);
         const hasSearchableUi = select.classList.contains("searchable-native-select");
-        if (!changed || !hasSearchableUi) return;
-
-        const legacyInput = document.querySelector('input[name="settingType"]:checked')
-            || document.querySelector('input[name="settingType"]');
-        legacyInput?.dispatchEvent(new Event("change", { bubbles: true }));
+        if (changed && hasSearchableUi) {
+            select.dispatchEvent(new Event("change", { bubbles: true }));
+        }
     }
 
     function ensureUnifiedSettingOptions(select) {
