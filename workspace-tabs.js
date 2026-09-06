@@ -16,7 +16,6 @@
 
     function loadWorkspaceAssets() {
         loadScript("creative-setting-unified.js?v=4.5-setting-unified-2", "creative-setting-unified-script");
-        loadScript("saved-icon-extension.js?v=4.5-saved-1", "saved-icon-extension-script");
         loadStyle("prompt-saved.css?v=4.5-saved-1", "prompt-saved-style");
         loadScript("prompt-saved-store.js?v=4.5-saved-1", "prompt-saved-store-script");
         loadScript("prompt-saved.js?v=4.5-saved-1", "prompt-saved-script");
