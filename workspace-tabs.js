@@ -4,7 +4,7 @@
     const STORAGE_KEY = "promptGenWorkspace";
     const WORKSPACES = [
         { id: "build", label: "Build", description: "Compose prompt", icon: "wand" },
-        { id: "history", label: "History", description: "Saved sessions", icon: "history" }
+        { id: "saved", label: "Saved", description: "Prompt library", icon: "bookmark" }
     ];
 
     let activeWorkspace = "build";
@@ -16,8 +16,10 @@
 
     function loadWorkspaceAssets() {
         loadScript("creative-setting-unified.js?v=4.5-setting-unified-2", "creative-setting-unified-script");
-        loadStyle("prompt-history.css?v=4.5-history-1", "prompt-history-style");
-        loadScript("prompt-history.js?v=4.5-history-1", "prompt-history-script");
+        loadScript("saved-icon-extension.js?v=4.5-saved-1", "saved-icon-extension-script");
+        loadStyle("prompt-saved.css?v=4.5-saved-1", "prompt-saved-style");
+        loadScript("prompt-saved-store.js?v=4.5-saved-1", "prompt-saved-store-script");
+        loadScript("prompt-saved.js?v=4.5-saved-1", "prompt-saved-script");
         loadStyle("setting-preview.css?v=4.5-setting-preview-2", "setting-preview-style");
         loadScript("setting-preview.js?v=4.5-setting-preview-2", "setting-preview-script");
     }
@@ -58,16 +60,16 @@
         const navigation = createWorkspaceNavigation();
         hero.insertAdjacentElement("afterend", navigation);
 
-        const historyPane = createPlaceholderPane({
-            id: "history",
-            icon: "history",
-            eyebrow: "Prompt Archive",
-            title: "History workspace is loading local prompt sessions",
-            description: "Recent explicit Generate actions, prompt previews, restore, copy, and delete controls are initializing in this browser.",
-            phase: "Step 2"
+        const savedPane = createPlaceholderPane({
+            id: "saved",
+            icon: "bookmark",
+            eyebrow: "Prompt Library",
+            title: "Saved Prompt Library is loading local templates",
+            description: "Reusable prompt states, generated result images, notes, copy, edit, delete, and Restore to Build are initializing in this browser.",
+            phase: "Local"
         });
 
-        buildPane.insertAdjacentElement("afterend", historyPane);
+        buildPane.insertAdjacentElement("afterend", savedPane);
 
         tabButtons = [...navigation.querySelectorAll("[data-workspace-tab]")];
         workspacePanes = [...appShell.querySelectorAll("[data-workspace-pane]")];
@@ -217,6 +219,7 @@
     function readStoredWorkspace() {
         try {
             const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored === "history" || stored === "inspect") return "build";
             return isValidWorkspace(stored) ? stored : "build";
         } catch (_) {
             return "build";
