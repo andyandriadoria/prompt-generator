@@ -2,7 +2,7 @@
     "use strict";
 
     loadProductPosterExtension();
-    waitForWorkspaceBridgeTargets();
+    loadWorkspaceBridge();
 
     function loadProductPosterExtension() {
         if (document.querySelector('script[data-product-poster-builder]')) return;
@@ -19,7 +19,7 @@
             }
             if (!document.querySelector('script[data-product-poster-workspace]')) {
                 const workspace = document.createElement("script");
-                workspace.src = "product-poster-workspace.js?v=4.5-poster-2";
+                workspace.src = "product-poster-workspace.js?v=4.5-poster-saved-1";
                 workspace.dataset.productPosterWorkspace = "true";
                 document.head.append(workspace);
             }
@@ -27,18 +27,10 @@
         document.head.append(builder);
     }
 
-    function waitForWorkspaceBridgeTargets(attempt = 0) {
-        if (document.querySelector('script[data-product-catalog-workspace]')) return;
-        const ready = document.getElementById("historyModeFilter") && document.getElementById("expandedDnaGrid");
-        if (ready) return loadWorkspaceBridge();
-        if (attempt > 120) return console.warn("Product Catalog workspace bridge could not find Inspect/History targets.");
-        global.setTimeout(() => waitForWorkspaceBridgeTargets(attempt + 1), 100);
-    }
-
     function loadWorkspaceBridge() {
         if (document.querySelector('script[data-product-catalog-workspace]')) return;
         const script = document.createElement("script");
-        script.src = "product-catalog-workspace.js?v=4.5-product-3";
+        script.src = "product-catalog-workspace.js?v=4.5-product-saved-1";
         script.dataset.productCatalogWorkspace = "true";
         document.head.append(script);
     }
