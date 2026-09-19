@@ -56,7 +56,7 @@ Stores editable option content for:
 - Input Type
 - Scene Type
 - Sketch Style
-- Paper / Medium
+- Paper / Surface
 - Line Character
 - Color Treatment
 - Lighting / Time
@@ -67,7 +67,9 @@ Stores editable option content for:
 Sketch Style is the primary visual controller. Line Character and Color Treatment are Advanced overrides and default to `Auto — Follow Sketch Style`.
 
 Important columns:
-`GROUP · ID · LABEL · PROMPT · DESCRIPTION · LINE_RULE · COLOR_RULE · AVOID · ACTIVE · SORT`
+`GROUP · ID · LABEL · PROMPT · DESCRIPTION · LINE_RULE · COLOR_RULE · AVOID · ACTIVE · SORT · RECOMMENDED_SURFACE`
+
+`RECOMMENDED_SURFACE` is used on Sketch Style rows only. It stores comma-separated Paper / Surface IDs for guidance; recommendations never lock the user's selection.
 
 The hidden `_JSON` columns and CONFIG JSON cells are generated automatically with formulas. Edit the visible option rows, not the generated JSON bridge.
 
