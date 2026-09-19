@@ -214,7 +214,10 @@
 
   function suggestTitle(mode = currentMode()) {
     if (mode === MODE_PRODUCT) return joinTitle(label("productType"), label("productPresentation"), "Product Catalog");
-    if (mode === MODE_ARCH) return joinTitle(value("archProjectType"), value("archArchitectureStyle"), "Architectural Render");
+    if (mode === MODE_ARCH) {
+      const style = value("archFidelity") === "strict" ? "" : value("archArchitectureStyle");
+      return joinTitle(value("archProjectType"), style, "Architectural Render");
+    }
     if (mode === MODE_POSTER) {
       const info = value("posterProductInformation");
       const product = lineValue(info, "Product Name") || lineValue(info, "Brand");
@@ -229,7 +232,16 @@
   function modeIcon(mode) { return ({ creative: "sparkles", outfit_catalog: "shirt", [MODE_PRODUCT]: "package", [MODE_POSTER]: "poster", [MODE_ARCH]: "building" })[mode] || "bookmark"; }
   function styleLabel(mode) {
     if (mode === MODE_PRODUCT) return [label("productType"), label("productPresentation")].filter(Boolean).join(" · ") || "Product Catalog";
-    if (mode === MODE_ARCH) return value("archFidelity") === "strict" ? "STRICT Design Fidelity" : label("archQuality") || "Architectural Render";
+    if (mode === MODE_ARCH) {
+      const fidelity = value("archFidelity");
+      return fidelity === "strict"
+        ? "STRICT Design Fidelity"
+        : fidelity === "balanced"
+          ? "Balanced Design Fidelity"
+          : fidelity === "creative"
+            ? "Creative Design Fidelity"
+            : "Architectural Render";
+    }
     if (mode === MODE_POSTER) return "9:16 Product Poster";
     if (mode === "outfit_catalog") return label("outfitFocusStyle") || label("catalogType") || "Outfit Catalog";
     const badge = byId("activeStyleBadge"); return badge && !badge.hidden && badge.textContent.trim() ? badge.textContent.trim() : label("cameraType") || "Custom / unstyled";
