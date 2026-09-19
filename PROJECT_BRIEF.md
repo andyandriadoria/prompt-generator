@@ -51,6 +51,8 @@ Important current shared/data-driven sources include:
 - `SETTINGS` for Creative and Reference Outfit Catalog settings;
 - `ARCH_RENDER_OPTIONS` for Architectural Render Input Type, Design Fidelity, and Realism Target content;
 - `ARCH_SKETCH_OPTIONS` for Architectural Sketch dropdown option content.
+- `ARCH_BUILDING_CATEGORIES` + `ARCH_BUILDING_TYPES` for the shared building taxonomy used by both architecture modes;
+- `ARCH_STYLE_CATEGORIES` + `ARCH_STYLE_OPTIONS` for the shared architectural-style taxonomy used by both architecture modes.
 
 For the two architecture modes, CONFIG keeps formula-generated JSON mirrors so the existing Apps Script CONFIG payload can serve the row-based option sheets without another API mapping change.
 
