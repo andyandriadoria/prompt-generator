@@ -1738,3 +1738,350 @@ body.dark-mode.workstation-v2 .prompt-mode-icon {
   font-size: 10px;
   line-height: 1.25;
 }
+
+
+/* -------------------------------------------------------------------------- */
+/* Workstation V2 — refinement pass                                           */
+/* -------------------------------------------------------------------------- */
+
+/* Compact topbar: keep status, theme and profile on one horizontal line. */
+.workstation-v2 .hero.workstation-topbar {
+  height: 70px !important;
+  min-height: 70px !important;
+  max-height: 70px !important;
+  padding: 8px 22px !important;
+  align-items: center !important;
+}
+
+.workstation-v2 .hero-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 9px !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+
+.workstation-v2 .data-status,
+.workstation-v2 .theme-toggle,
+.workstation-v2 .workstation-profile {
+  flex: 0 0 auto;
+}
+
+.workstation-v2 .hero-brand {
+  min-width: 0;
+}
+
+.workstation-v2 .hero-copy {
+  min-width: 0;
+}
+
+/* Keep all six mode cards in one desktop row. */
+.workstation-v2 .prompt-mode-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+
+.workstation-v2 .prompt-mode-card {
+  min-width: 0 !important;
+  min-height: 142px !important;
+  padding: 7px !important;
+}
+
+.workstation-v2 .prompt-mode-card::before {
+  height: 58px !important;
+  flex-basis: 58px !important;
+}
+
+.workstation-v2 .prompt-mode-icon {
+  top: 48px !important;
+}
+
+.workstation-v2 .prompt-mode-card strong {
+  font-size: 10px !important;
+}
+
+.workstation-v2 .prompt-mode-card small {
+  min-height: 26px !important;
+  font-size: 8.5px !important;
+}
+
+/* Correct production Product mode IDs for thumbnails. */
+.workstation-v2 [data-prompt-mode-id="reference_product_catalog"]::before {
+  background-image: url("assets/settings/indoor-textile-gallery-display-niche.png");
+}
+.workstation-v2 [data-prompt-mode-id="reference_product_poster"]::before {
+  background-image: url("assets/settings/outdoor-7-eleven-store.jpg");
+}
+
+/* Make architectural thumbnails architecture-first. */
+.workstation-v2 [data-prompt-mode-id="architectural_render"]::before {
+  background-image: url("assets/settings/outdoor-elegant-urban-architecture.png");
+}
+.workstation-v2 [data-prompt-mode-id="architectural_sketch"]::before {
+  background-image: url("assets/settings/outdoor-contemporary-cafe-courtyard.png");
+  filter: grayscale(.92) sepia(.13) contrast(.94) brightness(1.06);
+}
+
+/* Detail cards should end at their content, not stretch to the tallest column. */
+.workstation-detail-grid {
+  align-items: start !important;
+}
+
+.workstation-detail-card {
+  align-self: start !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+/* Redundant per-mode banners/tips are removed in Workstation V2. */
+.workstation-v2 .workstation-mode-banner,
+.workstation-v2 .arch-sketch-tip {
+  display: none !important;
+}
+
+/* Architectural Sketch secondary controls live in one clean advanced section. */
+.workstation-advanced-settings {
+  margin-top: 8px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface-1);
+  overflow: hidden;
+}
+
+.workstation-advanced-settings > summary {
+  display: grid;
+  grid-template-columns: 24px auto minmax(0, 1fr) 18px;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 9px 11px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.workstation-advanced-settings > summary::-webkit-details-marker {
+  display: none;
+}
+
+.workstation-advanced-settings > summary > span,
+.workstation-advanced-settings > summary > i {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+
+.workstation-advanced-settings > summary svg {
+  width: 14px;
+  height: 14px;
+}
+
+.workstation-advanced-settings > summary strong {
+  font-size: 10px;
+}
+
+.workstation-advanced-settings > summary small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workstation-advanced-settings[open] > summary {
+  border-bottom: 1px solid var(--border);
+}
+
+.workstation-advanced-settings[open] > summary > i {
+  transform: rotate(180deg);
+}
+
+.workstation-advanced-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  padding: 11px;
+}
+
+.workstation-advanced-body > .field-row,
+.workstation-advanced-body > details {
+  min-width: 0;
+  margin: 0;
+}
+
+.workstation-advanced-body > .field-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+}
+
+.workstation-advanced-body > .field-row > label {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.workstation-advanced-body textarea {
+  min-height: 72px;
+  font-size: 11px;
+}
+
+.workstation-advanced-body > details {
+  grid-column: 1 / -1;
+}
+
+/* Action buttons belong at the end of Prompt Details; never cover controls. */
+.workstation-v2 .button-group.workstation-action-bar {
+  position: static !important;
+  bottom: auto !important;
+  z-index: auto !important;
+  margin-top: 10px !important;
+  background: var(--surface-1) !important;
+  box-shadow: var(--shadow-soft) !important;
+  backdrop-filter: none !important;
+}
+
+/* Live Output should stay fixed-height without a second outer scrollbar. */
+.workstation-v2 .output-panel.workstation-live-output {
+  top: 82px !important;
+  height: calc(100vh - 96px) !important;
+  max-height: calc(100vh - 96px) !important;
+  overflow: hidden !important;
+}
+
+.workstation-v2 .output-heading {
+  min-height: 46px !important;
+  flex: 0 0 auto;
+}
+
+.workstation-output-subtitle {
+  display: block;
+  margin-top: 2px;
+  color: #8a96a6;
+  font-size: 8px;
+  font-weight: 400;
+}
+
+.workstation-v2 .output-kicker:empty {
+  display: none;
+}
+
+.workstation-output-tabs {
+  flex: 0 0 auto;
+}
+
+.workstation-output-tab-shell {
+  flex: 0 0 auto;
+  min-height: 0;
+}
+
+.workstation-v2 .output-panel.workstation-live-output {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.workstation-v2 .output-editor-shell {
+  margin-top: 8px !important;
+}
+
+.workstation-v2 #output {
+  height: clamp(220px, 31vh, 315px) !important;
+  min-height: 220px !important;
+  max-height: 315px !important;
+  overflow-y: auto !important;
+  resize: none !important;
+}
+
+.workstation-analysis-card,
+.workstation-preview-card {
+  flex: 0 0 auto;
+  margin-top: 8px !important;
+  padding: 9px !important;
+}
+
+.workstation-analysis-body {
+  grid-template-columns: 52px 1fr !important;
+  gap: 9px !important;
+  margin-top: 7px !important;
+}
+
+.workstation-analysis-ring {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.workstation-analysis-checks {
+  gap: 4px 7px !important;
+  margin-top: 7px !important;
+}
+
+.workstation-analysis-checks span.is-partial {
+  color: #d4a93f;
+}
+
+.workstation-analysis-checks span.is-partial i {
+  border-color: rgba(212,169,63,.42);
+  background: rgba(212,169,63,.08);
+}
+
+.workstation-preview-media {
+  height: 108px !important;
+  margin-top: 7px !important;
+}
+
+.workstation-preview-card p {
+  margin-top: 5px !important;
+}
+
+.workstation-v2 .output-tip.workstation-output-tip {
+  margin-top: 8px !important;
+  padding: 8px !important;
+}
+
+/* Prompt DNA mode labels remain compact but readable. */
+.workstation-dna .dna-node b {
+  font-size: 8.5px !important;
+}
+
+/* Keep five Style DNA cards across desktop. */
+.workstation-v2 .style-preset-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+}
+
+@media (max-width: 1080px) {
+  .workstation-v2 .prompt-mode-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .workstation-v2 .style-preset-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .workstation-v2 .output-panel.workstation-live-output {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .workstation-advanced-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .workstation-v2 .prompt-mode-grid,
+  .workstation-v2 .style-preset-grid {
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: minmax(132px, 42vw) !important;
+    grid-template-columns: none !important;
+  }
+
+  .workstation-v2 .hero.workstation-topbar {
+    height: 62px !important;
+    min-height: 62px !important;
+    max-height: 62px !important;
+  }
+}
