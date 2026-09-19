@@ -351,11 +351,20 @@ Prompt behavior:
 - Paper / Surface is a separate physical-surface control and no longer implies the drawing medium; the drawing medium remains part of Sketch Style;
 - the active Paper / Surface set is **White Presentation Paper, Sketchbook Page, Transparent Tracing Paper, Architectural Grid Paper, Textured Watercolor Paper, Smooth Marker Paper, and Bristol Board**;
 - each Sketch Style carries optional `RECOMMENDED_SURFACE` IDs from Google Sheets; the UI shows recommendations without locking or auto-changing the user's selection;
+- Smart Defaults now use Sheets metadata: Scene Type provides `RECOMMENDED_LIGHTING`, while Sketch Style provides `RECOMMENDED_SURFACE` and `RECOMMENDED_HUMAN`;
+- Exterior recommends and initially selects **Morning Light**; Interior recommends and initially selects **Soft Interior Daylight**;
+- changing Sketch Style auto-selects the first recommended Paper / Surface only until the user manually changes Paper / Surface;
+- changing Scene Type auto-selects recommended Lighting / Time only until the user manually changes Lighting / Time;
+- View / Projection keeps its scene-aware default behavior, but a valid manual view is preserved across scene changes; only incompatible views fall back to the new scene's valid default;
+- Human Presence / Scale remains a soft recommendation only and is never auto-changed;
+- manual choices for Paper / Surface, Lighting / Time, and View / Projection always win until Reset;
+- Saved Prompt restore treats those three controls as manual state so recommendation logic cannot overwrite restored values;
+- Urban Observational Sketch no longer contains implicit `entourage` wording; people are controlled only by Human Presence / Scale;
 - production style, line-character, color, and surface prompt fragments are kept concise in Google Sheets to reduce redundancy while preserving distinct sketch-family behavior.
 
 Data source:
 - mode registry: Google Sheets `PROMPT_MODES` row `architectural_sketch`;
-- editable Architectural Sketch option content is stored row-by-row in `ARCH_SKETCH_OPTIONS`, including the visible `RECOMMENDED_SURFACE` column for Sketch Style guidance;
+- editable Architectural Sketch option content is stored row-by-row in `ARCH_SKETCH_OPTIONS`, including visible `RECOMMENDED_SURFACE`, `RECOMMENDED_LIGHTING`, and `RECOMMENDED_HUMAN` metadata columns;
 - existing `architecturalSketch*` CONFIG keys are now formula-generated JSON mirrors of `ARCH_SKETCH_OPTIONS`, preserving the existing API contract while making the option content easy to edit;
 - defaults remain in `CONFIG` using `defaultArchitecturalSketch*` keys;
 - Aspect Ratio reuses the shared `ASPECT_RATIOS` collection;
