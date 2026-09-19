@@ -8,3 +8,5 @@
 body.architectural-sketch-active .architectural-sketch-mode-card{border-color:rgba(245,158,11,.52);background:rgba(245,158,11,.08)}
 .architectural-sketch-fields textarea.short-textarea{min-height:86px}
 @media(max-width:760px){.arch-sketch-intro,.arch-sketch-tip{padding:13px}.arch-sketch-intro p,.arch-sketch-tip p{font-size:11px}}
+
+.arch-sketch-style-hint{margin:7px 2px 0;font-size:11px;line-height:1.45;color:var(--muted,#7d8590)}
