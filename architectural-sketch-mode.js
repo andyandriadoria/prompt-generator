@@ -271,11 +271,34 @@
 
   async function loadFeatureData(loadOptions = {}) {
     try {
+      const shouldPreserveState = Boolean(
+        database &&
+        options &&
+        elements.archSketchStyle?.options?.length
+      );
+      const preservedState = shouldPreserveState ? serializeState() : null;
+      const preservedSmartState = shouldPreserveState ? {
+        surfaceTouched: smartDefaults.surfaceTouched,
+        lightingTouched: smartDefaults.lightingTouched,
+        viewTouched: smartDefaults.viewTouched
+      } : null;
+
       const result = await global.PromptDataLoader.load(loadOptions);
       database = result.data;
       options = buildOptions(database.config || {});
       taxonomy = global.ArchitecturalTaxonomy.fromConfig(database.config || {});
       populateControls();
+
+      if (preservedState && preservedSmartState) {
+        restoreState(preservedState);
+        smartDefaults.surfaceTouched = preservedSmartState.surfaceTouched;
+        smartDefaults.lightingTouched = preservedSmartState.lightingTouched;
+        smartDefaults.viewTouched = preservedSmartState.viewTouched;
+        updateSurfaceHint();
+        updateLightingHint();
+        updateHumanScaleHint();
+      }
+
       ensureModeCard();
     } catch (error) {
       console.warn("Architectural Sketch data load failed:", error);
