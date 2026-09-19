@@ -835,6 +835,8 @@
     if (elements.archSketchAdvanced) elements.archSketchAdvanced.open = false;
     updateStyleHint();
     updateSurfaceHint();
+    updateLightingHint();
+    updateHumanScaleHint();
     updateAdvancedState();
     generate(false);
     showMessage("Architectural Sketch form reset.");
