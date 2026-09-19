@@ -38,7 +38,7 @@
     const styleColorRule = clean(state.sketchStyleColorRule);
     const styleAvoid = clean(state.sketchStyleAvoid);
 
-    const medium = clean(state.mediumPrompt) || "clean white architectural presentation paper";
+    const surface = clean(state.mediumPrompt) || "clean white architectural presentation paper";
     const lineOverride = Boolean(state.lineQualityOverride) || !isAutoStyleControl(state.lineQuality);
     const colorOverride = Boolean(state.colorTreatmentOverride) || !isAutoStyleControl(state.colorTreatment);
     const lineQuality = lineOverride ? clean(state.lineQualityPrompt) : "";
@@ -67,7 +67,7 @@
       `Sketch style: ${stylePrompt}`,
       lineQuality ? `Line override: ${lineQuality}; use this as the active line character within the selected sketch style` : "",
       colorTreatment ? `Color override: ${colorTreatment}; use this as the active color treatment within the selected sketch style` : "",
-      `Medium: ${medium}`,
+      `Paper / surface: ${surface}`,
       lineOverride ? "" : styleLineRule,
       colorOverride ? "" : styleColorRule
     ].filter(Boolean).map(sentence).join(" ");
