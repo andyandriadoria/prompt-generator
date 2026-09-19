@@ -421,18 +421,28 @@ Current semantic icon keys:
 
 ## Current Frontend Direction
 
-**Design name:** Obsidian UI
+**Design name:** Obsidian UI — Workstation V2
 
-Characteristics:
-- dark-first;
-- graphite surfaces;
-- restrained amber accent;
-- mint and blue as secondary signals;
-- monoline icons;
+Production shell:
+- compact global topbar with app identity, data status, appearance control, and creator profile;
+- fixed left workstation sidebar for Build / Library plus Database and Settings utilities;
+- center Build canvas with Creative Instrument heading, 7-step Prompt DNA, visual Prompt Mode cards, visual Style DNA cards, and grouped Prompt Details;
+- persistent dark Live Output panel with Prompt / Structure / Metadata tabs, deterministic Prompt Analysis, visual-direction preview, and copy control;
+- active Prompt Mode and Style Preset cards use visual thumbnail treatment built from existing repository assets;
+- desktop uses a three-zone workstation layout; tablet collapses the output below the Build canvas; mobile converts navigation to a bottom workspace bar and keeps cards horizontally scrollable.
+
+Visual language:
+- light or dark Obsidian workspace surfaces with restrained Signal Amber accent;
+- mint and electric blue as secondary signals;
+- monoline SVG icon system only;
 - compact but readable typography;
-- high-end startup / creative workstation feel;
-- desktop workbench layout;
-- output panel styled like an editor.
+- professional startup / creative workstation character;
+- dark editor-style Live Output remains the visual anchor in both themes.
+
+Implementation:
+- `workstation-v2.js` performs presentation-layer DOM composition while preserving production field IDs and mode logic;
+- `workstation-v2.css` is the final visual override layer loaded after mode-specific styles;
+- underlying prompt builders, Google Sheets data, Saved Prompt state, Smart Compatibility, Smart Random, architecture taxonomy, and mode controllers remain unchanged.
 
 Reference Product Catalog follows the same Obsidian selection language:
 - amber = active / selected state;
@@ -495,6 +505,7 @@ Normal production should resolve to `config.js`.
 - `PRODUCT_*` and `outfitFocusStyles` are treated as optional additive collections by the frontend loader so older fallback payloads do not break Creative / core Outfit Catalog.
 - `fallback.json` metadata and Architectural Render / Architectural Sketch option CONFIG were synchronized on 2026-09-19 as part of the Sheets-driven architecture-option migration.
 - Frontend-only updates should not require Apps Script redeployment.
+- Workstation V2 is a presentation-layer migration only: no Google Sheets schema or Apps Script API contract change is required, and production `config.js` remains untouched.
 - `config.js` was preserved during the Reference Product Catalog, Outfit Focus Style, and shared Setting expansions.
 
 ## Release / Deployment Status
