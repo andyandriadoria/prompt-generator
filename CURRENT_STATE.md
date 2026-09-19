@@ -225,7 +225,7 @@ Core fields:
 - Lighting
 - Weather / Atmosphere
 - Landscape / Site
-- Camera / View
+- View / Projection
 - Aspect Ratio
 - Extra Instruction
 
@@ -317,6 +317,11 @@ Prompt behavior:
 - Lighting / Time and Atmosphere / Character are intentionally separated: Lighting controls physical illumination only, while Atmosphere / Character controls spatial character only;
 - active Lighting / Time options are **Morning Light, Midday Light, Golden Hour, Overcast Daylight, Soft Interior Daylight, and Evening Light**;
 - active Atmosphere / Character options are **Calm, Serene, Lively, Contemplative, Intimate, Monumental, Formal, and Casual**;
+- View / Projection is scene-aware: Exterior and Interior expose only compatible architectural views;
+- active View / Projection options are **Eye-Level Perspective, Three-Quarter Perspective, Interior Corner Perspective, Frontal Perspective, Elevated Perspective, Wide Context View, Axonometric / Isometric, Orthographic Elevation, and Section Perspective**;
+- default View / Projection follows Scene Type: **Exterior → Three-Quarter Perspective** and **Interior → Interior Corner Perspective**; the selection is not locked and can be changed to any valid view for that scene;
+- `SCENE_SCOPE` in `ARCH_SKETCH_OPTIONS` is the editable source for scene compatibility;
+- legacy Saved Prompt values `frontal-elevation` and `sketchbook-perspective` restore to **Frontal Perspective** and **Eye-Level Perspective** respectively;
 - weather-like conditions such as rain belong in Landscape / Context rather than Atmosphere / Character;
 - legacy Saved Prompt values `cozy`, `moody`, `airy`, and `dramatic` restore to the closest current spatial character; legacy `rainy` restores to Calm while adding rain / wet-surface cues to Landscape / Context;
 - all styles explicitly reject photorealistic image, CGI, 3D visualization, polished archviz, and realistic digital-painting output;
