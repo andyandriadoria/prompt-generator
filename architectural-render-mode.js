@@ -41,6 +41,7 @@
 
   let database = null;
   let options = null;
+  let taxonomy = null;
   let active = false;
   let initialized = false;
   let observer = null;
@@ -50,7 +51,7 @@
   waitForDependencies();
 
   function waitForDependencies(attempt = 0) {
-    if (global.PromptDataLoader && global.ArchitecturalRenderPromptBuilder && global.PromptIcons) return bootstrap();
+    if (global.PromptDataLoader && global.ArchitecturalRenderPromptBuilder && global.ArchitecturalTaxonomy && global.PromptIcons) return bootstrap();
     if (attempt > 100) return console.warn("Architectural Render dependencies did not become available.");
     setTimeout(() => waitForDependencies(attempt + 1), 80);
   }
@@ -84,7 +85,9 @@
 
   function cacheArchElements() {
     [
-      "architecturalRenderFields", "archInputType", "archProjectType", "archFidelity", "archRealismTarget", "archArchitectureStyle",
+      "architecturalRenderFields", "archInputType", "archFidelity", "archRealismTarget",
+      "archBuildingCategory", "archBuildingType", "archCustomBuildingType", "archCustomBuildingRow",
+      "archStyleCategory", "archArchitectureStyle", "archCustomArchitectureStyle", "archCustomArchitectureStyleRow",
       "archMaterials", "archLighting", "archAtmosphere", "archLandscape", "archCamera",
       "archAspectRatio", "archExtraInstruction", "archFidelityNote"
     ].forEach(id => elements[id] = document.getElementById(id));
@@ -114,8 +117,18 @@
       </div>
 
       <div class="field-row">
-        <label for="archProjectType">Project Type</label>
-        <input id="archProjectType" type="text" placeholder="Example: private residence, housing estate, mosque, commercial facade">
+        <label for="archBuildingCategory">Building Category</label>
+        <select id="archBuildingCategory"></select>
+      </div>
+
+      <div class="field-row">
+        <label for="archBuildingType">Building Type</label>
+        <select id="archBuildingType"></select>
+      </div>
+
+      <div class="field-row arch-taxonomy-custom" id="archCustomBuildingRow" hidden>
+        <label for="archCustomBuildingType">Custom Building Type</label>
+        <input id="archCustomBuildingType" type="text" placeholder="Example: mixed-use courtyard housing, tropical community pavilion">
       </div>
 
       <div class="field-row">
@@ -129,8 +142,18 @@
       </div>
 
       <div class="field-row">
-        <label for="archArchitectureStyle">Architecture Style</label>
-        <input id="archArchitectureStyle" type="text" placeholder="Example: modern tropical, contemporary minimalist">
+        <label for="archStyleCategory">Architectural Style Category</label>
+        <select id="archStyleCategory"></select>
+      </div>
+
+      <div class="field-row">
+        <label for="archArchitectureStyle">Architectural Style</label>
+        <select id="archArchitectureStyle"></select>
+      </div>
+
+      <div class="field-row arch-taxonomy-custom" id="archCustomArchitectureStyleRow" hidden>
+        <label for="archCustomArchitectureStyle">Custom Architectural Style</label>
+        <input id="archCustomArchitectureStyle" type="text" placeholder="Example: tropical contemporary with subtle Japanese influence">
       </div>
 
       <div class="field-row">
@@ -224,6 +247,7 @@
       const result = await global.PromptDataLoader.load(options);
       database = result.data;
       options = buildOptions(database.config || {});
+      taxonomy = global.ArchitecturalTaxonomy.fromConfig(database.config || {});
       populateControls();
       ensureModeCard();
     } catch (error) {
@@ -316,6 +340,8 @@
       config.defaultArchitecturalRenderRealismTarget || "hyper-real-photo"
     );
 
+    populateTaxonomyControls();
+
     populateSelect(elements.archLighting,
       (database.lighting || []).filter(item => !/\bher body\b/i.test(String(item.prompt || ""))),
       "-- Select Lighting --"
@@ -349,6 +375,73 @@
     initSearchable();
     updateFidelityUi();
     if (active) generate(false);
+  }
+
+  function populateTaxonomyControls() {
+    if (!taxonomy) return;
+    const t = global.ArchitecturalTaxonomy;
+    const buildingCategory = elements.archBuildingCategory?.value || "";
+    const buildingType = elements.archBuildingType?.value || "";
+    const styleCategory = elements.archStyleCategory?.value || "";
+    const architectureStyle = elements.archArchitectureStyle?.value || "";
+
+    t.populateCategorySelect(elements.archBuildingCategory, taxonomy.buildingCategories, {
+      placeholder: "Select Category...",
+      selectedId: buildingCategory
+    });
+    updateBuildingTypeOptions({ selectedId: buildingType });
+
+    t.populateCategorySelect(elements.archStyleCategory, taxonomy.styleCategories, {
+      placeholder: "Select Category...",
+      selectedId: styleCategory
+    });
+    updateArchitectureStyleOptions({ selectedId: architectureStyle });
+  }
+
+  function refreshTaxonomyControl(id) {
+    const control = searchable.get(id);
+    control?.refresh?.();
+    control?.syncFromNative?.();
+  }
+
+  function updateBuildingTypeOptions({ selectedId = "" } = {}) {
+    if (!taxonomy) return;
+    global.ArchitecturalTaxonomy.populateItemSelect(
+      elements.archBuildingType,
+      taxonomy.buildingTypes,
+      elements.archBuildingCategory?.value || "",
+      { placeholder: "Select Type...", selectedId, customLabel: "Custom…" }
+    );
+    syncBuildingCustomUi();
+    refreshTaxonomyControl("archBuildingType");
+  }
+
+  function updateArchitectureStyleOptions({ selectedId = "" } = {}) {
+    if (!taxonomy) return;
+    global.ArchitecturalTaxonomy.populateItemSelect(
+      elements.archArchitectureStyle,
+      taxonomy.styleOptions,
+      elements.archStyleCategory?.value || "",
+      { placeholder: "Select Style...", selectedId, customLabel: "Custom…" }
+    );
+    syncArchitectureStyleCustomUi();
+    refreshTaxonomyControl("archArchitectureStyle");
+  }
+
+  function syncBuildingCustomUi() {
+    global.ArchitecturalTaxonomy.setCustomVisibility(
+      elements.archBuildingType,
+      elements.archCustomBuildingRow,
+      elements.archCustomBuildingType
+    );
+  }
+
+  function syncArchitectureStyleCustomUi() {
+    global.ArchitecturalTaxonomy.setCustomVisibility(
+      elements.archArchitectureStyle,
+      elements.archCustomArchitectureStyleRow,
+      elements.archCustomArchitectureStyle
+    );
   }
 
   function populateOptionSelect(select, items, defaultId) {
@@ -388,7 +481,7 @@
   }
 
   function initSearchable() {
-    ["archLighting", "archCamera", "archAspectRatio"].forEach(id => {
+    ["archBuildingCategory", "archBuildingType", "archStyleCategory", "archArchitectureStyle", "archLighting", "archCamera", "archAspectRatio"].forEach(id => {
       const select = elements[id];
       if (!select || !global.SearchableSelectControl) return;
       if (searchable.has(id)) searchable.get(id).refresh();
@@ -414,8 +507,17 @@
   }
 
   function handleFieldChange(event) {
-    if (event?.target === elements.archArchitectureStyle && elements.archFidelity.value !== "strict") {
-      lastEditableArchitectureStyle = elements.archArchitectureStyle.value;
+    if (event?.target === elements.archBuildingCategory) {
+      updateBuildingTypeOptions({ selectedId: "" });
+    }
+    if (event?.target === elements.archBuildingType) {
+      syncBuildingCustomUi();
+    }
+    if (event?.target === elements.archStyleCategory) {
+      updateArchitectureStyleOptions({ selectedId: "" });
+    }
+    if (event?.target === elements.archArchitectureStyle) {
+      syncArchitectureStyleCustomUi();
     }
     updateFidelityUi();
     generate(false);
@@ -425,26 +527,26 @@
     if (!elements.archFidelity || !elements.archCamera || !elements.archArchitectureStyle) return;
     const strict = elements.archFidelity.value === "strict";
 
-    if (strict) {
-      const currentStyle = elements.archArchitectureStyle.value.trim();
-      if (currentStyle && currentStyle !== STRICT_STYLE_LABEL) lastEditableArchitectureStyle = currentStyle;
+    elements.archStyleCategory.disabled = strict;
+    elements.archArchitectureStyle.disabled = strict;
+    elements.archStyleCategory.title = strict ? "Controlled by STRICT Design Fidelity" : "";
+    elements.archArchitectureStyle.title = strict ? "Controlled by STRICT Design Fidelity" : "";
 
-      elements.archArchitectureStyle.value = STRICT_STYLE_LABEL;
-      elements.archArchitectureStyle.disabled = true;
-      elements.archArchitectureStyle.title = "Controlled by STRICT Design Fidelity";
-
-      elements.archCamera.value = "preserve-reference-view";
-      elements.archCamera.disabled = true;
-    } else {
-      const wasLocked = elements.archArchitectureStyle.disabled;
-      elements.archArchitectureStyle.disabled = false;
-      elements.archArchitectureStyle.title = "";
-      if (wasLocked && elements.archArchitectureStyle.value === STRICT_STYLE_LABEL) {
-        elements.archArchitectureStyle.value = lastEditableArchitectureStyle;
-      }
-      elements.archCamera.disabled = false;
+    syncArchitectureStyleCustomUi();
+    if (strict && elements.archCustomArchitectureStyle) {
+      elements.archCustomArchitectureStyle.disabled = true;
+      elements.archCustomArchitectureStyle.title = "Controlled by STRICT Design Fidelity";
+    } else if (elements.archCustomArchitectureStyle) {
+      elements.archCustomArchitectureStyle.title = "";
     }
 
+    elements.archCamera.value = strict ? "preserve-reference-view" : elements.archCamera.value;
+    elements.archCamera.disabled = strict;
+
+    searchable.get("archStyleCategory")?.setDisabled?.(strict);
+    searchable.get("archArchitectureStyle")?.setDisabled?.(strict);
+    searchable.get("archStyleCategory")?.syncFromNative?.();
+    searchable.get("archArchitectureStyle")?.syncFromNative?.();
     searchable.get("archCamera")?.setDisabled?.(strict);
     searchable.get("archCamera")?.syncFromNative?.();
 
@@ -459,6 +561,16 @@
 
   function collectState() {
     const lighting = selectedItem(elements.archLighting, database?.lighting);
+    const projectType = global.ArchitecturalTaxonomy.resolveValue(
+      elements.archBuildingType,
+      elements.archCustomBuildingType,
+      taxonomy?.buildingTypes || []
+    );
+    const architectureStyle = global.ArchitecturalTaxonomy.resolveValue(
+      elements.archArchitectureStyle,
+      elements.archCustomArchitectureStyle,
+      taxonomy?.styleOptions || []
+    );
     const inputMeta = selectedOptionData(elements.archInputType);
     const fidelityMeta = selectedOptionData(elements.archFidelity);
     const realismMeta = selectedOptionData(elements.archRealismTarget);
@@ -470,13 +582,19 @@
     return {
       inputType: elements.archInputType.value,
       inputPrompt: inputMeta.prompt,
-      projectType: elements.archProjectType.value.trim(),
+      buildingCategory: elements.archBuildingCategory.value,
+      buildingType: elements.archBuildingType.value,
+      customBuildingType: elements.archCustomBuildingType.value.trim(),
+      projectType,
       fidelity: elements.archFidelity.value,
       fidelityPrompt: fidelityMeta.prompt,
       realismTarget: elements.archRealismTarget.value || "hyper-real-photo",
       realismOpening: realismMeta.opening,
       realismClosing: realismMeta.closing,
-      architectureStyle: strict ? "" : elements.archArchitectureStyle.value.trim(),
+      styleCategory: elements.archStyleCategory.value,
+      architectureStyleId: elements.archArchitectureStyle.value,
+      customArchitectureStyle: elements.archCustomArchitectureStyle.value.trim(),
+      architectureStyle: strict ? "" : architectureStyle,
       materials: elements.archMaterials.value.trim(),
       lighting: lighting?.prompt || lighting?.label || "",
       atmosphere: elements.archAtmosphere.value.trim(),
@@ -547,11 +665,14 @@
   function reset() {
     const config = database?.config || {};
     setSelectById(elements.archInputType, config.defaultArchitecturalRenderInputType || "reference-image");
-    elements.archProjectType.value = "";
+    elements.archBuildingCategory.value = "";
+    elements.archCustomBuildingType.value = "";
+    updateBuildingTypeOptions({ selectedId: "" });
     setSelectById(elements.archFidelity, config.defaultArchitecturalRenderFidelity || "strict");
     setSelectById(elements.archRealismTarget, config.defaultArchitecturalRenderRealismTarget || "hyper-real-photo");
-    lastEditableArchitectureStyle = "";
-    elements.archArchitectureStyle.value = "";
+    elements.archStyleCategory.value = "";
+    elements.archCustomArchitectureStyle.value = "";
+    updateArchitectureStyleOptions({ selectedId: "" });
     elements.archMaterials.value = "";
     setSelectById(elements.archLighting, config.defaultArchitecturalRenderLighting || "daylight");
     elements.archAtmosphere.value = "";
@@ -566,12 +687,19 @@
   }
 
   function serializeState() {
+    const resolved = collectState();
     return {
       archInputType: elements.archInputType.value,
-      archProjectType: elements.archProjectType.value,
+      archBuildingCategory: elements.archBuildingCategory.value,
+      archBuildingType: elements.archBuildingType.value,
+      archCustomBuildingType: elements.archCustomBuildingType.value,
+      archProjectType: resolved.projectType,
       archFidelity: elements.archFidelity.value,
       archRealismTarget: elements.archRealismTarget.value,
-      archArchitectureStyle: elements.archFidelity.value === "strict" ? lastEditableArchitectureStyle : elements.archArchitectureStyle.value,
+      archStyleCategory: elements.archStyleCategory.value,
+      archArchitectureStyleId: elements.archArchitectureStyle.value,
+      archCustomArchitectureStyle: elements.archCustomArchitectureStyle.value,
+      archArchitectureStyle: global.ArchitecturalTaxonomy.resolveValue(elements.archArchitectureStyle, elements.archCustomArchitectureStyle, taxonomy?.styleOptions || []),
       archMaterials: elements.archMaterials.value,
       archLighting: elements.archLighting.value,
       archAtmosphere: elements.archAtmosphere.value,
@@ -588,17 +716,41 @@
     const fidelity = state.archFidelity || config.defaultArchitecturalRenderFidelity || "strict";
 
     setSelect("archInputType", state.archInputType || config.defaultArchitecturalRenderInputType || "reference-image", missing, "Input Type");
-    setText("archProjectType", state.archProjectType);
+
+    const buildingRestore = global.ArchitecturalTaxonomy.deriveRestore({
+      items: taxonomy?.buildingTypes || [],
+      categoryId: state.archBuildingCategory,
+      itemId: state.archBuildingType,
+      customValue: state.archCustomBuildingType,
+      legacyValue: state.archProjectType
+    });
+    if ([...elements.archBuildingCategory.options].some(option => option.value === buildingRestore.categoryId)) {
+      elements.archBuildingCategory.value = buildingRestore.categoryId;
+    } else {
+      elements.archBuildingCategory.value = "";
+    }
+    updateBuildingTypeOptions({ selectedId: buildingRestore.itemId });
+    elements.archCustomBuildingType.value = buildingRestore.customValue;
+    syncBuildingCustomUi();
+
     setSelect("archFidelity", fidelity, missing, "Design Fidelity");
     setSelect("archRealismTarget", state.archRealismTarget || config.defaultArchitecturalRenderRealismTarget || "hyper-real-photo", missing, "Realism Target");
 
-    if (fidelity === "strict") {
-      const savedStyle = String(state.archArchitectureStyle || "").trim();
-      lastEditableArchitectureStyle = savedStyle && savedStyle !== STRICT_STYLE_LABEL ? savedStyle : "";
+    const styleRestore = global.ArchitecturalTaxonomy.deriveRestore({
+      items: taxonomy?.styleOptions || [],
+      categoryId: state.archStyleCategory,
+      itemId: state.archArchitectureStyleId,
+      customValue: state.archCustomArchitectureStyle,
+      legacyValue: state.archArchitectureStyle === STRICT_STYLE_LABEL ? "" : state.archArchitectureStyle
+    });
+    if ([...elements.archStyleCategory.options].some(option => option.value === styleRestore.categoryId)) {
+      elements.archStyleCategory.value = styleRestore.categoryId;
     } else {
-      lastEditableArchitectureStyle = String(state.archArchitectureStyle || "");
-      setText("archArchitectureStyle", lastEditableArchitectureStyle);
+      elements.archStyleCategory.value = "";
     }
+    updateArchitectureStyleOptions({ selectedId: styleRestore.itemId });
+    elements.archCustomArchitectureStyle.value = styleRestore.customValue;
+    syncArchitectureStyleCustomUi();
 
     setText("archMaterials", state.archMaterials);
     setSelect("archLighting", state.archLighting || config.defaultArchitecturalRenderLighting || "daylight", missing, "Lighting");
