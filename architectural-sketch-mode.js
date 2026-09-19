@@ -265,7 +265,10 @@
 
   function observePromptModes() {
     if (observer) return;
-    observer = new MutationObserver(ensureModeCard);
+    observer = new MutationObserver(() => {
+      ensureModeCard();
+      sortPromptModeCards();
+    });
     observer.observe(elements.promptModeGrid, { childList: true });
   }
 
@@ -359,7 +362,34 @@
       elements.promptModeGrid.append(card);
     }
 
+    sortPromptModeCards();
+
     if (requestedInitialMode === MODE_ID && !active) queueMicrotask(() => activate(false));
+  }
+
+  function sortPromptModeCards() {
+    if (!elements.promptModeGrid || !Array.isArray(database?.promptModes)) return;
+
+    const order = new Map(
+      database.promptModes.map((mode, index) => {
+        const configuredSort = Number(mode.sort);
+        return [mode.id, Number.isFinite(configuredSort) ? configuredSort : index + 1000];
+      })
+    );
+
+    const cards = [...elements.promptModeGrid.querySelectorAll("[data-prompt-mode-id]")];
+    if (cards.length < 2) return;
+
+    const desired = cards.slice().sort((a, b) => {
+      const aSort = order.get(a.dataset.promptModeId) ?? 9999;
+      const bSort = order.get(b.dataset.promptModeId) ?? 9999;
+      return aSort - bSort;
+    });
+
+    const alreadySorted = cards.every((card, index) => card === desired[index]);
+    if (alreadySorted) return;
+
+    desired.forEach(card => elements.promptModeGrid.append(card));
   }
 
   function populateControls() {
