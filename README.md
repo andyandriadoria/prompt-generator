@@ -77,12 +77,15 @@ Stores editable option content for:
 - Atmosphere / Character
 - Human Figure for Scale
 - View / Projection
+- Annotations / Text
 
 Sketch Style is the primary visual controller. Line Character and Color Treatment are Advanced overrides and default to `Auto — Follow Sketch Style`.
 
 Lighting / Time controls illumination only. Atmosphere / Character controls spatial character only. Weather and site conditions belong in Landscape / Context.
 
 View / Projection is filtered by Scene Type using `SCENE_SCOPE`. Exterior defaults to Three-Quarter Perspective; Interior defaults to Interior Corner Perspective, while users remain free to select any valid scene-compatible projection.
+
+Annotations / Text defaults to **None — No Text or Annotations**. In this mode the prompt engine adds an explicit guard against generated signage, labels, logos, captions, handwritten notes, dates, signatures, watermarks, slogans, decorative lettering, and pseudo-text. Optional annotation modes are maintained as rows in the `annotation_text` group.
 
 Important columns:
 `GROUP · ID · LABEL · PROMPT · DESCRIPTION · LINE_RULE · COLOR_RULE · AVOID · ACTIVE · SORT · RECOMMENDED_SURFACE · SCENE_SCOPE`
