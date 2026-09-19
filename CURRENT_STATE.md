@@ -264,6 +264,8 @@ Data:
 - Architectural Render initialization uses a dedicated `loadOptions` parameter so the module-level render `options` state is populated correctly; this prevents the Render card from disappearing because `isReady()` sees a null options state.
 - `fallback.json.promptModes` mirrors all active rows from Google Sheets `PROMPT_MODES`, including Architectural Render, so the mode remains available on fallback paths.
 - Prompt Mode cards are re-ordered after async module insertion using each mode's configured `SORT` value, preventing load timing from changing the visual order. Current production order is Creative → Outfit Catalog → Product Catalog → Product Poster → Architectural Render → Architectural Sketch.
+- Generated Prompt output ownership is mode-aware: the core `app.js` generator may write output only while the active mode is `creative` or `outfit_catalog`; Product Catalog, Product Poster, Architectural Render, and Architectural Sketch own their own output while active.
+- `promptgen:modechange` keeps the core mode state synchronized with externally loaded modes, and global form auto-generation is ignored while an external mode owns the Build console.
 
 ## Architectural Sketch Builder Baseline
 
