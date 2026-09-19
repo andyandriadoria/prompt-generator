@@ -40,7 +40,21 @@ Google Sheets is the editable source of truth. `fallback.json` is only the resil
 
 ## Architecture Mode Data
 
-Architectural option maintenance is row-based in Google Sheets:
+Architectural option maintenance is row-based in Google Sheets.
+
+### Shared Architecture Taxonomy
+Both **Architectural Render** and **Architectural Sketch** use the same building/style taxonomy:
+
+- `ARCH_BUILDING_CATEGORIES` — Building Category labels/order
+- `ARCH_BUILDING_TYPES` — Building Types linked by `CATEGORY_ID`
+- `ARCH_STYLE_CATEGORIES` — Architectural Style Category labels/order
+- `ARCH_STYLE_OPTIONS` — Architectural Styles linked by `CATEGORY_ID`
+
+Category fields are UI filters only and never enter the generated prompt. Building Type and Architectural Style each expose a frontend-only **Custom…** option that reveals a manual text input.
+
+The taxonomy is mirrored into CONFIG with formula-generated JSON keys so the current Apps Script API contract remains unchanged.
+
+Architectural option maintenance is also row-based in Google Sheets:
 
 ### ARCH_RENDER_OPTIONS
 Stores editable option content for:
