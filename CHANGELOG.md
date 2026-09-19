@@ -68,6 +68,22 @@ Key changes:
 - preserved `config.js` throughout;
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
+
+### 4.5 Maintenance — Sheets-Driven Architecture Options (2026-09-19)
+
+- added production sheets `ARCH_RENDER_OPTIONS` and `ARCH_SKETCH_OPTIONS`;
+- moved Architectural Render Input Type, Design Fidelity, and Realism Target content out of hardcoded frontend lists;
+- moved Architectural Sketch option maintenance from long hand-edited CONFIG JSON cells to row-based sheet data;
+- retained the existing Apps Script API contract by generating the architecture CONFIG JSON values from the new option sheets with Google Sheets formulas;
+- added CONFIG defaults for Architectural Render input type, fidelity, realism target, lighting, and aspect ratio;
+- Architectural Render builder now receives input/fidelity/realism prompt rules from Sheets-driven state;
+- Architectural Sketch JavaScript now retains only compact emergency fallback choices;
+- synchronized architectural option data into `fallback.json` and refreshed its 4.5 metadata;
+- bumped production cache keys for the architectural mode assets;
+- no `config.js` change;
+- no Apps Script redeploy required for this migration.
+
+
 ## 4.4.1 — Readability + Monoline Icons
 
 Focus:
