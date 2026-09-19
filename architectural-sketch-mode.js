@@ -53,6 +53,10 @@
     "sketchbook-perspective": "eye-level-perspective"
   };
 
+  const LEGACY_HUMAN_SCALE_ALIASES = {
+    "casual-people-scale": "small-human-group"
+  };
+
   const elements = {};
   const searchable = new Map();
   let database = null;
@@ -151,10 +155,10 @@
       <div class="field-row"><label for="archSketchArchitectureStyle">Architectural Style</label><select id="archSketchArchitectureStyle"></select></div>
       <div class="field-row arch-taxonomy-custom" id="archSketchCustomArchitectureStyleRow" hidden><label for="archSketchCustomArchitectureStyle">Custom Architectural Style</label><input id="archSketchCustomArchitectureStyle" type="text" placeholder="Example: tropical contemporary with subtle Japanese influence"></div>
       <div class="field-row"><label for="archSketchLighting">Lighting / Time</label><select id="archSketchLighting"></select></div>
-      <div class="field-row"><label for="archSketchMood">Atmosphere / Character</label><div><select id="archSketchMood"></select><p class="help-text">Spatial character only; lighting stays in Lighting / Time and weather stays in Landscape / Context.</p></div></div>
-      <div class="field-row"><label for="archSketchLandscape">Landscape / Context <span class="optional-label">optional</span></label><textarea id="archSketchLandscape" class="short-textarea" placeholder="Example: restrained tropical planting, stone paving, light rain, wet paving, urban sidewalk"></textarea></div>
-      <div class="field-row"><label for="archSketchFeatures">Architectural Features <span class="optional-label">optional</span></label><textarea id="archSketchFeatures" class="short-textarea" placeholder="Example: deep overhang roof, vertical timber screens, arched openings, open courtyard"></textarea></div>
-      <div class="field-row"><label for="archSketchHumanScale">Human Figure for Scale</label><select id="archSketchHumanScale"></select></div>
+      <div class="field-row"><label for="archSketchMood">Atmosphere / Character</label><div><select id="archSketchMood"></select><p class="help-text">Spatial character only; lighting stays in Lighting / Time and weather stays in Site / Context.</p></div></div>
+      <div class="field-row"><label for="archSketchLandscape">Site / Context <span class="optional-label">optional</span></label><div><textarea id="archSketchLandscape" class="short-textarea" placeholder="Example: restrained tropical planting, stone paving, urban sidewalk, light rain and wet ground"></textarea><p class="help-text">Physical surroundings only: planting, hardscape, terrain, streetscape, adjacent context, and weather/site conditions.</p></div></div>
+      <div class="field-row"><label for="archSketchFeatures">Architectural Feature Emphasis <span class="optional-label">optional</span></label><div><textarea id="archSketchFeatures" class="short-textarea" placeholder="Example: deep entrance canopy, vertical timber screens, arched colonnade, central courtyard"></textarea><p class="help-text">Specific building elements to highlight. In Reference Image mode, only existing reference features may be emphasized.</p></div></div>
+      <div class="field-row"><label for="archSketchHumanScale">Human Presence / Scale</label><div><select id="archSketchHumanScale"></select><p class="help-text">Controls human presence only for scale. It does not set mood, clothing, location, or narrative activity.</p></div></div>
       <div class="field-row"><label for="archSketchCameraView">View / Projection</label><div><select id="archSketchCameraView"></select><p class="help-text">Options are filtered by Scene Type. Exterior and Interior use only compatible architectural views.</p></div></div>
       <div class="field-row"><label for="archSketchAnnotationText">Annotations / Text</label><div><select id="archSketchAnnotationText"></select><p class="help-text">Default is no text: generated signage, labels, handwritten notes, dates, signatures, watermarks, and decorative lettering are suppressed.</p></div></div>
       <div class="field-row"><label for="archSketchAspectRatio">Aspect Ratio</label><select id="archSketchAspectRatio"></select></div>
@@ -162,7 +166,7 @@
 
       <div class="arch-sketch-tip" id="archSketchTip">
         <span>${global.PromptIcons.svg("drafting")}</span>
-        <div><strong>Architectural sketch logic</strong><p>Building and architectural style choices use the shared Architecture Taxonomy; category fields only filter the UI and do not enter the prompt. Sketch Style controls drawing language, Paper / Surface controls the drawing surface, View / Projection follows Scene Type, and Annotations / Text defaults to a clean no-text output.</p></div>
+        <div><strong>Architectural sketch logic</strong><p>Site / Context controls the physical surroundings, Architectural Feature Emphasis controls specific building elements, and Human Presence / Scale controls figures only for scale. In Reference Image mode, feature emphasis cannot invent or redesign architecture. Annotations / Text defaults to a clean no-text output.</p></div>
       </div>
     `;
 
@@ -791,7 +795,8 @@
       : existingLandscape;
     setText("archSketchLandscape", restoredLandscape);
     setText("archSketchFeatures", state.archSketchFeatures);
-    setSelect("archSketchHumanScale", state.archSketchHumanScale, missing, "Human Figure for Scale");
+    const restoredHumanScale = LEGACY_HUMAN_SCALE_ALIASES[state.archSketchHumanScale] || state.archSketchHumanScale;
+    setSelect("archSketchHumanScale", restoredHumanScale || database?.config?.defaultArchitecturalSketchHumanScale || "none", missing, "Human Presence / Scale");
     const restoredView = resolveViewForScene(state.archSketchCameraView, elements.archSketchSceneType.value || "exterior");
     updateViewOptions({ preferredValue: restoredView });
     setSelect("archSketchCameraView", restoredView, missing, "View / Projection");
