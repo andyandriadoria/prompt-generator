@@ -25,7 +25,7 @@
     lineQualities: [{ id: "auto-follow-style", label: "Auto — Follow Sketch Style", prompt: "", description: "Use the selected Sketch Style's built-in line character and line hierarchy." }],
     colorTreatments: [{ id: "auto-follow-style", label: "Auto — Follow Sketch Style", prompt: "", description: "Use the selected Sketch Style's built-in color treatment and color rules." }],
     lighting: [{ id: "morning-light", label: "Morning Light", prompt: "soft morning light with gentle directional shadows" }],
-    moods: [{ id: "calm", label: "Calm", prompt: "a calm and composed atmosphere" }],
+    moods: [{ id: "calm", label: "Calm", prompt: "a calm, composed, and visually balanced architectural character" }],
     humanScale: [{ id: "none", label: "None", prompt: "" }],
     cameraViews: [{ id: "eye-level-perspective", label: "Eye-Level Perspective", prompt: "an eye-level architectural perspective with natural human-scale viewpoint" }]
   };
@@ -33,6 +33,18 @@
   const LEGACY_SURFACE_ALIASES = {
     "cream-toned-paper": "white-sketchbook-paper",
     "presentation-board": "bristol-board"
+  };
+
+  const LEGACY_ATMOSPHERE_ALIASES = {
+    "cozy": "intimate",
+    "moody": "contemplative",
+    "airy": "serene",
+    "dramatic": "monumental",
+    "rainy": "calm"
+  };
+
+  const LEGACY_ATMOSPHERE_CONTEXT = {
+    "rainy": "light rain with subtle wet paving and wet-surface cues"
   };
 
   const elements = {};
@@ -126,8 +138,8 @@
       </details>
       <div class="field-row"><label for="archSketchArchitectureStyle">Architecture Style</label><input id="archSketchArchitectureStyle" type="text" placeholder="Example: tropical modern, contemporary minimalist, Mediterranean, Japandi"></div>
       <div class="field-row"><label for="archSketchLighting">Lighting / Time</label><select id="archSketchLighting"></select></div>
-      <div class="field-row"><label for="archSketchMood">Atmosphere / Mood</label><select id="archSketchMood"></select></div>
-      <div class="field-row"><label for="archSketchLandscape">Landscape / Context <span class="optional-label">optional</span></label><textarea id="archSketchLandscape" class="short-textarea" placeholder="Example: restrained tropical planting, stone paving, reflective pond, urban sidewalk"></textarea></div>
+      <div class="field-row"><label for="archSketchMood">Atmosphere / Character</label><div><select id="archSketchMood"></select><p class="help-text">Spatial character only; lighting stays in Lighting / Time and weather stays in Landscape / Context.</p></div></div>
+      <div class="field-row"><label for="archSketchLandscape">Landscape / Context <span class="optional-label">optional</span></label><textarea id="archSketchLandscape" class="short-textarea" placeholder="Example: restrained tropical planting, stone paving, light rain, wet paving, urban sidewalk"></textarea></div>
       <div class="field-row"><label for="archSketchFeatures">Architectural Features <span class="optional-label">optional</span></label><textarea id="archSketchFeatures" class="short-textarea" placeholder="Example: deep overhang roof, vertical timber screens, arched openings, open courtyard"></textarea></div>
       <div class="field-row"><label for="archSketchHumanScale">Human Figure for Scale</label><select id="archSketchHumanScale"></select></div>
       <div class="field-row"><label for="archSketchCameraView">Camera / View</label><select id="archSketchCameraView"></select></div>
@@ -136,7 +148,7 @@
 
       <div class="arch-sketch-tip" id="archSketchTip">
         <span>${global.PromptIcons.svg("drafting")}</span>
-        <div><strong>Architectural sketch logic</strong><p>Sketch Style controls the drawing language, line behavior, and color treatment. Paper / Surface controls only the physical drawing surface. Reference Image mode preserves the main architecture while translating it into a hand-drawn sketch language.</p></div>
+        <div><strong>Architectural sketch logic</strong><p>Sketch Style controls drawing language, line behavior, and color treatment. Paper / Surface controls the physical drawing surface. Lighting / Time controls illumination only, Atmosphere / Character controls spatial character only, and weather belongs in Landscape / Context.</p></div>
       </div>
     `;
 
@@ -563,8 +575,14 @@
     setSelect("archSketchLineQuality", state.archSketchLineQuality || "auto-follow-style", missing, "Line Quality");
     setSelect("archSketchColorTreatment", state.archSketchColorTreatment || "auto-follow-style", missing, "Color Treatment");
     setSelect("archSketchLighting", state.archSketchLighting, missing, "Lighting / Time");
-    setSelect("archSketchMood", state.archSketchMood, missing, "Atmosphere / Mood");
-    setText("archSketchLandscape", state.archSketchLandscape);
+    const restoredAtmosphere = LEGACY_ATMOSPHERE_ALIASES[state.archSketchMood] || state.archSketchMood;
+    setSelect("archSketchMood", restoredAtmosphere || database?.config?.defaultArchitecturalSketchMood || "calm", missing, "Atmosphere / Character");
+    const legacyContext = LEGACY_ATMOSPHERE_CONTEXT[state.archSketchMood] || "";
+    const existingLandscape = String(state.archSketchLandscape || "").trim();
+    const restoredLandscape = legacyContext && !/\brain\b|\bwet\b/i.test(existingLandscape)
+      ? [existingLandscape, legacyContext].filter(Boolean).join("; ")
+      : existingLandscape;
+    setText("archSketchLandscape", restoredLandscape);
     setText("archSketchFeatures", state.archSketchFeatures);
     setSelect("archSketchHumanScale", state.archSketchHumanScale, missing, "Human Figure for Scale");
     setSelect("archSketchCameraView", state.archSketchCameraView, missing, "Camera / View");
