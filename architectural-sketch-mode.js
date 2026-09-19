@@ -74,6 +74,10 @@
     restoring: false,
     applying: false
   };
+  const sketchRandomState = {
+    applying: false,
+    manualFields: new Set()
+  };
   let active = false;
   let initialized = false;
   let observer = null;
@@ -197,9 +201,13 @@
       if (active && card.dataset.promptModeId !== MODE_ID) deactivate();
     }, true);
 
-    elements.architecturalSketchFields.addEventListener("input", () => generate(false));
+    elements.architecturalSketchFields.addEventListener("input", event => {
+      markSketchRandomManual(event.target);
+      generate(false);
+    });
     elements.architecturalSketchFields.addEventListener("change", event => {
-      if (!smartDefaults.applying && !smartDefaults.restoring) {
+      markSketchRandomManual(event.target);
+      if (!smartDefaults.applying && !smartDefaults.restoring && !sketchRandomState.applying) {
         if (event.target === elements.archSketchMedium) smartDefaults.surfaceTouched = true;
         if (event.target === elements.archSketchLighting) smartDefaults.lightingTouched = true;
         if (event.target === elements.archSketchCameraView) smartDefaults.viewTouched = true;
@@ -258,6 +266,7 @@
       if (!active) return;
       event.preventDefault();
       event.stopImmediatePropagation();
+      randomizeSketch();
     }, true);
 
     elements.refreshDataBtn?.addEventListener("click", () => setTimeout(() => loadFeatureData({ forceRefresh: false }), 900));
@@ -285,6 +294,9 @@
         lightingTouched: smartDefaults.lightingTouched,
         viewTouched: smartDefaults.viewTouched
       } : null;
+      const preservedRandomLocks = shouldPreserveState
+        ? new Set(sketchRandomState.manualFields)
+        : null;
 
       const result = await global.PromptDataLoader.load(loadOptions);
       database = result.data;
@@ -297,6 +309,7 @@
         smartDefaults.surfaceTouched = preservedSmartState.surfaceTouched;
         smartDefaults.lightingTouched = preservedSmartState.lightingTouched;
         smartDefaults.viewTouched = preservedSmartState.viewTouched;
+        sketchRandomState.manualFields = preservedRandomLocks || new Set();
         updateSurfaceHint();
         updateLightingHint();
         updateHumanScaleHint();
@@ -514,12 +527,204 @@
     );
   }
 
+  function markSketchRandomManual(target) {
+    if (!target?.id) return;
+    if (target.classList?.contains("searchable-input")) return;
+    if (smartDefaults.applying || smartDefaults.restoring || sketchRandomState.applying) return;
+    sketchRandomState.manualFields.add(target.id);
+  }
+
+  function isSketchRandomLocked(id) {
+    return sketchRandomState.manualFields.has(id);
+  }
+
+  function pickRandom(items) {
+    const list = Array.isArray(items) ? items.filter(Boolean) : [];
+    if (!list.length) return null;
+    return list[Math.floor(Math.random() * list.length)] || null;
+  }
+
+  function pickRandomSelectValue(select) {
+    if (!select) return "";
+    const values = [...select.options]
+      .filter(option => !option.disabled && option.value && option.value !== global.ArchitecturalTaxonomy.CUSTOM_ID)
+      .map(option => option.value);
+    return pickRandom(values) || "";
+  }
+
+  function recommendedSurfaceIdsForStyle() {
+    return String(selectedMeta(elements.archSketchStyle, "recommendedSurface") || "")
+      .split(",")
+      .map(value => value.trim())
+      .filter(Boolean);
+  }
+
+  function styleSupportsSurface(item, surfaceId) {
+    if (!surfaceId) return true;
+    return String(item?.recommended_surface || "")
+      .split(",")
+      .map(value => value.trim())
+      .filter(Boolean)
+      .includes(surfaceId);
+  }
+
+  function sceneSupportsView(sceneId, viewId) {
+    if (!viewId) return true;
+    const view = (options?.cameraViews || []).find(item => item.id === viewId);
+    return view ? viewAppliesToScene(view, sceneId) : true;
+  }
+
+  function randomizeSketch() {
+    if (!active || !database || !options || !taxonomy) return;
+
+    sketchRandomState.applying = true;
+    smartDefaults.applying = true;
+
+    try {
+      const buildingTypeLocked = isSketchRandomLocked("archSketchBuildingType")
+        || isSketchRandomLocked("archSketchCustomBuildingType");
+      const buildingCategoryLocked = isSketchRandomLocked("archSketchBuildingCategory");
+
+      if (buildingTypeLocked) {
+        const selectedBuilding = taxonomy.buildingTypes.find(item => item.id === elements.archSketchBuildingType.value);
+        if (!buildingCategoryLocked && selectedBuilding?.category_id) {
+          setValue(elements.archSketchBuildingCategory, selectedBuilding.category_id);
+          updateBuildingTypeOptions({ selectedId: selectedBuilding.id });
+        }
+      } else {
+        let categoryId = elements.archSketchBuildingCategory.value;
+        if (!buildingCategoryLocked || !categoryId) {
+          const categories = (taxonomy.buildingCategories || []).filter(category =>
+            (taxonomy.buildingTypes || []).some(item => item.category_id === category.id)
+          );
+          const category = pickRandom(categories);
+          categoryId = category?.id || categoryId;
+          setValue(elements.archSketchBuildingCategory, categoryId);
+        }
+        const candidates = (taxonomy.buildingTypes || []).filter(item => item.category_id === categoryId);
+        updateBuildingTypeOptions({ selectedId: pickRandom(candidates)?.id || "" });
+      }
+      syncBuildingCustomUi();
+
+      const architectureStyleLocked = isSketchRandomLocked("archSketchArchitectureStyle")
+        || isSketchRandomLocked("archSketchCustomArchitectureStyle");
+      const styleCategoryLocked = isSketchRandomLocked("archSketchStyleCategory");
+
+      if (architectureStyleLocked) {
+        const selectedArchitectureStyle = taxonomy.styleOptions.find(item => item.id === elements.archSketchArchitectureStyle.value);
+        if (!styleCategoryLocked && selectedArchitectureStyle?.category_id) {
+          setValue(elements.archSketchStyleCategory, selectedArchitectureStyle.category_id);
+          updateArchitectureStyleOptions({ selectedId: selectedArchitectureStyle.id });
+        }
+      } else {
+        let categoryId = elements.archSketchStyleCategory.value;
+        if (!styleCategoryLocked || !categoryId) {
+          const categories = (taxonomy.styleCategories || []).filter(category =>
+            (taxonomy.styleOptions || []).some(item => item.category_id === category.id)
+          );
+          const category = pickRandom(categories);
+          categoryId = category?.id || categoryId;
+          setValue(elements.archSketchStyleCategory, categoryId);
+        }
+        const candidates = (taxonomy.styleOptions || []).filter(item => item.category_id === categoryId);
+        updateArchitectureStyleOptions({ selectedId: pickRandom(candidates)?.id || "" });
+      }
+      syncArchitectureStyleCustomUi();
+
+      if (!isSketchRandomLocked("archSketchSceneType")) {
+        const lockedView = isSketchRandomLocked("archSketchCameraView")
+          ? elements.archSketchCameraView.value
+          : "";
+        const sceneCandidates = (options.sceneTypes || []).filter(scene =>
+          sceneSupportsView(scene.id, lockedView)
+        );
+        setValue(elements.archSketchSceneType, pickRandom(sceneCandidates)?.id || elements.archSketchSceneType.value);
+      }
+
+      if (!isSketchRandomLocked("archSketchStyle")) {
+        const lockedSurface = isSketchRandomLocked("archSketchMedium")
+          ? elements.archSketchMedium.value
+          : "";
+        const compatibleStyles = lockedSurface
+          ? (options.sketchStyles || []).filter(item => styleSupportsSurface(item, lockedSurface))
+          : (options.sketchStyles || []);
+        const style = pickRandom(compatibleStyles.length ? compatibleStyles : options.sketchStyles);
+        setValue(elements.archSketchStyle, style?.id || elements.archSketchStyle.value);
+      }
+
+      if (!isSketchRandomLocked("archSketchMedium")) {
+        const recommended = recommendedSurfaceIdsForStyle();
+        const surfaceId = pickRandom(recommended) || pickRandom((options.media || []).map(item => item.id));
+        setValue(elements.archSketchMedium, surfaceId || elements.archSketchMedium.value);
+      }
+
+      if (!isSketchRandomLocked("archSketchLighting")) {
+        const recommended = recommendedLightingForScene();
+        setValue(
+          elements.archSketchLighting,
+          recommended || pickRandom(options.lighting)?.id || elements.archSketchLighting.value
+        );
+      }
+
+      if (!isSketchRandomLocked("archSketchMood")) {
+        setValue(elements.archSketchMood, pickRandom(options.moods)?.id || elements.archSketchMood.value);
+      }
+
+      if (!isSketchRandomLocked("archSketchHumanScale")) {
+        const recommended = recommendedHumanForStyle();
+        const useNone = recommended && recommended !== "none" && Math.random() < 0.25;
+        setValue(elements.archSketchHumanScale, useNone ? "none" : (recommended || "none"));
+      }
+
+      const currentView = elements.archSketchCameraView.value;
+      if (isSketchRandomLocked("archSketchCameraView")) {
+        updateViewOptions({ applySceneDefault: false, preferredValue: currentView });
+      } else {
+        updateViewOptions({ applySceneDefault: false });
+        const sceneId = elements.archSketchSceneType.value;
+        const eligible = (options.cameraViews || []).filter(item => viewAppliesToScene(item, sceneId));
+        setValue(elements.archSketchCameraView, pickRandom(eligible)?.id || sceneDefaultView(sceneId));
+      }
+
+      if (!isSketchRandomLocked("archSketchLineQuality")) {
+        setValue(elements.archSketchLineQuality, "auto-follow-style");
+      }
+      if (!isSketchRandomLocked("archSketchColorTreatment")) {
+        setValue(elements.archSketchColorTreatment, "auto-follow-style");
+      }
+      if (!isSketchRandomLocked("archSketchAnnotationText")) {
+        setValue(elements.archSketchAnnotationText, "no-text");
+      }
+      if (!isSketchRandomLocked("archSketchAspectRatio")) {
+        setValue(elements.archSketchAspectRatio, pickRandomSelectValue(elements.archSketchAspectRatio));
+      }
+
+      searchable.forEach(control => control.syncFromNative?.());
+      updateStyleHint();
+      updateSurfaceHint();
+      updateLightingHint();
+      updateHumanScaleHint();
+      updateAdvancedState();
+      generate(false);
+
+      global.dispatchEvent(new CustomEvent("promptgen:architecturalsketchrandomized", {
+        detail: { state: serializeState(), prompt: elements.output?.value || "" }
+      }));
+      showMessage("Sketch Random created a compatible variation. Manual choices were preserved.");
+    } finally {
+      smartDefaults.applying = false;
+      sketchRandomState.applying = false;
+    }
+  }
+
   function resetSmartDefaultState() {
     smartDefaults.surfaceTouched = false;
     smartDefaults.lightingTouched = false;
     smartDefaults.viewTouched = false;
     smartDefaults.restoring = false;
     smartDefaults.applying = false;
+    sketchRandomState.applying = false;
+    sketchRandomState.manualFields.clear();
   }
 
   function withSmartApply(callback) {
@@ -840,14 +1045,17 @@
 
     elements.architecturalSketchFields.hidden = false;
     if (elements.activeStyleBadge) elements.activeStyleBadge.hidden = true;
-    if (elements.randomPromptBtn) elements.randomPromptBtn.hidden = true;
+    if (elements.randomPromptBtn) {
+      elements.randomPromptBtn.hidden = false;
+      elements.randomPromptBtn.innerHTML = `${global.PromptIcons.svg("refresh")}<span class="button-label">Sketch Random</span>`;
+    }
 
     if (elements.activeModeBadge) {
       elements.activeModeBadge.textContent = "Architectural Sketch Builder";
       elements.activeModeBadge.dataset.mode = MODE_ID;
     }
-    if (elements.randomModeTitle) elements.randomModeTitle.textContent = "Architectural Sketch Controls";
-    if (elements.randomModeHint) elements.randomModeHint.textContent = "Choose a sketch family first; it controls line and color by default. Then choose a drawing surface, context, and scene-aware View / Projection, or open Advanced for deliberate overrides.";
+    if (elements.randomModeTitle) elements.randomModeTitle.textContent = "Smart Sketch";
+    if (elements.randomModeHint) elements.randomModeHint.textContent = "Randomizes untouched sketch controls into a coherent variation while preserving your manual choices.";
     if (elements.outputTipTitle) elements.outputTipTitle.textContent = "Architectural sketch tip";
     if (elements.outputTipText) elements.outputTipText.textContent = "Sketch Style controls the default line and color language. Keep Advanced Style Controls on Auto for the intended style, or open them only when you want a deliberate line or color override.";
     updateStyleHint();
@@ -982,6 +1190,35 @@
     setSelect("archSketchAspectRatio", state.archSketchAspectRatio, missing, "Aspect Ratio");
     setText("archSketchExtraInstruction", state.archSketchExtraInstruction);
     searchable.forEach(control => control.syncFromNative?.());
+    sketchRandomState.manualFields.clear();
+    [
+      ["archSketchInputType", state.archSketchInputType],
+      ["archSketchBuildingCategory", state.archSketchBuildingCategory],
+      ["archSketchBuildingType", state.archSketchBuildingType],
+      ["archSketchCustomBuildingType", state.archSketchCustomBuildingType],
+      ["archSketchSceneType", state.archSketchSceneType],
+      ["archSketchStyleCategory", state.archSketchStyleCategory],
+      ["archSketchArchitectureStyle", state.archSketchArchitectureStyleId || state.archSketchArchitectureStyle],
+      ["archSketchCustomArchitectureStyle", state.archSketchCustomArchitectureStyle],
+      ["archSketchStyle", state.archSketchStyle],
+      ["archSketchMedium", state.archSketchMedium],
+      ["archSketchLineQuality", state.archSketchLineQuality],
+      ["archSketchColorTreatment", state.archSketchColorTreatment],
+      ["archSketchLighting", state.archSketchLighting],
+      ["archSketchMood", state.archSketchMood],
+      ["archSketchLandscape", state.archSketchLandscape],
+      ["archSketchFeatures", state.archSketchFeatures],
+      ["archSketchHumanScale", state.archSketchHumanScale],
+      ["archSketchCameraView", state.archSketchCameraView],
+      ["archSketchAnnotationText", state.archSketchAnnotationText],
+      ["archSketchAspectRatio", state.archSketchAspectRatio],
+      ["archSketchExtraInstruction", state.archSketchExtraInstruction]
+    ].forEach(([id, value]) => {
+      if (value !== undefined && value !== null && String(value).trim() !== "") {
+        sketchRandomState.manualFields.add(id);
+      }
+    });
+
     smartDefaults.restoring = false;
     smartDefaults.surfaceTouched = true;
     smartDefaults.lightingTouched = true;
