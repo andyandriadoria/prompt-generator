@@ -9,7 +9,8 @@
   const LEGACY_KEYS = ["promptGenHistoryV1", "promptGenProductHistoryV1"];
   const MODE_PRODUCT = "reference_product_catalog";
   const MODE_POSTER = "reference_product_poster";
-  const MODES = new Set(["creative", "outfit_catalog", MODE_PRODUCT, MODE_POSTER]);
+  const MODE_ARCH = "architectural_render";
+  const MODES = new Set(["creative", "outfit_catalog", MODE_PRODUCT, MODE_POSTER, MODE_ARCH]);
   const MAX_IMAGE_EDGE = 1600;
   let dbPromise = null;
 
@@ -84,7 +85,8 @@
   function currentMode() {
     const badge = document.getElementById("activeModeBadge")?.dataset?.mode;
     if (MODES.has(badge)) return badge;
-    if (global.ArchitecturalRenderMode?.isActive?.()) return MODE_ARCH;\n    if (global.ProductPosterMode?.isActive?.()) return MODE_POSTER;
+    if (global.ArchitecturalRenderMode?.isActive?.()) return MODE_ARCH;
+    if (global.ProductPosterMode?.isActive?.()) return MODE_POSTER;
     if (global.ProductCatalogMode?.isActive?.()) return MODE_PRODUCT;
     if (document.getElementById("catalogFields") && !document.getElementById("catalogFields").hidden) return "outfit_catalog";
     return "creative";
@@ -111,7 +113,8 @@
 
   function captureState(mode) {
     if (mode === MODE_PRODUCT) return global.ProductCatalogMode?.getState?.() || {};
-    if (mode === MODE_POSTER) return global.ProductPosterMode?.getState?.() || {};\n    if (mode === MODE_ARCH) return global.ArchitecturalRenderMode?.getState?.() || {};
+    if (mode === MODE_POSTER) return global.ProductPosterMode?.getState?.() || {};
+    if (mode === MODE_ARCH) return global.ArchitecturalRenderMode?.getState?.() || {};
     const common = commonState();
     if (mode === "outfit_catalog") return {
       catalogSubject: value("catalogSubject"), catalogCustomSubject: value("catalogCustomSubject"),
@@ -142,6 +145,12 @@
       global.ProductPosterMode?.activate?.(); await sleep(80);
       missing.push(...(global.ProductPosterMode?.restoreState?.(item.state || {})?.missing || []));
       global.ProductPosterMode?.generate?.();
+      return missing;
+    }
+    if (item.mode === MODE_ARCH) {
+      global.ArchitecturalRenderMode?.activate?.(); await sleep(80);
+      missing.push(...(global.ArchitecturalRenderMode?.restoreState?.(item.state || {})?.missing || []));
+      global.ArchitecturalRenderMode?.generate?.();
       return missing;
     }
     const card = document.querySelector(`[data-prompt-mode-id="${cssEscape(item.mode)}"]`);
@@ -205,6 +214,7 @@
 
   function suggestTitle(mode = currentMode()) {
     if (mode === MODE_PRODUCT) return joinTitle(label("productType"), label("productPresentation"), "Product Catalog");
+    if (mode === MODE_ARCH) return joinTitle(value("archProjectType"), value("archArchitectureStyle"), "Architectural Render");
     if (mode === MODE_POSTER) {
       const info = value("posterProductInformation");
       const product = lineValue(info, "Product Name") || lineValue(info, "Brand");
@@ -219,7 +229,8 @@
   function modeIcon(mode) { return ({ creative: "sparkles", outfit_catalog: "shirt", [MODE_PRODUCT]: "package", [MODE_POSTER]: "poster", [MODE_ARCH]: "building" })[mode] || "bookmark"; }
   function styleLabel(mode) {
     if (mode === MODE_PRODUCT) return [label("productType"), label("productPresentation")].filter(Boolean).join(" · ") || "Product Catalog";
-    if (mode === MODE_ARCH) return value("archFidelity") === "strict" ? "STRICT Design Fidelity" : label("archQuality") || "Architectural Render";\n    if (mode === MODE_POSTER) return "9:16 Product Poster";
+    if (mode === MODE_ARCH) return value("archFidelity") === "strict" ? "STRICT Design Fidelity" : label("archQuality") || "Architectural Render";
+    if (mode === MODE_POSTER) return "9:16 Product Poster";
     if (mode === "outfit_catalog") return label("outfitFocusStyle") || label("catalogType") || "Outfit Catalog";
     const badge = byId("activeStyleBadge"); return badge && !badge.hidden && badge.textContent.trim() ? badge.textContent.trim() : label("cameraType") || "Custom / unstyled";
   }
