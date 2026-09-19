@@ -58,11 +58,13 @@ Stores editable option content for:
 - Sketch Style
 - Paper / Medium
 - Line Character
-- Sketch Color Mode
+- Color Treatment
 - Lighting / Time
 - Atmosphere / Mood
 - Human Figure for Scale
 - Camera / View
+
+Sketch Style is the primary visual controller. Line Character and Color Treatment are Advanced overrides and default to `Auto — Follow Sketch Style`.
 
 Important columns:
 `GROUP · ID · LABEL · PROMPT · DESCRIPTION · LINE_RULE · COLOR_RULE · AVOID · ACTIVE · SORT`
