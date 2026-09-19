@@ -45,7 +45,7 @@
     const colorTreatment = colorOverride ? clean(state.colorTreatmentPrompt) : "";
 
     const lighting = clean(state.lightingPrompt);
-    const mood = clean(state.moodPrompt);
+    const character = clean(state.moodPrompt);
     const landscape = clean(state.landscape);
     const features = clean(state.features);
     const humanScale = clean(state.humanScalePrompt);
@@ -73,8 +73,8 @@
     ].filter(Boolean).map(sentence).join(" ");
 
     const contextBlock = [
-      lighting ? `Lighting: ${lighting}` : "",
-      mood ? `Mood: ${mood}` : "",
+      lighting ? `Lighting / time: ${lighting}` : "",
+      character ? `Atmosphere / character: ${character}` : "",
       camera ? `View: ${camera}` : "",
       landscape ? `Context: ${landscape}` : "",
       features ? `Emphasize: ${features}` : "",
