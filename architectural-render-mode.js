@@ -241,9 +241,9 @@
     observer.observe(elements.promptModeGrid, { childList: true });
   }
 
-  async function loadFeatureData(options = {}) {
+  async function loadFeatureData(loadOptions = {}) {
     try {
-      const result = await global.PromptDataLoader.load(options);
+      const result = await global.PromptDataLoader.load(loadOptions);
       database = result.data;
       options = buildOptions(database.config || {});
       taxonomy = global.ArchitecturalTaxonomy.fromConfig(database.config || {});
