@@ -69,6 +69,18 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Sketch Style Master Controls (2026-09-19)
+
+- made Sketch Style the primary visual controller for Architectural Sketch Builder;
+- moved Line Character and Color Treatment into a collapsed Advanced Style Controls section;
+- added `Auto — Follow Sketch Style` rows to both `line_quality` and `color_treatment` groups in `ARCH_SKETCH_OPTIONS`;
+- changed the default Line Character and Color Treatment CONFIG values to `auto-follow-style`;
+- when Advanced controls stay on Auto, the builder uses each Sketch Style's own line/color rules and avoids duplicate instructions;
+- explicit Advanced overrides supersede the corresponding style line/color rule;
+- existing Saved Prompt states with explicit legacy line/color selections remain restorable;
+- synchronized `fallback.json` and bumped production asset cache keys;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Sheets-Driven Architecture Options (2026-09-19)
 
 - added production sheets `ARCH_RENDER_OPTIONS` and `ARCH_SKETCH_OPTIONS`;
