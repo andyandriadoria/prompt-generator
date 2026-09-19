@@ -280,7 +280,8 @@ Core fields:
 - Landscape / Context
 - Architectural Features
 - Human Figure for Scale
-- Camera / View
+- View / Projection
+- Annotations / Text
 - Aspect Ratio
 - Extra Instruction
 
@@ -305,6 +306,7 @@ Defaults:
 - Paper / Surface: `watercolor-paper` → **Textured Watercolor Paper**
 - Lighting / Time: `morning-light` → **Morning Light**
 - Atmosphere / Character: `calm` → **Calm**
+- Annotations / Text: `no-text` → **None — No Text or Annotations**
 
 Prompt behavior:
 - **Sketch Style is the master visual controller**: each style carries its own style prompt, line rule, color rule, and avoid rule from Google Sheets;
@@ -329,6 +331,10 @@ Prompt behavior:
 - active View / Projection options are **Eye-Level Perspective, Three-Quarter Perspective, Interior Corner Perspective, Frontal Perspective, Elevated Perspective, Wide Context View, Axonometric / Isometric, Orthographic Elevation, and Section Perspective**;
 - default View / Projection follows Scene Type: **Exterior → Three-Quarter Perspective** and **Interior → Interior Corner Perspective**; the selection is not locked and can be changed to any valid view for that scene;
 - `SCENE_SCOPE` in `ARCH_SKETCH_OPTIONS` is the editable source for scene compatibility;
+- Annotations / Text is Sheets-driven through the `annotation_text` group. Default `no-text` adds a strong final prompt guard against readable text, labels, signage, logos, captions, handwritten notes, annotations, dates, signatures, watermarks, slogans, decorative lettering, and pseudo-text;
+- if architectural signboards or signage panels are part of the design while `no-text` is active, they remain blank / without readable characters rather than receiving invented lettering;
+- optional modes **Minimal Architectural Notes** and **Handwritten Sketch Annotations** allow controlled annotations while still suppressing unrelated branding, storefront names, logos, slogans, dates, signatures, and decorative lettering;
+- Saved Prompt states created before this control existed restore with the current default `no-text`;
 - legacy Saved Prompt values `frontal-elevation` and `sketchbook-perspective` restore to **Frontal Perspective** and **Eye-Level Perspective** respectively;
 - weather-like conditions such as rain belong in Landscape / Context rather than Atmosphere / Character;
 - legacy Saved Prompt values `cozy`, `moody`, `airy`, and `dramatic` restore to the closest current spatial character; legacy `rainy` restores to Calm while adding rain / wet-surface cues to Landscape / Context;
