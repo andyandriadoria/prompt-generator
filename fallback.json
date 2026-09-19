@@ -5051,6 +5051,52 @@
       ]
     },
     {
+      "id": "reference_product_catalog",
+      "label": "Reference Product Catalog",
+      "icon": "package",
+      "description": "Create product-focused catalog images while preserving the reference product exactly.",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "reference",
+        "product",
+        "catalog",
+        "ecommerce",
+        "commercial"
+      ]
+    },
+    {
+      "id": "reference_product_poster",
+      "label": "Product Poster Builder",
+      "icon": "poster",
+      "description": "Add premium poster typography and product information to an existing photo while keeping the original photograph unchanged.",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "reference",
+        "product",
+        "poster",
+        "editorial",
+        "retail",
+        "typography"
+      ]
+    },
+    {
+      "id": "architectural_render",
+      "label": "Architectural Render",
+      "icon": "building",
+      "description": "Create controlled architectural visualization prompts from reference images while preserving the original design according to the selected fidelity level.",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "architecture",
+        "render",
+        "reference",
+        "visualization",
+        "design fidelity"
+      ]
+    },
+    {
       "id": "architectural_sketch",
       "label": "Architectural Sketch Builder",
       "icon": "drafting",
