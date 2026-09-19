@@ -234,13 +234,15 @@
     if (mode === MODE_PRODUCT) return [label("productType"), label("productPresentation")].filter(Boolean).join(" · ") || "Product Catalog";
     if (mode === MODE_ARCH) {
       const fidelity = value("archFidelity");
-      return fidelity === "strict"
-        ? "STRICT Design Fidelity"
+      const realism = label("archRealismTarget") || "Hyper-Real Architectural Photo";
+      const fidelityLabel = fidelity === "strict"
+        ? "STRICT"
         : fidelity === "balanced"
-          ? "Balanced Design Fidelity"
+          ? "Balanced"
           : fidelity === "creative"
-            ? "Creative Design Fidelity"
-            : "Architectural Render";
+            ? "Creative"
+            : "";
+      return [realism, fidelityLabel].filter(Boolean).join(" · ") || "Architectural Render";
     }
     if (mode === MODE_POSTER) return "9:16 Product Poster";
     if (mode === "outfit_catalog") return label("outfitFocusStyle") || label("catalogType") || "Outfit Catalog";
