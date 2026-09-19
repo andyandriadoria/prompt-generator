@@ -1,6 +1,6 @@
 # Prompt Gen — Current State
 
-**Baseline date:** 2026-08-30  
+**Baseline date:** 2026-09-19  
 **Production baseline:** Prompt Gen 4.5
 
 This file is the primary baseline for future Prompt Gen work.
@@ -305,7 +305,9 @@ Prompt behavior:
 - `Design Brief / Idea` translates an architectural brief into a coherent sketch presentation;
 - landscape, architectural features, human scale figures, and extra instruction are conditional and omitted when empty / `None`;
 - all styles explicitly reject photorealistic image, CGI, 3D visualization, polished archviz, and realistic digital-painting output;
-- selected style descriptions appear below the Sketch Style control to clarify the intended visual language.
+- selected style descriptions appear below the Sketch Style control to clarify the intended visual language;
+- prompt assembly is intentionally compact: Concept Prompt does not repeat a separate source sentence, aspect ratio is carried in the opening, architectural clarity is stated once, and photoreal / CGI / 3D-archviz rejection is consolidated into a single guard block;
+- production style, line-character, color, and medium prompt fragments are kept concise in Google Sheets to reduce redundancy while preserving distinct sketch-family behavior.
 
 Data source:
 - mode registry: Google Sheets `PROMPT_MODES` row `architectural_sketch`;
