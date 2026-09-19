@@ -10,6 +10,28 @@
     description: "Turn architectural references into controlled photorealistic render prompts while preserving the original design."
   };
 
+  const FALLBACK_OPTIONS = {
+    inputTypes: [{
+      id: "reference-image",
+      label: "Reference Image / Existing Design",
+      prompt: "Use the provided architectural reference image as the authoritative source for the design.",
+      description: "Use an architectural reference image as the authoritative design source."
+    }],
+    fidelities: [{
+      id: "strict",
+      label: "STRICT — Preserve Design Exactly",
+      prompt: "Preserve the architectural design exactly according to the reference, without redesigning its geometry, massing, openings, structure, roof form, or perspective.",
+      description: "Architecture Style and Camera / View are controlled automatically while the reference geometry remains locked."
+    }],
+    realismTargets: [{
+      id: "hyper-real-photo",
+      label: "Hyper-Real Architectural Photo",
+      opening: "Create a hyper-realistic architectural photograph in a {{ratio}} aspect ratio that looks like a real built project captured by a professional camera.",
+      closing: "Create the result as a true-to-life architectural photograph with believable real-world exposure, materials, glazing, reflections, vegetation, and shadow behavior.",
+      description: "Real built-project photographic realism."
+    }]
+  };
+
   const elements = {};
   const searchable = new Map();
   const allowedCameraIds = new Set([
@@ -18,6 +40,7 @@
   ]);
 
   let database = null;
+  let options = null;
   let active = false;
   let initialized = false;
   let observer = null;
@@ -87,12 +110,7 @@
 
       <div class="field-row">
         <label for="archInputType">Input Type</label>
-        <select id="archInputType">
-          <option value="reference-image">Reference Image / Existing Design</option>
-          <option value="sketch-linework">Sketch / Linework</option>
-          <option value="massing-model">Massing / Clay Model</option>
-          <option value="existing-photo">Existing Building Photo</option>
-        </select>
+        <select id="archInputType"></select>
       </div>
 
       <div class="field-row">
@@ -102,20 +120,12 @@
 
       <div class="field-row">
         <label for="archFidelity">Design Fidelity</label>
-        <select id="archFidelity">
-          <option value="strict">STRICT — Preserve Design Exactly</option>
-          <option value="balanced">Balanced — Preserve Design, Refine Presentation</option>
-          <option value="creative">Creative — Controlled Design Development</option>
-        </select>
+        <select id="archFidelity"></select>
       </div>
 
       <div class="field-row">
         <label for="archRealismTarget">Realism Target</label>
-        <select id="archRealismTarget">
-          <option value="photoreal-archviz">Photoreal Archviz — Polished Presentation</option>
-          <option value="hyper-real-photo" selected>Hyper-Real Architectural Photo</option>
-          <option value="documentary-site-photo">Documentary Site Photo — Natural & Honest</option>
-        </select>
+        <select id="archRealismTarget"></select>
       </div>
 
       <div class="field-row">
@@ -213,6 +223,7 @@
     try {
       const result = await global.PromptDataLoader.load(options);
       database = result.data;
+      options = buildOptions(database.config || {});
       populateControls();
       ensureModeCard();
     } catch (error) {
@@ -220,8 +231,35 @@
     }
   }
 
+  function buildOptions(config) {
+    return {
+      inputTypes: parseList(config.architecturalRenderInputTypes, FALLBACK_OPTIONS.inputTypes),
+      fidelities: parseList(config.architecturalRenderFidelities, FALLBACK_OPTIONS.fidelities),
+      realismTargets: parseList(config.architecturalRenderRealismTargets, FALLBACK_OPTIONS.realismTargets)
+    };
+  }
+
+  function parseList(raw, fallback) {
+    if (Array.isArray(raw)) return raw;
+    if (!raw) return fallback;
+    try {
+      const parsed = JSON.parse(String(raw));
+      return Array.isArray(parsed) && parsed.length ? parsed : fallback;
+    } catch (_) {
+      return fallback;
+    }
+  }
+
   function isReady() {
-    return Boolean(database && Array.isArray(database.lighting) && Array.isArray(database.cameraAngles) && Array.isArray(database.aspectRatios));
+    return Boolean(
+      database &&
+      options?.inputTypes?.length &&
+      options?.fidelities?.length &&
+      options?.realismTargets?.length &&
+      Array.isArray(database.lighting) &&
+      Array.isArray(database.cameraAngles) &&
+      Array.isArray(database.aspectRatios)
+    );
   }
 
   function getModeDefinition() {
@@ -259,7 +297,24 @@
   }
 
   function populateControls() {
-    if (!database || !elements.archLighting) return;
+    if (!database || !options || !elements.archLighting) return;
+    const config = database.config || {};
+
+    populateOptionSelect(
+      elements.archInputType,
+      options.inputTypes,
+      config.defaultArchitecturalRenderInputType || "reference-image"
+    );
+    populateOptionSelect(
+      elements.archFidelity,
+      options.fidelities,
+      config.defaultArchitecturalRenderFidelity || "strict"
+    );
+    populateOptionSelect(
+      elements.archRealismTarget,
+      options.realismTargets,
+      config.defaultArchitecturalRenderRealismTarget || "hyper-real-photo"
+    );
 
     populateSelect(elements.archLighting,
       (database.lighting || []).filter(item => !/\bher body\b/i.test(String(item.prompt || ""))),
@@ -269,6 +324,7 @@
     const cameraOptions = (database.cameraAngles || []).filter(item => allowedCameraIds.has(item.id));
     populateSelect(elements.archCamera, cameraOptions, "Preserve Reference View", true);
 
+    const previousRatio = elements.archAspectRatio.value;
     elements.archAspectRatio.innerHTML = "";
     const placeholder = new Option("-- Select Aspect Ratio --", "");
     placeholder.dataset.placeholder = "true";
@@ -280,20 +336,37 @@
       elements.archAspectRatio.append(option);
     });
 
-    if (!elements.archAspectRatio.value) {
-      const preferred = [...elements.archAspectRatio.options].find(option => option.value === "16:9")
-        || [...elements.archAspectRatio.options].find(option => option.value === database.config?.defaultAspectRatio);
-      if (preferred) elements.archAspectRatio.value = preferred.value;
-    }
+    const ratioDefault = config.defaultArchitecturalRenderAspectRatio || "16:9";
+    const preferredRatio = [...elements.archAspectRatio.options].find(option => option.value === previousRatio)
+      || [...elements.archAspectRatio.options].find(option => option.value === ratioDefault)
+      || [...elements.archAspectRatio.options].find(option => option.value === database.config?.defaultAspectRatio);
+    if (preferredRatio) elements.archAspectRatio.value = preferredRatio.value;
 
-    setSelectById(elements.archLighting, "daylight");
-    elements.archInputType.value = elements.archInputType.value || "reference-image";
-    elements.archFidelity.value = elements.archFidelity.value || "strict";
-    elements.archRealismTarget.value = elements.archRealismTarget.value || "hyper-real-photo";
+    if (!elements.archLighting.value) {
+      setSelectById(elements.archLighting, config.defaultArchitecturalRenderLighting || "daylight");
+    }
 
     initSearchable();
     updateFidelityUi();
     if (active) generate(false);
+  }
+
+  function populateOptionSelect(select, items, defaultId) {
+    if (!select) return;
+    const previous = select.value;
+    select.innerHTML = "";
+    (items || []).forEach(item => {
+      const option = new Option(item.label || item.id, item.id || "");
+      option.dataset.id = item.id || "";
+      option.dataset.prompt = item.prompt || "";
+      option.dataset.description = item.description || "";
+      option.dataset.opening = item.opening || "";
+      option.dataset.closing = item.closing || "";
+      select.append(option);
+    });
+    const wanted = [...select.options].find(option => option.value === previous)
+      || [...select.options].find(option => option.value === String(defaultId || ""));
+    if (wanted) select.value = wanted.value;
   }
 
   function populateSelect(select, items, placeholder, preserveReference = false) {
@@ -326,6 +399,18 @@
   function selectedItem(select, collection) {
     const id = select?.selectedOptions?.[0]?.dataset?.id || select?.value || "";
     return (collection || []).find(item => item.id === id) || null;
+  }
+
+  function selectedOptionData(select) {
+    const option = select?.selectedOptions?.[0];
+    return {
+      id: option?.dataset?.id || option?.value || "",
+      label: option?.textContent?.trim() || "",
+      prompt: option?.dataset?.prompt || "",
+      description: option?.dataset?.description || "",
+      opening: option?.dataset?.opening || "",
+      closing: option?.dataset?.closing || ""
+    };
   }
 
   function handleFieldChange(event) {
@@ -367,20 +452,16 @@
     if (!note) return;
     const copy = note.querySelector("p");
     const title = note.querySelector("strong");
-    if (strict) {
-      title.textContent = "Strict geometry lock";
-      copy.textContent = "Architecture Style and Camera / View are controlled automatically. Geometry, massing, openings, structure, levels, roof form, framing, and source perspective stay unchanged.";
-    } else if (elements.archFidelity.value === "balanced") {
-      title.textContent = "Balanced design control";
-      copy.textContent = "Core geometry and architectural identity stay intact while restrained style refinements and alternate framing are available.";
-    } else {
-      title.textContent = "Controlled design development";
-      copy.textContent = "Core massing and project identity remain recognizable while architecture style, materials, landscape, mood, and framing may follow your directions.";
-    }
+    const fidelityMeta = selectedOptionData(elements.archFidelity);
+    title.textContent = fidelityMeta.label || "Design fidelity";
+    copy.textContent = fidelityMeta.description || "The selected Design Fidelity controls how closely the generated result must follow the architectural reference.";
   }
 
   function collectState() {
     const lighting = selectedItem(elements.archLighting, database?.lighting);
+    const inputMeta = selectedOptionData(elements.archInputType);
+    const fidelityMeta = selectedOptionData(elements.archFidelity);
+    const realismMeta = selectedOptionData(elements.archRealismTarget);
     const strict = elements.archFidelity.value === "strict";
     const camera = elements.archCamera.value === "preserve-reference-view"
       ? "preserve the original reference viewpoint and perspective"
@@ -388,9 +469,13 @@
 
     return {
       inputType: elements.archInputType.value,
+      inputPrompt: inputMeta.prompt,
       projectType: elements.archProjectType.value.trim(),
       fidelity: elements.archFidelity.value,
+      fidelityPrompt: fidelityMeta.prompt,
       realismTarget: elements.archRealismTarget.value || "hyper-real-photo",
+      realismOpening: realismMeta.opening,
+      realismClosing: realismMeta.closing,
       architectureStyle: strict ? "" : elements.archArchitectureStyle.value.trim(),
       materials: elements.archMaterials.value.trim(),
       lighting: lighting?.prompt || lighting?.label || "",
@@ -398,7 +483,7 @@
       landscape: elements.archLandscape.value.trim(),
       camera: strict ? "" : camera,
       cameraId: elements.archCamera.value,
-      aspectRatio: elements.archAspectRatio.value || "16:9",
+      aspectRatio: elements.archAspectRatio.value || database?.config?.defaultArchitecturalRenderAspectRatio || "16:9",
       extraInstruction: elements.archExtraInstruction.value.trim()
     };
   }
@@ -460,18 +545,19 @@
   }
 
   function reset() {
-    elements.archInputType.value = "reference-image";
+    const config = database?.config || {};
+    setSelectById(elements.archInputType, config.defaultArchitecturalRenderInputType || "reference-image");
     elements.archProjectType.value = "";
-    elements.archFidelity.value = "strict";
-    elements.archRealismTarget.value = "hyper-real-photo";
+    setSelectById(elements.archFidelity, config.defaultArchitecturalRenderFidelity || "strict");
+    setSelectById(elements.archRealismTarget, config.defaultArchitecturalRenderRealismTarget || "hyper-real-photo");
     lastEditableArchitectureStyle = "";
     elements.archArchitectureStyle.value = "";
     elements.archMaterials.value = "";
-    setSelectById(elements.archLighting, "daylight");
+    setSelectById(elements.archLighting, config.defaultArchitecturalRenderLighting || "daylight");
     elements.archAtmosphere.value = "";
     elements.archLandscape.value = "";
     elements.archCamera.value = "preserve-reference-view";
-    if ([...elements.archAspectRatio.options].some(option => option.value === "16:9")) elements.archAspectRatio.value = "16:9";
+    setSelectById(elements.archAspectRatio, config.defaultArchitecturalRenderAspectRatio || "16:9");
     elements.archExtraInstruction.value = "";
     searchable.forEach(control => control.syncFromNative?.());
     updateFidelityUi();
@@ -498,12 +584,13 @@
 
   function restoreState(state = {}) {
     const missing = [];
-    const fidelity = state.archFidelity || "strict";
+    const config = database?.config || {};
+    const fidelity = state.archFidelity || config.defaultArchitecturalRenderFidelity || "strict";
 
-    setSelect("archInputType", state.archInputType || "reference-image", missing, "Input Type");
+    setSelect("archInputType", state.archInputType || config.defaultArchitecturalRenderInputType || "reference-image", missing, "Input Type");
     setText("archProjectType", state.archProjectType);
     setSelect("archFidelity", fidelity, missing, "Design Fidelity");
-    setSelect("archRealismTarget", state.archRealismTarget || "hyper-real-photo", missing, "Realism Target");
+    setSelect("archRealismTarget", state.archRealismTarget || config.defaultArchitecturalRenderRealismTarget || "hyper-real-photo", missing, "Realism Target");
 
     if (fidelity === "strict") {
       const savedStyle = String(state.archArchitectureStyle || "").trim();
@@ -514,11 +601,11 @@
     }
 
     setText("archMaterials", state.archMaterials);
-    setSelect("archLighting", state.archLighting, missing, "Lighting");
+    setSelect("archLighting", state.archLighting || config.defaultArchitecturalRenderLighting || "daylight", missing, "Lighting");
     setText("archAtmosphere", state.archAtmosphere);
     setText("archLandscape", state.archLandscape);
     setSelect("archCamera", state.archCamera || "preserve-reference-view", missing, "Camera / View");
-    setSelect("archAspectRatio", state.archAspectRatio || "16:9", missing, "Aspect Ratio");
+    setSelect("archAspectRatio", state.archAspectRatio || config.defaultArchitecturalRenderAspectRatio || "16:9", missing, "Aspect Ratio");
     setText("archExtraInstruction", state.archExtraInstruction);
 
     searchable.forEach(control => control.syncFromNative?.());
