@@ -26,6 +26,8 @@
     return /^[aeiou]/i.test(text) ? `an ${text}` : `a ${text}`;
   }
 
+  const NO_TEXT_GUARD = "Do not add any readable text, labels, signage, logos, captions, handwritten notes, annotations, dates, signatures, watermarks, slogans, or decorative lettering anywhere in the image. If signage panels or signboards are part of the architecture, keep them blank or non-legible rather than inventing text.";
+
   function build(state = {}) {
     const ratio = clean(state.aspectRatio) || "4:5";
     const projectType = clean(state.projectType) || "architectural concept";
@@ -50,6 +52,8 @@
     const features = clean(state.features);
     const humanScale = clean(state.humanScalePrompt);
     const camera = clean(state.cameraPrompt);
+    const annotationMode = clean(state.annotationText) || "no-text";
+    const annotationPrompt = clean(state.annotationTextPrompt);
     const extra = clean(state.extraInstruction);
 
     const opening = `Create a hand-drawn architectural sketch of ${withIndefiniteArticle(projectType)} as ${scene} in a ${ratio} aspect ratio.`;
@@ -78,7 +82,8 @@
       camera ? `View / projection: ${camera}` : "",
       landscape ? `Context: ${landscape}` : "",
       features ? `Emphasize: ${features}` : "",
-      humanScale
+      humanScale,
+      annotationMode !== "no-text" && annotationPrompt ? `Annotations / text: ${annotationPrompt}` : ""
     ].filter(Boolean).join("; ");
 
     const colorGuard = colorOverride && !isMonochrome(state.colorTreatment)
@@ -87,6 +92,7 @@
 
     const guard = [
       "Keep the result clearly within professional architectural sketch presentation language, not photorealistic imagery, CGI, 3D archviz, or realistic digital painting",
+      annotationMode === "no-text" ? NO_TEXT_GUARD : "",
       styleAvoid
     ].filter(Boolean).map(sentence).join(" ");
 
