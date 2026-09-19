@@ -118,11 +118,11 @@ This keeps new setting maintenance centralized: new shared scene/location data s
 - Obsidian UI
 - readability pass
 - monoline SVG icon system
-- Workspace Tabs: Build / Inspect / History
-- Prompt Intelligence v1 in Inspect
-- Product-aware Prompt Intelligence in Inspect
-- local-first Prompt History v1 with state restore
-- Product Catalog local history + restore integration
+- Workspace Tabs: Build / Saved
+- Saved Prompt Library backed by browser IndexedDB
+- complete Build-state restore across active prompt modes
+- optional generated-result image attachment and notes in Saved
+- search, mode filtering, copy, edit, delete, and Restore to Build
 - child-safe outfit catalog logic
 - strict / ultra-strict / compact outfit preservation
 - Outfit Focus Style inside Reference Outfit Catalog
@@ -254,8 +254,10 @@ Implementation files:
 
 Data:
 - mode definition is stored in Google Sheets `PROMPT_MODES` as `architectural_render`;
-- existing shared `LIGHTING`, `CAMERA_ANGLES`, and `ASPECT_RATIOS` collections are reused;
-- no Apps Script redeploy is required for the current implementation.
+- editable Architectural Render option content is stored row-by-row in `ARCH_RENDER_OPTIONS`;
+- `CONFIG` contains formula-generated JSON mirrors (`architecturalRenderInputTypes`, `architecturalRenderFidelities`, and `architecturalRenderRealismTargets`) so the existing Apps Script CONFIG payload can serve the new rows without another Apps Script mapping/redeploy;
+- defaults live in `CONFIG` as `defaultArchitecturalRender*` keys;
+- existing shared `LIGHTING`, `CAMERA_ANGLES`, and `ASPECT_RATIOS` collections are reused.
 
 ## Architectural Sketch Builder Baseline
 
@@ -311,10 +313,11 @@ Prompt behavior:
 
 Data source:
 - mode registry: Google Sheets `PROMPT_MODES` row `architectural_sketch`;
-- Architectural Sketch defaults and option datasets are stored in Google Sheets `CONFIG` using `defaultArchitecturalSketch*` and `architecturalSketch*` keys;
+- editable Architectural Sketch option content is stored row-by-row in `ARCH_SKETCH_OPTIONS`;
+- existing `architecturalSketch*` CONFIG keys are now formula-generated JSON mirrors of `ARCH_SKETCH_OPTIONS`, preserving the existing API contract while making the option content easy to edit;
+- defaults remain in `CONFIG` using `defaultArchitecturalSketch*` keys;
 - Aspect Ratio reuses the shared `ASPECT_RATIOS` collection;
-- the frontend keeps mirrored safe fallbacks for API / cache failure;
-- no new Apps Script collection mapping is required because the mode data is carried through the existing CONFIG and PROMPT_MODES payloads.
+- `fallback.json` contains a synchronized resilience copy, while JavaScript keeps only minimal emergency fallbacks.
 
 Implementation files:
 - `architectural-sketch-builder.js`
@@ -386,22 +389,17 @@ Do not regress below these practical targets:
 
 Workspace and Prompt Mode are separate concepts:
 
-- **Build** — Creative / Reference Outfit Catalog / Reference Product Catalog authoring workflows.
-- **Inspect** — Prompt Intelligence with Prompt Health, expanded Prompt DNA, completeness/coherence findings, recommendations, and output diagnostics. Product Catalog uses Product / Presentation / Preservation / Scene / Shot / Composition / Ratio dimensions, with optional Campaign Copy. Reference Outfit Catalog can append an Outfit Focus DNA card when Outfit Focus Style is active.
-- **History** — browser-local prompt history with search/filter, preview, restore, copy, delete, and clear. Product Catalog explicit Generate actions are included and can be restored to Build. Reference Outfit Catalog history also retains `outfitFocusStyle` for explicit Generate actions. Legacy Catalog Setting IDs remain restorable through the shared-setting alias/fallback compatibility layer.
+- **Build** — all active authoring workflows: Creative, Reference Outfit Catalog, Reference Product Catalog, Product Poster Builder, Architectural Render, and Architectural Sketch Builder.
+- **Saved** — browser-local Saved Prompt Library. Stores reusable prompt templates in IndexedDB together with complete Build state, optional generated-result image, and notes. Supports search, mode filtering, preview, edit, copy, delete, and Restore to Build.
 
-History must not save every automatic preview when `autoGenerate=TRUE`; only explicit **Generate Prompt** actions are committed.
+The previous Inspect workspace was removed on 2026-09-02. The previous History workspace was replaced by Saved Prompt Library on 2026-09-06.
 
 Workspace implementation files:
 - `workspace-tabs.js`
 - `workspace-tabs.css`
-- `prompt-inspector.js`
-- `prompt-inspector.css`
-- `prompt-history.js`
-- `prompt-history.css`
-- `product-catalog-workspace.js`
-- `outfit-focus-style.js`
-- `outfit-focus-compatibility.js`
+- `prompt-saved-store.js`
+- `prompt-saved.js`
+- `prompt-saved.css`
 
 ## Persistent API Configuration
 
@@ -419,6 +417,8 @@ Normal production should resolve to `config.js`.
 ## Known Architectural Decisions
 
 - Google Sheets is the source of truth for content data.
+- `ARCH_RENDER_OPTIONS` and `ARCH_SKETCH_OPTIONS` are the canonical editable sources for Architectural Render and Architectural Sketch option content.
+- Architecture option JSON stored in `CONFIG` is a formula-generated compatibility bridge for the current Apps Script API, not the primary editing surface.
 - `SETTINGS` is the canonical setting source for Creative and Reference Outfit Catalog; `CATALOG_SETTINGS` remains legacy-only for compatibility.
 - Apps Script exposes the data as JSON.
 - Apps Script collection mapping is explicit via `SHEET_MAP`; Product Catalog collections and `OUTFIT_FOCUS_STYLES` are included in the deployed API mapping.
@@ -427,7 +427,7 @@ Normal production should resolve to `config.js`.
 - `Refresh Now` should bypass stale state as intended.
 - `fallback.json` must remain compatible with the API payload structure.
 - `PRODUCT_*` and `outfitFocusStyles` are treated as optional additive collections by the frontend loader so older fallback payloads do not break Creative / core Outfit Catalog.
-- QA note for 4.5: `fallback.json` remains structurally compatible but its embedded legacy version metadata/title still predates 4.5 and does not yet include Product Catalog, current shared Setting data, or Outfit Focus Style data; normal production is unaffected because live CONFIG/content comes from Google Sheets. Sync this in the next fallback maintenance pass.
+- `fallback.json` metadata and Architectural Render / Architectural Sketch option CONFIG were synchronized on 2026-09-19 as part of the Sheets-driven architecture-option migration.
 - Frontend-only updates should not require Apps Script redeployment.
 - `config.js` was preserved during the Reference Product Catalog, Outfit Focus Style, and shared Setting expansions.
 
@@ -446,6 +446,16 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - `config.js`: unchanged.
 - Apps Script redeploy was not required for the shared Setting migration.
 - Update ZIP: not generated for these final frontend/data refinements.
+
+## 2026-09-19 Architecture Option Data Migration
+
+- added `ARCH_RENDER_OPTIONS` and `ARCH_SKETCH_OPTIONS` to the production Google Sheet;
+- migrated Architectural Sketch choice content out of hand-edited CONFIG JSON into row-based data;
+- moved Architectural Render Input Type, Design Fidelity, and Realism Target content out of frontend hardcoding into Sheets-driven data;
+- CONFIG JSON option keys are generated from the new sheets by formulas, allowing the existing Apps Script CONFIG payload to keep working without a redeploy;
+- Architectural Render defaults for input type, fidelity, realism target, lighting, and aspect ratio are now CONFIG-driven;
+- JavaScript retains only compact emergency fallbacks;
+- `config.js` unchanged.
 
 ## Next Product Opportunities
 
