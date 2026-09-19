@@ -1696,3 +1696,45 @@ body.dark-mode.workstation-v2 .prompt-mode-icon {
 .workstation-structure-list small {
   font-size: 9px;
 }
+
+
+.workstation-custom-style-card {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  min-height: 148px;
+  padding: 12px;
+  border: 1px dashed color-mix(in srgb, var(--border) 130%, transparent);
+  border-radius: 11px;
+  background:
+    linear-gradient(135deg, rgba(114,167,255,.035), transparent 55%),
+    var(--surface-1);
+  color: var(--muted);
+  box-shadow: none;
+  text-align: center;
+}
+
+.workstation-custom-style-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(234,169,0,.42);
+  color: var(--text);
+}
+
+.workstation-custom-plus {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--surface-3);
+  color: var(--muted);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.workstation-custom-style-card strong {
+  font-size: 10px;
+  line-height: 1.25;
+}
