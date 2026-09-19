@@ -63,9 +63,12 @@
       humanScale
     ].filter(Boolean);
 
+    const styleAlreadyGuardsMonochrome = /monochrome|grayscale/i.test(styleAvoid);
     const colorGuard = isMonochrome(state.colorTreatment)
       ? "Honor the selected monochrome treatment and do not introduce colored washes."
-      : "Do not collapse the image into monochrome graphite or grayscale; preserve the selected color treatment while keeping the linework visible.";
+      : styleAlreadyGuardsMonochrome
+        ? ""
+        : "Do not collapse the image into monochrome graphite or grayscale; preserve the selected color treatment while keeping the linework visible.";
 
     const clarity = "Keep architectural proportions, perspective, openings, structure, and spatial relationships clear and believable. The architecture should remain the primary subject, with entourage and context visually secondary.";
 
