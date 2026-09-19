@@ -263,6 +263,7 @@ Data:
 - Building Category / Building Type and Architectural Style Category / Architectural Style use the shared Architecture Taxonomy described below; category fields are navigation metadata and are never emitted into prompts.
 - Architectural Render initialization uses a dedicated `loadOptions` parameter so the module-level render `options` state is populated correctly; this prevents the Render card from disappearing because `isReady()` sees a null options state.
 - `fallback.json.promptModes` mirrors all active rows from Google Sheets `PROMPT_MODES`, including Architectural Render, so the mode remains available on fallback paths.
+- Prompt Mode cards are re-ordered after async module insertion using each mode's configured `SORT` value, preventing load timing from changing the visual order. Current production order is Creative → Outfit Catalog → Product Catalog → Product Poster → Architectural Render → Architectural Sketch.
 
 ## Architectural Sketch Builder Baseline
 
