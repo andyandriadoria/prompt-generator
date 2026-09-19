@@ -21,13 +21,18 @@
       color_rule: "Use soft natural washes with restrained saturation and imperfect hand-painted edges",
       avoid: "Avoid heavy pencil shading and opaque digital painting"
     }],
-    media: [{ id: "white-sketchbook-paper", label: "White Presentation Paper", prompt: "clean white presentation paper with subtle natural grain" }],
+    media: [{ id: "watercolor-paper", label: "Textured Watercolor Paper", prompt: "lightly textured watercolor paper with visible natural tooth and restrained surface variation" }],
     lineQualities: [{ id: "auto-follow-style", label: "Auto — Follow Sketch Style", prompt: "", description: "Use the selected Sketch Style's built-in line character and line hierarchy." }],
     colorTreatments: [{ id: "auto-follow-style", label: "Auto — Follow Sketch Style", prompt: "", description: "Use the selected Sketch Style's built-in color treatment and color rules." }],
     lighting: [{ id: "morning-light", label: "Morning Light", prompt: "soft morning light with gentle directional shadows" }],
     moods: [{ id: "calm", label: "Calm", prompt: "a calm and composed atmosphere" }],
     humanScale: [{ id: "none", label: "None", prompt: "" }],
     cameraViews: [{ id: "eye-level-perspective", label: "Eye-Level Perspective", prompt: "an eye-level architectural perspective with natural human-scale viewpoint" }]
+  };
+
+  const LEGACY_SURFACE_ALIASES = {
+    "cream-toned-paper": "white-sketchbook-paper",
+    "presentation-board": "bristol-board"
   };
 
   const elements = {};
@@ -553,7 +558,8 @@
     setSelect("archSketchSceneType", state.archSketchSceneType, missing, "Scene Type");
     setText("archSketchArchitectureStyle", state.archSketchArchitectureStyle);
     setSelect("archSketchStyle", state.archSketchStyle, missing, "Sketch Style");
-    setSelect("archSketchMedium", state.archSketchMedium || database?.config?.defaultArchitecturalSketchMedium || "watercolor-paper", missing, "Paper / Surface");
+    const restoredSurface = LEGACY_SURFACE_ALIASES[state.archSketchMedium] || state.archSketchMedium;
+    setSelect("archSketchMedium", restoredSurface || database?.config?.defaultArchitecturalSketchMedium || "watercolor-paper", missing, "Paper / Surface");
     setSelect("archSketchLineQuality", state.archSketchLineQuality || "auto-follow-style", missing, "Line Quality");
     setSelect("archSketchColorTreatment", state.archSketchColorTreatment || "auto-follow-style", missing, "Color Treatment");
     setSelect("archSketchLighting", state.archSketchLighting, missing, "Lighting / Time");
@@ -579,7 +585,7 @@
 
   function updateDna(state) {
     if (!active) return;
-    const labels = ["Project", "Architecture", "Sketch", "Medium", "Atmosphere"];
+    const labels = ["Project", "Architecture", "Sketch", "Surface", "Atmosphere"];
     const ready = [
       Boolean(state.projectType || state.inputType),
       Boolean(state.architectureStyle || state.sceneType),
