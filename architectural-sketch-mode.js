@@ -449,9 +449,9 @@
       elements.activeModeBadge.dataset.mode = MODE_ID;
     }
     if (elements.randomModeTitle) elements.randomModeTitle.textContent = "Architectural Sketch Controls";
-    if (elements.randomModeHint) elements.randomModeHint.textContent = "Choose a sketch family first, then refine line character, color, medium, context, and view";
+    if (elements.randomModeHint) elements.randomModeHint.textContent = "Choose a sketch family first; it controls line and color by default. Refine medium, context, and view, or open Advanced for deliberate overrides.";
     if (elements.outputTipTitle) elements.outputTipTitle.textContent = "Architectural sketch tip";
-    if (elements.outputTipText) elements.outputTipText.textContent = "Sketch Style is the main visual controller. Watercolor, ink, concept, marker, and line-sketch families use different prompt behavior; Line Character and Sketch Color Mode refine the selected family.";
+    if (elements.outputTipText) elements.outputTipText.textContent = "Sketch Style controls the default line and color language. Keep Advanced Style Controls on Auto for the intended style, or open them only when you want a deliberate line or color override.";
     updateStyleHint();
     updateAdvancedState();
 
