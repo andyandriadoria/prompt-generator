@@ -80,6 +80,11 @@
             if (card) setPromptMode(card.dataset.promptModeId, true);
         });
 
+        globalThis.addEventListener("promptgen:modechange", event => {
+            const mode = String(event.detail?.mode || "").trim();
+            if (mode) currentMode = mode;
+        });
+
         elements.clearStylePresetBtn.addEventListener("click", () => clearStylePreset(true));
         elements.stylePresetGrid.addEventListener("click", event => {
             const card = event.target.closest("[data-style-preset-id]");
@@ -382,6 +387,7 @@
 
     function handleFormChange(event) {
         if (!event.target || event.target.classList?.contains("searchable-input")) return;
+        if (!isCorePromptModeActive()) return;
         markFilled(event.target);
         if (currentMode === "outfit_catalog") {
             if (event.target === elements.catalogSubject) refreshCatalogCompatibility();
@@ -403,7 +409,16 @@
         elements.catalogCustomSettingRow.hidden = elements.catalogSetting.value !== "manual_setting";
     }
 
+    function activePromptModeId() {
+        return elements.activeModeBadge?.dataset?.mode || currentMode || "creative";
+    }
+
+    function isCorePromptModeActive() {
+        return ["creative", "outfit_catalog"].includes(activePromptModeId());
+    }
+
     function maybeGenerate() {
+        if (!isCorePromptModeActive()) return;
         if (asBoolean(database?.config?.autoGenerate, true)) generatePrompt();
     }
 
@@ -458,8 +473,10 @@
     }
 
     function generatePrompt() {
-        if (!database) return;
-        const prompt = currentMode === "outfit_catalog"
+        if (!database || !isCorePromptModeActive()) return "";
+        const activeMode = activePromptModeId();
+        currentMode = activeMode;
+        const prompt = activeMode === "outfit_catalog"
             ? CatalogPromptBuilder.build(collectCatalogState())
             : PromptBuilder.build(collectCreativeState());
         elements.output.value = prompt;
