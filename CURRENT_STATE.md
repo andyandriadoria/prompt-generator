@@ -265,11 +265,11 @@ Core fields:
 - Input Type
 - Project Type
 - Scene Type
-- Architecture Style
 - Sketch Style
+- Line Character
+- Sketch Color Mode
 - Paper / Medium
-- Line Quality
-- Color Treatment
+- Architecture Style
 - Lighting / Time
 - Atmosphere / Mood
 - Landscape / Context
@@ -279,19 +279,39 @@ Core fields:
 - Aspect Ratio
 - Extra Instruction
 
+Sketch Style is the primary visual controller. Production style families:
+1. Clean Facade Line Sketch
+2. Loose Concept Sketch
+3. Bold Ink Perspective Sketch
+4. Soft Watercolor Architectural Sketch
+5. Minimal Color Perspective Sketch
+6. Marker Presentation Sketch
+7. Urban Observational Sketch
+8. Marker / Mixed Media Sketch
+
+Defaults:
+- Sketch Style: `watercolor-sketch` → **Soft Watercolor Architectural Sketch**
+- Line Character: `balanced-line-weight` → **Refined Hand-Drawn**
+- Sketch Color Mode: `soft-muted-color-wash`
+- Paper / Medium: `white-sketchbook-paper` → **White Presentation Paper**
+
 Prompt behavior:
+- each Sketch Style carries its own style prompt, line rule, color rule, and avoid rule from Google Sheets CONFIG;
+- the builder no longer applies one universal heavy line-weight paragraph to every style;
+- watercolor / marker / color styles explicitly preserve visible linework and white-paper negative space instead of collapsing into graphite or grayscale;
+- Clean Facade and ink-oriented styles can remain monochrome when a monochrome Sketch Color Mode is selected;
 - `Reference Image / Existing Design` preserves the main architectural form, massing, proportions, openings, and spatial composition while translating the source into sketch language;
 - `Concept Prompt` builds the sketch from the user's concept and selected design directions;
 - `Design Brief / Idea` translates an architectural brief into a coherent sketch presentation;
 - landscape, architectural features, human scale figures, and extra instruction are conditional and omitted when empty / `None`;
-- the master prompt always applies architectural line-weight hierarchy: heavier primary / foreground lines, medium architectural edges and openings, lighter secondary detail, and very light background / construction guides;
-- the result is explicitly framed as a hand-rendered architectural presentation rather than a casual doodle or photorealistic render.
+- all styles explicitly reject photorealistic image, CGI, 3D visualization, polished archviz, and realistic digital-painting output;
+- selected style descriptions appear below the Sketch Style control to clarify the intended visual language.
 
 Data source:
 - mode registry: Google Sheets `PROMPT_MODES` row `architectural_sketch`;
-- all Architectural Sketch defaults and dropdown option datasets are stored in Google Sheets `CONFIG` using `defaultArchitecturalSketch*` and `architecturalSketch*` keys;
+- Architectural Sketch defaults and option datasets are stored in Google Sheets `CONFIG` using `defaultArchitecturalSketch*` and `architecturalSketch*` keys;
 - Aspect Ratio reuses the shared `ASPECT_RATIOS` collection;
-- the frontend includes mirrored safe fallbacks for offline / legacy fallback operation;
+- the frontend keeps mirrored safe fallbacks for API / cache failure;
 - no new Apps Script collection mapping is required because the mode data is carried through the existing CONFIG and PROMPT_MODES payloads.
 
 Implementation files:
@@ -303,7 +323,7 @@ Implementation files:
 
 Saved Prompt Library:
 - complete Architectural Sketch state is stored and restored;
-- saved cards use the Architectural Sketch mode identity and sketch-style / medium metadata.
+- stable existing Sketch Style IDs are retained where practical so previously saved states remain restorable.
 
 ## Prompt Style Presets
 
