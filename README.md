@@ -1,67 +1,98 @@
-# Prompt Gen 4.3 — Multi Mode
+# Prompt Gen 4.5
 
-Prompt Gen 4.3 is a static GitHub Pages web app backed by Google Sheets through a Google Apps Script JSON API.
+Prompt Gen is a static GitHub Pages AI image-prompt workstation backed by Google Sheets through a Google Apps Script JSON API.
 
-## Modes
+Production:
+- Website: https://andyandriadoria.github.io/prompt-generator/
+- Spreadsheet: `Database_Prompt_Gen_4_5`
+- UI: Obsidian UI
+- Deployment config: persistent `config.js`
 
-### 1. Creative Prompt Builder
-The existing flexible generator with:
-- Prompt Style Presets
-- Smart Compatibility
-- Searchable Dropdowns
-- Smart Random
-- Camera, lighting, setting and aspect ratio controls
+## Prompt Modes
 
-### 2. Reference Outfit Catalog
-A new strict template-driven generator for image-reference fashion workflows. It preserves the original outfit while changing the model, pose, framing and environment.
+1. Creative Prompt Builder
+2. Reference Outfit Catalog
+3. Reference Product Catalog
+4. Product Poster Builder
+5. Architectural Render
+6. Architectural Sketch Builder
 
-Default output pattern:
+## Workspaces
+
+- **Build** — authoring workspace for all active Prompt Modes.
+- **Saved** — local Saved Prompt Library using IndexedDB, with complete Build-state restore, optional result images, notes, search/filter, copy, edit, and delete.
+
+## Data Architecture
 
 ```text
-Without changing the existing outfit in any way, including its exact color, fabric, pattern, texture, cut, proportions, and every original detail, create a photorealistic image in a 4:5 aspect ratio.
-
-A young Indonesian hijabi girl wearing the exact outfit from the reference image, photographed for a modest children's clothing catalog inside an elegant luxury living room. Natural pose, age-appropriate presentation, medium shot.
-
-Family-friendly children's fashion photography. No text, no accessories that alter the outfit, and no modification or distortion of the clothing.
+Google Sheets
+    ↓
+Google Apps Script /exec
+    ↓
+config.js → data-loader.js
+    ↓
+mode controllers + prompt builders
+    ↓
+Generated Prompt
 ```
 
-## GitHub root files
+Google Sheets is the editable source of truth. `fallback.json` is only the resilience copy used when the API/cache path is unavailable.
 
-Upload/replace these in the repository root:
+## Architecture Mode Data
 
+Architectural option maintenance is row-based in Google Sheets:
+
+### ARCH_RENDER_OPTIONS
+Stores editable option content for:
+- Input Type
+- Design Fidelity
+- Realism Target
+
+Important columns:
+`GROUP · ID · LABEL · PROMPT · OPENING · CLOSING · DESCRIPTION · ACTIVE · SORT`
+
+### ARCH_SKETCH_OPTIONS
+Stores editable option content for:
+- Input Type
+- Scene Type
+- Sketch Style
+- Paper / Medium
+- Line Character
+- Sketch Color Mode
+- Lighting / Time
+- Atmosphere / Mood
+- Human Figure for Scale
+- Camera / View
+
+Important columns:
+`GROUP · ID · LABEL · PROMPT · DESCRIPTION · LINE_RULE · COLOR_RULE · AVOID · ACTIVE · SORT`
+
+The hidden `_JSON` columns and CONFIG JSON cells are generated automatically with formulas. Edit the visible option rows, not the generated JSON bridge.
+
+This bridge keeps the current Apps Script CONFIG payload compatible, so the 2026-09-19 architecture-option migration does **not** require an Apps Script redeploy.
+
+## Upgrade Rules
+
+- Do not overwrite production `config.js`.
+- Keep Google Sheets as the source of truth for content data.
+- Preserve stable IDs when editing existing options.
+- Prefer additive migrations.
+- Keep Obsidian UI and the shared monoline SVG icon system.
+- Sync `fallback.json` when production option data changes materially.
+
+## Main Frontend Files
+
+Core:
 - `index.html`
 - `style.css`
 - `app.js`
+- `data-loader.js`
 - `prompt-builder.js`
 - `catalog-prompt-builder.js`
 - `compatibility-engine.js`
 - `searchable-select.js`
-- `data-loader.js`
-- `fallback.json`
+- `icon-system.js`
 
-`README.md` is optional for the website but useful for the repository.
+Additional production modules include Product Catalog, Product Poster, Architectural Render, Architectural Sketch, Setting Preview, Outfit Focus, workspace navigation, and Saved Prompt Library modules.
 
-## Google Sheets upgrade
-
-For an existing Prompt Gen 4.2 database, use `Upgrade_4_2_to_4_3.xlsx` instead of replacing your whole spreadsheet. This protects rows you have already edited or added.
-
-For a fresh install, use `Database_Prompt_Gen_4_3.xlsx`.
-
-## Apps Script
-
-Copy `google-apps-script/Code.gs` into the Apps Script project, run `setup()` once, and deploy a **New version** of the existing Web App. The `/exec` URL stays the same.
-
-The API keeps the 4.2.2 cache-size fix: each collection is cached separately, and oversized collections are served without failing the API.
-
-## API source priority
-
-The browser uses:
-1. `?api=` URL parameter
-2. URL saved through **Save & Reload**
-3. `<meta name="prompt-api-url">` inside `index.html`
-
-For normal public use, set the meta URL and use **Reset Source** once on browsers that previously saved another URL.
-
-## Version
-
-Prompt Gen 4.3.0
+See `CURRENT_STATE.md` for the current production baseline and `CHANGELOG.md` for release history.
