@@ -36,7 +36,7 @@ mode controllers + prompt builders
 Generated Prompt
 ```
 
-Google Sheets is the editable source of truth. `fallback.json` is only the resilience copy used when the API/cache path is unavailable.
+Google Sheets is the editable source of truth. `fallback.json` is only the resilience copy used when the API/cache path is unavailable. Active `PROMPT_MODES` rows are mirrored into `fallback.json.promptModes` so production mode availability remains consistent during fallback operation.
 
 ## Architecture Mode Data
 
