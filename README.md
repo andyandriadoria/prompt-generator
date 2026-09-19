@@ -90,9 +90,13 @@ View / Projection is filtered by Scene Type using `SCENE_SCOPE`. Exterior defaul
 Annotations / Text defaults to **None — No Text or Annotations**. In this mode the prompt engine adds an explicit guard against generated signage, labels, logos, captions, handwritten notes, dates, signatures, watermarks, slogans, decorative lettering, and pseudo-text. Optional annotation modes are maintained as rows in the `annotation_text` group.
 
 Important columns:
-`GROUP · ID · LABEL · PROMPT · DESCRIPTION · LINE_RULE · COLOR_RULE · AVOID · ACTIVE · SORT · RECOMMENDED_SURFACE · SCENE_SCOPE`
+`GROUP · ID · LABEL · PROMPT · DESCRIPTION · LINE_RULE · COLOR_RULE · AVOID · ACTIVE · SORT · RECOMMENDED_SURFACE · SCENE_SCOPE · RECOMMENDED_LIGHTING · RECOMMENDED_HUMAN`
 
 `RECOMMENDED_SURFACE` is used on Sketch Style rows only. It stores comma-separated Paper / Surface IDs for guidance; recommendations never lock the user's selection.
+
+`RECOMMENDED_LIGHTING` is used on Scene Type rows for scene-aware Lighting smart defaults. `RECOMMENDED_HUMAN` is used on Sketch Style rows as a soft Human Presence / Scale recommendation only.
+
+Smart Defaults respect manual overrides. Paper / Surface, Lighting / Time, and View / Projection stop auto-following recommendations after the user changes them manually; Reset re-enables smart defaults. Saved Prompt restore is treated as manual state and is never overwritten by the recommendation engine.
 
 The hidden `_JSON` columns and CONFIG JSON cells are generated automatically with formulas. Edit the visible option rows, not the generated JSON bridge.
 
