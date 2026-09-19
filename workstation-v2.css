@@ -711,7 +711,7 @@ body.dark-mode .workstation-v2 .prompt-mode-icon {
 
 .workstation-v2 .style-preset-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(115px, 1fr));
+  grid-template-columns: repeat(5, minmax(115px, 1fr));
   gap: 8px;
 }
 
