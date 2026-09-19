@@ -258,7 +258,7 @@
     );
 
     const cameraOptions = (database.cameraAngles || []).filter(item => allowedCameraIds.has(item.id));
-    populateSelect(elements.archCamera, cameraOptions, "-- Preserve Reference View --", true);
+    populateSelect(elements.archCamera, cameraOptions, "Preserve Reference View", true);
 
     elements.archAspectRatio.innerHTML = "";
     const placeholder = new Option("-- Select Aspect Ratio --", "");
