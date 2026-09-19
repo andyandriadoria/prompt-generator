@@ -98,6 +98,8 @@ Important columns:
 
 Smart Defaults respect manual overrides. Paper / Surface, Lighting / Time, and View / Projection stop auto-following recommendations after the user changes them manually; Reset re-enables smart defaults. Saved Prompt restore is treated as manual state and is never overwritten by the recommendation engine.
 
+Architectural Sketch also provides **Sketch Random**. It varies only untouched controls and keeps manual selections locked until Reset. It uses `RECOMMENDED_SURFACE`, `RECOMMENDED_LIGHTING`, `RECOMMENDED_HUMAN`, and `SCENE_SCOPE` to keep random results coherent. Site / Context, Architectural Feature Emphasis, Extra Instruction, and Input Type are not invented by randomization.
+
 The hidden `_JSON` columns and CONFIG JSON cells are generated automatically with formulas. Edit the visible option rows, not the generated JSON bridge.
 
 This bridge keeps the current Apps Script CONFIG payload compatible, so the 2026-09-19 architecture-option migration does **not** require an Apps Script redeploy.
