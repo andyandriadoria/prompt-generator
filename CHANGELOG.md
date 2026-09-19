@@ -69,6 +69,22 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 UI — Workstation V2 Visual Migration (2026-09-20)
+
+- migrated the Build workspace to the approved creative-workstation visual direction while preserving Prompt Gen 4.5 logic and data contracts;
+- added fixed left sidebar navigation, compact topbar, large Build Your Prompt heading, and responsive three-zone desktop workstation layout;
+- moved Prompt DNA into the Build canvas and expanded it to seven visual steps: Subject / Scene / Style / Camera / Light / Frame / Output;
+- redesigned Prompt Mode cards as visual thumbnail cards for all six production modes;
+- redesigned Creative Style Presets as visual Style DNA cards using existing repository imagery;
+- reorganized mode fields into grouped Prompt Details cards while retaining original form IDs and mode-controller bindings;
+- added persistent dark Live Output with Prompt / Structure / Metadata tabs, copy control, deterministic readiness analysis, and a clearly labeled visual-direction preview;
+- moved Database connection into a sidebar utility drawer and added a lightweight Settings drawer while keeping existing controls intact;
+- added responsive tablet/mobile behavior: output stacks below Build content and workspace navigation becomes a bottom bar on mobile;
+- extended the shared monoline icon system with Settings / Camera and chevron alias support; no emoji UI introduced;
+- added `workstation-v2.js` and `workstation-v2.css` as the final presentation layer;
+- no Google Sheets content/schema changes;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Architectural Sketch Smart Random (2026-09-20)
 
 - enabled the Build Console random control for Architectural Sketch as **Sketch Random** with **Smart Sketch** guidance;
