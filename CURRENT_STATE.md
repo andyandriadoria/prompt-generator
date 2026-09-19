@@ -62,6 +62,8 @@ Active Prompt Modes:
 - Creative Prompt Builder
 - Reference Outfit Catalog
 - Reference Product Catalog (`ACTIVE = TRUE`)
+- Product Poster Builder (`ACTIVE = TRUE`)
+- Architectural Render (`ACTIVE = TRUE`)
 
 Reference Outfit Catalog additive collection:
 - `OUTFIT_FOCUS_STYLES`
@@ -207,6 +209,47 @@ Implementation files:
 - `product-catalog-mode.js`
 - `product-catalog-workspace.js`
 - `product-catalog.css`
+
+## Architectural Render Baseline
+
+Architectural Render is a dedicated reference-driven prompt mode for architectural visualization.
+
+Core fields:
+- Input Type
+- Project Type
+- Design Fidelity
+- Architecture Style
+- Building Materials
+- Lighting
+- Weather / Atmosphere
+- Landscape / Site
+- Camera / View
+- Aspect Ratio
+- Extra Instruction
+
+Design Fidelity is the master controller:
+- `STRICT` automatically locks Architecture Style to **Follow Reference / Do Not Restyle** and Camera / View to **Preserve Reference View**;
+- `Balanced` keeps the core design intact while allowing restrained style and framing refinements;
+- `Creative` allows controlled design development while keeping the core project identity recognizable.
+
+Prompt-engine rules:
+- Render Style is an internal default rather than a visible field;
+- Quality is an internal high-detail professional architectural-visualization default rather than a visible field;
+- STRICT preservation language protects geometry, massing, roof form, floor levels, facade proportions, openings, visible structure, setbacks, camera position, framing, lens relationship, and perspective;
+- when the requested ratio differs from the source, only surrounding sky / ground / site environment may be extended; the architecture must not be cropped, stretched, compressed, or redesigned to fit;
+- prompt wording is intentionally compact and avoids repeating the same camera / preservation instruction in multiple paragraphs.
+
+Implementation files:
+- `architectural-render-builder.js`
+- `architectural-render-mode.js`
+- `architectural-render.css`
+- shared loader in `workspace-tabs.js`
+- Saved Prompt Library integration in `prompt-saved-store.js`
+
+Data:
+- mode definition is stored in Google Sheets `PROMPT_MODES` as `architectural_render`;
+- existing shared `LIGHTING`, `CAMERA_ANGLES`, and `ASPECT_RATIOS` collections are reused;
+- no Apps Script redeploy is required for the current implementation.
 
 ## Prompt Style Presets
 
