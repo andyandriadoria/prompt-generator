@@ -61,7 +61,7 @@
 
   function cacheArchElements() {
     [
-      "architecturalRenderFields", "archInputType", "archProjectType", "archFidelity", "archArchitectureStyle",
+      "architecturalRenderFields", "archInputType", "archProjectType", "archFidelity", "archRealismTarget", "archArchitectureStyle",
       "archMaterials", "archLighting", "archAtmosphere", "archLandscape", "archCamera",
       "archAspectRatio", "archExtraInstruction", "archFidelityNote"
     ].forEach(id => elements[id] = document.getElementById(id));
@@ -106,6 +106,15 @@
           <option value="strict">STRICT — Preserve Design Exactly</option>
           <option value="balanced">Balanced — Preserve Design, Refine Presentation</option>
           <option value="creative">Creative — Controlled Design Development</option>
+        </select>
+      </div>
+
+      <div class="field-row">
+        <label for="archRealismTarget">Realism Target</label>
+        <select id="archRealismTarget">
+          <option value="photoreal-archviz">Photoreal Archviz — Polished Presentation</option>
+          <option value="hyper-real-photo" selected>Hyper-Real Architectural Photo</option>
+          <option value="documentary-site-photo">Documentary Site Photo — Natural & Honest</option>
         </select>
       </div>
 
@@ -280,6 +289,7 @@
     setSelectById(elements.archLighting, "daylight");
     elements.archInputType.value = elements.archInputType.value || "reference-image";
     elements.archFidelity.value = elements.archFidelity.value || "strict";
+    elements.archRealismTarget.value = elements.archRealismTarget.value || "hyper-real-photo";
 
     initSearchable();
     updateFidelityUi();
@@ -380,6 +390,7 @@
       inputType: elements.archInputType.value,
       projectType: elements.archProjectType.value.trim(),
       fidelity: elements.archFidelity.value,
+      realismTarget: elements.archRealismTarget.value || "hyper-real-photo",
       architectureStyle: strict ? "" : elements.archArchitectureStyle.value.trim(),
       materials: elements.archMaterials.value.trim(),
       lighting: lighting?.prompt || lighting?.label || "",
@@ -452,6 +463,7 @@
     elements.archInputType.value = "reference-image";
     elements.archProjectType.value = "";
     elements.archFidelity.value = "strict";
+    elements.archRealismTarget.value = "hyper-real-photo";
     lastEditableArchitectureStyle = "";
     elements.archArchitectureStyle.value = "";
     elements.archMaterials.value = "";
@@ -472,6 +484,7 @@
       archInputType: elements.archInputType.value,
       archProjectType: elements.archProjectType.value,
       archFidelity: elements.archFidelity.value,
+      archRealismTarget: elements.archRealismTarget.value,
       archArchitectureStyle: elements.archFidelity.value === "strict" ? lastEditableArchitectureStyle : elements.archArchitectureStyle.value,
       archMaterials: elements.archMaterials.value,
       archLighting: elements.archLighting.value,
@@ -490,6 +503,7 @@
     setSelect("archInputType", state.archInputType || "reference-image", missing, "Input Type");
     setText("archProjectType", state.archProjectType);
     setSelect("archFidelity", fidelity, missing, "Design Fidelity");
+    setSelect("archRealismTarget", state.archRealismTarget || "hyper-real-photo", missing, "Realism Target");
 
     if (fidelity === "strict") {
       const savedStyle = String(state.archArchitectureStyle || "").trim();
@@ -521,7 +535,7 @@
       Boolean(state.fidelity),
       Boolean(state.materials || state.architectureStyle),
       Boolean(state.atmosphere || state.landscape),
-      true
+      Boolean(state.realismTarget)
     ];
     [elements.dnaSubject, elements.dnaScene, elements.dnaStyle, elements.dnaCamera, elements.dnaLight].forEach((node, index) => {
       if (!node) return;
