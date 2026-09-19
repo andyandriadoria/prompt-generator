@@ -48,9 +48,9 @@
 
     const lighting = clean(state.lightingPrompt);
     const character = clean(state.moodPrompt);
-    const landscape = clean(state.landscape);
-    const features = clean(state.features);
-    const humanScale = clean(state.humanScalePrompt);
+    const siteContext = clean(state.landscape);
+    const featureEmphasis = clean(state.features);
+    const humanPresence = clean(state.humanScalePrompt);
     const camera = clean(state.cameraPrompt);
     const annotationMode = clean(state.annotationText) || "no-text";
     const annotationPrompt = clean(state.annotationTextPrompt);
@@ -76,13 +76,19 @@
       colorOverride ? "" : styleColorRule
     ].filter(Boolean).map(sentence).join(" ");
 
+    const featureInstruction = featureEmphasis
+      ? state.inputType === "reference-image"
+        ? `Architectural feature emphasis: emphasize only these features where they already exist in the reference: ${featureEmphasis}; do not invent, add, remove, relocate, resize, or redesign architectural elements to satisfy this instruction`
+        : `Architectural feature emphasis: include and emphasize these architectural elements: ${featureEmphasis}`
+      : "";
+
     const contextBlock = [
       lighting ? `Lighting / time: ${lighting}` : "",
       character ? `Atmosphere / character: ${character}` : "",
       camera ? `View / projection: ${camera}` : "",
-      landscape ? `Context: ${landscape}` : "",
-      features ? `Emphasize: ${features}` : "",
-      humanScale,
+      siteContext ? `Site / context: ${siteContext}` : "",
+      featureInstruction,
+      humanPresence ? `Human presence / scale: ${humanPresence}` : "",
       annotationMode !== "no-text" && annotationPrompt ? `Annotations / text: ${annotationPrompt}` : ""
     ].filter(Boolean).join("; ");
 
