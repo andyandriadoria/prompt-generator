@@ -69,6 +69,23 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Architectural Sketch Smart Random (2026-09-20)
+
+- enabled the Build Console random control for Architectural Sketch as **Sketch Random** with **Smart Sketch** guidance;
+- Sketch Random fills or varies only untouched controls and preserves user-chosen fields until Reset;
+- untouched Building Category/Type and Architectural Style Category/Style can be filled from the shared Architecture Taxonomy;
+- Scene Type randomization remains compatible with a manually locked View / Projection;
+- Sketch Style selection prefers compatibility with a manually locked Paper / Surface;
+- unlocked Paper / Surface follows the selected style's recommended surfaces;
+- unlocked Lighting / Time follows the selected Scene Type recommendation;
+- unlocked Human Presence / Scale follows the Sketch Style recommendation, with occasional `None` for architecture-only output;
+- View / Projection is randomized only from options allowed by the selected Scene Type;
+- Annotations / Text remains `no-text`, and Advanced Line/Color remain Auto unless explicitly changed by the user;
+- Input Type, Site / Context, Architectural Feature Emphasis, and Extra Instruction are not auto-generated;
+- Saved Prompt restore and Refresh Now preserve Sketch Random manual-lock behavior;
+- no Google Sheets or API contract change required;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Prompt Output Ownership Fix (2026-09-20)
 
 - fixed stale Generated Prompt output when switching from **Reference Outfit Catalog** to Reference Product Catalog, Product Poster Builder, Architectural Render, or Architectural Sketch Builder;
