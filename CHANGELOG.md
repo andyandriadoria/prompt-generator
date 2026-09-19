@@ -69,6 +69,19 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Scene-Aware View / Projection (2026-09-19)
+
+- renamed Architectural Sketch `Camera / View` to `View / Projection`;
+- replaced the mixed camera/framing/style list with architectural view types: Eye-Level Perspective, Three-Quarter Perspective, Interior Corner Perspective, Frontal Perspective, Elevated Perspective, Wide Context View, Axonometric / Isometric, Orthographic Elevation, and Section Perspective;
+- added `SCENE_SCOPE` to `ARCH_SKETCH_OPTIONS` and renamed the option group from `camera_view` to `view_projection`;
+- Exterior now exposes Eye-Level, Three-Quarter, Frontal, Elevated, Wide Context, Axonometric / Isometric, and Orthographic Elevation;
+- Interior now exposes Eye-Level, Interior Corner, Frontal, Wide Context, Axonometric / Isometric, and Section Perspective;
+- added scene-aware defaults: Exterior → `three-quarter-exterior`; Interior → `interior-corner`;
+- kept the Saved Prompt state key `archSketchCameraView` internally for compatibility while presenting View / Projection in the UI;
+- retired legacy `frontal-elevation` and `sketchbook-perspective` from active options and added restore aliases to Frontal Perspective and Eye-Level Perspective;
+- synchronized CONFIG JSON bridge and `fallback.json`;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Lighting / Character Separation (2026-09-19)
 
 - renamed Architectural Sketch `Atmosphere / Mood` to `Atmosphere / Character`;
