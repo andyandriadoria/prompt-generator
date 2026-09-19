@@ -20,36 +20,38 @@
       {id:"interior",label:"Interior",prompt:"an interior architectural view"}
     ],
     sketchStyles: [
-      {id:"loose-pencil",label:"Loose Pencil Sketch",prompt:"a loose hand-drawn pencil architectural sketch with exploratory construction lines and expressive strokes"},
-      {id:"refined-line-drawing",label:"Refined Architectural Line Drawing",prompt:"a refined architectural line drawing with controlled edges, clear spatial hierarchy, and professional presentation quality"},
-      {id:"pen-ink",label:"Pen and Ink Sketch",prompt:"a pen-and-ink architectural sketch with crisp linework, selective hatching, and confident hand-drawn detail"},
-      {id:"marker-sketch",label:"Marker Sketch",prompt:"an architectural marker sketch with clean linework, broad tonal markers, and presentation-studio character"},
-      {id:"watercolor-sketch",label:"Watercolor Architectural Sketch",prompt:"a hand-drawn architectural sketch enhanced with transparent watercolor washes and restrained pigment variation"},
-      {id:"concept-presentation",label:"Concept Presentation Sketch",prompt:"a polished architectural concept presentation sketch balancing design clarity with expressive hand-drawn character"},
-      {id:"urban-sketch",label:"Urban Sketch Style",prompt:"an urban-sketch architectural illustration with lively observational linework, selective color, and natural context"},
-      {id:"mixed-media",label:"Mixed Media Architectural Sketch",prompt:"a mixed-media architectural sketch combining linework, tonal shading, and restrained hand-rendered color accents"}
+      {id:"refined-line-drawing",label:"Clean Facade Line Sketch",description:"Clean, controlled facade or elevation-style sketch with crisp architectural ink linework and generous white space.",prompt:"a clean architectural facade line sketch with refined black ink linework, precise proportions, restrained hatching, and generous white-paper negative space",line_rule:"Use crisp controlled outlines with a clear but restrained line hierarchy. Keep construction marks minimal and secondary.",color_rule:"Keep color subordinate to the linework. If a color treatment is selected, use it only as a light architectural accent rather than a full painted layer.",avoid:"Avoid graphite-heavy shading, dense pencil texture, photorealistic rendering, CGI, and polished 3D archviz."},
+      {id:"loose-pencil",label:"Loose Concept Sketch",description:"Exploratory architect-style ideation sketch with loose construction lines, gesture, and spontaneous design-study energy.",prompt:"a loose conceptual architectural sketch with exploratory hand-drawn lines, visible construction guides, quick gestural strokes, simplified entourage, and intentional sketch imperfections",line_rule:"Allow construction lines, overlaps, guide marks, and varied stroke pressure to remain visible. Prioritize concept clarity over polished finish.",color_rule:"Keep color minimal unless a color treatment is selected; any added wash should remain loose and secondary to the exploratory linework.",avoid:"Avoid polished finished-render appearance, dense photoreal shading, CGI, and overly clean computer-generated edges."},
+      {id:"pen-ink",label:"Bold Ink Perspective Sketch",description:"Strong pen-and-ink architectural perspective with bold contours, crosshatching, and presentation-sketch contrast.",prompt:"a bold pen-and-ink architectural perspective sketch with strong contour weight, expressive crosshatching, selective dark accents, and confident presentation-oriented composition",line_rule:"Use stronger foreground contours, decisive architectural edges, and expressive hatch patterns to describe depth, shadow, materials, and planting.",color_rule:"Keep ink dominant. If color is selected, apply only restrained washes or accents that do not weaken the bold pen-and-ink character.",avoid:"Avoid soft graphite rendering, airbrushed digital painting, photorealistic textures, CGI, and 3D-render sheen."},
+      {id:"watercolor-sketch",label:"Soft Watercolor Architectural Sketch",description:"Fine architectural ink linework with transparent watercolor washes, visible white paper, and a professional hand-rendered presentation feel.",prompt:"a soft watercolor architectural presentation sketch with fine ink outlines, visible hand-drawn construction traces, transparent layered watercolor washes, and generous areas of clean white paper",line_rule:"Keep the architectural ink drawing clearly visible beneath the watercolor. Use fine-to-medium line weight and avoid heavy black fill or dense graphite shading.",color_rule:"Use transparent, soft, natural watercolor washes with restrained saturation. Preserve white paper between washes and allow slight pigment variation and imperfect hand-painted edges.",avoid:"Do not collapse into monochrome graphite or grayscale. Avoid heavy pencil shading, opaque digital painting, photorealism, CGI, and polished 3D visualization."},
+      {id:"concept-presentation",label:"Minimal Color Perspective Sketch",description:"Airy contemporary architecture sketch with light linework, selective muted color blocks, and abundant white background.",prompt:"a minimalist architectural perspective sketch with light refined linework, airy white-paper composition, selective muted color blocks, and contemporary presentation-board clarity",line_rule:"Use delicate architectural outlines, sparse construction guides, and only enough line weight to establish depth and key forms.",color_rule:"Apply color selectively to focal materials, furniture, vegetation, or surfaces while leaving large areas of white paper untouched.",avoid:"Avoid dense hatching, heavy graphite tone, fully painted coverage, photorealistic rendering, CGI, and saturated illustration."},
+      {id:"marker-sketch",label:"Marker Presentation Sketch",description:"Professional architecture marker sketch with ink outlines, broad tonal strokes, and controlled presentation-studio color.",prompt:"a professional architectural marker presentation sketch with clean ink outlines, broad marker tonal strokes, layered shadow blocks, and restrained studio-presentation color",line_rule:"Keep clear ink contours and readable architectural edges while allowing confident marker strokes and simplified tonal masses.",color_rule:"Use marker-like color blocks with restrained saturation, visible stroke character, and clear white-paper breathing space.",avoid:"Avoid photorealistic materials, smooth airbrushed gradients, CGI, digital-render perfection, and overly dense full-page color."},
+      {id:"urban-sketch",label:"Urban Observational Sketch",description:"Lively observational architecture sketch with expressive linework, simplified context, and selective urban color.",prompt:"an urban observational architectural sketch with lively hand-drawn ink lines, simplified surrounding context, expressive vegetation and people, and selective location-inspired color",line_rule:"Use lively varied strokes and quick descriptive marks rather than rigid technical precision. Keep the architecture clearly readable.",color_rule:"Use selective natural washes or accents to suggest atmosphere and context while retaining a sketchbook character.",avoid:"Avoid sterile CAD-like lines, photorealistic rendering, CGI, and over-finished architectural visualization."},
+      {id:"mixed-media",label:"Marker / Mixed Media Sketch",description:"Layered architecture presentation sketch combining ink, construction lines, marker blocks, and soft wash accents.",prompt:"a mixed-media architectural presentation sketch combining ink outlines, loose construction marks, marker tonal blocks, and restrained watercolor-style accents",line_rule:"Layer precise architectural lines with looser secondary marks so the drawing feels intentionally hand-built rather than digitally flattened.",color_rule:"Combine marker blocks and soft washes selectively, preserving visible linework and white-paper negative space.",avoid:"Avoid photorealistic rendering, glossy CGI surfaces, fully opaque digital painting, and uniform computer-generated linework."}
     ],
     media: [
-      {id:"white-sketchbook-paper",label:"White Sketchbook Paper",prompt:"clean white sketchbook paper with subtle natural paper grain"},
-      {id:"cream-toned-paper",label:"Cream Toned Paper",prompt:"warm cream-toned drawing paper with a refined natural texture"},
-      {id:"tracing-paper",label:"Tracing Paper",prompt:"translucent architectural tracing paper with visible layered drawing character"},
-      {id:"watercolor-paper",label:"Watercolor Paper",prompt:"textured watercolor paper with visible tooth and natural pigment absorption"},
-      {id:"marker-paper",label:"Marker Paper",prompt:"smooth professional marker paper suitable for clean architectural presentation strokes"},
-      {id:"presentation-board",label:"Presentation Board Style",prompt:"a clean architectural presentation-board surface with a refined studio-rendered sketch feel"}
+      {id:"white-sketchbook-paper",label:"White Presentation Paper",prompt:"clean white architectural presentation paper with only a very subtle natural grain; keep the paper texture secondary to the drawing"},
+      {id:"cream-toned-paper",label:"Cream Toned Paper",prompt:"warm cream-toned architectural drawing paper with a subtle refined texture"},
+      {id:"tracing-paper",label:"Tracing Paper",prompt:"translucent architectural tracing paper with layered sketch character and faint underlying guide lines"},
+      {id:"watercolor-paper",label:"Watercolor Paper",prompt:"lightly textured watercolor paper with subtle tooth and natural wash absorption, without an exaggerated paper-grain effect"},
+      {id:"marker-paper",label:"Marker Paper",prompt:"smooth professional marker paper with clean white space and controlled ink-and-marker response"},
+      {id:"presentation-board",label:"Presentation Board Style",prompt:"a clean white architectural presentation-board surface with restrained studio-sketch character"}
     ],
     lineQualities: [
-      {id:"clean-technical",label:"Clean Technical Linework",prompt:"precise, clean technical linework with disciplined edges and restrained construction marks"},
-      {id:"balanced-line-weight",label:"Balanced Architectural Line Weight",prompt:"balanced architectural line weight with strong foreground hierarchy and lighter secondary detail"},
-      {id:"expressive-hand-drawn",label:"Expressive Hand-Drawn Linework",prompt:"expressive hand-drawn linework with visible gesture, varied pressure, and controlled imperfection"},
-      {id:"soft-loose-lines",label:"Soft Loose Sketch Lines",prompt:"soft loose sketch lines with light construction strokes and relaxed architectural definition"}
+      {id:"clean-technical",label:"Crisp Technical",prompt:"crisp disciplined architectural linework with precise edges and restrained construction marks"},
+      {id:"balanced-line-weight",label:"Refined Hand-Drawn",prompt:"refined hand-drawn architectural linework with natural variation and a controlled presentation-quality hierarchy"},
+      {id:"expressive-hand-drawn",label:"Loose Expressive",prompt:"loose expressive hand-drawn lines with visible gesture, overlap, varied pressure, and controlled imperfection"},
+      {id:"soft-loose-lines",label:"Soft Loose Lines",prompt:"soft loose sketch lines with light construction strokes and relaxed architectural definition"},
+      {id:"bold-sketchy",label:"Bold Sketchy",prompt:"bold energetic sketch lines with strong contour emphasis, expressive hatching, and visible stroke character"},
+      {id:"delicate-fine-line",label:"Delicate Fine Line",prompt:"delicate fine architectural lines with elegant detail, light hierarchy, and minimal visual heaviness"}
     ],
     colorTreatments: [
-      {id:"black-white",label:"Black and White",prompt:"black-and-white drawing treatment with no added color"},
-      {id:"warm-gray-monochrome",label:"Warm Gray Monochrome",prompt:"warm gray monochrome shading with restrained tonal depth"},
-      {id:"soft-muted-color-wash",label:"Soft Muted Color Wash",prompt:"soft muted color washes applied selectively over the linework"},
-      {id:"watercolor-tint",label:"Watercolor Tint",prompt:"transparent watercolor tinting with natural pigment variation"},
-      {id:"marker-accent-color",label:"Marker Accent Color",prompt:"controlled marker accent colors used sparingly to emphasize key architectural elements"},
-      {id:"light-natural-color",label:"Light Natural Color",prompt:"light naturalistic color rendering with restrained saturation and preserved sketch character"}
+      {id:"black-white",label:"Black & White",prompt:"black-and-white ink drawing treatment with no added color"},
+      {id:"warm-gray-monochrome",label:"Monochrome Warm Gray",prompt:"warm-gray monochrome shading with subtle tonal variation and preserved white-paper areas"},
+      {id:"soft-muted-color-wash",label:"Soft Muted Color Wash",prompt:"soft muted color washes applied selectively over the linework with restrained saturation and visible white paper"},
+      {id:"watercolor-tint",label:"Full Soft Watercolor",prompt:"soft transparent watercolor color across the key architectural and environmental elements while keeping the linework visible and the paper airy"},
+      {id:"marker-accent-color",label:"Selective Accent Color",prompt:"mostly neutral sketch rendering with controlled accent colors applied only to selected focal surfaces, furniture, vegetation, or architectural elements"},
+      {id:"light-natural-color",label:"Light Natural Color",prompt:"light natural color rendering with restrained saturation, subtle material cues, and preserved hand-sketched character"}
     ],
     lighting: [
       {id:"morning-light",label:"Morning Light",prompt:"soft morning light with gentle directional shadows"},
@@ -135,7 +137,7 @@
       "archSketchArchitectureStyle", "archSketchStyle", "archSketchMedium", "archSketchLineQuality",
       "archSketchColorTreatment", "archSketchLighting", "archSketchMood", "archSketchLandscape",
       "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAspectRatio",
-      "archSketchExtraInstruction", "archSketchTip"
+      "archSketchExtraInstruction", "archSketchStyleHint", "archSketchTip"
     ].forEach(id => elements[id] = document.getElementById(id));
   }
 
@@ -160,11 +162,11 @@
       <div class="field-row"><label for="archSketchInputType">Input Type</label><select id="archSketchInputType"></select></div>
       <div class="field-row"><label for="archSketchProjectType">Project Type</label><input id="archSketchProjectType" type="text" placeholder="Example: private residence, tropical villa, boutique café, mosque courtyard"></div>
       <div class="field-row"><label for="archSketchSceneType">Scene Type</label><select id="archSketchSceneType"></select></div>
-      <div class="field-row"><label for="archSketchArchitectureStyle">Architecture Style</label><input id="archSketchArchitectureStyle" type="text" placeholder="Example: tropical modern, contemporary minimalist, Mediterranean, Japandi"></div>
-      <div class="field-row"><label for="archSketchStyle">Sketch Style</label><select id="archSketchStyle"></select></div>
+      <div class="field-row"><label for="archSketchStyle">Sketch Style</label><div><select id="archSketchStyle"></select><p class="help-text arch-sketch-style-hint" id="archSketchStyleHint"></p></div></div>
+      <div class="field-row"><label for="archSketchLineQuality">Line Character</label><select id="archSketchLineQuality"></select></div>
+      <div class="field-row"><label for="archSketchColorTreatment">Sketch Color Mode</label><select id="archSketchColorTreatment"></select></div>
       <div class="field-row"><label for="archSketchMedium">Paper / Medium</label><select id="archSketchMedium"></select></div>
-      <div class="field-row"><label for="archSketchLineQuality">Line Quality</label><select id="archSketchLineQuality"></select></div>
-      <div class="field-row"><label for="archSketchColorTreatment">Color Treatment</label><select id="archSketchColorTreatment"></select></div>
+      <div class="field-row"><label for="archSketchArchitectureStyle">Architecture Style</label><input id="archSketchArchitectureStyle" type="text" placeholder="Example: tropical modern, contemporary minimalist, Mediterranean, Japandi"></div>
       <div class="field-row"><label for="archSketchLighting">Lighting / Time</label><select id="archSketchLighting"></select></div>
       <div class="field-row"><label for="archSketchMood">Atmosphere / Mood</label><select id="archSketchMood"></select></div>
       <div class="field-row"><label for="archSketchLandscape">Landscape / Context <span class="optional-label">optional</span></label><textarea id="archSketchLandscape" class="short-textarea" placeholder="Example: restrained tropical planting, stone paving, reflective pond, urban sidewalk"></textarea></div>
@@ -195,7 +197,10 @@
     }, true);
 
     elements.architecturalSketchFields.addEventListener("input", () => generate(false));
-    elements.architecturalSketchFields.addEventListener("change", () => generate(false));
+    elements.architecturalSketchFields.addEventListener("change", event => {
+      if (event.target === elements.archSketchStyle) updateStyleHint();
+      generate(false);
+    });
 
     elements.generatePromptBtn?.addEventListener("click", event => {
       if (!active) return;
@@ -319,6 +324,7 @@
 
     applyDefaults();
     initSearchable();
+    updateStyleHint();
     if (active) generate(false);
   }
 
@@ -329,6 +335,10 @@
     (items || []).forEach(item => {
       const option = new Option(item.label || item.id, item.id);
       option.dataset.prompt = item.prompt || "";
+      option.dataset.description = item.description || "";
+      option.dataset.lineRule = item.line_rule || "";
+      option.dataset.colorRule = item.color_rule || "";
+      option.dataset.avoid = item.avoid || "";
       option.dataset.id = item.id || "";
       select.append(option);
     });
@@ -339,7 +349,7 @@
     const config = database?.config || {};
     setValue(elements.archSketchInputType, config.defaultArchitecturalSketchInputType || "concept-prompt");
     setValue(elements.archSketchSceneType, config.defaultArchitecturalSketchSceneType || "exterior");
-    setValue(elements.archSketchStyle, config.defaultArchitecturalSketchStyle || "refined-line-drawing");
+    setValue(elements.archSketchStyle, config.defaultArchitecturalSketchStyle || "watercolor-sketch");
     setValue(elements.archSketchMedium, config.defaultArchitecturalSketchMedium || "white-sketchbook-paper");
     setValue(elements.archSketchLineQuality, config.defaultArchitecturalSketchLineQuality || "balanced-line-weight");
     setValue(elements.archSketchColorTreatment, config.defaultArchitecturalSketchColorTreatment || "soft-muted-color-wash");
@@ -378,6 +388,16 @@
     return select?.selectedOptions?.[0]?.textContent?.trim() || "";
   }
 
+  function selectedMeta(select, key) {
+    return select?.selectedOptions?.[0]?.dataset?.[key] || "";
+  }
+
+  function updateStyleHint() {
+    if (!elements.archSketchStyleHint) return;
+    const description = selectedMeta(elements.archSketchStyle, "description");
+    elements.archSketchStyleHint.textContent = description || "Choose the visual sketch language; line character and color mode refine it further.";
+  }
+
   function collectState() {
     return {
       inputType: elements.archSketchInputType.value,
@@ -390,6 +410,9 @@
       sketchStyle: elements.archSketchStyle.value,
       sketchStyleLabel: selectedLabel(elements.archSketchStyle),
       sketchStylePrompt: selectedPrompt(elements.archSketchStyle),
+      sketchStyleLineRule: selectedMeta(elements.archSketchStyle, "lineRule"),
+      sketchStyleColorRule: selectedMeta(elements.archSketchStyle, "colorRule"),
+      sketchStyleAvoid: selectedMeta(elements.archSketchStyle, "avoid"),
       medium: elements.archSketchMedium.value,
       mediumLabel: selectedLabel(elements.archSketchMedium),
       mediumPrompt: selectedPrompt(elements.archSketchMedium),
@@ -444,9 +467,10 @@
       elements.activeModeBadge.dataset.mode = MODE_ID;
     }
     if (elements.randomModeTitle) elements.randomModeTitle.textContent = "Architectural Sketch Controls";
-    if (elements.randomModeHint) elements.randomModeHint.textContent = "Project, sketch style, medium, line hierarchy, color, context, and presentation";
+    if (elements.randomModeHint) elements.randomModeHint.textContent = "Choose a sketch family first, then refine line character, color, medium, context, and view";
     if (elements.outputTipTitle) elements.outputTipTitle.textContent = "Architectural sketch tip";
-    if (elements.outputTipText) elements.outputTipText.textContent = "Use this mode for concept sketches, presentation illustrations, and hand-drawn architectural visuals. Attach a reference image when Reference Image / Existing Design is selected.";
+    if (elements.outputTipText) elements.outputTipText.textContent = "Sketch Style is the main visual controller. Watercolor, ink, concept, marker, and line-sketch families use different prompt behavior; Line Character and Sketch Color Mode refine the selected family.";
+    updateStyleHint();
 
     elements.promptModeGrid.querySelectorAll("[data-prompt-mode-id]").forEach(card => {
       const on = card.dataset.promptModeId === MODE_ID;
@@ -475,6 +499,7 @@
     elements.archSketchExtraInstruction.value = "";
     applyDefaults();
     searchable.forEach(control => control.syncFromNative?.());
+    updateStyleHint();
     generate(false);
     showMessage("Architectural Sketch form reset.");
   }
