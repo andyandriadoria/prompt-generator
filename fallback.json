@@ -30,7 +30,28 @@
     "defaultCatalogPose": "natural-pose",
     "defaultCatalogShot": "medium-shot",
     "defaultCatalogSubject": "young-indonesian-hijabi-girl",
-    "defaultCatalogSetting": "luxury-living-room"
+    "defaultCatalogSetting": "luxury-living-room",
+    "defaultArchitecturalSketchInputType": "concept-prompt",
+    "defaultArchitecturalSketchSceneType": "exterior",
+    "defaultArchitecturalSketchStyle": "refined-line-drawing",
+    "defaultArchitecturalSketchMedium": "white-sketchbook-paper",
+    "defaultArchitecturalSketchLineQuality": "balanced-line-weight",
+    "defaultArchitecturalSketchColorTreatment": "soft-muted-color-wash",
+    "defaultArchitecturalSketchLighting": "morning-light",
+    "defaultArchitecturalSketchMood": "calm",
+    "defaultArchitecturalSketchHumanScale": "none",
+    "defaultArchitecturalSketchCameraView": "eye-level-perspective",
+    "defaultArchitecturalSketchAspectRatio": "4:5",
+    "architecturalSketchInputTypes": "[{\"id\":\"concept-prompt\",\"label\":\"Concept Prompt\",\"prompt\":\"Create the architectural sketch from the described concept and selected design directions.\"},{\"id\":\"reference-image\",\"label\":\"Reference Image / Existing Design\",\"prompt\":\"Use the provided architectural reference image as the design basis. Preserve the main architectural form, massing, proportions, openings, and overall spatial composition while translating it into a sketch-style architectural presentation.\"},{\"id\":\"design-brief\",\"label\":\"Design Brief / Idea\",\"prompt\":\"Translate the supplied architectural design brief or idea into a coherent architectural sketch presentation with believable form, proportion, and spatial logic.\"}]",
+    "architecturalSketchSceneTypes": "[{\"id\":\"exterior\",\"label\":\"Exterior\",\"prompt\":\"an exterior architectural view\"},{\"id\":\"interior\",\"label\":\"Interior\",\"prompt\":\"an interior architectural view\"}]",
+    "architecturalSketchStyles": "[{\"id\":\"loose-pencil\",\"label\":\"Loose Pencil Sketch\",\"prompt\":\"a loose hand-drawn pencil architectural sketch with exploratory construction lines and expressive strokes\"},{\"id\":\"refined-line-drawing\",\"label\":\"Refined Architectural Line Drawing\",\"prompt\":\"a refined architectural line drawing with controlled edges, clear spatial hierarchy, and professional presentation quality\"},{\"id\":\"pen-ink\",\"label\":\"Pen and Ink Sketch\",\"prompt\":\"a pen-and-ink architectural sketch with crisp linework, selective hatching, and confident hand-drawn detail\"},{\"id\":\"marker-sketch\",\"label\":\"Marker Sketch\",\"prompt\":\"an architectural marker sketch with clean linework, broad tonal markers, and presentation-studio character\"},{\"id\":\"watercolor-sketch\",\"label\":\"Watercolor Architectural Sketch\",\"prompt\":\"a hand-drawn architectural sketch enhanced with transparent watercolor washes and restrained pigment variation\"},{\"id\":\"concept-presentation\",\"label\":\"Concept Presentation Sketch\",\"prompt\":\"a polished architectural concept presentation sketch balancing design clarity with expressive hand-drawn character\"},{\"id\":\"urban-sketch\",\"label\":\"Urban Sketch Style\",\"prompt\":\"an urban-sketch architectural illustration with lively observational linework, selective color, and natural context\"},{\"id\":\"mixed-media\",\"label\":\"Mixed Media Architectural Sketch\",\"prompt\":\"a mixed-media architectural sketch combining linework, tonal shading, and restrained hand-rendered color accents\"}]",
+    "architecturalSketchMedia": "[{\"id\":\"white-sketchbook-paper\",\"label\":\"White Sketchbook Paper\",\"prompt\":\"clean white sketchbook paper with subtle natural paper grain\"},{\"id\":\"cream-toned-paper\",\"label\":\"Cream Toned Paper\",\"prompt\":\"warm cream-toned drawing paper with a refined natural texture\"},{\"id\":\"tracing-paper\",\"label\":\"Tracing Paper\",\"prompt\":\"translucent architectural tracing paper with visible layered drawing character\"},{\"id\":\"watercolor-paper\",\"label\":\"Watercolor Paper\",\"prompt\":\"textured watercolor paper with visible tooth and natural pigment absorption\"},{\"id\":\"marker-paper\",\"label\":\"Marker Paper\",\"prompt\":\"smooth professional marker paper suitable for clean architectural presentation strokes\"},{\"id\":\"presentation-board\",\"label\":\"Presentation Board Style\",\"prompt\":\"a clean architectural presentation-board surface with a refined studio-rendered sketch feel\"}]",
+    "architecturalSketchLineQualities": "[{\"id\":\"clean-technical\",\"label\":\"Clean Technical Linework\",\"prompt\":\"precise, clean technical linework with disciplined edges and restrained construction marks\"},{\"id\":\"balanced-line-weight\",\"label\":\"Balanced Architectural Line Weight\",\"prompt\":\"balanced architectural line weight with strong foreground hierarchy and lighter secondary detail\"},{\"id\":\"expressive-hand-drawn\",\"label\":\"Expressive Hand-Drawn Linework\",\"prompt\":\"expressive hand-drawn linework with visible gesture, varied pressure, and controlled imperfection\"},{\"id\":\"soft-loose-lines\",\"label\":\"Soft Loose Sketch Lines\",\"prompt\":\"soft loose sketch lines with light construction strokes and relaxed architectural definition\"}]",
+    "architecturalSketchColorTreatments": "[{\"id\":\"black-white\",\"label\":\"Black and White\",\"prompt\":\"black-and-white drawing treatment with no added color\"},{\"id\":\"warm-gray-monochrome\",\"label\":\"Warm Gray Monochrome\",\"prompt\":\"warm gray monochrome shading with restrained tonal depth\"},{\"id\":\"soft-muted-color-wash\",\"label\":\"Soft Muted Color Wash\",\"prompt\":\"soft muted color washes applied selectively over the linework\"},{\"id\":\"watercolor-tint\",\"label\":\"Watercolor Tint\",\"prompt\":\"transparent watercolor tinting with natural pigment variation\"},{\"id\":\"marker-accent-color\",\"label\":\"Marker Accent Color\",\"prompt\":\"controlled marker accent colors used sparingly to emphasize key architectural elements\"},{\"id\":\"light-natural-color\",\"label\":\"Light Natural Color\",\"prompt\":\"light naturalistic color rendering with restrained saturation and preserved sketch character\"}]",
+    "architecturalSketchLighting": "[{\"id\":\"morning-light\",\"label\":\"Morning Light\",\"prompt\":\"soft morning light with gentle directional shadows\"},{\"id\":\"midday\",\"label\":\"Midday\",\"prompt\":\"clear midday illumination with readable form and restrained contrast\"},{\"id\":\"golden-hour\",\"label\":\"Golden Hour\",\"prompt\":\"warm golden-hour light with elongated soft-edged shadows\"},{\"id\":\"overcast-day\",\"label\":\"Overcast Day\",\"prompt\":\"soft overcast daylight with diffuse shadows and calm tonal balance\"},{\"id\":\"soft-interior-daylight\",\"label\":\"Soft Interior Daylight\",\"prompt\":\"soft interior daylight entering naturally through openings and windows\"},{\"id\":\"evening-ambience\",\"label\":\"Evening Ambience\",\"prompt\":\"subtle evening ambience with warm architectural lighting accents\"}]",
+    "architecturalSketchMoods": "[{\"id\":\"calm\",\"label\":\"Calm\",\"prompt\":\"a calm and composed atmosphere\"},{\"id\":\"cozy\",\"label\":\"Cozy\",\"prompt\":\"a warm, cozy, approachable atmosphere\"},{\"id\":\"serene\",\"label\":\"Serene\",\"prompt\":\"a serene and tranquil architectural atmosphere\"},{\"id\":\"rainy\",\"label\":\"Rainy\",\"prompt\":\"a gentle rainy atmosphere with subtle wet-surface cues\"},{\"id\":\"moody\",\"label\":\"Moody\",\"prompt\":\"a moody atmospheric character with controlled contrast\"},{\"id\":\"airy\",\"label\":\"Airy\",\"prompt\":\"an airy, light, open atmosphere\"},{\"id\":\"dramatic\",\"label\":\"Dramatic\",\"prompt\":\"a dramatic presentation atmosphere with stronger tonal emphasis\"},{\"id\":\"lively\",\"label\":\"Lively\",\"prompt\":\"a lively inhabited atmosphere while keeping the architecture visually dominant\"}]",
+    "architecturalSketchHumanScale": "[{\"id\":\"none\",\"label\":\"None\",\"prompt\":\"\"},{\"id\":\"minimal-scale-figures\",\"label\":\"Minimal Scale Figures\",\"prompt\":\"include a few minimal human scale figures, kept visually secondary to the architecture\"},{\"id\":\"silhouette-figures\",\"label\":\"Silhouette Figures\",\"prompt\":\"include restrained human silhouettes to communicate scale without drawing attention away from the architecture\"},{\"id\":\"casual-people-scale\",\"label\":\"Casual People for Scale\",\"prompt\":\"include a small number of casually posed people to communicate believable architectural scale\"}]",
+    "architecturalSketchCameraViews": "[{\"id\":\"eye-level-perspective\",\"label\":\"Eye-Level Perspective\",\"prompt\":\"an eye-level architectural perspective with natural human-scale viewpoint\"},{\"id\":\"wide-perspective\",\"label\":\"Wide Perspective View\",\"prompt\":\"a wide architectural perspective showing the overall spatial composition clearly\"},{\"id\":\"three-quarter-exterior\",\"label\":\"Three-Quarter Exterior View\",\"prompt\":\"a three-quarter exterior perspective revealing depth across two principal facades\"},{\"id\":\"frontal-elevation\",\"label\":\"Frontal Elevation-Like View\",\"prompt\":\"a largely frontal elevation-like architectural view with controlled perspective depth\"},{\"id\":\"interior-corner\",\"label\":\"Interior Corner Perspective\",\"prompt\":\"an interior corner perspective that clearly communicates depth, openings, and spatial relationships\"},{\"id\":\"sketchbook-perspective\",\"label\":\"Sketchbook Perspective\",\"prompt\":\"a natural sketchbook-style perspective with slightly informal but believable architectural framing\"}]"
   },
   "stylePresets": [
     {
@@ -5011,6 +5032,22 @@
         "outfit",
         "catalog",
         "fashion"
+      ]
+    },
+    {
+      "id": "architectural_sketch",
+      "label": "Architectural Sketch Builder",
+      "icon": "drafting",
+      "description": "Build hand-drawn architectural sketch prompts for concept studies, reference designs, and presentation-style architectural illustrations.",
+      "active": true,
+      "sort": 6,
+      "tags": [
+        "architecture",
+        "sketch",
+        "hand-drawn",
+        "concept",
+        "presentation",
+        "illustration"
       ]
     }
   ],
