@@ -359,6 +359,7 @@ Prompt behavior:
 - Human Presence / Scale remains a soft recommendation only and is never auto-changed;
 - manual choices for Paper / Surface, Lighting / Time, and View / Projection always win until Reset;
 - Saved Prompt restore treats those three controls as manual state so recommendation logic cannot overwrite restored values;
+- Refresh Now preserves the current Architectural Sketch form state and the existing manual-vs-smart override flags; only Reset re-enables untouched smart-default behavior from scratch;
 - Urban Observational Sketch no longer contains implicit `entourage` wording; people are controlled only by Human Presence / Scale;
 - production style, line-character, color, and surface prompt fragments are kept concise in Google Sheets to reduce redundancy while preserving distinct sketch-family behavior.
 
