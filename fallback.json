@@ -5038,13 +5038,17 @@
       "id": "architectural_sketch",
       "label": "Architectural Sketch Builder",
       "icon": "drafting",
-      "description": "Build hand-drawn architectural sketch prompts for concept studies, reference designs, and presentation-style architectural illustrations.",
+      "description": "Build multiple hand-drawn architectural sketch families from concepts or reference designs, including clean line, loose concept, bold ink, watercolor, marker, and mixed-media presentations.",
       "active": true,
       "sort": 6,
       "tags": [
         "architecture",
         "sketch",
         "hand-drawn",
+        "line sketch",
+        "ink",
+        "watercolor",
+        "marker",
         "concept",
         "presentation",
         "illustration"
