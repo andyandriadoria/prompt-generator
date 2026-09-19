@@ -20,7 +20,7 @@
         loadScript("architectural-taxonomy.js?v=4.5-arch-taxonomy-1", "architectural-taxonomy-script");
         loadStyle("architectural-render.css?v=4.5-arch-taxonomy-1", "architectural-render-style");
         loadScript("architectural-render-builder.js?v=4.5-arch-options-1", "architectural-render-builder-script");
-        loadScript("architectural-render-mode.js?v=4.5-arch-taxonomy-1", "architectural-render-mode-script");
+        loadScript("architectural-render-mode.js?v=4.5-render-init-fix-1", "architectural-render-mode-script");
         loadStyle("architectural-sketch.css?v=4.5-sketch-text-guard-2", "architectural-sketch-style");
         loadScript("architectural-sketch-builder.js?v=4.5-scene-content-1", "architectural-sketch-builder-script");
         loadScript("architectural-sketch-mode.js?v=4.5-smart-defaults-2", "architectural-sketch-mode-script");
