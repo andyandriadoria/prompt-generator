@@ -324,6 +324,31 @@
 
     const clear = document.getElementById("clearStylePresetBtn");
     if (clear) clear.textContent = "Clear Style";
+
+    ensureCustomStyleCard();
+    const grid = document.getElementById("stylePresetGrid");
+    if (grid && !grid.dataset.workstationObserved) {
+      grid.dataset.workstationObserved = "true";
+      new MutationObserver(ensureCustomStyleCard).observe(grid, { childList: true });
+    }
+  }
+
+  function ensureCustomStyleCard() {
+    const grid = document.getElementById("stylePresetGrid");
+    if (!grid || grid.querySelector(".workstation-custom-style-card")) return;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "workstation-custom-style-card";
+    button.innerHTML = `
+      <span class="workstation-custom-plus">+</span>
+      <strong>Create<br>Custom Style</strong>
+    `;
+    button.addEventListener("click", () => {
+      document.getElementById("clearStylePresetBtn")?.click();
+      document.getElementById("promptForm")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    grid.append(button);
   }
 
   function enhancePromptForm() {
