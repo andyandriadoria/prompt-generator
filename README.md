@@ -60,11 +60,13 @@ Stores editable option content for:
 - Line Character
 - Color Treatment
 - Lighting / Time
-- Atmosphere / Mood
+- Atmosphere / Character
 - Human Figure for Scale
 - Camera / View
 
 Sketch Style is the primary visual controller. Line Character and Color Treatment are Advanced overrides and default to `Auto — Follow Sketch Style`.
+
+Lighting / Time controls illumination only. Atmosphere / Character controls spatial character only. Weather and site conditions belong in Landscape / Context.
 
 Important columns:
 `GROUP · ID · LABEL · PROMPT · DESCRIPTION · LINE_RULE · COLOR_RULE · AVOID · ACTIVE · SORT · RECOMMENDED_SURFACE`
