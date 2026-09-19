@@ -15,6 +15,13 @@
     return colorId === "black-white" || colorId === "warm-gray-monochrome";
   }
 
+  function withIndefiniteArticle(value) {
+    const text = clean(value);
+    if (!text) return "an architectural concept";
+    if (/^(?:a|an|the)\s+/i.test(text)) return text;
+    return /^[aeiou]/i.test(text) ? `an ${text}` : `a ${text}`;
+  }
+
   function build(state = {}) {
     const ratio = clean(state.aspectRatio) || "4:5";
     const projectType = clean(state.projectType) || "architectural concept";
@@ -39,7 +46,7 @@
     const camera = clean(state.cameraPrompt);
     const extra = clean(state.extraInstruction);
 
-    const opening = `Create a hand-drawn architectural sketch of a ${projectType} as ${scene} in a ${ratio} aspect ratio.`;
+    const opening = `Create a hand-drawn architectural sketch of ${withIndefiniteArticle(projectType)} as ${scene} in a ${ratio} aspect ratio.`;
 
     const sourceBlock = state.inputType && state.inputType !== "concept-prompt"
       ? inputPrompt
