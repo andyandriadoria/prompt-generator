@@ -1,6 +1,6 @@
 # Prompt Gen — Current State
 
-**Baseline date:** 2026-09-19  
+**Baseline date:** 2026-09-20  
 **Production baseline:** Prompt Gen 4.5
 
 This file is the primary baseline for future Prompt Gen work.
@@ -277,9 +277,9 @@ Core fields:
 - Architectural Style
 - Lighting / Time
 - Atmosphere / Character
-- Landscape / Context
-- Architectural Features
-- Human Figure for Scale
+- Site / Context
+- Architectural Feature Emphasis
+- Human Presence / Scale
 - View / Projection
 - Annotations / Text
 - Aspect Ratio
@@ -323,7 +323,14 @@ Prompt behavior:
 - `Reference Image / Existing Design` preserves the main architectural form, massing, proportions, openings, and spatial composition while translating the source into sketch language;
 - `Concept Prompt` builds the sketch from the user's concept and selected design directions;
 - `Design Brief / Idea` translates an architectural brief into a coherent sketch presentation;
-- landscape, architectural features, human scale figures, and extra instruction are conditional and omitted when empty / `None`;
+- Site / Context, Architectural Feature Emphasis, Human Presence / Scale, and Extra Instruction are conditional and omitted when empty / `None`;
+- Site / Context is limited to physical surroundings such as planting, hardscape, terrain, streetscape, adjacent context, and weather/site conditions;
+- Architectural Feature Emphasis is separate from Architectural Style: it identifies specific building elements to highlight rather than redefining the overall design language;
+- in Concept Prompt and Design Brief / Idea modes, Feature Emphasis may include and emphasize the requested architectural elements;
+- in Reference Image / Existing Design mode, Feature Emphasis may only emphasize features that already exist in the reference and explicitly must not invent, add, remove, relocate, resize, or redesign architectural elements;
+- Human Presence / Scale controls only the amount / representation of human figures for architectural scale, not mood, clothing, location, or narrative activity;
+- active Human Presence / Scale options are **None, Single Scale Figure, Sparse Scale Figures, Silhouette Figures, and Small Human Group**;
+- legacy Saved Prompt value `casual-people-scale` restores to **Small Human Group**;
 - Lighting / Time and Atmosphere / Character are intentionally separated: Lighting controls physical illumination only, while Atmosphere / Character controls spatial character only;
 - active Lighting / Time options are **Morning Light, Midday Light, Golden Hour, Overcast Daylight, Soft Interior Daylight, and Evening Light**;
 - active Atmosphere / Character options are **Calm, Serene, Lively, Contemplative, Intimate, Monumental, Formal, and Casual**;
