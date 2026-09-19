@@ -366,6 +366,12 @@ Prompt behavior:
 - Saved Prompt restore treats those three controls as manual state so recommendation logic cannot overwrite restored values;
 - Refresh Now preserves the current Architectural Sketch form state and the existing manual-vs-smart override flags; only Reset re-enables untouched smart-default behavior from scratch;
 - Urban Observational Sketch no longer contains implicit `entourage` wording; people are controlled only by Human Presence / Scale;
+- Architectural Sketch now exposes **Sketch Random** in the Build Console. It randomizes only untouched sketch controls, preserves manual user selections until Reset, and uses existing scene/style recommendation metadata for coherent combinations;
+- Sketch Random may fill Building Category/Type and Architectural Style Category/Style when they are still untouched, randomize Scene Type, Sketch Style, Atmosphere, scene-compatible View / Projection, and Aspect Ratio, while Surface follows the selected Sketch Style and Lighting follows Scene Type recommendations;
+- Human Presence / Scale follows the selected style recommendation with an occasional `None` result for architecture-only compositions;
+- Input Type, Site / Context, Architectural Feature Emphasis, Extra Instruction, and manual Custom fields are never invented or overwritten by Sketch Random;
+- Annotations / Text remains `no-text` unless the user deliberately changed it; Advanced Line/Color remain Auto unless manually overridden;
+- Saved Prompt restore marks restored non-empty values as manual for Sketch Random, and Refresh Now preserves the current random/manual lock state.
 - production style, line-character, color, and surface prompt fragments are kept concise in Google Sheets to reduce redundancy while preserving distinct sketch-family behavior.
 
 Data source:
