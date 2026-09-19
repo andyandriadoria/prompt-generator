@@ -69,6 +69,16 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Architectural Render Initialization Fix (2026-09-20)
+
+- fixed a variable-shadowing bug in `architectural-render-mode.js` where `loadFeatureData(options = {})` shadowed the module-level `options` state;
+- renamed the loader argument to `loadOptions`, allowing `buildOptions(...)` to populate the module state used by `isReady()`;
+- restored Architectural Render card initialization without changing its Google Sheets mode definition or Apps Script contract;
+- synchronized all six active Google Sheets `PROMPT_MODES` rows into `fallback.json.promptModes`;
+- added a `PETUNJUK` maintenance note establishing `PROMPT_MODES` as the source of truth for fallback mode synchronization;
+- bumped the Architectural Render and workspace cache keys so browsers do not retain the broken module;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Smart Defaults & Recommendations (2026-09-20)
 
 - added `RECOMMENDED_LIGHTING` and `RECOMMENDED_HUMAN` metadata columns to `ARCH_SKETCH_OPTIONS`;
