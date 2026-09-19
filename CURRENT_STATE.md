@@ -350,7 +350,7 @@ Prompt behavior:
 - prompt assembly is intentionally compact: Concept Prompt does not repeat a separate source sentence, aspect ratio is carried in the opening, architectural clarity is stated once, and photoreal / CGI / 3D-archviz rejection is consolidated into a single guard block;
 - Paper / Surface is a separate physical-surface control and no longer implies the drawing medium; the drawing medium remains part of Sketch Style;
 - the active Paper / Surface set is **White Presentation Paper, Sketchbook Page, Transparent Tracing Paper, Architectural Grid Paper, Textured Watercolor Paper, Smooth Marker Paper, and Bristol Board**;
-- each Sketch Style carries optional `RECOMMENDED_SURFACE` IDs from Google Sheets; the UI shows recommendations without locking or auto-changing the user's selection;
+- each Sketch Style carries optional `RECOMMENDED_SURFACE` IDs from Google Sheets; the first recommendation can seed the smart default while the surface is untouched, but the user's manual selection is never locked or overwritten;
 - Smart Defaults now use Sheets metadata: Scene Type provides `RECOMMENDED_LIGHTING`, while Sketch Style provides `RECOMMENDED_SURFACE` and `RECOMMENDED_HUMAN`;
 - Exterior recommends and initially selects **Morning Light**; Interior recommends and initially selects **Soft Interior Daylight**;
 - changing Sketch Style auto-selects the first recommended Paper / Surface only until the user manually changes Paper / Surface;
