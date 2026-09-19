@@ -84,7 +84,7 @@
   function currentMode() {
     const badge = document.getElementById("activeModeBadge")?.dataset?.mode;
     if (MODES.has(badge)) return badge;
-    if (global.ProductPosterMode?.isActive?.()) return MODE_POSTER;
+    if (global.ArchitecturalRenderMode?.isActive?.()) return MODE_ARCH;\n    if (global.ProductPosterMode?.isActive?.()) return MODE_POSTER;
     if (global.ProductCatalogMode?.isActive?.()) return MODE_PRODUCT;
     if (document.getElementById("catalogFields") && !document.getElementById("catalogFields").hidden) return "outfit_catalog";
     return "creative";
@@ -111,7 +111,7 @@
 
   function captureState(mode) {
     if (mode === MODE_PRODUCT) return global.ProductCatalogMode?.getState?.() || {};
-    if (mode === MODE_POSTER) return global.ProductPosterMode?.getState?.() || {};
+    if (mode === MODE_POSTER) return global.ProductPosterMode?.getState?.() || {};\n    if (mode === MODE_ARCH) return global.ArchitecturalRenderMode?.getState?.() || {};
     const common = commonState();
     if (mode === "outfit_catalog") return {
       catalogSubject: value("catalogSubject"), catalogCustomSubject: value("catalogCustomSubject"),
@@ -214,12 +214,12 @@
     return joinTitle(label("characterPreset"), label("setting"), "Creative Prompt");
   }
 
-  function modeLabel(mode) { return ({ creative: "Creative Prompt Builder", outfit_catalog: "Reference Outfit Catalog", [MODE_PRODUCT]: "Reference Product Catalog", [MODE_POSTER]: "Product Poster Builder" })[mode] || "Prompt Gen"; }
-  function shortMode(mode) { return ({ creative: "Creative", outfit_catalog: "Outfit", [MODE_PRODUCT]: "Product", [MODE_POSTER]: "Poster" })[mode] || "Prompt"; }
-  function modeIcon(mode) { return ({ creative: "sparkles", outfit_catalog: "shirt", [MODE_PRODUCT]: "package", [MODE_POSTER]: "poster" })[mode] || "bookmark"; }
+  function modeLabel(mode) { return ({ creative: "Creative Prompt Builder", outfit_catalog: "Reference Outfit Catalog", [MODE_PRODUCT]: "Reference Product Catalog", [MODE_POSTER]: "Product Poster Builder", [MODE_ARCH]: "Architectural Render" })[mode] || "Prompt Gen"; }
+  function shortMode(mode) { return ({ creative: "Creative", outfit_catalog: "Outfit", [MODE_PRODUCT]: "Product", [MODE_POSTER]: "Poster", [MODE_ARCH]: "Architecture" })[mode] || "Prompt"; }
+  function modeIcon(mode) { return ({ creative: "sparkles", outfit_catalog: "shirt", [MODE_PRODUCT]: "package", [MODE_POSTER]: "poster", [MODE_ARCH]: "building" })[mode] || "bookmark"; }
   function styleLabel(mode) {
     if (mode === MODE_PRODUCT) return [label("productType"), label("productPresentation")].filter(Boolean).join(" · ") || "Product Catalog";
-    if (mode === MODE_POSTER) return "9:16 Product Poster";
+    if (mode === MODE_ARCH) return value("archFidelity") === "strict" ? "STRICT Design Fidelity" : label("archQuality") || "Architectural Render";\n    if (mode === MODE_POSTER) return "9:16 Product Poster";
     if (mode === "outfit_catalog") return label("outfitFocusStyle") || label("catalogType") || "Outfit Catalog";
     const badge = byId("activeStyleBadge"); return badge && !badge.hidden && badge.textContent.trim() ? badge.textContent.trim() : label("cameraType") || "Custom / unstyled";
   }
