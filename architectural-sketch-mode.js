@@ -22,8 +22,8 @@
       avoid: "Avoid heavy pencil shading and opaque digital painting"
     }],
     media: [{ id: "white-sketchbook-paper", label: "White Presentation Paper", prompt: "clean white presentation paper with subtle natural grain" }],
-    lineQualities: [{ id: "balanced-line-weight", label: "Refined Hand-Drawn", prompt: "refined hand-drawn lines with natural variation and controlled hierarchy" }],
-    colorTreatments: [{ id: "soft-muted-color-wash", label: "Soft Muted Color Wash", prompt: "soft muted washes over visible linework" }],
+    lineQualities: [{ id: "auto-follow-style", label: "Auto — Follow Sketch Style", prompt: "", description: "Use the selected Sketch Style's built-in line character and line hierarchy." }],
+    colorTreatments: [{ id: "auto-follow-style", label: "Auto — Follow Sketch Style", prompt: "", description: "Use the selected Sketch Style's built-in color treatment and color rules." }],
     lighting: [{ id: "morning-light", label: "Morning Light", prompt: "soft morning light with gentle directional shadows" }],
     moods: [{ id: "calm", label: "Calm", prompt: "a calm and composed atmosphere" }],
     humanScale: [{ id: "none", label: "None", prompt: "" }],
@@ -80,7 +80,7 @@
       "archSketchArchitectureStyle", "archSketchStyle", "archSketchMedium", "archSketchLineQuality",
       "archSketchColorTreatment", "archSketchLighting", "archSketchMood", "archSketchLandscape",
       "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAspectRatio",
-      "archSketchExtraInstruction", "archSketchStyleHint", "archSketchTip"
+      "archSketchExtraInstruction", "archSketchStyleHint", "archSketchTip", "archSketchAdvanced", "archSketchAdvancedState"
     ].forEach(id => elements[id] = document.getElementById(id));
   }
 
@@ -106,9 +106,19 @@
       <div class="field-row"><label for="archSketchProjectType">Project Type</label><input id="archSketchProjectType" type="text" placeholder="Example: private residence, tropical villa, boutique café, mosque courtyard"></div>
       <div class="field-row"><label for="archSketchSceneType">Scene Type</label><select id="archSketchSceneType"></select></div>
       <div class="field-row"><label for="archSketchStyle">Sketch Style</label><div><select id="archSketchStyle"></select><p class="help-text arch-sketch-style-hint" id="archSketchStyleHint"></p></div></div>
-      <div class="field-row"><label for="archSketchLineQuality">Line Character</label><select id="archSketchLineQuality"></select></div>
-      <div class="field-row"><label for="archSketchColorTreatment">Sketch Color Mode</label><select id="archSketchColorTreatment"></select></div>
       <div class="field-row"><label for="archSketchMedium">Paper / Medium</label><select id="archSketchMedium"></select></div>
+
+      <details class="arch-sketch-advanced" id="archSketchAdvanced">
+        <summary>
+          <span class="arch-sketch-advanced-title">Advanced Style Controls</span>
+          <small id="archSketchAdvancedState">Line & color follow Sketch Style</small>
+        </summary>
+        <div class="arch-sketch-advanced-body">
+          <p class="arch-sketch-advanced-help">Optional overrides. Leave both controls on Auto to use the line and color language built into the selected Sketch Style.</p>
+          <div class="field-row"><label for="archSketchLineQuality">Line Character</label><select id="archSketchLineQuality"></select></div>
+          <div class="field-row"><label for="archSketchColorTreatment">Color Treatment</label><select id="archSketchColorTreatment"></select></div>
+        </div>
+      </details>
       <div class="field-row"><label for="archSketchArchitectureStyle">Architecture Style</label><input id="archSketchArchitectureStyle" type="text" placeholder="Example: tropical modern, contemporary minimalist, Mediterranean, Japandi"></div>
       <div class="field-row"><label for="archSketchLighting">Lighting / Time</label><select id="archSketchLighting"></select></div>
       <div class="field-row"><label for="archSketchMood">Atmosphere / Mood</label><select id="archSketchMood"></select></div>
@@ -142,6 +152,9 @@
     elements.architecturalSketchFields.addEventListener("input", () => generate(false));
     elements.architecturalSketchFields.addEventListener("change", event => {
       if (event.target === elements.archSketchStyle) updateStyleHint();
+      if (event.target === elements.archSketchLineQuality || event.target === elements.archSketchColorTreatment) {
+        updateAdvancedState();
+      }
       generate(false);
     });
 
@@ -268,6 +281,7 @@
     applyDefaults();
     initSearchable();
     updateStyleHint();
+    updateAdvancedState();
     if (active) generate(false);
   }
 
@@ -294,8 +308,8 @@
     setValue(elements.archSketchSceneType, config.defaultArchitecturalSketchSceneType || "exterior");
     setValue(elements.archSketchStyle, config.defaultArchitecturalSketchStyle || "watercolor-sketch");
     setValue(elements.archSketchMedium, config.defaultArchitecturalSketchMedium || "white-sketchbook-paper");
-    setValue(elements.archSketchLineQuality, config.defaultArchitecturalSketchLineQuality || "balanced-line-weight");
-    setValue(elements.archSketchColorTreatment, config.defaultArchitecturalSketchColorTreatment || "soft-muted-color-wash");
+    setValue(elements.archSketchLineQuality, config.defaultArchitecturalSketchLineQuality || "auto-follow-style");
+    setValue(elements.archSketchColorTreatment, config.defaultArchitecturalSketchColorTreatment || "auto-follow-style");
     setValue(elements.archSketchLighting, config.defaultArchitecturalSketchLighting || "morning-light");
     setValue(elements.archSketchMood, config.defaultArchitecturalSketchMood || "calm");
     setValue(elements.archSketchHumanScale, config.defaultArchitecturalSketchHumanScale || "none");
@@ -338,7 +352,30 @@
   function updateStyleHint() {
     if (!elements.archSketchStyleHint) return;
     const description = selectedMeta(elements.archSketchStyle, "description");
-    elements.archSketchStyleHint.textContent = description || "Choose the visual sketch language; line character and color mode refine it further.";
+    const base = description || "Choose the primary visual language for the architectural sketch.";
+    elements.archSketchStyleHint.textContent = `${base} Line and color follow this style by default.`;
+  }
+
+  function isAdvancedOverride(value) {
+    return Boolean(value && value !== "auto-follow-style");
+  }
+
+  function updateAdvancedState() {
+    if (!elements.archSketchAdvancedState) return;
+    const lineOverride = isAdvancedOverride(elements.archSketchLineQuality?.value);
+    const colorOverride = isAdvancedOverride(elements.archSketchColorTreatment?.value);
+    const count = Number(lineOverride) + Number(colorOverride);
+
+    if (!count) {
+      elements.archSketchAdvancedState.textContent = "Line & color follow Sketch Style";
+      elements.archSketchAdvanced?.classList.remove("has-overrides");
+      return;
+    }
+
+    elements.archSketchAdvancedState.textContent = count === 2
+      ? "2 custom overrides active"
+      : "1 custom override active";
+    elements.archSketchAdvanced?.classList.add("has-overrides");
   }
 
   function collectState() {
@@ -361,8 +398,10 @@
       mediumPrompt: selectedPrompt(elements.archSketchMedium),
       lineQuality: elements.archSketchLineQuality.value,
       lineQualityPrompt: selectedPrompt(elements.archSketchLineQuality),
+      lineQualityOverride: isAdvancedOverride(elements.archSketchLineQuality.value),
       colorTreatment: elements.archSketchColorTreatment.value,
       colorTreatmentPrompt: selectedPrompt(elements.archSketchColorTreatment),
+      colorTreatmentOverride: isAdvancedOverride(elements.archSketchColorTreatment.value),
       lighting: elements.archSketchLighting.value,
       lightingPrompt: selectedPrompt(elements.archSketchLighting),
       mood: elements.archSketchMood.value,
@@ -414,6 +453,7 @@
     if (elements.outputTipTitle) elements.outputTipTitle.textContent = "Architectural sketch tip";
     if (elements.outputTipText) elements.outputTipText.textContent = "Sketch Style is the main visual controller. Watercolor, ink, concept, marker, and line-sketch families use different prompt behavior; Line Character and Sketch Color Mode refine the selected family.";
     updateStyleHint();
+    updateAdvancedState();
 
     elements.promptModeGrid.querySelectorAll("[data-prompt-mode-id]").forEach(card => {
       const on = card.dataset.promptModeId === MODE_ID;
@@ -442,7 +482,9 @@
     elements.archSketchExtraInstruction.value = "";
     applyDefaults();
     searchable.forEach(control => control.syncFromNative?.());
+    if (elements.archSketchAdvanced) elements.archSketchAdvanced.open = false;
     updateStyleHint();
+    updateAdvancedState();
     generate(false);
     showMessage("Architectural Sketch form reset.");
   }
@@ -476,8 +518,8 @@
     setText("archSketchArchitectureStyle", state.archSketchArchitectureStyle);
     setSelect("archSketchStyle", state.archSketchStyle, missing, "Sketch Style");
     setSelect("archSketchMedium", state.archSketchMedium, missing, "Paper / Medium");
-    setSelect("archSketchLineQuality", state.archSketchLineQuality, missing, "Line Quality");
-    setSelect("archSketchColorTreatment", state.archSketchColorTreatment, missing, "Color Treatment");
+    setSelect("archSketchLineQuality", state.archSketchLineQuality || "auto-follow-style", missing, "Line Quality");
+    setSelect("archSketchColorTreatment", state.archSketchColorTreatment || "auto-follow-style", missing, "Color Treatment");
     setSelect("archSketchLighting", state.archSketchLighting, missing, "Lighting / Time");
     setSelect("archSketchMood", state.archSketchMood, missing, "Atmosphere / Mood");
     setText("archSketchLandscape", state.archSketchLandscape);
@@ -487,6 +529,13 @@
     setSelect("archSketchAspectRatio", state.archSketchAspectRatio, missing, "Aspect Ratio");
     setText("archSketchExtraInstruction", state.archSketchExtraInstruction);
     searchable.forEach(control => control.syncFromNative?.());
+    updateStyleHint();
+    updateAdvancedState();
+    if (elements.archSketchAdvanced) {
+      elements.archSketchAdvanced.open =
+        isAdvancedOverride(elements.archSketchLineQuality?.value) ||
+        isAdvancedOverride(elements.archSketchColorTreatment?.value);
+    }
     generate(false);
     return { missing };
   }
