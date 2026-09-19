@@ -4,10 +4,10 @@
   const MODE_PREVIEWS = {
     creative: "assets/settings/indoor-sunlit-neutral-minimalist-interior.png",
     outfit_catalog: "assets/settings/indoor-clean-fashion-atelier-studio.png",
-    product_catalog: "assets/settings/indoor-textile-gallery-display-niche.png",
-    product_poster: "assets/settings/outdoor-7-eleven-store.jpg",
-    architectural_render: "assets/settings/outdoor-contemporary-boutique-hotel-courtyard.png",
-    architectural_sketch: "assets/settings/outdoor-contemporary-garden-pavilion.png"
+    reference_product_catalog: "assets/settings/indoor-textile-gallery-display-niche.png",
+    reference_product_poster: "assets/settings/outdoor-7-eleven-store.jpg",
+    architectural_render: "assets/settings/outdoor-elegant-urban-architecture.png",
+    architectural_sketch: "assets/settings/outdoor-contemporary-cafe-courtyard.png"
   };
 
   const MODE_GROUPS = {
@@ -39,8 +39,17 @@
     architectural_sketch: [
       { title: "Project", icon: "building", ids: ["archSketchInputType", "archSketchBuildingCategory", "archSketchBuildingType", "archSketchCustomBuildingRow", "archSketchSceneType"] },
       { title: "Sketch", icon: "drafting", ids: ["archSketchStyle", "archSketchMedium", "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyleRow", "archSketchHumanScale"] },
-      { title: "Presentation", icon: "camera", ids: ["archSketchLighting", "archSketchMood", "archSketchLandscape", "archSketchFeatures", "archSketchCameraView", "archSketchAnnotationText", "archSketchAspectRatio", "archSketchExtraInstruction", "archSketchAdvanced"] }
+      { title: "Presentation", icon: "camera", ids: ["archSketchLighting", "archSketchMood", "archSketchCameraView", "archSketchAnnotationText", "archSketchAspectRatio"] }
     ]
+  };
+
+  const DNA_LABELS = {
+    creative: ["Subject", "Scene", "Style", "Camera", "Light", "Frame", "Output"],
+    outfit_catalog: ["Subject", "Scene", "Presentation", "Framing", "Preservation", "Frame", "Output"],
+    reference_product_catalog: ["Product", "Presentation", "Preservation", "Framing", "Scene", "Frame", "Output"],
+    reference_product_poster: ["Base Photo", "Product Info", "Poster Style", "Layout", "Text Fidelity", "Frame", "Output"],
+    architectural_render: ["Reference", "Geometry", "Material", "Environment", "Realism", "View", "Output"],
+    architectural_sketch: ["Project", "Architecture", "Sketch", "Surface", "Atmosphere", "View", "Output"]
   };
 
   let initialized = false;
@@ -386,7 +395,10 @@
       child.classList?.contains("arch-mode-intro") ||
       child.classList?.contains("arch-sketch-intro")
     );
-    if (intro) intro.classList.add("workstation-mode-banner");
+    if (intro) {
+      intro.classList.add("workstation-mode-banner");
+      intro.hidden = true;
+    }
 
     const grid = document.createElement("div");
     grid.className = "workstation-detail-grid";
@@ -410,11 +422,6 @@
         if (note) body.append(note);
       }
 
-      if (modeId === "architectural_sketch" && group.title === "Presentation") {
-        const advanced = document.getElementById("archSketchAdvanced");
-        if (advanced) body.append(advanced);
-      }
-
       grid.append(card);
     });
 
@@ -432,7 +439,6 @@
           child.classList?.contains("catalog-safety-note") ||
           child.classList?.contains("product-preservation-note") ||
           child.classList?.contains("arch-fidelity-note") ||
-          child.classList?.contains("arch-sketch-tip") ||
           child.id === "productCampaignFields") {
         extras.append(child);
       }
@@ -440,7 +446,30 @@
 
     if (intro) intro.insertAdjacentElement("afterend", grid);
     else section.insertBefore(grid, section.firstChild);
+
+    if (modeId === "architectural_sketch") {
+      const advanced = document.createElement("details");
+      advanced.className = "workstation-advanced-settings";
+      advanced.innerHTML = `
+        <summary>
+          <span>${icon("sliders")}</span>
+          <strong>Advanced Settings</strong>
+          <small>Site, feature emphasis, extra instruction, and line / color overrides</small>
+          <i>${icon("chevron-down")}</i>
+        </summary>
+        <div class="workstation-advanced-body"></div>
+      `;
+      const advancedBody = advanced.querySelector(".workstation-advanced-body");
+      ["archSketchLandscape", "archSketchFeatures", "archSketchExtraInstruction", "archSketchAdvanced"].forEach(id => {
+        const row = resolveFieldRow(id);
+        if (row) advancedBody.append(row);
+      });
+      grid.insertAdjacentElement("afterend", advanced);
+    }
+
     if (extras.childElementCount) section.append(extras);
+
+    section.querySelectorAll(".arch-sketch-tip").forEach(node => node.hidden = true);
   }
 
   function resolveFieldRow(id) {
@@ -473,7 +502,14 @@
       const title = heading.querySelector(".output-title-group strong");
       if (title) title.textContent = "Live Output";
       const kicker = heading.querySelector(".output-kicker");
-      if (kicker) kicker.textContent = "GENERATED PROMPT";
+      if (kicker) kicker.textContent = "";
+      const titleGroup = heading.querySelector(".output-title-group");
+      if (titleGroup && !titleGroup.querySelector(".workstation-output-subtitle")) {
+        const subtitle = document.createElement("small");
+        subtitle.className = "workstation-output-subtitle";
+        subtitle.textContent = "Your generated prompt in real time.";
+        titleGroup.append(subtitle);
+      }
 
       if (!heading.querySelector(".workstation-output-copy")) {
         const copy = document.createElement("button");
@@ -590,24 +626,125 @@
     const dna = document.getElementById("promptDna");
     if (!dna) return;
 
-    const frame = document.getElementById("dnaFrame");
-    const outputNode = document.getElementById("dnaOutput");
-    const ratioReady = Boolean(findActiveRatio());
-    const promptReady = Boolean(document.getElementById("output")?.value?.trim());
-
-    toggleDnaNode(frame, ratioReady);
-    toggleDnaNode(outputNode, promptReady);
-
+    const mode = currentModeId();
     const nodes = [...dna.querySelectorAll(".dna-node")];
-    const ready = nodes.filter(node => node.classList.contains("is-ready")).length;
+    const labels = DNA_LABELS[mode] || DNA_LABELS.creative;
+    const states = dnaStatesForMode(mode);
+
+    nodes.forEach((node, index) => {
+      const label = node.querySelector("b");
+      if (label) label.textContent = labels[index] || `Step ${index + 1}`;
+      applyDnaState(node, states[index] || "empty");
+    });
+
+    const readiness = dnaReadiness(nodes);
     const count = dna.querySelector(".workstation-dna-count strong");
-    if (count) count.textContent = `${ready} / ${nodes.length || 7}`;
+    if (count) count.textContent = `${readiness.ready} / ${nodes.length || 7}`;
   }
 
-  function toggleDnaNode(node, ready) {
+  function applyDnaState(node, state) {
     if (!node) return;
-    node.classList.toggle("is-ready", ready);
-    node.classList.toggle("is-partial", !ready);
+    node.dataset.readiness = state;
+    node.classList.toggle("is-ready", state === "ready");
+    node.classList.toggle("is-partial", state === "partial");
+  }
+
+  function dnaReadiness(nodes = [...document.querySelectorAll("#promptDna .dna-node")]) {
+    const values = nodes.map(node => node.dataset.readiness || (node.classList.contains("is-ready") ? "ready" : node.classList.contains("is-partial") ? "partial" : "empty"));
+    const ready = values.filter(value => value === "ready").length;
+    const partial = values.filter(value => value === "partial").length;
+    const score = values.length ? Math.round(((ready + partial * 0.5) / values.length) * 100) : 0;
+    return { ready, partial, score, values };
+  }
+
+  function dnaStatesForMode(mode) {
+    const outputReady = Boolean(valueOf("output"));
+    const ratioReady = Boolean(findActiveRatio());
+
+    if (mode === "outfit_catalog") {
+      const subject = valueOf("catalogSubject");
+      const customSubject = valueOf("catalogCustomSubject");
+      const setting = valueOf("catalogSetting");
+      const customSetting = valueOf("catalogCustomSetting");
+      return [
+        subject === "custom" ? stateOf(customSubject) : stateOf(subject),
+        setting === "manual_setting" ? stateOf(customSetting) : stateOf(setting),
+        stateOf(valueOf("catalogType")),
+        anyState("catalogShot", "catalogPose"),
+        stateOf(valueOf("preservationLevel")),
+        ratioReady ? "ready" : "empty",
+        outputReady ? "ready" : "empty"
+      ];
+    }
+
+    if (mode === "reference_product_catalog") {
+      return [
+        stateOf(valueOf("productType")),
+        stateOf(valueOf("productPresentation")),
+        stateOf(valueOf("productPreservation")),
+        anyState("productShot", "productComposition"),
+        stateOf(valueOf("productSetting")),
+        ratioReady ? "ready" : "empty",
+        outputReady ? "ready" : "empty"
+      ];
+    }
+
+    if (mode === "reference_product_poster") {
+      return [
+        "partial",
+        stateOf(valueOf("posterProductInformation")),
+        anyState("posterExtraInstruction"),
+        "ready",
+        valueOf("posterProductInformation") ? "ready" : "partial",
+        ratioReady ? "ready" : "empty",
+        outputReady ? "ready" : "empty"
+      ];
+    }
+
+    if (mode === "architectural_render") {
+      return [
+        stateOf(valueOf("archInputType")),
+        anyState("archBuildingType", "archCustomBuildingType", "archArchitectureStyle", "archCustomArchitectureStyle"),
+        valueOf("archMaterials") ? "ready" : "partial",
+        anyState("archLighting", "archAtmosphere", "archLandscape"),
+        anyState("archFidelity", "archRealismTarget"),
+        anyState("archCamera", "archAspectRatio"),
+        outputReady ? "ready" : "empty"
+      ];
+    }
+
+    if (mode === "architectural_sketch") {
+      return [
+        anyState("archSketchBuildingType", "archSketchCustomBuildingType", "archSketchSceneType"),
+        anyState("archSketchArchitectureStyle", "archSketchCustomArchitectureStyle"),
+        stateOf(valueOf("archSketchStyle")),
+        stateOf(valueOf("archSketchMedium")),
+        anyState("archSketchLighting", "archSketchMood"),
+        stateOf(valueOf("archSketchCameraView")),
+        outputReady ? "ready" : "empty"
+      ];
+    }
+
+    const character = valueOf("characterPreset");
+    const subjectReady = character && character !== "custom" ? "ready" : stateOf(valueOf("features"));
+    const styleBadge = document.getElementById("activeStyleBadge");
+    return [
+      subjectReady,
+      stateOf(valueOf("setting")),
+      !styleBadge?.hidden ? "ready" : (valueOf("cameraType") ? "partial" : "empty"),
+      anyState("cameraAngle", "cameraType"),
+      stateOf(valueOf("lighting")),
+      ratioReady ? "ready" : "empty",
+      outputReady ? "ready" : "empty"
+    ];
+  }
+
+  function stateOf(value) {
+    return String(value || "").trim() ? "ready" : "empty";
+  }
+
+  function anyState(...ids) {
+    return ids.some(id => valueOf(id)) ? "ready" : "empty";
   }
 
   function findActiveRatio() {
@@ -627,14 +764,8 @@
     if (!output) return;
 
     const dnaNodes = [...document.querySelectorAll("#promptDna .dna-node")];
-    const readyCount = dnaNodes.filter(node => node.classList.contains("is-ready")).length;
-    const completeness = dnaNodes.length ? Math.round((readyCount / dnaNodes.length) * 100) : 0;
-
-    const coreScore = Number(document.getElementById("compatibilityScore")?.textContent || "");
-    const activeMode = currentModeId();
-    const score = ["creative", "outfit_catalog"].includes(activeMode) && Number.isFinite(coreScore) && coreScore > 0
-      ? Math.round((coreScore * 0.65) + (completeness * 0.35))
-      : completeness;
+    const readiness = dnaReadiness(dnaNodes);
+    const score = readiness.score;
 
     const ring = output.querySelector(".workstation-analysis-ring");
     if (ring) {
@@ -655,9 +786,11 @@
     const checks = output.querySelector(".workstation-analysis-checks");
     if (checks) {
       checks.innerHTML = dnaNodes.slice(0, 6).map(node => {
-        const ready = node.classList.contains("is-ready");
+        const state = node.dataset.readiness || "empty";
+        const ready = state === "ready";
         const label = node.querySelector("b")?.textContent || "Prompt step";
-        return `<span class="${ready ? "is-ready" : ""}"><i>${ready ? icon("check") : ""}</i>${escapeHtml(label)} ${ready ? "defined" : "pending"}</span>`;
+        const suffix = ready ? "defined" : state === "partial" ? "partial" : "pending";
+        return `<span class="${ready ? "is-ready" : state === "partial" ? "is-partial" : ""}"><i>${ready ? icon("check") : ""}</i>${escapeHtml(label)} ${suffix}</span>`;
       }).join("");
     }
 
@@ -665,8 +798,9 @@
     if (structure) {
       structure.innerHTML = dnaNodes.map((node, index) => {
         const label = node.querySelector("b")?.textContent || `Step ${index + 1}`;
-        const ready = node.classList.contains("is-ready");
-        return `<div><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(label)}</strong><small>${ready ? "Ready" : "Incomplete"}</small></div>`;
+        const state = node.dataset.readiness || "empty";
+        const stateLabel = state === "ready" ? "Ready" : state === "partial" ? "Partial" : "Incomplete";
+        return `<div><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(label)}</strong><small>${stateLabel}</small></div>`;
       }).join("");
     }
 
@@ -691,17 +825,32 @@
 
   function updatePreview() {
     const image = document.querySelector(".workstation-preview-media img");
-    if (!image) return;
+    const card = document.querySelector(".workstation-preview-card");
+    if (!image || !card) return;
     const mode = currentModeId();
     const next = MODE_PREVIEWS[mode] || MODE_PREVIEWS.creative;
     if (!image.src.endsWith(next)) image.src = next;
     image.classList.toggle("is-sketch", mode === "architectural_sketch");
+
+    const labels = {
+      creative: "Creative scene cue",
+      outfit_catalog: "Fashion reference cue",
+      reference_product_catalog: "Product presentation cue",
+      reference_product_poster: "Poster composition cue",
+      architectural_render: "Architectural render cue",
+      architectural_sketch: "Architectural sketch cue"
+    };
+    const small = card.querySelector("header small");
+    if (small) small.textContent = labels[mode] || "Reference cue";
   }
 
   function currentModeId() {
-    return document.getElementById("activeModeBadge")?.dataset?.mode ||
+    const mode = document.getElementById("activeModeBadge")?.dataset?.mode ||
       localStorage.getItem("promptGenPromptMode") ||
       "creative";
+    if (mode === "product_catalog") return "reference_product_catalog";
+    if (mode === "product_poster") return "reference_product_poster";
+    return mode;
   }
 
   function valueOf(id) {
