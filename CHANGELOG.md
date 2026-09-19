@@ -69,6 +69,23 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 UI — Workstation V2 Refinement Pass (2026-09-20)
+
+- compacted the global topbar so Google Sheets status, appearance toggle, and creator profile stay on one horizontal line;
+- forced all six Prompt Mode cards into a single desktop row and corrected thumbnail selectors for `reference_product_catalog` and `reference_product_poster`;
+- switched Architectural Render / Sketch visual cues to architecture-focused repository assets;
+- stopped Prompt Details cards from stretching to the tallest column;
+- moved Architectural Sketch Site / Context, Architectural Feature Emphasis, Extra Instruction, and line/color overrides into one **Advanced Settings** disclosure;
+- hid redundant per-mode intro banners and the duplicate Architectural Sketch logic card in Workstation V2;
+- changed the bottom Generate / Reset / Copy / Save bar from sticky overlay to static end-of-form actions;
+- removed the second outer scrollbar from Live Output; only the prompt editor scrolls while Prompt Analysis and Visual Preview stay compact;
+- changed Live Output hierarchy to **Live Output** with a small real-time subtitle;
+- made Prompt DNA and Prompt Analysis mode-aware for Creative, Outfit Catalog, Product Catalog, Product Poster, Architectural Render, and Architectural Sketch;
+- Prompt Analysis readiness is now derived deterministically from active-mode field completion instead of reusing Creative compatibility scoring;
+- Structure tab now exposes Ready / Partial / Incomplete state per active-mode DNA step;
+- no Google Sheets or API contract changes;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 UI — Workstation V2 Visual Migration (2026-09-20)
 
 - migrated the Build workspace to the approved creative-workstation visual direction while preserving Prompt Gen 4.5 logic and data contracts;
