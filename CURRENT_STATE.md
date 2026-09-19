@@ -443,6 +443,10 @@ Implementation:
 - `workstation-v2.js` performs presentation-layer DOM composition while preserving production field IDs and mode logic;
 - `workstation-v2.css` is the final visual override layer loaded after mode-specific styles;
 - underlying prompt builders, Google Sheets data, Saved Prompt state, Smart Compatibility, Smart Random, architecture taxonomy, and mode controllers remain unchanged.
+- Workstation V2 refinement pass: topbar controls are forced into a single compact row; all six Prompt Mode cards stay in one desktop row; Product Catalog and Product Poster thumbnail selectors use their production mode IDs; Prompt Details cards align to content height instead of stretching to the tallest column; Architectural Sketch moves Site / Context, Feature Emphasis, Extra Instruction, and Advanced Style Controls into a dedicated Advanced Settings disclosure; per-mode intro banners and the redundant Architectural Sketch logic card are hidden in the workstation shell; action buttons are static at the end of Prompt Details and no longer cover form controls.
+- Live Output uses a fixed-height shell with only the prompt editor scrolling; Prompt / Structure / Metadata remain tabbed, while Prompt Analysis and Visual Preview are compacted to fit the viewport.
+- Prompt DNA and Prompt Analysis are mode-aware. Each production mode gets its own seven labels and readiness checks; readiness score is deterministic from the active mode's actual field state and no longer blends in Creative compatibility scores for Architecture/Product modes.
+- Visual Preview is mode-aware, with architecture-focused cues for Render and Sketch and corrected Product mode mappings; preview remains explicitly labeled as a visual direction cue, not generated output.
 
 Reference Product Catalog follows the same Obsidian selection language:
 - amber = active / selected state;
