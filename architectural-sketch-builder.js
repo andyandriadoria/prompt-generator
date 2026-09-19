@@ -52,7 +52,7 @@
       colorTreatment ? `Color treatment: ${colorTreatment}` : "",
       styleLineRule,
       styleColorRule
-    ].filter(Boolean).join(". ");
+    ].filter(Boolean).map(sentence).join(" ");
 
     const environment = [
       lighting ? `Lighting / time: ${lighting}` : "",
