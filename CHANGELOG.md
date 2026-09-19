@@ -69,6 +69,17 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Prompt Output Ownership Fix (2026-09-20)
+
+- fixed stale Generated Prompt output when switching from **Reference Outfit Catalog** to Reference Product Catalog, Product Poster Builder, Architectural Render, or Architectural Sketch Builder;
+- root cause: core `app.js` still treated `outfit_catalog` as the active mode and could auto-generate the Outfit prompt from global form events after an external mode had activated;
+- added mode-aware output ownership so the core generator writes only for **Creative Prompt Builder** and **Reference Outfit Catalog**;
+- external mode activation is tracked through `promptgen:modechange`, keeping `currentMode` synchronized with Product Catalog, Product Poster, Architectural Render, and Architectural Sketch;
+- core form-change auto-generation now exits immediately while an external mode owns the Build console;
+- bumped `app.js` cache key to `4.5-output-owner-1`;
+- no Google Sheets data change required;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Prompt Mode Card Ordering (2026-09-20)
 
 - stabilized Prompt Mode card ordering after asynchronously loaded mode modules insert their cards;
