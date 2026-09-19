@@ -11,7 +11,7 @@
 
   const FALLBACK_OPTIONS = {
     inputTypes: [{ id: "concept-prompt", label: "Concept Prompt", prompt: "" }],
-    sceneTypes: [{ id: "exterior", label: "Exterior", prompt: "an exterior architectural view" }],
+    sceneTypes: [{ id: "exterior", label: "Exterior", prompt: "an exterior architectural view", recommended_lighting: "morning-light" }],
     sketchStyles: [{
       id: "watercolor-sketch",
       label: "Soft Watercolor Architectural Sketch",
@@ -19,7 +19,9 @@
       prompt: "a soft watercolor architectural sketch with fine ink outlines, transparent layered washes, and generous white paper",
       line_rule: "Keep the ink drawing clearly visible beneath the watercolor",
       color_rule: "Use soft natural washes with restrained saturation and imperfect hand-painted edges",
-      avoid: "Avoid heavy pencil shading and opaque digital painting"
+      avoid: "Avoid heavy pencil shading and opaque digital painting",
+      recommended_surface: "watercolor-paper",
+      recommended_human: "minimal-scale-figures"
     }],
     media: [{ id: "watercolor-paper", label: "Textured Watercolor Paper", prompt: "lightly textured watercolor paper with visible natural tooth and restrained surface variation" }],
     lineQualities: [{ id: "auto-follow-style", label: "Auto — Follow Sketch Style", prompt: "", description: "Use the selected Sketch Style's built-in line character and line hierarchy." }],
@@ -62,6 +64,13 @@
   let database = null;
   let options = null;
   let taxonomy = null;
+  const smartDefaults = {
+    surfaceTouched: false,
+    lightingTouched: false,
+    viewTouched: false,
+    restoring: false,
+    applying: false
+  };
   let active = false;
   let initialized = false;
   let observer = null;
@@ -110,7 +119,8 @@
       "archSketchStyle", "archSketchMedium", "archSketchLineQuality",
       "archSketchColorTreatment", "archSketchLighting", "archSketchMood", "archSketchLandscape",
       "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAnnotationText", "archSketchAspectRatio",
-      "archSketchExtraInstruction", "archSketchStyleHint", "archSketchSurfaceHint", "archSketchTip", "archSketchAdvanced", "archSketchAdvancedState"
+      "archSketchExtraInstruction", "archSketchStyleHint", "archSketchSurfaceHint", "archSketchLightingHint", "archSketchHumanScaleHint",
+      "archSketchTip", "archSketchAdvanced", "archSketchAdvancedState"
     ].forEach(id => elements[id] = document.getElementById(id));
   }
 
@@ -154,11 +164,11 @@
       <div class="field-row"><label for="archSketchStyleCategory">Architectural Style Category</label><select id="archSketchStyleCategory"></select></div>
       <div class="field-row"><label for="archSketchArchitectureStyle">Architectural Style</label><select id="archSketchArchitectureStyle"></select></div>
       <div class="field-row arch-taxonomy-custom" id="archSketchCustomArchitectureStyleRow" hidden><label for="archSketchCustomArchitectureStyle">Custom Architectural Style</label><input id="archSketchCustomArchitectureStyle" type="text" placeholder="Example: tropical contemporary with subtle Japanese influence"></div>
-      <div class="field-row"><label for="archSketchLighting">Lighting / Time</label><select id="archSketchLighting"></select></div>
+      <div class="field-row"><label for="archSketchLighting">Lighting / Time</label><div><select id="archSketchLighting"></select><p class="help-text" id="archSketchLightingHint"></p></div></div>
       <div class="field-row"><label for="archSketchMood">Atmosphere / Character</label><div><select id="archSketchMood"></select><p class="help-text">Spatial character only; lighting stays in Lighting / Time and weather stays in Site / Context.</p></div></div>
       <div class="field-row"><label for="archSketchLandscape">Site / Context <span class="optional-label">optional</span></label><div><textarea id="archSketchLandscape" class="short-textarea" placeholder="Example: restrained tropical planting, stone paving, urban sidewalk, light rain and wet ground"></textarea><p class="help-text">Physical surroundings only: planting, hardscape, terrain, streetscape, adjacent context, and weather/site conditions.</p></div></div>
       <div class="field-row"><label for="archSketchFeatures">Architectural Feature Emphasis <span class="optional-label">optional</span></label><div><textarea id="archSketchFeatures" class="short-textarea" placeholder="Example: deep entrance canopy, vertical timber screens, arched colonnade, central courtyard"></textarea><p class="help-text">Specific building elements to highlight. In Reference Image mode, only existing reference features may be emphasized.</p></div></div>
-      <div class="field-row"><label for="archSketchHumanScale">Human Presence / Scale</label><div><select id="archSketchHumanScale"></select><p class="help-text">Controls human presence only for scale. It does not set mood, clothing, location, or narrative activity.</p></div></div>
+      <div class="field-row"><label for="archSketchHumanScale">Human Presence / Scale</label><div><select id="archSketchHumanScale"></select><p class="help-text" id="archSketchHumanScaleHint"></p></div></div>
       <div class="field-row"><label for="archSketchCameraView">View / Projection</label><div><select id="archSketchCameraView"></select><p class="help-text">Options are filtered by Scene Type. Exterior and Interior use only compatible architectural views.</p></div></div>
       <div class="field-row"><label for="archSketchAnnotationText">Annotations / Text</label><div><select id="archSketchAnnotationText"></select><p class="help-text">Default is no text: generated signage, labels, handwritten notes, dates, signatures, watermarks, and decorative lettering are suppressed.</p></div></div>
       <div class="field-row"><label for="archSketchAspectRatio">Aspect Ratio</label><select id="archSketchAspectRatio"></select></div>
@@ -186,6 +196,12 @@
 
     elements.architecturalSketchFields.addEventListener("input", () => generate(false));
     elements.architecturalSketchFields.addEventListener("change", event => {
+      if (!smartDefaults.applying && !smartDefaults.restoring) {
+        if (event.target === elements.archSketchMedium) smartDefaults.surfaceTouched = true;
+        if (event.target === elements.archSketchLighting) smartDefaults.lightingTouched = true;
+        if (event.target === elements.archSketchCameraView) smartDefaults.viewTouched = true;
+      }
+
       if (event.target === elements.archSketchBuildingCategory) {
         updateBuildingTypeOptions({ selectedId: "" });
       }
@@ -200,12 +216,20 @@
       }
       if (event.target === elements.archSketchStyle) {
         updateStyleHint();
+        if (!smartDefaults.restoring && !smartDefaults.surfaceTouched) applyRecommendedSurface();
         updateSurfaceHint();
+        updateHumanScaleHint();
       }
       if (event.target === elements.archSketchSceneType) {
-        updateViewOptions({ applySceneDefault: true });
+        if (!smartDefaults.restoring) {
+          if (!smartDefaults.lightingTouched) applyRecommendedLighting();
+          updateViewOptions({ applySceneDefault: !smartDefaults.viewTouched });
+        }
+        updateLightingHint();
       }
       if (event.target === elements.archSketchMedium) updateSurfaceHint();
+      if (event.target === elements.archSketchLighting) updateLightingHint();
+      if (event.target === elements.archSketchHumanScale) updateHumanScaleHint();
       if (event.target === elements.archSketchLineQuality || event.target === elements.archSketchColorTreatment) {
         updateAdvancedState();
       }
@@ -335,10 +359,13 @@
       elements.archSketchAspectRatio.append(option);
     });
 
+    resetSmartDefaultState();
     applyDefaults();
     initSearchable();
     updateStyleHint();
     updateSurfaceHint();
+    updateLightingHint();
+    updateHumanScaleHint();
     updateAdvancedState();
     if (active) generate(false);
   }
@@ -356,6 +383,8 @@
       option.dataset.avoid = item.avoid || "";
       option.dataset.recommendedSurface = item.recommended_surface || "";
       option.dataset.sceneScope = item.scene_scope || "";
+      option.dataset.recommendedLighting = item.recommended_lighting || "";
+      option.dataset.recommendedHuman = item.recommended_human || "";
       option.dataset.id = item.id || "";
       select.append(option);
     });
@@ -429,6 +458,60 @@
     );
   }
 
+  function resetSmartDefaultState() {
+    smartDefaults.surfaceTouched = false;
+    smartDefaults.lightingTouched = false;
+    smartDefaults.viewTouched = false;
+    smartDefaults.restoring = false;
+    smartDefaults.applying = false;
+  }
+
+  function withSmartApply(callback) {
+    smartDefaults.applying = true;
+    try {
+      callback();
+    } finally {
+      smartDefaults.applying = false;
+    }
+  }
+
+  function firstRecommendedSurface() {
+    return String(selectedMeta(elements.archSketchStyle, "recommendedSurface") || "")
+      .split(",")
+      .map(value => value.trim())
+      .filter(Boolean)[0] || "";
+  }
+
+  function recommendedLightingForScene() {
+    return selectedMeta(elements.archSketchSceneType, "recommendedLighting") || "";
+  }
+
+  function recommendedHumanForStyle() {
+    return selectedMeta(elements.archSketchStyle, "recommendedHuman") || "";
+  }
+
+  function syncSearchableControl(id) {
+    searchable.get(id)?.syncFromNative?.();
+  }
+
+  function applyRecommendedSurface({ force = false } = {}) {
+    if (!force && smartDefaults.surfaceTouched) return false;
+    const recommended = firstRecommendedSurface();
+    const fallback = database?.config?.defaultArchitecturalSketchMedium || "watercolor-paper";
+    withSmartApply(() => setValue(elements.archSketchMedium, recommended || fallback));
+    syncSearchableControl("archSketchMedium");
+    return true;
+  }
+
+  function applyRecommendedLighting({ force = false } = {}) {
+    if (!force && smartDefaults.lightingTouched) return false;
+    const recommended = recommendedLightingForScene();
+    const fallback = database?.config?.defaultArchitecturalSketchLighting || "morning-light";
+    withSmartApply(() => setValue(elements.archSketchLighting, recommended || fallback));
+    syncSearchableControl("archSketchLighting");
+    return true;
+  }
+
   function applyDefaults() {
     const config = database?.config || {};
     setValue(elements.archSketchInputType, config.defaultArchitecturalSketchInputType || "concept-prompt");
@@ -438,10 +521,10 @@
     updateArchitectureStyleOptions({ selectedId: "" });
     setValue(elements.archSketchSceneType, config.defaultArchitecturalSketchSceneType || "exterior");
     setValue(elements.archSketchStyle, config.defaultArchitecturalSketchStyle || "watercolor-sketch");
-    setValue(elements.archSketchMedium, config.defaultArchitecturalSketchMedium || "watercolor-paper");
+    applyRecommendedSurface({ force: true });
     setValue(elements.archSketchLineQuality, config.defaultArchitecturalSketchLineQuality || "auto-follow-style");
     setValue(elements.archSketchColorTreatment, config.defaultArchitecturalSketchColorTreatment || "auto-follow-style");
-    setValue(elements.archSketchLighting, config.defaultArchitecturalSketchLighting || "morning-light");
+    applyRecommendedLighting({ force: true });
     setValue(elements.archSketchMood, config.defaultArchitecturalSketchMood || "calm");
     setValue(elements.archSketchHumanScale, config.defaultArchitecturalSketchHumanScale || "none");
     setValue(elements.archSketchAnnotationText, config.defaultArchitecturalSketchAnnotationText || "no-text");
@@ -477,6 +560,9 @@
     const preferred = applySceneDefault ? sceneDefaultView(sceneId) : previous;
     setValue(elements.archSketchCameraView, preferred);
 
+    if (!elements.archSketchCameraView.value) {
+      setValue(elements.archSketchCameraView, sceneDefaultView(sceneId));
+    }
     if (!elements.archSketchCameraView.value && eligible[0]) {
       elements.archSketchCameraView.value = eligible[0].id;
     }
@@ -560,6 +646,36 @@
     elements.archSketchSurfaceHint.textContent = isRecommended
       ? `Recommended for this style: ${labels.join(" · ")}. Current surface is a recommended match.`
       : `Recommended for this style: ${labels.join(" · ")}. You can still choose any surface.`;
+  }
+
+  function updateLightingHint() {
+    if (!elements.archSketchLightingHint) return;
+    const recommendedId = recommendedLightingForScene();
+    const sceneLabel = selectedLabel(elements.archSketchSceneType) || "this scene";
+    const recommended = (options?.lighting || []).find(item => item.id === recommendedId);
+    if (!recommended) {
+      elements.archSketchLightingHint.textContent = "Choose lighting independently for the selected scene.";
+      return;
+    }
+    const current = elements.archSketchLighting?.value || "";
+    elements.archSketchLightingHint.textContent = current === recommendedId
+      ? `Recommended for ${sceneLabel}: ${recommended.label || recommended.id}. Current lighting is a recommended match.`
+      : `Recommended for ${sceneLabel}: ${recommended.label || recommended.id}. You can still choose any lighting.`;
+  }
+
+  function updateHumanScaleHint() {
+    if (!elements.archSketchHumanScaleHint) return;
+    const recommendedId = recommendedHumanForStyle();
+    const styleLabel = selectedLabel(elements.archSketchStyle) || "this sketch style";
+    const recommended = (options?.humanScale || []).find(item => item.id === recommendedId);
+    if (!recommended) {
+      elements.archSketchHumanScaleHint.textContent = "Controls human presence only for architectural scale; mood, clothing, location, and narrative activity remain separate.";
+      return;
+    }
+    const current = elements.archSketchHumanScale?.value || "";
+    elements.archSketchHumanScaleHint.textContent = current === recommendedId
+      ? `Recommended for ${styleLabel}: ${recommended.label || recommended.id}. Current selection is a recommended match.`
+      : `Recommended for ${styleLabel}: ${recommended.label || recommended.id}. You can still choose any option.`;
   }
 
   function isAdvancedOverride(value) {
@@ -680,6 +796,8 @@
     if (elements.outputTipText) elements.outputTipText.textContent = "Sketch Style controls the default line and color language. Keep Advanced Style Controls on Auto for the intended style, or open them only when you want a deliberate line or color override.";
     updateStyleHint();
     updateSurfaceHint();
+    updateLightingHint();
+    updateHumanScaleHint();
     updateAdvancedState();
 
     elements.promptModeGrid.querySelectorAll("[data-prompt-mode-id]").forEach(card => {
@@ -711,6 +829,7 @@
     elements.archSketchLandscape.value = "";
     elements.archSketchFeatures.value = "";
     elements.archSketchExtraInstruction.value = "";
+    resetSmartDefaultState();
     applyDefaults();
     searchable.forEach(control => control.syncFromNative?.());
     if (elements.archSketchAdvanced) elements.archSketchAdvanced.open = false;
@@ -752,6 +871,7 @@
 
   function restoreState(state = {}) {
     const missing = [];
+    smartDefaults.restoring = true;
     setSelect("archSketchInputType", state.archSketchInputType, missing, "Input Type");
 
     const buildingRestore = global.ArchitecturalTaxonomy.deriveRestore({
@@ -804,8 +924,14 @@
     setSelect("archSketchAspectRatio", state.archSketchAspectRatio, missing, "Aspect Ratio");
     setText("archSketchExtraInstruction", state.archSketchExtraInstruction);
     searchable.forEach(control => control.syncFromNative?.());
+    smartDefaults.restoring = false;
+    smartDefaults.surfaceTouched = true;
+    smartDefaults.lightingTouched = true;
+    smartDefaults.viewTouched = true;
     updateStyleHint();
     updateSurfaceHint();
+    updateLightingHint();
+    updateHumanScaleHint();
     updateAdvancedState();
     if (elements.archSketchAdvanced) {
       elements.archSketchAdvanced.open =
