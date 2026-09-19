@@ -75,13 +75,15 @@ Stores editable option content for:
 - Color Treatment
 - Lighting / Time
 - Atmosphere / Character
-- Human Figure for Scale
+- Human Presence / Scale
 - View / Projection
 - Annotations / Text
 
 Sketch Style is the primary visual controller. Line Character and Color Treatment are Advanced overrides and default to `Auto — Follow Sketch Style`.
 
-Lighting / Time controls illumination only. Atmosphere / Character controls spatial character only. Weather and site conditions belong in Landscape / Context.
+Lighting / Time controls illumination only. Atmosphere / Character controls spatial character only. Weather and physical surroundings belong in Site / Context.
+
+Site / Context is a free-text physical-environment field. Architectural Feature Emphasis is a separate free-text building-element field. In Reference Image mode, feature emphasis is preservation-aware and may only highlight elements already present in the reference. Human Presence / Scale controls figures only for scale, not narrative activity.
 
 View / Projection is filtered by Scene Type using `SCENE_SCOPE`. Exterior defaults to Three-Quarter Perspective; Interior defaults to Interior Corner Perspective, while users remain free to select any valid scene-compatible projection.
 
