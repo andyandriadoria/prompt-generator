@@ -15,6 +15,8 @@
     cassette: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2.1"/><circle cx="15.5" cy="11" r="2.1"/><path d="M7 17h10l-1.2-3H8.2L7 17Z"/>',
     cube: '<path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/>',
     compass: '<circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8 4.8-2.2Z"/>',
+    camera: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="m8 6 1.4-2h5.2L16 6"/><circle cx="12" cy="12.5" r="3.2"/>',
+    settings: '<circle cx="12" cy="12" r="3"/><path d="M19 13.5v-3l-2-.7a7.3 7.3 0 0 0-.7-1.7l.9-1.9-2.1-2.1-1.9.9a7.3 7.3 0 0 0-1.7-.7L10.8 2h-3l-.7 2.3a7.3 7.3 0 0 0-1.7.7l-1.9-.9-2.1 2.1.9 1.9a7.3 7.3 0 0 0-.7 1.7L0 10.5v3l1.6.7a7.3 7.3 0 0 0 .7 1.7l-.9 1.9 2.1 2.1 1.9-.9a7.3 7.3 0 0 0 1.7.7l.7 2.3h3l.7-2.3a7.3 7.3 0 0 0 1.7-.7l1.9.9 2.1-2.1-.9-1.9a7.3 7.3 0 0 0 .7-1.7l2-.7Z" transform="translate(2 0) scale(.83)"/>',
     palette: '<path d="M12 3a9 9 0 1 0 0 18h1.2a1.8 1.8 0 0 0 0-3.6h-.7a1.6 1.6 0 0 1 0-3.2H15A6 6 0 0 0 15 3h-3Z"/><circle cx="7.5" cy="9" r=".7"/><circle cx="10" cy="6.5" r=".7"/><circle cx="14" cy="6.2" r=".7"/>',
     brain: '<path d="M9.5 4.5A3 3 0 0 0 6.7 8 3.2 3.2 0 0 0 5 13.8 3.1 3.1 0 0 0 8 18h1.5V4.5ZM14.5 4.5A3 3 0 0 1 17.3 8a3.2 3.2 0 0 1 1.7 5.8A3.1 3.1 0 0 1 16 18h-1.5V4.5Z"/><path d="M9.5 9H8M14.5 9H16M9.5 13H8M14.5 13H16"/>',
     database: '<ellipse cx="12" cy="5.5" rx="7" ry="3"/><path d="M5 5.5v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6M5 11.5v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',
@@ -43,6 +45,7 @@
     const aliases = {
       "✨":"sparkles","👗":"shirt","📱":"smartphone","🎬":"film","✦":"gem","🌿":"sun","📼":"cassette","🏠":"cube",
       "creative":"sparkles","outfit_catalog":"shirt","outfit-catalog":"shirt","reference_product_catalog":"package","product_catalog":"package","product-catalog":"package",
+      "chevron-down":"chevronDown",
       "reference_product_poster":"poster","product_poster":"poster","product-poster":"poster","architectural_render":"building","architectural-render":"building","architectural_sketch":"drafting","architectural-sketch":"drafting"
     };
     return aliases[name] || name || "sparkles";
