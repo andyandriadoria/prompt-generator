@@ -27,6 +27,7 @@
     lighting: [{ id: "morning-light", label: "Morning Light", prompt: "soft morning light with gentle directional shadows" }],
     moods: [{ id: "calm", label: "Calm", prompt: "a calm, composed, and visually balanced architectural character" }],
     humanScale: [{ id: "none", label: "None", prompt: "" }],
+    annotationTexts: [{ id: "no-text", label: "None — No Text or Annotations", prompt: "", description: "Default clean-output mode that suppresses generated text and signage." }],
     cameraViews: [{ id: "eye-level-perspective", label: "Eye-Level Perspective", prompt: "an eye-level architectural perspective with a natural human-scale viewpoint", scene_scope: "exterior,interior" }]
   };
 
@@ -104,7 +105,7 @@
       "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyle", "archSketchCustomArchitectureStyleRow",
       "archSketchStyle", "archSketchMedium", "archSketchLineQuality",
       "archSketchColorTreatment", "archSketchLighting", "archSketchMood", "archSketchLandscape",
-      "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAspectRatio",
+      "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAnnotationText", "archSketchAspectRatio",
       "archSketchExtraInstruction", "archSketchStyleHint", "archSketchSurfaceHint", "archSketchTip", "archSketchAdvanced", "archSketchAdvancedState"
     ].forEach(id => elements[id] = document.getElementById(id));
   }
@@ -155,12 +156,13 @@
       <div class="field-row"><label for="archSketchFeatures">Architectural Features <span class="optional-label">optional</span></label><textarea id="archSketchFeatures" class="short-textarea" placeholder="Example: deep overhang roof, vertical timber screens, arched openings, open courtyard"></textarea></div>
       <div class="field-row"><label for="archSketchHumanScale">Human Figure for Scale</label><select id="archSketchHumanScale"></select></div>
       <div class="field-row"><label for="archSketchCameraView">View / Projection</label><div><select id="archSketchCameraView"></select><p class="help-text">Options are filtered by Scene Type. Exterior and Interior use only compatible architectural views.</p></div></div>
+      <div class="field-row"><label for="archSketchAnnotationText">Annotations / Text</label><div><select id="archSketchAnnotationText"></select><p class="help-text">Default is no text: generated signage, labels, handwritten notes, dates, signatures, watermarks, and decorative lettering are suppressed.</p></div></div>
       <div class="field-row"><label for="archSketchAspectRatio">Aspect Ratio</label><select id="archSketchAspectRatio"></select></div>
       <div class="field-row"><label for="archSketchExtraInstruction">Extra Instruction <span class="optional-label">optional</span></label><textarea id="archSketchExtraInstruction" class="short-textarea" placeholder="Example: emphasize the entrance canopy; avoid excessive foliage; no text labels"></textarea></div>
 
       <div class="arch-sketch-tip" id="archSketchTip">
         <span>${global.PromptIcons.svg("drafting")}</span>
-        <div><strong>Architectural sketch logic</strong><p>Building and architectural style choices use the shared Architecture Taxonomy; category fields only filter the UI and do not enter the prompt. Sketch Style controls drawing language, Paper / Surface controls the drawing surface, and View / Projection follows Scene Type.</p></div>
+        <div><strong>Architectural sketch logic</strong><p>Building and architectural style choices use the shared Architecture Taxonomy; category fields only filter the UI and do not enter the prompt. Sketch Style controls drawing language, Paper / Surface controls the drawing surface, View / Projection follows Scene Type, and Annotations / Text defaults to a clean no-text output.</p></div>
       </div>
     `;
 
@@ -260,6 +262,7 @@
       lighting: parseList(config.architecturalSketchLighting, FALLBACK_OPTIONS.lighting),
       moods: parseList(config.architecturalSketchMoods, FALLBACK_OPTIONS.moods),
       humanScale: parseList(config.architecturalSketchHumanScale, FALLBACK_OPTIONS.humanScale),
+      annotationTexts: parseList(config.architecturalSketchAnnotationTexts, FALLBACK_OPTIONS.annotationTexts),
       cameraViews: parseList(config.architecturalSketchCameraViews, FALLBACK_OPTIONS.cameraViews)
     };
   }
@@ -318,6 +321,7 @@
     populateSelect(elements.archSketchLighting, options.lighting);
     populateSelect(elements.archSketchMood, options.moods);
     populateSelect(elements.archSketchHumanScale, options.humanScale);
+    populateSelect(elements.archSketchAnnotationText, options.annotationTexts);
 
     elements.archSketchAspectRatio.innerHTML = "";
     (database.aspectRatios || []).forEach(item => {
@@ -436,6 +440,7 @@
     setValue(elements.archSketchLighting, config.defaultArchitecturalSketchLighting || "morning-light");
     setValue(elements.archSketchMood, config.defaultArchitecturalSketchMood || "calm");
     setValue(elements.archSketchHumanScale, config.defaultArchitecturalSketchHumanScale || "none");
+    setValue(elements.archSketchAnnotationText, config.defaultArchitecturalSketchAnnotationText || "no-text");
     updateViewOptions({ applySceneDefault: true });
     setValue(elements.archSketchAspectRatio, config.defaultArchitecturalSketchAspectRatio || "4:5");
   }
@@ -490,7 +495,7 @@
       "archSketchSceneType", "archSketchStyle", "archSketchMedium",
       "archSketchStyleCategory", "archSketchArchitectureStyle",
       "archSketchLineQuality", "archSketchColorTreatment", "archSketchLighting", "archSketchMood",
-      "archSketchHumanScale", "archSketchCameraView", "archSketchAspectRatio"
+      "archSketchHumanScale", "archSketchCameraView", "archSketchAnnotationText", "archSketchAspectRatio"
     ].forEach(id => {
       const select = elements[id];
       if (!select || !global.SearchableSelectControl) return;
@@ -627,6 +632,8 @@
       humanScalePrompt: selectedPrompt(elements.archSketchHumanScale),
       cameraView: elements.archSketchCameraView.value,
       cameraPrompt: selectedPrompt(elements.archSketchCameraView),
+      annotationText: elements.archSketchAnnotationText.value,
+      annotationTextPrompt: selectedPrompt(elements.archSketchAnnotationText),
       aspectRatio: elements.archSketchAspectRatio.value || "4:5",
       extraInstruction: elements.archSketchExtraInstruction.value.trim()
     };
@@ -733,6 +740,7 @@
       archSketchFeatures: elements.archSketchFeatures.value,
       archSketchHumanScale: elements.archSketchHumanScale.value,
       archSketchCameraView: elements.archSketchCameraView.value,
+      archSketchAnnotationText: elements.archSketchAnnotationText.value,
       archSketchAspectRatio: elements.archSketchAspectRatio.value,
       archSketchExtraInstruction: elements.archSketchExtraInstruction.value
     };
@@ -787,6 +795,7 @@
     const restoredView = resolveViewForScene(state.archSketchCameraView, elements.archSketchSceneType.value || "exterior");
     updateViewOptions({ preferredValue: restoredView });
     setSelect("archSketchCameraView", restoredView, missing, "View / Projection");
+    setSelect("archSketchAnnotationText", state.archSketchAnnotationText || database?.config?.defaultArchitecturalSketchAnnotationText || "no-text", missing, "Annotations / Text");
     setSelect("archSketchAspectRatio", state.archSketchAspectRatio, missing, "Aspect Ratio");
     setText("archSketchExtraInstruction", state.archSketchExtraInstruction);
     searchable.forEach(control => control.syncFromNative?.());
