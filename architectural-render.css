@@ -8,3 +8,5 @@
 .architectural-render-fields input[type="text"],.architectural-render-fields textarea,.architectural-render-fields select{min-width:0}
 body.architectural-render-active .architectural-render-mode-card{border-color:rgba(245,158,11,.52);background:rgba(245,158,11,.08)}
 @media(max-width:760px){.arch-mode-intro,.arch-fidelity-note{padding:13px}.arch-mode-intro p,.arch-fidelity-note p{font-size:11px}}
+
+.architectural-render-fields input:disabled{opacity:.72;cursor:not-allowed}
