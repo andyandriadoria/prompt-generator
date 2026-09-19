@@ -69,6 +69,19 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Shared Architecture Taxonomy (2026-09-19)
+
+- added shared Google Sheets sources `ARCH_BUILDING_CATEGORIES`, `ARCH_BUILDING_TYPES`, `ARCH_STYLE_CATEGORIES`, and `ARCH_STYLE_OPTIONS`;
+- replaced free-text Project Type / Architecture Style controls in Architectural Sketch with Building Category → Building Type and Architectural Style Category → Architectural Style;
+- applied the same shared taxonomy to Architectural Render so building/style maintenance is centralized instead of duplicated;
+- added frontend-only **Custom…** options for Building Type and Architectural Style with progressive-disclosure text inputs;
+- category selections are UI navigation/filter metadata only and are not emitted into generated prompts;
+- added `architectural-taxonomy.js` and `architectural-taxonomy.css` as shared architecture-mode assets;
+- preserved Saved Prompt compatibility by keeping legacy resolved text fields and mapping old free-text values to taxonomy rows when possible; unmatched values restore through Custom…;
+- STRICT Architectural Render now disables the style category/style/custom controls without overwriting their saved selection;
+- synchronized the four taxonomy CONFIG JSON mirrors into `fallback.json`;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Scene-Aware View / Projection (2026-09-19)
 
 - renamed Architectural Sketch `Camera / View` to `View / Projection`;
