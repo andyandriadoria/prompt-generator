@@ -75,7 +75,7 @@
     const contextBlock = [
       lighting ? `Lighting / time: ${lighting}` : "",
       character ? `Atmosphere / character: ${character}` : "",
-      camera ? `View: ${camera}` : "",
+      camera ? `View / projection: ${camera}` : "",
       landscape ? `Context: ${landscape}` : "",
       features ? `Emphasize: ${features}` : "",
       humanScale
