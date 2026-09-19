@@ -23,8 +23,8 @@
         loadScript("architectural-sketch-builder.js?v=4.5-arch-sketch-1", "architectural-sketch-builder-script");
         loadScript("architectural-sketch-mode.js?v=4.5-arch-sketch-1", "architectural-sketch-mode-script");
         loadStyle("prompt-saved.css?v=4.5-saved-1", "prompt-saved-style");
-        loadScript("prompt-saved-store.js?v=4.5-saved-3", "prompt-saved-store-script");
-        loadScript("prompt-saved.js?v=4.5-saved-1", "prompt-saved-script");
+        loadScript("prompt-saved-store.js?v=4.5-saved-4", "prompt-saved-store-script");
+        loadScript("prompt-saved.js?v=4.5-saved-2", "prompt-saved-script");
         loadStyle("setting-preview.css?v=4.5-setting-preview-2", "setting-preview-style");
         loadScript("setting-preview.js?v=4.5-setting-preview-2", "setting-preview-script");
     }
