@@ -69,6 +69,18 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Architectural Sketch Text Guard (2026-09-20)
+
+- added Sheets-driven `Annotations / Text` control to Architectural Sketch Builder;
+- added active options **None — No Text or Annotations**, **Minimal Architectural Notes**, and **Handwritten Sketch Annotations**;
+- set `no-text` as the production default through `defaultArchitecturalSketchAnnotationText`;
+- default no-text mode now adds a strong final prompt guard against readable text, signage, labels, logos, captions, handwritten notes, dates, signatures, watermarks, slogans, decorative lettering, and pseudo-text;
+- architectural signage panels may remain as blank design elements instead of receiving invented words;
+- annotation-enabled modes still suppress unrelated branding, storefront names, logos, slogans, dates, signatures, and decorative lettering;
+- Saved Prompt states that predate the control restore safely to the current no-text default;
+- synchronized CONFIG JSON mirror and `fallback.json`;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Shared Architecture Taxonomy (2026-09-19)
 
 - added shared Google Sheets sources `ARCH_BUILDING_CATEGORIES`, `ARCH_BUILDING_TYPES`, `ARCH_STYLE_CATEGORIES`, and `ARCH_STYLE_OPTIONS`;
