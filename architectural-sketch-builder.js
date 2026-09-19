@@ -11,16 +11,26 @@
     return /[.!?]$/.test(text) ? text : `${text}.`;
   }
 
+  function isMonochrome(colorId) {
+    return colorId === "black-white" || colorId === "warm-gray-monochrome";
+  }
+
   function build(state = {}) {
     const ratio = clean(state.aspectRatio) || "4:5";
     const projectType = clean(state.projectType) || "architectural concept";
     const scene = clean(state.scenePrompt) || clean(state.sceneLabel) || "architectural view";
     const architectureStyle = clean(state.architectureStyle);
     const inputPrompt = clean(state.inputPrompt);
-    const sketchStyle = clean(state.sketchStylePrompt) || "a refined architectural sketch";
-    const medium = clean(state.mediumPrompt) || "clean drawing paper";
-    const lineQuality = clean(state.lineQualityPrompt) || "balanced architectural line weight";
-    const colorTreatment = clean(state.colorTreatmentPrompt) || "restrained hand-rendered color";
+
+    const stylePrompt = clean(state.sketchStylePrompt) || "a professional hand-drawn architectural presentation sketch";
+    const styleLineRule = clean(state.sketchStyleLineRule);
+    const styleColorRule = clean(state.sketchStyleColorRule);
+    const styleAvoid = clean(state.sketchStyleAvoid);
+
+    const medium = clean(state.mediumPrompt) || "clean white architectural presentation paper";
+    const lineQuality = clean(state.lineQualityPrompt);
+    const colorTreatment = clean(state.colorTreatmentPrompt);
+
     const lighting = clean(state.lightingPrompt);
     const mood = clean(state.moodPrompt);
     const landscape = clean(state.landscape);
@@ -31,11 +41,18 @@
 
     const opening = `Create a hand-drawn architectural sketch illustration of a ${projectType} as ${scene}.`;
 
-    const styleBlock = architectureStyle
+    const architectureBlock = architectureStyle
       ? `The architectural language should reflect ${architectureStyle} while keeping believable massing, proportions, openings, and spatial logic.`
       : "Keep the architecture believable, proportionate, and spatially coherent.";
 
-    const sketchBlock = `Render the image as ${sketchStyle} on ${medium}, using ${lineQuality} and ${colorTreatment}.`;
+    const styleBlock = [
+      `Use the selected sketch language: ${stylePrompt}`,
+      `Present it on ${medium}`,
+      lineQuality ? `Line character: ${lineQuality}` : "",
+      colorTreatment ? `Color treatment: ${colorTreatment}` : "",
+      styleLineRule,
+      styleColorRule
+    ].filter(Boolean).join(". ");
 
     const environment = [
       lighting ? `Lighting / time: ${lighting}` : "",
@@ -46,18 +63,24 @@
       humanScale
     ].filter(Boolean);
 
-    const hierarchy = "Use a clear architectural line-weight hierarchy: heavier lines for foreground emphasis, cut edges, and primary outlines; medium lines for main architectural edges, openings, and key features; lighter lines for secondary details, furniture, planting, and textures; and very light lines for background elements, surface patterns, and perspective or construction guides.";
+    const colorGuard = isMonochrome(state.colorTreatment)
+      ? "Honor the selected monochrome treatment and do not introduce colored washes."
+      : "Do not collapse the image into monochrome graphite or grayscale; preserve the selected color treatment while keeping the linework visible.";
 
-    const closing = "Keep the result elegant, intentional, presentation-ready, and architecturally legible. Preserve the feeling of a real hand-rendered design drawing rather than a casual doodle, cartoon, or photorealistic render.";
+    const clarity = "Keep architectural proportions, perspective, openings, structure, and spatial relationships clear and believable. The architecture should remain the primary subject, with entourage and context visually secondary.";
+
+    const universalAvoid = "Keep the result clearly within architectural sketch and hand-rendered presentation language. Do not render it as a photorealistic image, CGI, 3D visualization, polished archviz render, or realistic digital painting.";
 
     const blocks = [
       sentence(opening),
       sentence(inputPrompt),
+      sentence(architectureBlock),
       sentence(styleBlock),
-      sentence(sketchBlock),
       environment.length ? sentence(environment.join("; ")) : "",
-      sentence(hierarchy),
-      sentence(closing),
+      sentence(clarity),
+      sentence(colorGuard),
+      sentence(styleAvoid),
+      sentence(universalAvoid),
       sentence(`Aspect ratio: ${ratio}`),
       extra ? sentence(`Additional instruction: ${extra}`) : ""
     ].filter(Boolean);
