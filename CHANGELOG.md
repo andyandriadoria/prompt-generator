@@ -69,6 +69,21 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Scene Content Separation (2026-09-20)
+
+- renamed Architectural Sketch `Landscape / Context` to `Site / Context`;
+- renamed `Architectural Features` to `Architectural Feature Emphasis`;
+- renamed `Human Figure for Scale` to `Human Presence / Scale`;
+- kept Site / Context and Feature Emphasis as free-text controls, while Human Presence / Scale remains Sheets-driven;
+- Human Presence now uses **None, Single Scale Figure, Sparse Scale Figures, Silhouette Figures, and Small Human Group**;
+- retired `casual-people-scale` from active options while retaining the row for Saved Prompt compatibility, with restore mapping to `small-human-group`;
+- Human Presence prompts are restricted to scale communication and avoid clothing, mood, location, staged activity, and storytelling instructions;
+- prompt output now labels physical surroundings as `Site / context`;
+- Concept Prompt / Design Brief feature emphasis may include and emphasize requested elements;
+- Reference Image feature emphasis may only highlight existing reference features and explicitly forbids inventing, adding, removing, relocating, resizing, or redesigning architectural elements;
+- synchronized `architecturalSketchHumanScale` into `fallback.json`;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Architectural Sketch Text Guard (2026-09-20)
 
 - added Sheets-driven `Annotations / Text` control to Architectural Sketch Builder;
