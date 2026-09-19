@@ -1,0 +1,4 @@
+.arch-taxonomy-custom[hidden]{display:none!important}
+.arch-taxonomy-custom input{width:100%}
+.arch-taxonomy-help{margin:7px 2px 0;font-size:11px;line-height:1.45;color:var(--muted,#7d8590)}
+@media(max-width:760px){.arch-taxonomy-help{font-size:11px}}
