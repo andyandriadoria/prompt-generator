@@ -2,6 +2,7 @@
   "use strict";
 
   const MODE_ID = "architectural_render";
+  const STRICT_STYLE_LABEL = "Follow Reference / Do Not Restyle";
   const FALLBACK = {
     id: MODE_ID,
     label: "Architectural Render",
@@ -20,6 +21,7 @@
   let active = false;
   let initialized = false;
   let observer = null;
+  let lastEditableArchitectureStyle = "";
   const requestedInitialMode = localStorage.getItem("promptGenPromptMode") || "";
 
   waitForDependencies();
@@ -61,7 +63,7 @@
     [
       "architecturalRenderFields", "archInputType", "archProjectType", "archFidelity", "archArchitectureStyle",
       "archMaterials", "archLighting", "archAtmosphere", "archLandscape", "archCamera",
-      "archRenderStyle", "archAspectRatio", "archQuality", "archExtraInstruction", "archFidelityNote"
+      "archAspectRatio", "archExtraInstruction", "archFidelityNote"
     ].forEach(id => elements[id] = document.getElementById(id));
   }
 
@@ -136,27 +138,11 @@
         <label for="archCamera">Camera / View</label>
         <select id="archCamera"><option value="preserve-reference-view">Preserve Reference View</option></select>
       </div>
-
-      <div class="field-row">
-        <label for="archRenderStyle">Render Style</label>
-        <input id="archRenderStyle" type="text" value="photorealistic architectural visualization" placeholder="Example: photorealistic architectural visualization">
-      </div>
-
-      <div class="field-row">
+<div class="field-row">
         <label for="archAspectRatio">Aspect Ratio</label>
         <select id="archAspectRatio"><option value="">-- Select Aspect Ratio --</option></select>
       </div>
-
-      <div class="field-row">
-        <label for="archQuality">Quality</label>
-        <select id="archQuality">
-          <option value="high-detail">High Detail</option>
-          <option value="ultra-realistic">Ultra-Realistic</option>
-          <option value="presentation-ready">Presentation Ready</option>
-        </select>
-      </div>
-
-      <div class="field-row">
+<div class="field-row">
         <label for="archExtraInstruction">Extra Instruction <span class="optional-label">optional</span></label>
         <textarea id="archExtraInstruction" class="short-textarea" placeholder="Example: preserve the existing gate and boundary wall; no people; keep the road level unchanged"></textarea>
       </div>
@@ -294,7 +280,6 @@
     setSelectById(elements.archLighting, "daylight");
     elements.archInputType.value = elements.archInputType.value || "reference-image";
     elements.archFidelity.value = elements.archFidelity.value || "strict";
-    elements.archQuality.value = elements.archQuality.value || "high-detail";
 
     initSearchable();
     updateFidelityUi();
@@ -333,16 +318,38 @@
     return (collection || []).find(item => item.id === id) || null;
   }
 
-  function handleFieldChange() {
+  function handleFieldChange(event) {
+    if (event?.target === elements.archArchitectureStyle && elements.archFidelity.value !== "strict") {
+      lastEditableArchitectureStyle = elements.archArchitectureStyle.value;
+    }
     updateFidelityUi();
     generate(false);
   }
 
   function updateFidelityUi() {
-    if (!elements.archFidelity || !elements.archCamera) return;
+    if (!elements.archFidelity || !elements.archCamera || !elements.archArchitectureStyle) return;
     const strict = elements.archFidelity.value === "strict";
-    if (strict) elements.archCamera.value = "preserve-reference-view";
-    elements.archCamera.disabled = strict;
+
+    if (strict) {
+      const currentStyle = elements.archArchitectureStyle.value.trim();
+      if (currentStyle && currentStyle !== STRICT_STYLE_LABEL) lastEditableArchitectureStyle = currentStyle;
+
+      elements.archArchitectureStyle.value = STRICT_STYLE_LABEL;
+      elements.archArchitectureStyle.disabled = true;
+      elements.archArchitectureStyle.title = "Controlled by STRICT Design Fidelity";
+
+      elements.archCamera.value = "preserve-reference-view";
+      elements.archCamera.disabled = true;
+    } else {
+      const wasLocked = elements.archArchitectureStyle.disabled;
+      elements.archArchitectureStyle.disabled = false;
+      elements.archArchitectureStyle.title = "";
+      if (wasLocked && elements.archArchitectureStyle.value === STRICT_STYLE_LABEL) {
+        elements.archArchitectureStyle.value = lastEditableArchitectureStyle;
+      }
+      elements.archCamera.disabled = false;
+    }
+
     searchable.get("archCamera")?.setDisabled?.(strict);
     searchable.get("archCamera")?.syncFromNative?.();
 
@@ -352,18 +359,19 @@
     const title = note.querySelector("strong");
     if (strict) {
       title.textContent = "Strict geometry lock";
-      copy.textContent = "Geometry, massing, openings, structure, levels, roof form, and source perspective stay unchanged. Materials, light, landscape, and realism may be enhanced without redesigning the architecture.";
+      copy.textContent = "Architecture Style and Camera / View are controlled automatically. Geometry, massing, openings, structure, levels, roof form, framing, and source perspective stay unchanged.";
     } else if (elements.archFidelity.value === "balanced") {
       title.textContent = "Balanced design control";
-      copy.textContent = "Core geometry and architectural identity stay intact while restrained visualization refinements and alternate framing are allowed.";
+      copy.textContent = "Core geometry and architectural identity stay intact while restrained style refinements and alternate framing are available.";
     } else {
       title.textContent = "Controlled design development";
-      copy.textContent = "Core massing and project identity remain recognizable while facade, material, landscape, and presentation development may follow your directions.";
+      copy.textContent = "Core massing and project identity remain recognizable while architecture style, materials, landscape, mood, and framing may follow your directions.";
     }
   }
 
   function collectState() {
     const lighting = selectedItem(elements.archLighting, database?.lighting);
+    const strict = elements.archFidelity.value === "strict";
     const camera = elements.archCamera.value === "preserve-reference-view"
       ? "preserve the original reference viewpoint and perspective"
       : selectedItem(elements.archCamera, database?.cameraAngles)?.prompt || elements.archCamera.selectedOptions[0]?.textContent || "";
@@ -372,16 +380,14 @@
       inputType: elements.archInputType.value,
       projectType: elements.archProjectType.value.trim(),
       fidelity: elements.archFidelity.value,
-      architectureStyle: elements.archArchitectureStyle.value.trim(),
+      architectureStyle: strict ? "" : elements.archArchitectureStyle.value.trim(),
       materials: elements.archMaterials.value.trim(),
       lighting: lighting?.prompt || lighting?.label || "",
       atmosphere: elements.archAtmosphere.value.trim(),
       landscape: elements.archLandscape.value.trim(),
-      camera,
+      camera: strict ? "" : camera,
       cameraId: elements.archCamera.value,
-      renderStyle: elements.archRenderStyle.value.trim(),
       aspectRatio: elements.archAspectRatio.value || "16:9",
-      quality: elements.archQuality.value,
       extraInstruction: elements.archExtraInstruction.value.trim()
     };
   }
@@ -446,15 +452,14 @@
     elements.archInputType.value = "reference-image";
     elements.archProjectType.value = "";
     elements.archFidelity.value = "strict";
+    lastEditableArchitectureStyle = "";
     elements.archArchitectureStyle.value = "";
     elements.archMaterials.value = "";
     setSelectById(elements.archLighting, "daylight");
     elements.archAtmosphere.value = "";
     elements.archLandscape.value = "";
     elements.archCamera.value = "preserve-reference-view";
-    elements.archRenderStyle.value = "photorealistic architectural visualization";
     if ([...elements.archAspectRatio.options].some(option => option.value === "16:9")) elements.archAspectRatio.value = "16:9";
-    elements.archQuality.value = "high-detail";
     elements.archExtraInstruction.value = "";
     searchable.forEach(control => control.syncFromNative?.());
     updateFidelityUi();
@@ -467,34 +472,41 @@
       archInputType: elements.archInputType.value,
       archProjectType: elements.archProjectType.value,
       archFidelity: elements.archFidelity.value,
-      archArchitectureStyle: elements.archArchitectureStyle.value,
+      archArchitectureStyle: elements.archFidelity.value === "strict" ? lastEditableArchitectureStyle : elements.archArchitectureStyle.value,
       archMaterials: elements.archMaterials.value,
       archLighting: elements.archLighting.value,
       archAtmosphere: elements.archAtmosphere.value,
       archLandscape: elements.archLandscape.value,
       archCamera: elements.archCamera.value,
-      archRenderStyle: elements.archRenderStyle.value,
       archAspectRatio: elements.archAspectRatio.value,
-      archQuality: elements.archQuality.value,
       archExtraInstruction: elements.archExtraInstruction.value
     };
   }
 
   function restoreState(state = {}) {
     const missing = [];
+    const fidelity = state.archFidelity || "strict";
+
     setSelect("archInputType", state.archInputType || "reference-image", missing, "Input Type");
     setText("archProjectType", state.archProjectType);
-    setSelect("archFidelity", state.archFidelity || "strict", missing, "Design Fidelity");
-    setText("archArchitectureStyle", state.archArchitectureStyle);
+    setSelect("archFidelity", fidelity, missing, "Design Fidelity");
+
+    if (fidelity === "strict") {
+      const savedStyle = String(state.archArchitectureStyle || "").trim();
+      lastEditableArchitectureStyle = savedStyle && savedStyle !== STRICT_STYLE_LABEL ? savedStyle : "";
+    } else {
+      lastEditableArchitectureStyle = String(state.archArchitectureStyle || "");
+      setText("archArchitectureStyle", lastEditableArchitectureStyle);
+    }
+
     setText("archMaterials", state.archMaterials);
     setSelect("archLighting", state.archLighting, missing, "Lighting");
     setText("archAtmosphere", state.archAtmosphere);
     setText("archLandscape", state.archLandscape);
     setSelect("archCamera", state.archCamera || "preserve-reference-view", missing, "Camera / View");
-    setText("archRenderStyle", state.archRenderStyle || "photorealistic architectural visualization");
     setSelect("archAspectRatio", state.archAspectRatio || "16:9", missing, "Aspect Ratio");
-    setSelect("archQuality", state.archQuality || "high-detail", missing, "Quality");
     setText("archExtraInstruction", state.archExtraInstruction);
+
     searchable.forEach(control => control.syncFromNative?.());
     updateFidelityUi();
     generate(false);
@@ -509,7 +521,7 @@
       Boolean(state.fidelity),
       Boolean(state.materials || state.architectureStyle),
       Boolean(state.atmosphere || state.landscape),
-      Boolean(state.quality || state.renderStyle)
+      true
     ];
     [elements.dnaSubject, elements.dnaScene, elements.dnaStyle, elements.dnaCamera, elements.dnaLight].forEach((node, index) => {
       if (!node) return;
