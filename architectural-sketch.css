@@ -1,0 +1,10 @@
+.architectural-sketch-fields{display:grid;gap:14px}
+.architectural-sketch-fields[hidden]{display:none!important}
+.arch-sketch-intro,.arch-sketch-tip{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px 16px;border:1px solid var(--border,rgba(127,127,127,.22));border-radius:14px;background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(255,255,255,.02))}
+.arch-sketch-icon,.arch-sketch-tip>span{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;color:var(--accent,#f0a500);background:rgba(245,158,11,.11);border:1px solid rgba(245,158,11,.22)}
+.arch-sketch-icon .ui-icon,.arch-sketch-tip .ui-icon{width:20px;height:20px}
+.arch-sketch-intro strong,.arch-sketch-tip strong{display:block;font-size:14px;line-height:1.3}
+.arch-sketch-intro p,.arch-sketch-tip p{margin:4px 0 0;color:var(--muted,#7d8590);font-size:11px;line-height:1.5}
+body.architectural-sketch-active .architectural-sketch-mode-card{border-color:rgba(245,158,11,.52);background:rgba(245,158,11,.08)}
+.architectural-sketch-fields textarea.short-textarea{min-height:86px}
+@media(max-width:760px){.arch-sketch-intro,.arch-sketch-tip{padding:13px}.arch-sketch-intro p,.arch-sketch-tip p{font-size:11px}}
