@@ -217,10 +217,12 @@ Architectural Render is a dedicated reference-driven prompt mode for architectur
 
 Core fields:
 - Input Type
-- Project Type
+- Building Category
+- Building Type
 - Design Fidelity
 - Realism Target
-- Architecture Style
+- Architectural Style Category
+- Architectural Style
 - Building Materials
 - Lighting
 - Weather / Atmosphere
@@ -230,7 +232,7 @@ Core fields:
 - Extra Instruction
 
 Design Fidelity is the master controller:
-- `STRICT` automatically locks Architecture Style to **Follow Reference / Do Not Restyle** and Camera / View to **Preserve Reference View**;
+- `STRICT` disables Architectural Style Category / Architectural Style and locks Camera / View to **Preserve Reference View**;
 - `Balanced` keeps the core design intact while allowing restrained style and framing refinements;
 - `Creative` allows controlled design development while keeping the core project identity recognizable.
 
@@ -257,7 +259,8 @@ Data:
 - editable Architectural Render option content is stored row-by-row in `ARCH_RENDER_OPTIONS`;
 - `CONFIG` contains formula-generated JSON mirrors (`architecturalRenderInputTypes`, `architecturalRenderFidelities`, and `architecturalRenderRealismTargets`) so the existing Apps Script CONFIG payload can serve the new rows without another Apps Script mapping/redeploy;
 - defaults live in `CONFIG` as `defaultArchitecturalRender*` keys;
-- existing shared `LIGHTING`, `CAMERA_ANGLES`, and `ASPECT_RATIOS` collections are reused.
+- existing shared `LIGHTING`, `CAMERA_ANGLES`, and `ASPECT_RATIOS` collections are reused;
+- Building Category / Building Type and Architectural Style Category / Architectural Style use the shared Architecture Taxonomy described below; category fields are navigation metadata and are never emitted into prompts.
 
 ## Architectural Sketch Builder Baseline
 
@@ -265,11 +268,13 @@ Architectural Sketch Builder is a dedicated prompt mode for hand-drawn architect
 
 Core fields:
 - Input Type
-- Project Type
+- Building Category
+- Building Type
 - Scene Type
 - Sketch Style
 - Paper / Surface
-- Architecture Style
+- Architectural Style Category
+- Architectural Style
 - Lighting / Time
 - Atmosphere / Character
 - Landscape / Context
@@ -303,6 +308,9 @@ Defaults:
 
 Prompt behavior:
 - **Sketch Style is the master visual controller**: each style carries its own style prompt, line rule, color rule, and avoid rule from Google Sheets;
+- Building Category / Building Type and Architectural Style Category / Architectural Style use the shared Architecture Taxonomy; categories only filter the UI and do not appear in the generated prompt;
+- both Building Type and Architectural Style include a frontend-only **Custom…** option that reveals a custom text input without requiring a database row;
+- legacy Saved Prompt free-text project/style values are matched back to taxonomy IDs when possible; unmatched legacy values restore through Custom… without losing the original text;
 - Line Character and Color Treatment are hidden inside a collapsed **Advanced Style Controls** section and default to **Auto — Follow Sketch Style**;
 - when both Advanced controls remain on Auto, the prompt uses the selected style's built-in line and color rules without adding duplicate line/color instructions;
 - an explicit Advanced override replaces the corresponding style line/color rule while keeping the selected Sketch Style as the primary visual family;
@@ -439,6 +447,9 @@ Normal production should resolve to `config.js`.
 
 - Google Sheets is the source of truth for content data.
 - `ARCH_RENDER_OPTIONS` and `ARCH_SKETCH_OPTIONS` are the canonical editable sources for Architectural Render and Architectural Sketch option content.
+- Shared Architecture Taxonomy is maintained in `ARCH_BUILDING_CATEGORIES`, `ARCH_BUILDING_TYPES`, `ARCH_STYLE_CATEGORIES`, and `ARCH_STYLE_OPTIONS`, and is consumed by both Architectural Render and Architectural Sketch.
+- Taxonomy category values exist only to organize/filter dropdowns; only the selected Building Type or Architectural Style prompt value is emitted into generated prompts.
+- `Custom…` is a frontend utility option and is intentionally not stored as a taxonomy row in Google Sheets.
 - Architecture option JSON stored in `CONFIG` is a formula-generated compatibility bridge for the current Apps Script API, not the primary editing surface.
 - `SETTINGS` is the canonical setting source for Creative and Reference Outfit Catalog; `CATALOG_SETTINGS` remains legacy-only for compatibility.
 - Apps Script exposes the data as JSON.
