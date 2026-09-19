@@ -19,32 +19,40 @@ Prompt Gen is a multi-mode prompt-building system for creating structured AI ima
 
 The application separates:
 1. application logic and interface — GitHub Pages;
-2. prompt content and configuration — Google Sheets;
+2. prompt content and editable option data — Google Sheets;
 3. data delivery — Google Apps Script JSON API;
 4. permanent deployment-specific API URL — `config.js`;
 5. offline / API-failure resilience — `fallback.json`.
 
 ## Current Product Modes
 
-### Creative Prompt Builder
-A flexible prompt construction mode for characters, poses/actions, expressions, outfits, settings, camera angles, lighting, camera styles, aspect ratios, Prompt Style Presets, and Smart Compatibility.
-
-### Reference Outfit Catalog
-A structured reference-image fashion workflow designed to preserve an uploaded outfit while changing the subject presentation, scene, shot, and catalog context.
-
-Its core principle is strict outfit preservation, including original color, fabric, pattern, texture, cut, proportions, print placement, silhouette, and original details. The mode includes child-safe logic for child subjects.
-
+1. **Creative Prompt Builder** — flexible character, scene, camera, lighting, outfit, and style-preset workflow.
+2. **Reference Outfit Catalog** — strict outfit-preservation workflow with Outfit Focus Style, child-safe logic, mannequin support, and shared master Settings.
+3. **Reference Product Catalog** — product-first commercial/catalog prompts with preservation, presentation, setting, shot, composition, wear-context, and campaign controls.
+4. **Product Poster Builder** — reference-photo poster workflow with premium typography and editable product information.
+5. **Architectural Render** — reference-driven architectural visualization with Design Fidelity and Realism Target controls.
+6. **Architectural Sketch Builder** — hand-drawn architectural concept/reference workflows across line, ink, watercolor, marker, urban-sketch, and mixed-media families.
 
 ## Current Workspaces
 
 ### Build
-Primary authoring workspace. Contains the existing Prompt Mode system: Creative Prompt Builder and Reference Outfit Catalog.
+Primary authoring workspace containing all active Prompt Modes.
 
-### Inspect
-Prompt Intelligence v1. Reviews the current Build state using Prompt Health, expanded Prompt DNA, completeness/coherence signals, findings, recommendations, and prompt diagnostics.
+### Saved
+Browser-local Saved Prompt Library backed by IndexedDB. Stores complete Build state, prompt text, optional generated-result image, and notes. Supports search, mode filtering, preview, edit, copy, delete, and Restore to Build.
 
-### History
-Local-first browser history for explicit Generate Prompt actions. Stores up to 50 prompt/state snapshots and supports search, filtering, preview, restore, copy, delete, and clear. It does not write user activity back to Google Sheets.
+The previous Inspect workspace was removed. The previous History workspace was replaced by Saved Prompt Library.
+
+## Data Maintenance
+
+Google Sheets is the source of truth for editable prompt content.
+
+Important current shared/data-driven sources include:
+- `SETTINGS` for Creative and Reference Outfit Catalog settings;
+- `ARCH_RENDER_OPTIONS` for Architectural Render Input Type, Design Fidelity, and Realism Target content;
+- `ARCH_SKETCH_OPTIONS` for Architectural Sketch dropdown option content.
+
+For the two architecture modes, CONFIG keeps formula-generated JSON mirrors so the existing Apps Script CONFIG payload can serve the row-based option sheets without another API mapping change.
 
 ## Product Philosophy
 
@@ -55,11 +63,11 @@ Avoid emoji-heavy UI, overly playful styling, decorative AI clichés, and needle
 ## Source of Truth Hierarchy
 
 When sources conflict, use this order:
-1. `CURRENT_STATE.md`
-2. `PROJECT_RULES.md`
-3. current production repository
-4. current production Google Sheets database
-5. other project documentation
-6. historical / archived files
+1. `CURRENT_STATE.md`;
+2. `PROJECT_RULES.md`;
+3. current production repository;
+4. current production Google Sheets database;
+5. other project documentation;
+6. historical / archived files.
 
 Older ZIP packages and previous-version files are historical references only unless explicitly requested.
