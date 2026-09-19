@@ -268,7 +268,7 @@ Core fields:
 - Project Type
 - Scene Type
 - Sketch Style
-- Paper / Medium
+- Paper / Surface
 - Architecture Style
 - Lighting / Time
 - Atmosphere / Mood
@@ -297,7 +297,7 @@ Defaults:
 - Sketch Style: `watercolor-sketch` → **Soft Watercolor Architectural Sketch**
 - Line Character: `auto-follow-style` → **Auto — Follow Sketch Style**
 - Color Treatment: `auto-follow-style` → **Auto — Follow Sketch Style**
-- Paper / Medium: `white-sketchbook-paper` → **White Presentation Paper**
+- Paper / Surface: `watercolor-paper` → **Textured Watercolor Paper**
 
 Prompt behavior:
 - **Sketch Style is the master visual controller**: each style carries its own style prompt, line rule, color rule, and avoid rule from Google Sheets;
@@ -315,11 +315,14 @@ Prompt behavior:
 - all styles explicitly reject photorealistic image, CGI, 3D visualization, polished archviz, and realistic digital-painting output;
 - selected style descriptions appear below the Sketch Style control to clarify the intended visual language;
 - prompt assembly is intentionally compact: Concept Prompt does not repeat a separate source sentence, aspect ratio is carried in the opening, architectural clarity is stated once, and photoreal / CGI / 3D-archviz rejection is consolidated into a single guard block;
-- production style, line-character, color, and medium prompt fragments are kept concise in Google Sheets to reduce redundancy while preserving distinct sketch-family behavior.
+- Paper / Surface is a separate physical-surface control and no longer implies the drawing medium; the drawing medium remains part of Sketch Style;
+- the active Paper / Surface set is **White Presentation Paper, Sketchbook Page, Transparent Tracing Paper, Architectural Grid Paper, Textured Watercolor Paper, Smooth Marker Paper, and Bristol Board**;
+- each Sketch Style carries optional `RECOMMENDED_SURFACE` IDs from Google Sheets; the UI shows recommendations without locking or auto-changing the user's selection;
+- production style, line-character, color, and surface prompt fragments are kept concise in Google Sheets to reduce redundancy while preserving distinct sketch-family behavior.
 
 Data source:
 - mode registry: Google Sheets `PROMPT_MODES` row `architectural_sketch`;
-- editable Architectural Sketch option content is stored row-by-row in `ARCH_SKETCH_OPTIONS`;
+- editable Architectural Sketch option content is stored row-by-row in `ARCH_SKETCH_OPTIONS`, including the visible `RECOMMENDED_SURFACE` column for Sketch Style guidance;
 - existing `architecturalSketch*` CONFIG keys are now formula-generated JSON mirrors of `ARCH_SKETCH_OPTIONS`, preserving the existing API contract while making the option content easy to edit;
 - defaults remain in `CONFIG` using `defaultArchitecturalSketch*` keys;
 - Aspect Ratio reuses the shared `ASPECT_RATIOS` collection;
