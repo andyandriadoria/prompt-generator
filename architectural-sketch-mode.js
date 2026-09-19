@@ -56,6 +56,7 @@
   const searchable = new Map();
   let database = null;
   let options = null;
+  let taxonomy = null;
   let active = false;
   let initialized = false;
   let observer = null;
@@ -64,7 +65,7 @@
   waitForDependencies();
 
   function waitForDependencies(attempt = 0) {
-    if (global.PromptDataLoader && global.ArchitecturalSketchPromptBuilder && global.PromptIcons) return bootstrap();
+    if (global.PromptDataLoader && global.ArchitecturalSketchPromptBuilder && global.ArchitecturalTaxonomy && global.PromptIcons) return bootstrap();
     if (attempt > 100) return console.warn("Architectural Sketch dependencies did not become available.");
     setTimeout(() => waitForDependencies(attempt + 1), 80);
   }
@@ -98,8 +99,10 @@
 
   function cacheSketchElements() {
     [
-      "architecturalSketchFields", "archSketchInputType", "archSketchProjectType", "archSketchSceneType",
-      "archSketchArchitectureStyle", "archSketchStyle", "archSketchMedium", "archSketchLineQuality",
+      "architecturalSketchFields", "archSketchInputType", "archSketchSceneType",
+      "archSketchBuildingCategory", "archSketchBuildingType", "archSketchCustomBuildingType", "archSketchCustomBuildingRow",
+      "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyle", "archSketchCustomArchitectureStyleRow",
+      "archSketchStyle", "archSketchMedium", "archSketchLineQuality",
       "archSketchColorTreatment", "archSketchLighting", "archSketchMood", "archSketchLandscape",
       "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAspectRatio",
       "archSketchExtraInstruction", "archSketchStyleHint", "archSketchSurfaceHint", "archSketchTip", "archSketchAdvanced", "archSketchAdvancedState"
@@ -125,7 +128,9 @@
       </div>
 
       <div class="field-row"><label for="archSketchInputType">Input Type</label><select id="archSketchInputType"></select></div>
-      <div class="field-row"><label for="archSketchProjectType">Project Type</label><input id="archSketchProjectType" type="text" placeholder="Example: private residence, tropical villa, boutique café, mosque courtyard"></div>
+      <div class="field-row"><label for="archSketchBuildingCategory">Building Category</label><select id="archSketchBuildingCategory"></select></div>
+      <div class="field-row"><label for="archSketchBuildingType">Building Type</label><select id="archSketchBuildingType"></select></div>
+      <div class="field-row arch-taxonomy-custom" id="archSketchCustomBuildingRow" hidden><label for="archSketchCustomBuildingType">Custom Building Type</label><input id="archSketchCustomBuildingType" type="text" placeholder="Example: mixed-use courtyard housing, tropical community pavilion"></div>
       <div class="field-row"><label for="archSketchSceneType">Scene Type</label><select id="archSketchSceneType"></select></div>
       <div class="field-row"><label for="archSketchStyle">Sketch Style</label><div><select id="archSketchStyle"></select><p class="help-text arch-sketch-style-hint" id="archSketchStyleHint"></p></div></div>
       <div class="field-row"><label for="archSketchMedium">Paper / Surface</label><div><select id="archSketchMedium"></select><p class="help-text arch-sketch-surface-hint" id="archSketchSurfaceHint"></p></div></div>
@@ -141,7 +146,9 @@
           <div class="field-row"><label for="archSketchColorTreatment">Color Treatment</label><select id="archSketchColorTreatment"></select></div>
         </div>
       </details>
-      <div class="field-row"><label for="archSketchArchitectureStyle">Architecture Style</label><input id="archSketchArchitectureStyle" type="text" placeholder="Example: tropical modern, contemporary minimalist, Mediterranean, Japandi"></div>
+      <div class="field-row"><label for="archSketchStyleCategory">Architectural Style Category</label><select id="archSketchStyleCategory"></select></div>
+      <div class="field-row"><label for="archSketchArchitectureStyle">Architectural Style</label><select id="archSketchArchitectureStyle"></select></div>
+      <div class="field-row arch-taxonomy-custom" id="archSketchCustomArchitectureStyleRow" hidden><label for="archSketchCustomArchitectureStyle">Custom Architectural Style</label><input id="archSketchCustomArchitectureStyle" type="text" placeholder="Example: tropical contemporary with subtle Japanese influence"></div>
       <div class="field-row"><label for="archSketchLighting">Lighting / Time</label><select id="archSketchLighting"></select></div>
       <div class="field-row"><label for="archSketchMood">Atmosphere / Character</label><div><select id="archSketchMood"></select><p class="help-text">Spatial character only; lighting stays in Lighting / Time and weather stays in Landscape / Context.</p></div></div>
       <div class="field-row"><label for="archSketchLandscape">Landscape / Context <span class="optional-label">optional</span></label><textarea id="archSketchLandscape" class="short-textarea" placeholder="Example: restrained tropical planting, stone paving, light rain, wet paving, urban sidewalk"></textarea></div>
@@ -153,7 +160,7 @@
 
       <div class="arch-sketch-tip" id="archSketchTip">
         <span>${global.PromptIcons.svg("drafting")}</span>
-        <div><strong>Architectural sketch logic</strong><p>Sketch Style controls drawing language, line behavior, and color treatment. Paper / Surface controls the physical drawing surface. Lighting / Time controls illumination, Atmosphere / Character controls spatial character, weather belongs in Landscape / Context, and View / Projection follows the selected Scene Type.</p></div>
+        <div><strong>Architectural sketch logic</strong><p>Building and architectural style choices use the shared Architecture Taxonomy; category fields only filter the UI and do not enter the prompt. Sketch Style controls drawing language, Paper / Surface controls the drawing surface, and View / Projection follows Scene Type.</p></div>
       </div>
     `;
 
@@ -173,6 +180,18 @@
 
     elements.architecturalSketchFields.addEventListener("input", () => generate(false));
     elements.architecturalSketchFields.addEventListener("change", event => {
+      if (event.target === elements.archSketchBuildingCategory) {
+        updateBuildingTypeOptions({ selectedId: "" });
+      }
+      if (event.target === elements.archSketchBuildingType) {
+        syncBuildingCustomUi();
+      }
+      if (event.target === elements.archSketchStyleCategory) {
+        updateArchitectureStyleOptions({ selectedId: "" });
+      }
+      if (event.target === elements.archSketchArchitectureStyle) {
+        syncArchitectureStyleCustomUi();
+      }
       if (event.target === elements.archSketchStyle) {
         updateStyleHint();
         updateSurfaceHint();
@@ -222,6 +241,7 @@
       const result = await global.PromptDataLoader.load(loadOptions);
       database = result.data;
       options = buildOptions(database.config || {});
+      taxonomy = global.ArchitecturalTaxonomy.fromConfig(database.config || {});
       populateControls();
       ensureModeCard();
     } catch (error) {
@@ -289,6 +309,7 @@
     if (!database || !options) return;
 
     populateSelect(elements.archSketchInputType, options.inputTypes);
+    populateTaxonomyControls();
     populateSelect(elements.archSketchSceneType, options.sceneTypes);
     populateSelect(elements.archSketchStyle, options.sketchStyles);
     populateSelect(elements.archSketchMedium, options.media);
@@ -333,9 +354,80 @@
     if ([...select.options].some(option => option.value === previous)) select.value = previous;
   }
 
+  function populateTaxonomyControls() {
+    if (!taxonomy) return;
+    const t = global.ArchitecturalTaxonomy;
+    const buildingCategory = elements.archSketchBuildingCategory?.value || "";
+    const buildingType = elements.archSketchBuildingType?.value || "";
+    const styleCategory = elements.archSketchStyleCategory?.value || "";
+    const architectureStyle = elements.archSketchArchitectureStyle?.value || "";
+
+    t.populateCategorySelect(elements.archSketchBuildingCategory, taxonomy.buildingCategories, {
+      placeholder: "Select Category...",
+      selectedId: buildingCategory
+    });
+    updateBuildingTypeOptions({ selectedId: buildingType });
+
+    t.populateCategorySelect(elements.archSketchStyleCategory, taxonomy.styleCategories, {
+      placeholder: "Select Category...",
+      selectedId: styleCategory
+    });
+    updateArchitectureStyleOptions({ selectedId: architectureStyle });
+  }
+
+  function refreshTaxonomyControl(id) {
+    const control = searchable.get(id);
+    control?.refresh?.();
+    control?.syncFromNative?.();
+  }
+
+  function updateBuildingTypeOptions({ selectedId = "" } = {}) {
+    if (!taxonomy) return;
+    global.ArchitecturalTaxonomy.populateItemSelect(
+      elements.archSketchBuildingType,
+      taxonomy.buildingTypes,
+      elements.archSketchBuildingCategory?.value || "",
+      { placeholder: "Select Type...", selectedId, customLabel: "Custom…" }
+    );
+    syncBuildingCustomUi();
+    refreshTaxonomyControl("archSketchBuildingType");
+  }
+
+  function updateArchitectureStyleOptions({ selectedId = "" } = {}) {
+    if (!taxonomy) return;
+    global.ArchitecturalTaxonomy.populateItemSelect(
+      elements.archSketchArchitectureStyle,
+      taxonomy.styleOptions,
+      elements.archSketchStyleCategory?.value || "",
+      { placeholder: "Select Style...", selectedId, customLabel: "Custom…" }
+    );
+    syncArchitectureStyleCustomUi();
+    refreshTaxonomyControl("archSketchArchitectureStyle");
+  }
+
+  function syncBuildingCustomUi() {
+    global.ArchitecturalTaxonomy.setCustomVisibility(
+      elements.archSketchBuildingType,
+      elements.archSketchCustomBuildingRow,
+      elements.archSketchCustomBuildingType
+    );
+  }
+
+  function syncArchitectureStyleCustomUi() {
+    global.ArchitecturalTaxonomy.setCustomVisibility(
+      elements.archSketchArchitectureStyle,
+      elements.archSketchCustomArchitectureStyleRow,
+      elements.archSketchCustomArchitectureStyle
+    );
+  }
+
   function applyDefaults() {
     const config = database?.config || {};
     setValue(elements.archSketchInputType, config.defaultArchitecturalSketchInputType || "concept-prompt");
+    setValue(elements.archSketchBuildingCategory, config.defaultArchitecturalBuildingCategory || "");
+    updateBuildingTypeOptions({ selectedId: "" });
+    setValue(elements.archSketchStyleCategory, config.defaultArchitecturalStyleCategory || "");
+    updateArchitectureStyleOptions({ selectedId: "" });
     setValue(elements.archSketchSceneType, config.defaultArchitecturalSketchSceneType || "exterior");
     setValue(elements.archSketchStyle, config.defaultArchitecturalSketchStyle || "watercolor-sketch");
     setValue(elements.archSketchMedium, config.defaultArchitecturalSketchMedium || "watercolor-paper");
@@ -394,7 +486,9 @@
 
   function initSearchable() {
     [
-      "archSketchInputType", "archSketchSceneType", "archSketchStyle", "archSketchMedium",
+      "archSketchInputType", "archSketchBuildingCategory", "archSketchBuildingType",
+      "archSketchSceneType", "archSketchStyle", "archSketchMedium",
+      "archSketchStyleCategory", "archSketchArchitectureStyle",
       "archSketchLineQuality", "archSketchColorTreatment", "archSketchLighting", "archSketchMood",
       "archSketchHumanScale", "archSketchCameraView", "archSketchAspectRatio"
     ].forEach(id => {
@@ -482,14 +576,32 @@
   }
 
   function collectState() {
+    const projectType = global.ArchitecturalTaxonomy.resolveValue(
+      elements.archSketchBuildingType,
+      elements.archSketchCustomBuildingType,
+      taxonomy?.buildingTypes || []
+    );
+    const architectureStyle = global.ArchitecturalTaxonomy.resolveValue(
+      elements.archSketchArchitectureStyle,
+      elements.archSketchCustomArchitectureStyle,
+      taxonomy?.styleOptions || []
+    );
+
     return {
       inputType: elements.archSketchInputType.value,
       inputPrompt: selectedPrompt(elements.archSketchInputType),
-      projectType: elements.archSketchProjectType.value.trim(),
+      buildingCategory: elements.archSketchBuildingCategory.value,
+      buildingType: elements.archSketchBuildingType.value,
+      buildingTypeLabel: global.ArchitecturalTaxonomy.selectedLabel(elements.archSketchBuildingType, taxonomy?.buildingTypes || []),
+      customBuildingType: elements.archSketchCustomBuildingType.value.trim(),
+      projectType,
       sceneType: elements.archSketchSceneType.value,
       sceneLabel: selectedLabel(elements.archSketchSceneType),
       scenePrompt: selectedPrompt(elements.archSketchSceneType),
-      architectureStyle: elements.archSketchArchitectureStyle.value.trim(),
+      styleCategory: elements.archSketchStyleCategory.value,
+      architectureStyleId: elements.archSketchArchitectureStyle.value,
+      customArchitectureStyle: elements.archSketchCustomArchitectureStyle.value.trim(),
+      architectureStyle,
       sketchStyle: elements.archSketchStyle.value,
       sketchStyleLabel: selectedLabel(elements.archSketchStyle),
       sketchStylePrompt: selectedPrompt(elements.archSketchStyle),
@@ -579,8 +691,12 @@
   }
 
   function reset() {
-    elements.archSketchProjectType.value = "";
-    elements.archSketchArchitectureStyle.value = "";
+    elements.archSketchBuildingCategory.value = "";
+    elements.archSketchCustomBuildingType.value = "";
+    updateBuildingTypeOptions({ selectedId: "" });
+    elements.archSketchStyleCategory.value = "";
+    elements.archSketchCustomArchitectureStyle.value = "";
+    updateArchitectureStyleOptions({ selectedId: "" });
     elements.archSketchLandscape.value = "";
     elements.archSketchFeatures.value = "";
     elements.archSketchExtraInstruction.value = "";
@@ -595,11 +711,18 @@
   }
 
   function serializeState() {
+    const resolved = collectState();
     return {
       archSketchInputType: elements.archSketchInputType.value,
-      archSketchProjectType: elements.archSketchProjectType.value,
+      archSketchBuildingCategory: elements.archSketchBuildingCategory.value,
+      archSketchBuildingType: elements.archSketchBuildingType.value,
+      archSketchCustomBuildingType: elements.archSketchCustomBuildingType.value,
+      archSketchProjectType: resolved.projectType,
       archSketchSceneType: elements.archSketchSceneType.value,
-      archSketchArchitectureStyle: elements.archSketchArchitectureStyle.value,
+      archSketchStyleCategory: elements.archSketchStyleCategory.value,
+      archSketchArchitectureStyleId: elements.archSketchArchitectureStyle.value,
+      archSketchCustomArchitectureStyle: elements.archSketchCustomArchitectureStyle.value,
+      archSketchArchitectureStyle: resolved.architectureStyle,
       archSketchStyle: elements.archSketchStyle.value,
       archSketchMedium: elements.archSketchMedium.value,
       archSketchLineQuality: elements.archSketchLineQuality.value,
@@ -618,9 +741,33 @@
   function restoreState(state = {}) {
     const missing = [];
     setSelect("archSketchInputType", state.archSketchInputType, missing, "Input Type");
-    setText("archSketchProjectType", state.archSketchProjectType);
+
+    const buildingRestore = global.ArchitecturalTaxonomy.deriveRestore({
+      items: taxonomy?.buildingTypes || [],
+      categoryId: state.archSketchBuildingCategory,
+      itemId: state.archSketchBuildingType,
+      customValue: state.archSketchCustomBuildingType,
+      legacyValue: state.archSketchProjectType
+    });
+    setValue(elements.archSketchBuildingCategory, buildingRestore.categoryId);
+    updateBuildingTypeOptions({ selectedId: buildingRestore.itemId });
+    elements.archSketchCustomBuildingType.value = buildingRestore.customValue;
+    syncBuildingCustomUi();
+
     setSelect("archSketchSceneType", state.archSketchSceneType, missing, "Scene Type");
-    setText("archSketchArchitectureStyle", state.archSketchArchitectureStyle);
+
+    const styleRestore = global.ArchitecturalTaxonomy.deriveRestore({
+      items: taxonomy?.styleOptions || [],
+      categoryId: state.archSketchStyleCategory,
+      itemId: state.archSketchArchitectureStyleId,
+      customValue: state.archSketchCustomArchitectureStyle,
+      legacyValue: state.archSketchArchitectureStyle
+    });
+    setValue(elements.archSketchStyleCategory, styleRestore.categoryId);
+    updateArchitectureStyleOptions({ selectedId: styleRestore.itemId });
+    elements.archSketchCustomArchitectureStyle.value = styleRestore.customValue;
+    syncArchitectureStyleCustomUi();
+
     setSelect("archSketchStyle", state.archSketchStyle, missing, "Sketch Style");
     const restoredSurface = LEGACY_SURFACE_ALIASES[state.archSketchMedium] || state.archSketchMedium;
     setSelect("archSketchMedium", restoredSurface || database?.config?.defaultArchitecturalSketchMedium || "watercolor-paper", missing, "Paper / Surface");
