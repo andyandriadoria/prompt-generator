@@ -28,7 +28,10 @@
     colorTreatments: [{ id: "auto-follow-style", label: "Auto — Follow Sketch Style", prompt: "", description: "Use the selected Sketch Style's built-in color treatment and color rules." }],
     lighting: [{ id: "morning-light", label: "Morning Light", prompt: "soft morning light with gentle directional shadows" }],
     moods: [{ id: "calm", label: "Calm", prompt: "a calm, composed, and visually balanced architectural character" }],
-    humanScale: [{ id: "none", label: "None", prompt: "" }],
+    humanScale: [
+      { id: "none", label: "None", prompt: "" },
+      { id: "minimal-scale-figures", label: "Sparse Scale Figures", prompt: "include a few sparse human figures only for architectural scale, kept visually secondary to the architecture" }
+    ],
     annotationTexts: [{ id: "no-text", label: "None — No Text or Annotations", prompt: "", description: "Default clean-output mode that suppresses generated text and signage." }],
     cameraViews: [{ id: "eye-level-perspective", label: "Eye-Level Perspective", prompt: "an eye-level architectural perspective with a natural human-scale viewpoint", scene_scope: "exterior,interior" }]
   };
