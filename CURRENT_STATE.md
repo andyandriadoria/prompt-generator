@@ -271,7 +271,7 @@ Core fields:
 - Paper / Surface
 - Architecture Style
 - Lighting / Time
-- Atmosphere / Mood
+- Atmosphere / Character
 - Landscape / Context
 - Architectural Features
 - Human Figure for Scale
@@ -298,6 +298,8 @@ Defaults:
 - Line Character: `auto-follow-style` → **Auto — Follow Sketch Style**
 - Color Treatment: `auto-follow-style` → **Auto — Follow Sketch Style**
 - Paper / Surface: `watercolor-paper` → **Textured Watercolor Paper**
+- Lighting / Time: `morning-light` → **Morning Light**
+- Atmosphere / Character: `calm` → **Calm**
 
 Prompt behavior:
 - **Sketch Style is the master visual controller**: each style carries its own style prompt, line rule, color rule, and avoid rule from Google Sheets;
@@ -312,6 +314,11 @@ Prompt behavior:
 - `Concept Prompt` builds the sketch from the user's concept and selected design directions;
 - `Design Brief / Idea` translates an architectural brief into a coherent sketch presentation;
 - landscape, architectural features, human scale figures, and extra instruction are conditional and omitted when empty / `None`;
+- Lighting / Time and Atmosphere / Character are intentionally separated: Lighting controls physical illumination only, while Atmosphere / Character controls spatial character only;
+- active Lighting / Time options are **Morning Light, Midday Light, Golden Hour, Overcast Daylight, Soft Interior Daylight, and Evening Light**;
+- active Atmosphere / Character options are **Calm, Serene, Lively, Contemplative, Intimate, Monumental, Formal, and Casual**;
+- weather-like conditions such as rain belong in Landscape / Context rather than Atmosphere / Character;
+- legacy Saved Prompt values `cozy`, `moody`, `airy`, and `dramatic` restore to the closest current spatial character; legacy `rainy` restores to Calm while adding rain / wet-surface cues to Landscape / Context;
 - all styles explicitly reject photorealistic image, CGI, 3D visualization, polished archviz, and realistic digital-painting output;
 - selected style descriptions appear below the Sketch Style control to clarify the intended visual language;
 - prompt assembly is intentionally compact: Concept Prompt does not repeat a separate source sentence, aspect ratio is carried in the opening, architectural clarity is stated once, and photoreal / CGI / 3D-archviz rejection is consolidated into a single guard block;
