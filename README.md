@@ -5,7 +5,7 @@ Prompt Gen is a static GitHub Pages AI image-prompt workstation backed by Google
 Production:
 - Website: https://andyandriadoria.github.io/prompt-generator/
 - Spreadsheet: `Database_Prompt_Gen_4_5`
-- UI: Obsidian UI
+- UI: Obsidian UI — Workstation V2
 - Deployment config: persistent `config.js`
 
 ## Prompt Modes
@@ -21,6 +21,14 @@ Production:
 
 - **Build** — authoring workspace for all active Prompt Modes.
 - **Saved** — local Saved Prompt Library using IndexedDB, with complete Build-state restore, optional result images, notes, search/filter, copy, edit, and delete.
+
+### Workstation V2 shell
+The Build workspace uses a three-zone creative workstation layout:
+- left navigation sidebar;
+- center Build canvas with Prompt DNA, visual Prompt Mode / Style cards, and grouped Prompt Details;
+- right dark Live Output with Prompt / Structure / Metadata tabs, readiness analysis, and visual-direction preview.
+
+`workstation-v2.js` and `workstation-v2.css` are presentation-layer files. They preserve all production form IDs and mode controllers so Google Sheets data, Saved Prompt restore, Smart Random, and prompt builders continue to operate without API changes.
 
 ## Data Architecture
 
