@@ -218,6 +218,7 @@ Core fields:
 - Input Type
 - Project Type
 - Design Fidelity
+- Realism Target
 - Architecture Style
 - Building Materials
 - Lighting
@@ -233,8 +234,12 @@ Design Fidelity is the master controller:
 - `Creative` allows controlled design development while keeping the core project identity recognizable.
 
 Prompt-engine rules:
-- Render Style is an internal default rather than a visible field;
-- Quality is an internal high-detail professional architectural-visualization default rather than a visible field;
+- Realism Target provides three output behaviors: **Photoreal Archviz**, **Hyper-Real Architectural Photo**, and **Documentary Site Photo**;
+- **Hyper-Real Architectural Photo** is the default and explicitly avoids CGI / 3D-render / polished-archviz appearance while adding real-camera, material-irregularity, vegetation-variation, and natural-light cues;
+- **Photoreal Archviz** retains polished presentation-quality visualization behavior;
+- **Documentary Site Photo** favors natural, observational, less-polished real-world site photography;
+- Render Style is controlled internally by the selected Realism Target rather than exposed as a generic field;
+- Quality remains an internal high-detail professional default rather than a visible field;
 - STRICT preservation language protects geometry, massing, roof form, floor levels, facade proportions, openings, visible structure, setbacks, camera position, framing, lens relationship, and perspective;
 - when the requested ratio differs from the source, only surrounding sky / ground / site environment may be extended; the architecture must not be cropped, stretched, compressed, or redesigned to fit;
 - prompt wording is intentionally compact and avoids repeating the same camera / preservation instruction in multiple paragraphs.
