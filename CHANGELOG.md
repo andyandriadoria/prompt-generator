@@ -69,6 +69,18 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Paper / Surface Refinement (2026-09-19)
+
+- renamed Architectural Sketch `Paper / Medium` to `Paper / Surface` so Sketch Style remains responsible for drawing medium / visual language;
+- replaced the active surface set with: White Presentation Paper, Sketchbook Page, Transparent Tracing Paper, Architectural Grid Paper, Textured Watercolor Paper, Smooth Marker Paper, and Bristol Board;
+- retained stable IDs for equivalent existing surfaces and deactivated legacy Cream Toned Paper / Presentation Board Style rows instead of repurposing their IDs;
+- added `RECOMMENDED_SURFACE` to `ARCH_SKETCH_OPTIONS` for non-blocking Sketch Style recommendations;
+- added contextual recommendation text below Paper / Surface while keeping user choice unrestricted;
+- changed the default Architectural Sketch surface to `watercolor-paper`, matching the default Soft Watercolor Architectural Sketch style;
+- prompt wording now uses `Paper / surface` instead of `Medium`;
+- synchronized CONFIG JSON bridge and `fallback.json`;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Sketch Style Master Controls (2026-09-19)
 
 - made Sketch Style the primary visual controller for Architectural Sketch Builder;
