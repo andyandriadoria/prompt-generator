@@ -64,6 +64,7 @@ Active Prompt Modes:
 - Reference Product Catalog (`ACTIVE = TRUE`)
 - Product Poster Builder (`ACTIVE = TRUE`)
 - Architectural Render (`ACTIVE = TRUE`)
+- Architectural Sketch Builder (`ACTIVE = TRUE`)
 
 Reference Outfit Catalog additive collection:
 - `OUTFIT_FOCUS_STYLES`
@@ -255,6 +256,54 @@ Data:
 - mode definition is stored in Google Sheets `PROMPT_MODES` as `architectural_render`;
 - existing shared `LIGHTING`, `CAMERA_ANGLES`, and `ASPECT_RATIOS` collections are reused;
 - no Apps Script redeploy is required for the current implementation.
+
+## Architectural Sketch Builder Baseline
+
+Architectural Sketch Builder is a dedicated prompt mode for hand-drawn architectural concepts, presentation sketches, and sketch-style translations of existing designs.
+
+Core fields:
+- Input Type
+- Project Type
+- Scene Type
+- Architecture Style
+- Sketch Style
+- Paper / Medium
+- Line Quality
+- Color Treatment
+- Lighting / Time
+- Atmosphere / Mood
+- Landscape / Context
+- Architectural Features
+- Human Figure for Scale
+- Camera / View
+- Aspect Ratio
+- Extra Instruction
+
+Prompt behavior:
+- `Reference Image / Existing Design` preserves the main architectural form, massing, proportions, openings, and spatial composition while translating the source into sketch language;
+- `Concept Prompt` builds the sketch from the user's concept and selected design directions;
+- `Design Brief / Idea` translates an architectural brief into a coherent sketch presentation;
+- landscape, architectural features, human scale figures, and extra instruction are conditional and omitted when empty / `None`;
+- the master prompt always applies architectural line-weight hierarchy: heavier primary / foreground lines, medium architectural edges and openings, lighter secondary detail, and very light background / construction guides;
+- the result is explicitly framed as a hand-rendered architectural presentation rather than a casual doodle or photorealistic render.
+
+Data source:
+- mode registry: Google Sheets `PROMPT_MODES` row `architectural_sketch`;
+- all Architectural Sketch defaults and dropdown option datasets are stored in Google Sheets `CONFIG` using `defaultArchitecturalSketch*` and `architecturalSketch*` keys;
+- Aspect Ratio reuses the shared `ASPECT_RATIOS` collection;
+- the frontend includes mirrored safe fallbacks for offline / legacy fallback operation;
+- no new Apps Script collection mapping is required because the mode data is carried through the existing CONFIG and PROMPT_MODES payloads.
+
+Implementation files:
+- `architectural-sketch-builder.js`
+- `architectural-sketch-mode.js`
+- `architectural-sketch.css`
+- shared loader in `workspace-tabs.js`
+- Saved Prompt Library integration in `prompt-saved-store.js` / `prompt-saved.js`
+
+Saved Prompt Library:
+- complete Architectural Sketch state is stored and restored;
+- saved cards use the Architectural Sketch mode identity and sketch-style / medium metadata.
 
 ## Prompt Style Presets
 
