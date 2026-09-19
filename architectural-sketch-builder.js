@@ -39,52 +39,52 @@
     const camera = clean(state.cameraPrompt);
     const extra = clean(state.extraInstruction);
 
-    const opening = `Create a hand-drawn architectural sketch illustration of a ${projectType} as ${scene}.`;
+    const opening = `Create a hand-drawn architectural sketch of a ${projectType} as ${scene} in a ${ratio} aspect ratio.`;
 
-    const architectureBlock = architectureStyle
-      ? `The architectural language should reflect ${architectureStyle} while keeping believable massing, proportions, openings, and spatial logic.`
-      : "Keep the architecture believable, proportionate, and spatially coherent.";
+    const sourceBlock = state.inputType && state.inputType !== "concept-prompt"
+      ? inputPrompt
+      : "";
+
+    const architectureBlock = [
+      architectureStyle ? `Architecture style: ${architectureStyle}` : "",
+      "Keep massing, proportions, openings, perspective, and spatial relationships believable"
+    ].filter(Boolean).map(sentence).join(" ");
 
     const styleBlock = [
-      `Use the selected sketch language: ${stylePrompt}`,
-      `Present it on ${medium}`,
+      `Sketch style: ${stylePrompt}`,
       lineQuality ? `Line character: ${lineQuality}` : "",
-      colorTreatment ? `Color treatment: ${colorTreatment}` : "",
+      colorTreatment ? `Color: ${colorTreatment}` : "",
+      `Medium: ${medium}`,
       styleLineRule,
       styleColorRule
     ].filter(Boolean).map(sentence).join(" ");
 
-    const environment = [
-      lighting ? `Lighting / time: ${lighting}` : "",
-      mood ? `Atmosphere / mood: ${mood}` : "",
-      landscape ? `Landscape / context: ${landscape}` : "",
-      features ? `Architectural features to emphasize: ${features}` : "",
-      camera ? `View / composition: ${camera}` : "",
+    const contextBlock = [
+      lighting ? `Lighting: ${lighting}` : "",
+      mood ? `Mood: ${mood}` : "",
+      camera ? `View: ${camera}` : "",
+      landscape ? `Context: ${landscape}` : "",
+      features ? `Emphasize: ${features}` : "",
       humanScale
-    ].filter(Boolean);
+    ].filter(Boolean).join("; ");
 
-    const styleAlreadyGuardsMonochrome = /monochrome|grayscale/i.test(styleAvoid);
     const colorGuard = isMonochrome(state.colorTreatment)
-      ? "Honor the selected monochrome treatment and do not introduce colored washes."
-      : styleAlreadyGuardsMonochrome
-        ? ""
-        : "Do not collapse the image into monochrome graphite or grayscale; preserve the selected color treatment while keeping the linework visible.";
+      ? ""
+      : "Preserve the selected color treatment; do not collapse the result into graphite-only grayscale.";
 
-    const clarity = "Keep architectural proportions, perspective, openings, structure, and spatial relationships clear and believable. The architecture should remain the primary subject, with entourage and context visually secondary.";
-
-    const universalAvoid = "Keep the result clearly within architectural sketch and hand-rendered presentation language. Do not render it as a photorealistic image, CGI, 3D visualization, polished archviz render, or realistic digital painting.";
+    const guard = [
+      "Keep the result clearly within professional architectural sketch presentation language, not photorealistic imagery, CGI, 3D archviz, or realistic digital painting",
+      styleAvoid
+    ].filter(Boolean).map(sentence).join(" ");
 
     const blocks = [
       sentence(opening),
-      sentence(inputPrompt),
+      sentence(sourceBlock),
       sentence(architectureBlock),
       sentence(styleBlock),
-      environment.length ? sentence(environment.join("; ")) : "",
-      sentence(clarity),
+      contextBlock ? sentence(contextBlock) : "",
       sentence(colorGuard),
-      sentence(styleAvoid),
-      sentence(universalAvoid),
-      sentence(`Aspect ratio: ${ratio}`),
+      sentence(guard),
       extra ? sentence(`Additional instruction: ${extra}`) : ""
     ].filter(Boolean);
 
