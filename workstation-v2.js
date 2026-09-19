@@ -452,7 +452,7 @@
       advanced.className = "workstation-advanced-settings";
       advanced.innerHTML = `
         <summary>
-          <span>${icon("sliders")}</span>
+          <span>${icon("settings")}</span>
           <strong>Advanced Settings</strong>
           <small>Site, feature emphasis, extra instruction, and line / color overrides</small>
           <i>${icon("chevron-down")}</i>
