@@ -10,3 +10,69 @@ body.architectural-sketch-active .architectural-sketch-mode-card{border-color:rg
 @media(max-width:760px){.arch-sketch-intro,.arch-sketch-tip{padding:13px}.arch-sketch-intro p,.arch-sketch-tip p{font-size:11px}}
 
 .arch-sketch-style-hint{margin:7px 2px 0;font-size:11px;line-height:1.45;color:var(--muted,#7d8590)}
+
+.arch-sketch-advanced{
+  border:1px solid var(--border,rgba(127,127,127,.22));
+  border-radius:14px;
+  overflow:hidden;
+  background:rgba(127,127,127,.025)
+}
+.arch-sketch-advanced summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:13px 16px;
+  cursor:pointer;
+  list-style:none;
+  user-select:none
+}
+.arch-sketch-advanced summary::-webkit-details-marker{display:none}
+.arch-sketch-advanced summary::after{
+  content:"";
+  width:8px;
+  height:8px;
+  margin-left:2px;
+  border-right:1.5px solid currentColor;
+  border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg);
+  transition:transform .18s ease;
+  color:var(--muted,#7d8590);
+  flex:0 0 auto
+}
+.arch-sketch-advanced[open] summary::after{transform:rotate(225deg)}
+.arch-sketch-advanced-title{
+  font-size:12px;
+  font-weight:650;
+  color:var(--text,#1f2328)
+}
+.arch-sketch-advanced summary small{
+  margin-left:auto;
+  font-size:10px;
+  line-height:1.35;
+  color:var(--muted,#7d8590);
+  font-weight:500
+}
+.arch-sketch-advanced.has-overrides{
+  border-color:rgba(245,158,11,.34);
+  background:rgba(245,158,11,.035)
+}
+.arch-sketch-advanced.has-overrides summary small{color:var(--accent,#f0a500)}
+.arch-sketch-advanced-body{
+  display:grid;
+  gap:14px;
+  padding:2px 16px 16px;
+  border-top:1px solid var(--border,rgba(127,127,127,.16))
+}
+.arch-sketch-advanced-help{
+  margin:12px 0 0;
+  color:var(--muted,#7d8590);
+  font-size:11px;
+  line-height:1.5
+}
+@media(max-width:760px){
+  .arch-sketch-advanced summary{padding:13px}
+  .arch-sketch-advanced summary small{font-size:11px}
+  .arch-sketch-advanced-body{padding:2px 13px 13px}
+  .arch-sketch-advanced-help{font-size:11px}
+}
