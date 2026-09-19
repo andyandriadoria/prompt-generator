@@ -23,7 +23,7 @@
         loadScript("architectural-render-mode.js?v=4.5-arch-taxonomy-1", "architectural-render-mode-script");
         loadStyle("architectural-sketch.css?v=4.5-sketch-text-guard-2", "architectural-sketch-style");
         loadScript("architectural-sketch-builder.js?v=4.5-scene-content-1", "architectural-sketch-builder-script");
-        loadScript("architectural-sketch-mode.js?v=4.5-smart-defaults-1", "architectural-sketch-mode-script");
+        loadScript("architectural-sketch-mode.js?v=4.5-smart-defaults-2", "architectural-sketch-mode-script");
         loadStyle("prompt-saved.css?v=4.5-saved-1", "prompt-saved-style");
         loadScript("prompt-saved-store.js?v=4.5-saved-4", "prompt-saved-store-script");
         loadScript("prompt-saved.js?v=4.5-saved-2", "prompt-saved-script");
