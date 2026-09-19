@@ -26,7 +26,7 @@
     return /^[aeiou]/i.test(text) ? `an ${text}` : `a ${text}`;
   }
 
-  const NO_TEXT_GUARD = "Do not add any readable text, labels, signage, logos, captions, handwritten notes, annotations, dates, signatures, watermarks, slogans, or decorative lettering anywhere in the image. If signage panels or signboards are part of the architecture, keep them blank or non-legible rather than inventing text.";
+  const NO_TEXT_GUARD = "Do not add any text, pseudo-text, labels, readable signage, logos, captions, handwritten notes, annotations, dates, signatures, watermarks, slogans, or decorative lettering anywhere in the image. If signage panels or signboards are part of the architecture, keep them completely blank with no characters, symbols, lettering, or invented marks.";
 
   function build(state = {}) {
     const ratio = clean(state.aspectRatio) || "4:5";
