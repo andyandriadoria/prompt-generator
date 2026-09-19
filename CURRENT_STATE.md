@@ -261,6 +261,8 @@ Data:
 - defaults live in `CONFIG` as `defaultArchitecturalRender*` keys;
 - existing shared `LIGHTING`, `CAMERA_ANGLES`, and `ASPECT_RATIOS` collections are reused;
 - Building Category / Building Type and Architectural Style Category / Architectural Style use the shared Architecture Taxonomy described below; category fields are navigation metadata and are never emitted into prompts.
+- Architectural Render initialization uses a dedicated `loadOptions` parameter so the module-level render `options` state is populated correctly; this prevents the Render card from disappearing because `isReady()` sees a null options state.
+- `fallback.json.promptModes` mirrors all active rows from Google Sheets `PROMPT_MODES`, including Architectural Render, so the mode remains available on fallback paths.
 
 ## Architectural Sketch Builder Baseline
 
