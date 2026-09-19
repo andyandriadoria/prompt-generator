@@ -20,7 +20,7 @@
         loadScript("architectural-render-builder.js?v=4.5-arch-2", "architectural-render-builder-script");
         loadScript("architectural-render-mode.js?v=4.5-arch-2", "architectural-render-mode-script");
         loadStyle("prompt-saved.css?v=4.5-saved-1", "prompt-saved-style");
-        loadScript("prompt-saved-store.js?v=4.5-saved-1", "prompt-saved-store-script");
+        loadScript("prompt-saved-store.js?v=4.5-saved-2", "prompt-saved-store-script");
         loadScript("prompt-saved.js?v=4.5-saved-1", "prompt-saved-script");
         loadStyle("setting-preview.css?v=4.5-setting-preview-2", "setting-preview-style");
         loadScript("setting-preview.js?v=4.5-setting-preview-2", "setting-preview-script");
