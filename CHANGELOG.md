@@ -78,6 +78,7 @@ Key changes:
 - Human Presence / Scale shows a style-specific soft recommendation but never auto-changes the selected value;
 - added manual override tracking for Paper / Surface, Lighting / Time, and View / Projection so user choices win until Reset;
 - Saved Prompt restore protects those three controls from recommendation changes by treating restored values as manual state;
+- `Refresh Now` now preserves the current Architectural Sketch state and existing smart/manual override flags instead of silently resetting recommendation ownership;
 - manually selected View / Projection is preserved across scene changes when compatible and falls back to the new scene default only when incompatible;
 - removed implicit `expressive entourage` wording from **Urban Observational Sketch** so Human Presence / Scale is the single controller for people;
 - synchronized CONFIG JSON bridges and `fallback.json`;
