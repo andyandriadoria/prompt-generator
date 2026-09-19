@@ -268,8 +268,6 @@ Core fields:
 - Project Type
 - Scene Type
 - Sketch Style
-- Line Character
-- Sketch Color Mode
 - Paper / Medium
 - Architecture Style
 - Lighting / Time
@@ -280,6 +278,10 @@ Core fields:
 - Camera / View
 - Aspect Ratio
 - Extra Instruction
+
+Advanced Style Controls (collapsed by default):
+- Line Character
+- Color Treatment
 
 Sketch Style is the primary visual controller. Production style families:
 1. Clean Facade Line Sketch
@@ -293,12 +295,16 @@ Sketch Style is the primary visual controller. Production style families:
 
 Defaults:
 - Sketch Style: `watercolor-sketch` → **Soft Watercolor Architectural Sketch**
-- Line Character: `balanced-line-weight` → **Refined Hand-Drawn**
-- Sketch Color Mode: `soft-muted-color-wash`
+- Line Character: `auto-follow-style` → **Auto — Follow Sketch Style**
+- Color Treatment: `auto-follow-style` → **Auto — Follow Sketch Style**
 - Paper / Medium: `white-sketchbook-paper` → **White Presentation Paper**
 
 Prompt behavior:
-- each Sketch Style carries its own style prompt, line rule, color rule, and avoid rule from Google Sheets CONFIG;
+- **Sketch Style is the master visual controller**: each style carries its own style prompt, line rule, color rule, and avoid rule from Google Sheets;
+- Line Character and Color Treatment are hidden inside a collapsed **Advanced Style Controls** section and default to **Auto — Follow Sketch Style**;
+- when both Advanced controls remain on Auto, the prompt uses the selected style's built-in line and color rules without adding duplicate line/color instructions;
+- an explicit Advanced override replaces the corresponding style line/color rule while keeping the selected Sketch Style as the primary visual family;
+- legacy Saved Prompt states with explicit Line Character or Color Treatment values remain restorable and automatically reopen Advanced controls;
 - the builder no longer applies one universal heavy line-weight paragraph to every style;
 - watercolor / marker / color styles explicitly preserve visible linework and white-paper negative space instead of collapsing into graphite or grayscale;
 - Clean Facade and ink-oriented styles can remain monochrome when a monochrome Sketch Color Mode is selected;
