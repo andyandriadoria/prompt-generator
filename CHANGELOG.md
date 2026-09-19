@@ -69,6 +69,20 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Smart Defaults & Recommendations (2026-09-20)
+
+- added `RECOMMENDED_LIGHTING` and `RECOMMENDED_HUMAN` metadata columns to `ARCH_SKETCH_OPTIONS`;
+- retained `RECOMMENDED_SURFACE` as the Sketch Style → Paper / Surface recommendation source and now uses its first value as the smart surface default;
+- Scene Type now drives Lighting smart defaults: Exterior → **Morning Light**, Interior → **Soft Interior Daylight**;
+- Sketch Style now drives Paper / Surface smart defaults while Paper / Surface remains untouched by the user;
+- Human Presence / Scale shows a style-specific soft recommendation but never auto-changes the selected value;
+- added manual override tracking for Paper / Surface, Lighting / Time, and View / Projection so user choices win until Reset;
+- Saved Prompt restore protects those three controls from recommendation changes by treating restored values as manual state;
+- manually selected View / Projection is preserved across scene changes when compatible and falls back to the new scene default only when incompatible;
+- removed implicit `expressive entourage` wording from **Urban Observational Sketch** so Human Presence / Scale is the single controller for people;
+- synchronized CONFIG JSON bridges and `fallback.json`;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Scene Content Separation (2026-09-20)
 
 - renamed Architectural Sketch `Landscape / Context` to `Site / Context`;
