@@ -69,6 +69,15 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Prompt Mode Card Ordering (2026-09-20)
+
+- stabilized Prompt Mode card ordering after asynchronously loaded mode modules insert their cards;
+- card order now follows the configured `SORT` value from the active Prompt Mode data instead of module load timing;
+- production order now renders as **Creative → Reference Outfit Catalog → Reference Product Catalog → Product Poster Builder → Architectural Render → Architectural Sketch Builder**;
+- this places Product Poster Builder before Architectural Render and Architectural Sketch Builder at the final position as configured;
+- Google Sheets data was not changed because its existing SORT values were already correct;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Architectural Render Initialization Fix (2026-09-20)
 
 - fixed a variable-shadowing bug in `architectural-render-mode.js` where `loadFeatureData(options = {})` shadowed the module-level `options` state;
