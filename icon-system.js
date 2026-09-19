@@ -7,6 +7,7 @@
     package: '<path d="m4 7 8-4 8 4v10l-8 4-8-4V7Z"/><path d="m4 7 8 4 8-4M12 11v10M8 5l8 4"/>',
     poster: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M7 7h10M7 11h6M7 15h4"/><circle cx="16" cy="15" r="2"/>',
     building: '<path d="M4 21V7l8-4 8 4v14"/><path d="M8 21v-5h8v5M8 9h1M11.5 9h1M15 9h1M8 12.5h1M11.5 12.5h1M15 12.5h1"/>',
+    drafting: '<path d="m4 20 5.5-1.4L19 9.1 14.9 5 5.4 14.5 4 20Z"/><path d="m13.5 6.5 4 4M8 17l-1-1"/><path d="M4 4h6M4 4v6"/>',
     smartphone: '<rect x="7" y="2.8" width="10" height="18.4" rx="2.2"/><path d="M10 5h4M11.25 18.4h1.5"/>',
     film: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 5v14M17 5v14M3 9h4M3 15h4M17 9h4M17 15h4"/>',
     gem: '<path d="m4 8 4-4h8l4 4-8 12L4 8Z"/><path d="m8 4 4 4 4-4M4 8h16M12 8v12"/>',
@@ -42,7 +43,7 @@
     const aliases = {
       "✨":"sparkles","👗":"shirt","📱":"smartphone","🎬":"film","✦":"gem","🌿":"sun","📼":"cassette","🏠":"cube",
       "creative":"sparkles","outfit_catalog":"shirt","outfit-catalog":"shirt","reference_product_catalog":"package","product_catalog":"package","product-catalog":"package",
-      "reference_product_poster":"poster","product_poster":"poster","product-poster":"poster","architectural_render":"building","architectural-render":"building"
+      "reference_product_poster":"poster","product_poster":"poster","product-poster":"poster","architectural_render":"building","architectural-render":"building","architectural_sketch":"drafting","architectural-sketch":"drafting"
     };
     return aliases[name] || name || "sparkles";
   }
