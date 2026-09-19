@@ -45,7 +45,6 @@
   let active = false;
   let initialized = false;
   let observer = null;
-  let lastEditableArchitectureStyle = "";
   const requestedInitialMode = localStorage.getItem("promptGenPromptMode") || "";
 
   waitForDependencies();
