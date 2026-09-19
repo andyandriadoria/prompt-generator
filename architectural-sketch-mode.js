@@ -80,7 +80,7 @@
       "archSketchArchitectureStyle", "archSketchStyle", "archSketchMedium", "archSketchLineQuality",
       "archSketchColorTreatment", "archSketchLighting", "archSketchMood", "archSketchLandscape",
       "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAspectRatio",
-      "archSketchExtraInstruction", "archSketchStyleHint", "archSketchTip", "archSketchAdvanced", "archSketchAdvancedState"
+      "archSketchExtraInstruction", "archSketchStyleHint", "archSketchSurfaceHint", "archSketchTip", "archSketchAdvanced", "archSketchAdvancedState"
     ].forEach(id => elements[id] = document.getElementById(id));
   }
 
@@ -106,7 +106,7 @@
       <div class="field-row"><label for="archSketchProjectType">Project Type</label><input id="archSketchProjectType" type="text" placeholder="Example: private residence, tropical villa, boutique café, mosque courtyard"></div>
       <div class="field-row"><label for="archSketchSceneType">Scene Type</label><select id="archSketchSceneType"></select></div>
       <div class="field-row"><label for="archSketchStyle">Sketch Style</label><div><select id="archSketchStyle"></select><p class="help-text arch-sketch-style-hint" id="archSketchStyleHint"></p></div></div>
-      <div class="field-row"><label for="archSketchMedium">Paper / Medium</label><select id="archSketchMedium"></select></div>
+      <div class="field-row"><label for="archSketchMedium">Paper / Surface</label><div><select id="archSketchMedium"></select><p class="help-text arch-sketch-surface-hint" id="archSketchSurfaceHint"></p></div></div>
 
       <details class="arch-sketch-advanced" id="archSketchAdvanced">
         <summary>
@@ -131,7 +131,7 @@
 
       <div class="arch-sketch-tip" id="archSketchTip">
         <span>${global.PromptIcons.svg("drafting")}</span>
-        <div><strong>Architectural sketch logic</strong><p>Line weight, paper character, rendering medium, and presentation hierarchy are built into the prompt. Reference Image mode preserves the main architecture while translating it into a hand-drawn sketch language.</p></div>
+        <div><strong>Architectural sketch logic</strong><p>Sketch Style controls the drawing language, line behavior, and color treatment. Paper / Surface controls only the physical drawing surface. Reference Image mode preserves the main architecture while translating it into a hand-drawn sketch language.</p></div>
       </div>
     `;
 
@@ -151,7 +151,11 @@
 
     elements.architecturalSketchFields.addEventListener("input", () => generate(false));
     elements.architecturalSketchFields.addEventListener("change", event => {
-      if (event.target === elements.archSketchStyle) updateStyleHint();
+      if (event.target === elements.archSketchStyle) {
+        updateStyleHint();
+        updateSurfaceHint();
+      }
+      if (event.target === elements.archSketchMedium) updateSurfaceHint();
       if (event.target === elements.archSketchLineQuality || event.target === elements.archSketchColorTreatment) {
         updateAdvancedState();
       }
@@ -281,6 +285,7 @@
     applyDefaults();
     initSearchable();
     updateStyleHint();
+    updateSurfaceHint();
     updateAdvancedState();
     if (active) generate(false);
   }
@@ -296,6 +301,7 @@
       option.dataset.lineRule = item.line_rule || "";
       option.dataset.colorRule = item.color_rule || "";
       option.dataset.avoid = item.avoid || "";
+      option.dataset.recommendedSurface = item.recommended_surface || "";
       option.dataset.id = item.id || "";
       select.append(option);
     });
@@ -307,7 +313,7 @@
     setValue(elements.archSketchInputType, config.defaultArchitecturalSketchInputType || "concept-prompt");
     setValue(elements.archSketchSceneType, config.defaultArchitecturalSketchSceneType || "exterior");
     setValue(elements.archSketchStyle, config.defaultArchitecturalSketchStyle || "watercolor-sketch");
-    setValue(elements.archSketchMedium, config.defaultArchitecturalSketchMedium || "white-sketchbook-paper");
+    setValue(elements.archSketchMedium, config.defaultArchitecturalSketchMedium || "watercolor-paper");
     setValue(elements.archSketchLineQuality, config.defaultArchitecturalSketchLineQuality || "auto-follow-style");
     setValue(elements.archSketchColorTreatment, config.defaultArchitecturalSketchColorTreatment || "auto-follow-style");
     setValue(elements.archSketchLighting, config.defaultArchitecturalSketchLighting || "morning-light");
@@ -354,6 +360,34 @@
     const description = selectedMeta(elements.archSketchStyle, "description");
     const base = description || "Choose the primary visual language for the architectural sketch.";
     elements.archSketchStyleHint.textContent = `${base} Line and color follow this style by default.`;
+  }
+
+  function updateSurfaceHint() {
+    if (!elements.archSketchSurfaceHint) return;
+
+    const raw = selectedMeta(elements.archSketchStyle, "recommendedSurface");
+    const recommendedIds = String(raw || "")
+      .split(",")
+      .map(value => value.trim())
+      .filter(Boolean);
+
+    if (!recommendedIds.length) {
+      elements.archSketchSurfaceHint.textContent = "Choose the physical drawing surface independently from the Sketch Style.";
+      return;
+    }
+
+    const mediaById = new Map((options?.media || []).map(item => [item.id, item.label || item.id]));
+    const labels = recommendedIds.map(id => mediaById.get(id)).filter(Boolean);
+    if (!labels.length) {
+      elements.archSketchSurfaceHint.textContent = "Choose the physical drawing surface independently from the Sketch Style.";
+      return;
+    }
+
+    const current = elements.archSketchMedium?.value || "";
+    const isRecommended = recommendedIds.includes(current);
+    elements.archSketchSurfaceHint.textContent = isRecommended
+      ? `Recommended for this style: ${labels.join(" · ")}. Current surface is a recommended match.`
+      : `Recommended for this style: ${labels.join(" · ")}. You can still choose any surface.`;
   }
 
   function isAdvancedOverride(value) {
@@ -449,10 +483,11 @@
       elements.activeModeBadge.dataset.mode = MODE_ID;
     }
     if (elements.randomModeTitle) elements.randomModeTitle.textContent = "Architectural Sketch Controls";
-    if (elements.randomModeHint) elements.randomModeHint.textContent = "Choose a sketch family first; it controls line and color by default. Refine medium, context, and view, or open Advanced for deliberate overrides.";
+    if (elements.randomModeHint) elements.randomModeHint.textContent = "Choose a sketch family first; it controls line and color by default. Then choose a drawing surface, context, and view, or open Advanced for deliberate overrides.";
     if (elements.outputTipTitle) elements.outputTipTitle.textContent = "Architectural sketch tip";
     if (elements.outputTipText) elements.outputTipText.textContent = "Sketch Style controls the default line and color language. Keep Advanced Style Controls on Auto for the intended style, or open them only when you want a deliberate line or color override.";
     updateStyleHint();
+    updateSurfaceHint();
     updateAdvancedState();
 
     elements.promptModeGrid.querySelectorAll("[data-prompt-mode-id]").forEach(card => {
@@ -484,6 +519,7 @@
     searchable.forEach(control => control.syncFromNative?.());
     if (elements.archSketchAdvanced) elements.archSketchAdvanced.open = false;
     updateStyleHint();
+    updateSurfaceHint();
     updateAdvancedState();
     generate(false);
     showMessage("Architectural Sketch form reset.");
@@ -517,7 +553,7 @@
     setSelect("archSketchSceneType", state.archSketchSceneType, missing, "Scene Type");
     setText("archSketchArchitectureStyle", state.archSketchArchitectureStyle);
     setSelect("archSketchStyle", state.archSketchStyle, missing, "Sketch Style");
-    setSelect("archSketchMedium", state.archSketchMedium, missing, "Paper / Medium");
+    setSelect("archSketchMedium", state.archSketchMedium || database?.config?.defaultArchitecturalSketchMedium || "watercolor-paper", missing, "Paper / Surface");
     setSelect("archSketchLineQuality", state.archSketchLineQuality || "auto-follow-style", missing, "Line Quality");
     setSelect("archSketchColorTreatment", state.archSketchColorTreatment || "auto-follow-style", missing, "Color Treatment");
     setSelect("archSketchLighting", state.archSketchLighting, missing, "Lighting / Time");
@@ -530,6 +566,7 @@
     setText("archSketchExtraInstruction", state.archSketchExtraInstruction);
     searchable.forEach(control => control.syncFromNative?.());
     updateStyleHint();
+    updateSurfaceHint();
     updateAdvancedState();
     if (elements.archSketchAdvanced) {
       elements.archSketchAdvanced.open =
