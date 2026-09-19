@@ -27,7 +27,7 @@
     lighting: [{ id: "morning-light", label: "Morning Light", prompt: "soft morning light with gentle directional shadows" }],
     moods: [{ id: "calm", label: "Calm", prompt: "a calm, composed, and visually balanced architectural character" }],
     humanScale: [{ id: "none", label: "None", prompt: "" }],
-    cameraViews: [{ id: "eye-level-perspective", label: "Eye-Level Perspective", prompt: "an eye-level architectural perspective with natural human-scale viewpoint" }]
+    cameraViews: [{ id: "eye-level-perspective", label: "Eye-Level Perspective", prompt: "an eye-level architectural perspective with a natural human-scale viewpoint", scene_scope: "exterior,interior" }]
   };
 
   const LEGACY_SURFACE_ALIASES = {
@@ -45,6 +45,11 @@
 
   const LEGACY_ATMOSPHERE_CONTEXT = {
     "rainy": "light rain with subtle wet paving and wet-surface cues"
+  };
+
+  const LEGACY_VIEW_ALIASES = {
+    "frontal-elevation": "frontal-perspective",
+    "sketchbook-perspective": "eye-level-perspective"
   };
 
   const elements = {};
@@ -142,13 +147,13 @@
       <div class="field-row"><label for="archSketchLandscape">Landscape / Context <span class="optional-label">optional</span></label><textarea id="archSketchLandscape" class="short-textarea" placeholder="Example: restrained tropical planting, stone paving, light rain, wet paving, urban sidewalk"></textarea></div>
       <div class="field-row"><label for="archSketchFeatures">Architectural Features <span class="optional-label">optional</span></label><textarea id="archSketchFeatures" class="short-textarea" placeholder="Example: deep overhang roof, vertical timber screens, arched openings, open courtyard"></textarea></div>
       <div class="field-row"><label for="archSketchHumanScale">Human Figure for Scale</label><select id="archSketchHumanScale"></select></div>
-      <div class="field-row"><label for="archSketchCameraView">Camera / View</label><select id="archSketchCameraView"></select></div>
+      <div class="field-row"><label for="archSketchCameraView">View / Projection</label><div><select id="archSketchCameraView"></select><p class="help-text">Options are filtered by Scene Type. Exterior and Interior use only compatible architectural views.</p></div></div>
       <div class="field-row"><label for="archSketchAspectRatio">Aspect Ratio</label><select id="archSketchAspectRatio"></select></div>
       <div class="field-row"><label for="archSketchExtraInstruction">Extra Instruction <span class="optional-label">optional</span></label><textarea id="archSketchExtraInstruction" class="short-textarea" placeholder="Example: emphasize the entrance canopy; avoid excessive foliage; no text labels"></textarea></div>
 
       <div class="arch-sketch-tip" id="archSketchTip">
         <span>${global.PromptIcons.svg("drafting")}</span>
-        <div><strong>Architectural sketch logic</strong><p>Sketch Style controls drawing language, line behavior, and color treatment. Paper / Surface controls the physical drawing surface. Lighting / Time controls illumination only, Atmosphere / Character controls spatial character only, and weather belongs in Landscape / Context.</p></div>
+        <div><strong>Architectural sketch logic</strong><p>Sketch Style controls drawing language, line behavior, and color treatment. Paper / Surface controls the physical drawing surface. Lighting / Time controls illumination, Atmosphere / Character controls spatial character, weather belongs in Landscape / Context, and View / Projection follows the selected Scene Type.</p></div>
       </div>
     `;
 
@@ -171,6 +176,9 @@
       if (event.target === elements.archSketchStyle) {
         updateStyleHint();
         updateSurfaceHint();
+      }
+      if (event.target === elements.archSketchSceneType) {
+        updateViewOptions({ applySceneDefault: true });
       }
       if (event.target === elements.archSketchMedium) updateSurfaceHint();
       if (event.target === elements.archSketchLineQuality || event.target === elements.archSketchColorTreatment) {
@@ -289,7 +297,6 @@
     populateSelect(elements.archSketchLighting, options.lighting);
     populateSelect(elements.archSketchMood, options.moods);
     populateSelect(elements.archSketchHumanScale, options.humanScale);
-    populateSelect(elements.archSketchCameraView, options.cameraViews);
 
     elements.archSketchAspectRatio.innerHTML = "";
     (database.aspectRatios || []).forEach(item => {
@@ -319,6 +326,7 @@
       option.dataset.colorRule = item.color_rule || "";
       option.dataset.avoid = item.avoid || "";
       option.dataset.recommendedSurface = item.recommended_surface || "";
+      option.dataset.sceneScope = item.scene_scope || "";
       option.dataset.id = item.id || "";
       select.append(option);
     });
@@ -336,8 +344,52 @@
     setValue(elements.archSketchLighting, config.defaultArchitecturalSketchLighting || "morning-light");
     setValue(elements.archSketchMood, config.defaultArchitecturalSketchMood || "calm");
     setValue(elements.archSketchHumanScale, config.defaultArchitecturalSketchHumanScale || "none");
-    setValue(elements.archSketchCameraView, config.defaultArchitecturalSketchCameraView || "eye-level-perspective");
+    updateViewOptions({ applySceneDefault: true });
     setValue(elements.archSketchAspectRatio, config.defaultArchitecturalSketchAspectRatio || "4:5");
+  }
+
+  function sceneDefaultView(sceneId) {
+    const config = database?.config || {};
+    if (sceneId === "interior") {
+      return config.defaultArchitecturalSketchInteriorView || "interior-corner";
+    }
+    return config.defaultArchitecturalSketchExteriorView
+      || config.defaultArchitecturalSketchCameraView
+      || "three-quarter-exterior";
+  }
+
+  function viewAppliesToScene(item, sceneId) {
+    const raw = String(item?.scene_scope || "").trim();
+    if (!raw) return true;
+    return raw.split(",").map(value => value.trim()).filter(Boolean).includes(sceneId);
+  }
+
+  function updateViewOptions({ applySceneDefault = false, preferredValue = "" } = {}) {
+    if (!elements.archSketchCameraView || !options) return;
+
+    const sceneId = elements.archSketchSceneType?.value || database?.config?.defaultArchitecturalSketchSceneType || "exterior";
+    const previous = preferredValue || elements.archSketchCameraView.value;
+    const eligible = (options.cameraViews || []).filter(item => viewAppliesToScene(item, sceneId));
+
+    populateSelect(elements.archSketchCameraView, eligible);
+
+    const preferred = applySceneDefault ? sceneDefaultView(sceneId) : previous;
+    setValue(elements.archSketchCameraView, preferred);
+
+    if (!elements.archSketchCameraView.value && eligible[0]) {
+      elements.archSketchCameraView.value = eligible[0].id;
+    }
+
+    const control = searchable.get("archSketchCameraView");
+    control?.refresh?.();
+    control?.syncFromNative?.();
+  }
+
+  function resolveViewForScene(value, sceneId) {
+    const aliased = LEGACY_VIEW_ALIASES[value] || value;
+    const eligible = (options?.cameraViews || []).filter(item => viewAppliesToScene(item, sceneId));
+    if (eligible.some(item => item.id === aliased)) return aliased;
+    return sceneDefaultView(sceneId);
   }
 
   function initSearchable() {
@@ -500,7 +552,7 @@
       elements.activeModeBadge.dataset.mode = MODE_ID;
     }
     if (elements.randomModeTitle) elements.randomModeTitle.textContent = "Architectural Sketch Controls";
-    if (elements.randomModeHint) elements.randomModeHint.textContent = "Choose a sketch family first; it controls line and color by default. Then choose a drawing surface, context, and view, or open Advanced for deliberate overrides.";
+    if (elements.randomModeHint) elements.randomModeHint.textContent = "Choose a sketch family first; it controls line and color by default. Then choose a drawing surface, context, and scene-aware View / Projection, or open Advanced for deliberate overrides.";
     if (elements.outputTipTitle) elements.outputTipTitle.textContent = "Architectural sketch tip";
     if (elements.outputTipText) elements.outputTipText.textContent = "Sketch Style controls the default line and color language. Keep Advanced Style Controls on Auto for the intended style, or open them only when you want a deliberate line or color override.";
     updateStyleHint();
@@ -585,7 +637,9 @@
     setText("archSketchLandscape", restoredLandscape);
     setText("archSketchFeatures", state.archSketchFeatures);
     setSelect("archSketchHumanScale", state.archSketchHumanScale, missing, "Human Figure for Scale");
-    setSelect("archSketchCameraView", state.archSketchCameraView, missing, "Camera / View");
+    const restoredView = resolveViewForScene(state.archSketchCameraView, elements.archSketchSceneType.value || "exterior");
+    updateViewOptions({ preferredValue: restoredView });
+    setSelect("archSketchCameraView", restoredView, missing, "View / Projection");
     setSelect("archSketchAspectRatio", state.archSketchAspectRatio, missing, "Aspect Ratio");
     setText("archSketchExtraInstruction", state.archSketchExtraInstruction);
     searchable.forEach(control => control.syncFromNative?.());
