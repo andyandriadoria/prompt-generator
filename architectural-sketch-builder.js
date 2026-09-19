@@ -15,6 +15,10 @@
     return colorId === "black-white" || colorId === "warm-gray-monochrome";
   }
 
+  function isAutoStyleControl(value) {
+    return !value || value === "auto-follow-style";
+  }
+
   function withIndefiniteArticle(value) {
     const text = clean(value);
     if (!text) return "an architectural concept";
@@ -35,8 +39,10 @@
     const styleAvoid = clean(state.sketchStyleAvoid);
 
     const medium = clean(state.mediumPrompt) || "clean white architectural presentation paper";
-    const lineQuality = clean(state.lineQualityPrompt);
-    const colorTreatment = clean(state.colorTreatmentPrompt);
+    const lineOverride = Boolean(state.lineQualityOverride) || !isAutoStyleControl(state.lineQuality);
+    const colorOverride = Boolean(state.colorTreatmentOverride) || !isAutoStyleControl(state.colorTreatment);
+    const lineQuality = lineOverride ? clean(state.lineQualityPrompt) : "";
+    const colorTreatment = colorOverride ? clean(state.colorTreatmentPrompt) : "";
 
     const lighting = clean(state.lightingPrompt);
     const mood = clean(state.moodPrompt);
@@ -59,11 +65,11 @@
 
     const styleBlock = [
       `Sketch style: ${stylePrompt}`,
-      lineQuality ? `Line character: ${lineQuality}` : "",
-      colorTreatment ? `Color: ${colorTreatment}` : "",
+      lineQuality ? `Line override: ${lineQuality}; use this as the active line character within the selected sketch style` : "",
+      colorTreatment ? `Color override: ${colorTreatment}; use this as the active color treatment within the selected sketch style` : "",
       `Medium: ${medium}`,
-      styleLineRule,
-      styleColorRule
+      lineOverride ? "" : styleLineRule,
+      colorOverride ? "" : styleColorRule
     ].filter(Boolean).map(sentence).join(" ");
 
     const contextBlock = [
@@ -75,9 +81,9 @@
       humanScale
     ].filter(Boolean).join("; ");
 
-    const colorGuard = isMonochrome(state.colorTreatment)
-      ? ""
-      : "Preserve the selected color treatment; do not collapse the result into graphite-only grayscale.";
+    const colorGuard = colorOverride && !isMonochrome(state.colorTreatment)
+      ? "Preserve the selected color override; do not collapse the result into graphite-only grayscale."
+      : "";
 
     const guard = [
       "Keep the result clearly within professional architectural sketch presentation language, not photorealistic imagery, CGI, 3D archviz, or realistic digital painting",
