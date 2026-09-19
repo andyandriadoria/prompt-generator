@@ -69,6 +69,18 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Maintenance — Lighting / Character Separation (2026-09-19)
+
+- renamed Architectural Sketch `Atmosphere / Mood` to `Atmosphere / Character`;
+- constrained Lighting / Time to physical illumination only: Morning Light, Midday Light, Golden Hour, Overcast Daylight, Soft Interior Daylight, and Evening Light;
+- replaced overlapping mood/weather concepts with spatial-character options: Calm, Serene, Lively, Contemplative, Intimate, Monumental, Formal, and Casual;
+- retired Cozy, Rainy, Moody, Airy, and Dramatic from the active option set while retaining their rows for Saved Prompt compatibility;
+- moved rainy / wet-surface intent to Landscape / Context instead of treating weather as mood;
+- added legacy restore aliases so older Saved Prompt states map to the closest current character, with legacy Rainy also restoring its weather cues into Landscape / Context;
+- changed generated prompt labels to `Lighting / time` and `Atmosphere / character` to reinforce the separation;
+- synchronized CONFIG bridge and `fallback.json`;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 Maintenance — Paper / Surface Refinement (2026-09-19)
 
 - renamed Architectural Sketch `Paper / Medium` to `Paper / Surface` so Sketch Style remains responsible for drawing medium / visual language;
