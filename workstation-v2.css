@@ -1640,3 +1640,59 @@ body.workstation-settings-open .workstation-settings-drawer { display: grid; gap
     max-height: calc(100vh - 150px);
   }
 }
+
+
+/* Workstation V2 readability + override cleanup */
+body.dark-mode.workstation-v2 .prompt-mode-icon {
+  border-color: rgba(255,255,255,.12);
+  background: rgba(18,22,29,.92);
+  color: var(--primary);
+}
+
+.workstation-v2 .style-preset-card:not(.is-active)::after {
+  display: none;
+}
+
+.workstation-v2 .prompt-mode-card strong,
+.workstation-v2 .style-preset-copy strong,
+.workstation-detail-card > header strong,
+.workstation-v2 .output-title-group strong {
+  font-size: 10px;
+}
+
+.workstation-v2 .prompt-mode-card small,
+.workstation-v2 .style-preset-meta span,
+.workstation-detail-card .field-row > label,
+.workstation-detail-card .fieldset-row legend,
+.workstation-detail-extras .field-row > label,
+.workstation-v2 .mini-eyebrow,
+.workstation-section-copy span,
+.workstation-output-tabs button,
+.workstation-analysis-card > header strong,
+.workstation-preview-card > header strong,
+.workstation-structure-list strong,
+.workstation-metadata-grid strong,
+.workstation-v2 .output-tip strong {
+  font-size: 9px;
+}
+
+.workstation-detail-card input,
+.workstation-detail-card select,
+.workstation-detail-card textarea,
+.workstation-detail-extras input,
+.workstation-detail-extras select,
+.workstation-detail-extras textarea,
+.workstation-v2 #output {
+  font-size: 11px;
+}
+
+.workstation-detail-card .help-text,
+.workstation-detail-extras .help-text,
+.workstation-analysis-copy p,
+.workstation-analysis-checks span,
+.workstation-preview-card p,
+.workstation-v2 .output-tip span,
+.workstation-metadata-grid span,
+.workstation-structure-list small {
+  font-size: 9px;
+}
