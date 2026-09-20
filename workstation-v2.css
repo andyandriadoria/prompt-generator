@@ -607,7 +607,7 @@ body.dark-mode .workstation-section-number {
   background-image: url("assets/workstation/modes/reference-product.png");
 }
 .workstation-v2 [data-prompt-mode-id="product_poster"]::before {
-  background-image: url("assets/workstation/modes/product-poster.jpg");
+  background-image: url("assets/workstation/modes/product-poster.png");
 }
 .workstation-v2 [data-prompt-mode-id="architectural_render"]::before {
   background-image: url("assets/workstation/modes/architectural-render.png");
@@ -1813,7 +1813,7 @@ body.dark-mode.workstation-v2 .prompt-mode-icon {
   background-image: url("assets/workstation/modes/reference-product.png");
 }
 .workstation-v2 [data-prompt-mode-id="reference_product_poster"]::before {
-  background-image: url("assets/workstation/modes/product-poster.jpg");
+  background-image: url("assets/workstation/modes/product-poster.png");
 }
 
 /* Make architectural thumbnails architecture-first. */
