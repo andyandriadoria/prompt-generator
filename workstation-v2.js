@@ -3,8 +3,8 @@
 
   const MODE_GROUPS = {
     creative: [
-      { title: "Subject", icon: "sparkles", ids: ["characterPreset", "subjectGender", "features", "action", "expression", "outfit", "manualOutfitRow"] },
-      { title: "Scene", icon: "compass", ids: ["settingType", "setting"] },
+      { title: "Subject", icon: "sparkles", ids: ["characterPreset", "subjectGender", "features", "outfit", "manualOutfitRow"] },
+      { title: "Scene & Action", icon: "compass", ids: ["settingType", "setting", "action", "expression"] },
       { title: "Camera & Technical", icon: "camera", ids: ["cameraAngle", "lighting", "cameraType", "aspectRatioGroup"] }
     ],
     outfit_catalog: [
@@ -41,6 +41,24 @@
     reference_product_poster: ["Base Photo", "Product Info", "Poster Style", "Layout", "Text Fidelity", "Frame", "Output"],
     architectural_render: ["Reference", "Geometry", "Material", "Environment", "Realism", "View", "Output"],
     architectural_sketch: ["Project", "Architecture", "Sketch", "Surface", "Atmosphere", "View", "Output"]
+  };
+
+  const MODE_CARD_COPY = {
+    creative: "Flexible scene and character builder.",
+    outfit_catalog: "Preserve the original worn outfit.",
+    reference_product_catalog: "Product-first catalog imagery.",
+    reference_product_poster: "Poster design over an existing photo.",
+    architectural_render: "Photoreal architectural visualization.",
+    architectural_sketch: "Hand-drawn architectural presentation."
+  };
+
+  const ANALYSIS_INDEXES = {
+    creative: [0, 1, 2, 3, 4, 6],
+    outfit_catalog: [0, 1, 2, 3, 4, 6],
+    reference_product_catalog: [0, 1, 2, 3, 4, 6],
+    reference_product_poster: [0, 1, 2, 3, 4, 6],
+    architectural_render: [0, 1, 3, 4, 5, 6],
+    architectural_sketch: [0, 1, 2, 3, 5, 6]
   };
 
   let initialized = false;
@@ -192,6 +210,9 @@
   function enhanceTopbar(hero) {
     hero.classList.add("workstation-topbar");
 
+    const subtitle = hero.querySelector(".subtitle");
+    if (subtitle) subtitle.textContent = "AI Creative Workstation · Build better prompts. Create without limits.";
+
     if (!hero.querySelector(".workstation-topbar-tool")) {
       const tool = document.createElement("span");
       tool.className = "workstation-topbar-tool";
@@ -303,6 +324,23 @@
     if (title) title.textContent = "Choose how you want to build your prompt.";
     const copy = panel.querySelector(".prompt-mode-head p");
     if (copy) copy.textContent = "";
+
+    applyModeCardPresentation();
+    const grid = document.getElementById("promptModeGrid");
+    if (grid && !grid.dataset.workstationCopyObserved) {
+      grid.dataset.workstationCopyObserved = "true";
+      new MutationObserver(applyModeCardPresentation).observe(grid, { childList: true, subtree: true });
+    }
+  }
+
+  function applyModeCardPresentation() {
+    document.querySelectorAll("#promptModeGrid [data-prompt-mode-id]").forEach(card => {
+      let mode = card.dataset.promptModeId || "";
+      if (mode === "product_catalog") mode = "reference_product_catalog";
+      if (mode === "product_poster") mode = "reference_product_poster";
+      const description = card.querySelector("small");
+      if (description && MODE_CARD_COPY[mode]) description.textContent = MODE_CARD_COPY[mode];
+    });
   }
 
   function enhanceStylePanel() {
@@ -750,6 +788,10 @@
     const dnaNodes = [...document.querySelectorAll("#promptDna .dna-node")];
     const readiness = dnaReadiness(dnaNodes);
     const score = readiness.score;
+    const promptLength = valueOf("output").length;
+    output.classList.toggle("is-short-prompt", promptLength < 520);
+    output.classList.toggle("is-medium-prompt", promptLength >= 520 && promptLength < 1200);
+    output.classList.toggle("is-long-prompt", promptLength >= 1200);
 
     const ring = output.querySelector(".workstation-analysis-ring");
     if (ring) {
@@ -769,7 +811,8 @@
 
     const checks = output.querySelector(".workstation-analysis-checks");
     if (checks) {
-      checks.innerHTML = dnaNodes.slice(0, 6).map(node => {
+      const indexes = ANALYSIS_INDEXES[currentModeId()] || ANALYSIS_INDEXES.creative;
+      checks.innerHTML = indexes.map(index => dnaNodes[index]).filter(Boolean).map(node => {
         const state = node.dataset.readiness || "empty";
         const ready = state === "ready";
         const label = node.querySelector("b")?.textContent || "Prompt step";
@@ -816,8 +859,11 @@
       const preview = document.getElementById(previewId);
       const card = select?.closest(".workstation-detail-card");
       const body = card?.querySelector(".workstation-detail-fields");
-      if (!select || !preview || !body) return;
-      if (preview.parentElement !== body) body.append(preview);
+      const row = select?.closest(".field-row, .fieldset-row, fieldset");
+      if (!select || !preview || !body || !row) return;
+      if (preview.parentElement !== body || preview.previousElementSibling !== row) {
+        row.insertAdjacentElement("afterend", preview);
+      }
     });
   }
 
