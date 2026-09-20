@@ -28,8 +28,8 @@
       { title: "Environment & View", icon: "camera", ids: ["archLighting", "archAtmosphere", "archLandscape", "archCamera", "archAspectRatio", "archExtraInstruction"] }
     ],
     architectural_sketch: [
-      { title: "Project", icon: "building", ids: ["archSketchInputType", "archSketchBuildingCategory", "archSketchBuildingType", "archSketchCustomBuildingRow", "archSketchSceneType"] },
-      { title: "Sketch", icon: "drafting", ids: ["archSketchStyle", "archSketchMedium", "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyleRow", "archSketchHumanScale"] },
+      { title: "Project", icon: "building", ids: ["archSketchInputType", "archSketchOutputRepresentation", "archSketchBuildingCategory", "archSketchBuildingType", "archSketchCustomBuildingRow", "archSketchSceneType"] },
+      { title: "Representation", icon: "drafting", ids: ["archSketchStyle", "archSketchMedium", "archSketchPhotoRealismTarget", "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyleRow", "archSketchHumanScale"] },
       { title: "Presentation", icon: "camera", ids: ["archSketchLighting", "archSketchMood", "archSketchCameraView", "archSketchAnnotationText", "archSketchAspectRatio"] }
     ]
   };
@@ -49,7 +49,7 @@
     reference_product_catalog: "Product-first catalog imagery.",
     reference_product_poster: "Poster design over an existing photo.",
     architectural_render: "Photoreal architectural visualization.",
-    architectural_sketch: "Hand-drawn architectural presentation."
+    architectural_sketch: "Sketch or architectural photography from concepts."
   };
 
   const WORKSTATION_VISUAL_ASSETS = {
@@ -536,7 +536,7 @@
         <summary>
           <span>${icon("settings")}</span>
           <strong>Advanced Settings</strong>
-          <small>Site, feature emphasis, extra instruction, and line / color overrides</small>
+          <small>Site, feature emphasis, extra instruction, and optional representation controls</small>
           <i>${icon("chevron-down")}</i>
         </summary>
         <div class="workstation-advanced-body"></div>
@@ -702,7 +702,10 @@
 
     const mode = currentModeId();
     const nodes = [...dna.querySelectorAll(".dna-node")];
-    const labels = DNA_LABELS[mode] || DNA_LABELS.creative;
+    const photography = mode === "architectural_sketch" && valueOf("archSketchOutputRepresentation") === "architectural-photography";
+    const labels = photography
+      ? ["Project", "Architecture", "Photo", "Realism", "Atmosphere", "View", "Output"]
+      : (DNA_LABELS[mode] || DNA_LABELS.creative);
     const states = dnaStatesForMode(mode);
 
     nodes.forEach((node, index) => {
@@ -788,11 +791,16 @@
     }
 
     if (mode === "architectural_sketch") {
+      const photography = valueOf("archSketchOutputRepresentation") === "architectural-photography";
       return [
         anyState("archSketchBuildingType", "archSketchCustomBuildingType", "archSketchSceneType"),
         anyState("archSketchArchitectureStyle", "archSketchCustomArchitectureStyle"),
-        stateOf(valueOf("archSketchStyle")),
-        stateOf(valueOf("archSketchMedium")),
+        photography
+          ? stateOf(valueOf("archSketchOutputRepresentation"))
+          : stateOf(valueOf("archSketchStyle")),
+        photography
+          ? stateOf(valueOf("archSketchPhotoRealismTarget"))
+          : stateOf(valueOf("archSketchMedium")),
         anyState("archSketchLighting", "archSketchMood"),
         stateOf(valueOf("archSketchCameraView")),
         outputReady ? "ready" : "empty"
