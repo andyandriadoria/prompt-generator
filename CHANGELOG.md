@@ -69,6 +69,14 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 UI — Workstation Thumbnail Layout Hotfix (2026-09-20)
+
+- fixed Workstation cache-busting applying Prompt Mode images to the entire card instead of the thumbnail region;
+- Prompt Mode images now flow through a `--workstation-mode-image` CSS custom property and render only inside the card `::before` thumbnail;
+- inline full-card background images are actively removed when the visual asset mapper runs;
+- Style DNA thumbnail cache-busting remains unchanged;
+- no Google Sheets, Apps Script, or `config.js` changes.
+
 ### 4.5 UI — Workstation Asset Cache Fix (2026-09-20)
 
 - verified that newly replaced Style DNA images were present in GitHub but the browser/GitHub Pages could continue serving cached image URLs;
