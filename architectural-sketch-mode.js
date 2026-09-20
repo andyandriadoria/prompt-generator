@@ -602,6 +602,22 @@
     smartDefaults.applying = true;
 
     try {
+      if (!isSketchRandomLocked("archSketchOutputRepresentation")) {
+        setValue(
+          elements.archSketchOutputRepresentation,
+          pickRandom(options.outputRepresentations)?.id || elements.archSketchOutputRepresentation.value
+        );
+      }
+      updateRepresentationUi();
+      const photography = isPhotographyRepresentation();
+
+      if (photography && !isSketchRandomLocked("archSketchPhotoRealismTarget")) {
+        setValue(
+          elements.archSketchPhotoRealismTarget,
+          pickRandom(options.photoRealismTargets)?.id || elements.archSketchPhotoRealismTarget.value
+        );
+      }
+
       const buildingTypeLocked = isSketchRandomLocked("archSketchBuildingType")
         || isSketchRandomLocked("archSketchCustomBuildingType");
       const buildingCategoryLocked = isSketchRandomLocked("archSketchBuildingCategory");
@@ -662,21 +678,23 @@
         setValue(elements.archSketchSceneType, pickRandom(sceneCandidates)?.id || elements.archSketchSceneType.value);
       }
 
-      if (!isSketchRandomLocked("archSketchStyle")) {
-        const lockedSurface = isSketchRandomLocked("archSketchMedium")
-          ? elements.archSketchMedium.value
-          : "";
-        const compatibleStyles = lockedSurface
-          ? (options.sketchStyles || []).filter(item => styleSupportsSurface(item, lockedSurface))
-          : (options.sketchStyles || []);
-        const style = pickRandom(compatibleStyles.length ? compatibleStyles : options.sketchStyles);
-        setValue(elements.archSketchStyle, style?.id || elements.archSketchStyle.value);
-      }
+      if (!photography) {
+        if (!isSketchRandomLocked("archSketchStyle")) {
+          const lockedSurface = isSketchRandomLocked("archSketchMedium")
+            ? elements.archSketchMedium.value
+            : "";
+          const compatibleStyles = lockedSurface
+            ? (options.sketchStyles || []).filter(item => styleSupportsSurface(item, lockedSurface))
+            : (options.sketchStyles || []);
+          const style = pickRandom(compatibleStyles.length ? compatibleStyles : options.sketchStyles);
+          setValue(elements.archSketchStyle, style?.id || elements.archSketchStyle.value);
+        }
 
-      if (!isSketchRandomLocked("archSketchMedium")) {
-        const recommended = recommendedSurfaceIdsForStyle();
-        const surfaceId = pickRandom(recommended) || pickRandom((options.media || []).map(item => item.id));
-        setValue(elements.archSketchMedium, surfaceId || elements.archSketchMedium.value);
+        if (!isSketchRandomLocked("archSketchMedium")) {
+          const recommended = recommendedSurfaceIdsForStyle();
+          const surfaceId = pickRandom(recommended) || pickRandom((options.media || []).map(item => item.id));
+          setValue(elements.archSketchMedium, surfaceId || elements.archSketchMedium.value);
+        }
       }
 
       if (!isSketchRandomLocked("archSketchLighting")) {
@@ -692,9 +710,13 @@
       }
 
       if (!isSketchRandomLocked("archSketchHumanScale")) {
-        const recommended = recommendedHumanForStyle();
-        const useNone = recommended && recommended !== "none" && Math.random() < 0.25;
-        setValue(elements.archSketchHumanScale, useNone ? "none" : (recommended || "none"));
+        if (photography) {
+          setValue(elements.archSketchHumanScale, pickRandom(options.humanScale)?.id || "none");
+        } else {
+          const recommended = recommendedHumanForStyle();
+          const useNone = recommended && recommended !== "none" && Math.random() < 0.25;
+          setValue(elements.archSketchHumanScale, useNone ? "none" : (recommended || "none"));
+        }
       }
 
       const currentView = elements.archSketchCameraView.value;
@@ -721,6 +743,7 @@
       }
 
       searchable.forEach(control => control.syncFromNative?.());
+      updateRepresentationUi();
       updateStyleHint();
       updateSurfaceHint();
       updateLightingHint();
@@ -731,7 +754,7 @@
       global.dispatchEvent(new CustomEvent("promptgen:architecturalsketchrandomized", {
         detail: { state: serializeState(), prompt: elements.output?.value || "" }
       }));
-      showMessage("Sketch Random created a compatible variation. Manual choices were preserved.");
+      showMessage("Concept Random created a compatible variation. Manual choices were preserved.");
     } finally {
       smartDefaults.applying = false;
       sketchRandomState.applying = false;
