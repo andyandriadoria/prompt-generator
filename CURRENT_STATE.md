@@ -454,6 +454,9 @@ Implementation:
 - Topbar subtitle is simplified to **AI Creative Workstation · Build better prompts. Create without limits.** because creator identity already appears in the profile control.
 - Prompt Analysis shows six mode-relevant checkpoints and always includes **Output**; the underlying readiness score still evaluates all seven Prompt DNA steps.
 - Style DNA remains structurally unchanged, with only minor height/spacing refinement.
+- Workstation presentation imagery is isolated from Setting data under `assets/workstation/`. Prompt Mode thumbnails live in `assets/workstation/modes/`; Style DNA thumbnails live in `assets/workstation/styles/`.
+- Workstation CSS references only these dedicated visual asset paths, so UI imagery can be replaced directly in GitHub without editing JavaScript, Google Sheets, Apps Script, or `config.js`. Keep the existing filenames when replacing an image.
+- `assets/workstation/README.md` documents the stable filenames and recommends 16:9 images around 1200×675 px.
 
 Reference Product Catalog follows the same Obsidian selection language:
 - amber = active / selected state;
