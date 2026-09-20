@@ -26,9 +26,11 @@ Production:
 The Build workspace uses a three-zone creative workstation layout:
 - left navigation sidebar;
 - center Build canvas with Prompt DNA, visual Prompt Mode / Style cards, and grouped Prompt Details;
-- right dark Live Output with Prompt / Structure / Metadata tabs, readiness analysis, and visual-direction preview.
+- right dark Live Output with Prompt / Structure / Metadata tabs, deterministic readiness analysis, adaptive prompt-editor height, and copy control.
 
 `workstation-v2.js` and `workstation-v2.css` are presentation-layer files. They preserve all production form IDs and mode controllers so Google Sheets data, Saved Prompt restore, Smart Random, and prompt builders continue to operate without API changes.
+
+Setting previews remain contextual inside their owning Scene / Setting card; the separate Live Output Visual Preview was removed. Prompt Mode cards remain six-across on desktop, Creative details are grouped as Subject / Scene & Action / Camera & Technical, and Prompt Analysis uses active-mode DNA rather than Creative-only state.
 
 ## Data Architecture
 
