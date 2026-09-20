@@ -69,6 +69,20 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 UI — Workstation V2 Final Polish (2026-09-20)
+
+- kept all six Prompt Mode cards in one desktop row while increasing card/thumbnail breathing room and replacing long descriptions with shorter presentation-only copy;
+- changed Architectural Render thumbnail to an architecture-first facade asset and Architectural Sketch thumbnail to an architecture-first pavilion asset with stronger monochrome/contrast treatment;
+- rebalanced Creative Prompt Details into **Subject / Scene & Action / Camera & Technical** without changing prompt data or IDs;
+- simplified the topbar subtitle to **AI Creative Workstation · Build better prompts. Create without limits.**;
+- Prompt Analysis now shows six mode-relevant checkpoints and always includes Output while the score still evaluates all seven DNA steps;
+- added adaptive Live Output editor height for short / medium / long prompts so Prompt Analysis remains visible;
+- kept Style DNA structurally unchanged and applied only minor height/spacing polish;
+- setting preview remains contextual inside Scene / Setting; the removed Live Output Visual Preview was not reintroduced;
+- QA covers all six Prompt Modes for seven DNA labels, Output-inclusive analysis mapping, and referenced field IDs;
+- no Google Sheets or API contract changes;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 UI — Scene Preview & Aspect Ratio Cleanup (2026-09-20)
 
 - removed the separate **Visual Preview** card from Live Output;
