@@ -1,15 +1,6 @@
 (function (global) {
   "use strict";
 
-  const MODE_PREVIEWS = {
-    creative: "assets/settings/indoor-sunlit-neutral-minimalist-interior.png",
-    outfit_catalog: "assets/settings/indoor-clean-fashion-atelier-studio.png",
-    reference_product_catalog: "assets/settings/indoor-textile-gallery-display-niche.png",
-    reference_product_poster: "assets/settings/outdoor-7-eleven-store.jpg",
-    architectural_render: "assets/settings/outdoor-elegant-urban-architecture.png",
-    architectural_sketch: "assets/settings/outdoor-contemporary-cafe-courtyard.png"
-  };
-
   const MODE_GROUPS = {
     creative: [
       { title: "Subject", icon: "sparkles", ids: ["characterPreset", "subjectGender", "features", "action", "expression", "outfit", "manualOutfitRow"] },
@@ -369,6 +360,7 @@
     if (buttons) buttons.classList.add("workstation-action-bar");
 
     arrangeKnownModeSections();
+    placeSettingPreviews();
   }
 
   function arrangeKnownModeSections() {
@@ -488,6 +480,7 @@
 
     promptFormObserver = new MutationObserver(() => {
       arrangeKnownModeSections();
+      placeSettingPreviews();
       updateWorkstationState();
     });
     promptFormObserver.observe(form, { childList: true, subtree: true });
@@ -578,15 +571,6 @@
     `;
     tabShell.insertAdjacentElement("afterend", analysis);
 
-    const preview = document.createElement("section");
-    preview.className = "workstation-preview-card";
-    preview.innerHTML = `
-      <header><span>${icon("image")}</span><strong>Visual Preview</strong><small>Reference cue</small></header>
-      <div class="workstation-preview-media"><img alt="Visual direction preview"></div>
-      <p>This is a visual direction cue for the active mode, not generated output.</p>
-    `;
-    analysis.insertAdjacentElement("afterend", preview);
-
     const tip = output.querySelector(".output-tip");
     if (tip) tip.classList.add("workstation-output-tip");
   }
@@ -617,9 +601,9 @@
   }
 
   function updateWorkstationState() {
+    placeSettingPreviews();
     updateDnaProgress();
     updateOutputIntelligence();
-    updatePreview();
   }
 
   function updateDnaProgress() {
@@ -823,25 +807,18 @@
     }
   }
 
-  function updatePreview() {
-    const image = document.querySelector(".workstation-preview-media img");
-    const card = document.querySelector(".workstation-preview-card");
-    if (!image || !card) return;
-    const mode = currentModeId();
-    const next = MODE_PREVIEWS[mode] || MODE_PREVIEWS.creative;
-    if (!image.src.endsWith(next)) image.src = next;
-    image.classList.toggle("is-sketch", mode === "architectural_sketch");
-
-    const labels = {
-      creative: "Creative scene cue",
-      outfit_catalog: "Fashion reference cue",
-      reference_product_catalog: "Product presentation cue",
-      reference_product_poster: "Poster composition cue",
-      architectural_render: "Architectural render cue",
-      architectural_sketch: "Architectural sketch cue"
-    };
-    const small = card.querySelector("header small");
-    if (small) small.textContent = labels[mode] || "Reference cue";
+  function placeSettingPreviews() {
+    [
+      ["setting", "creativeSettingPreview"],
+      ["catalogSetting", "catalogSettingPreview"]
+    ].forEach(([selectId, previewId]) => {
+      const select = document.getElementById(selectId);
+      const preview = document.getElementById(previewId);
+      const card = select?.closest(".workstation-detail-card");
+      const body = card?.querySelector(".workstation-detail-fields");
+      if (!select || !preview || !body) return;
+      if (preview.parentElement !== body) body.append(preview);
+    });
   }
 
   function currentModeId() {
