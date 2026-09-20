@@ -598,22 +598,22 @@ body.dark-mode .workstation-section-number {
 }
 
 .workstation-v2 [data-prompt-mode-id="creative"]::before {
-  background-image: url("assets/settings/indoor-sunlit-neutral-minimalist-interior.png");
+  background-image: url("assets/workstation/modes/creative.png");
 }
 .workstation-v2 [data-prompt-mode-id="outfit_catalog"]::before {
-  background-image: url("assets/settings/indoor-clean-fashion-atelier-studio.png");
+  background-image: url("assets/workstation/modes/reference-outfit.png");
 }
 .workstation-v2 [data-prompt-mode-id="product_catalog"]::before {
-  background-image: url("assets/settings/indoor-textile-gallery-display-niche.png");
+  background-image: url("assets/workstation/modes/reference-product.png");
 }
 .workstation-v2 [data-prompt-mode-id="product_poster"]::before {
-  background-image: url("assets/settings/outdoor-7-eleven-store.jpg");
+  background-image: url("assets/workstation/modes/product-poster.jpg");
 }
 .workstation-v2 [data-prompt-mode-id="architectural_render"]::before {
-  background-image: url("assets/settings/outdoor-contemporary-boutique-hotel-courtyard.png");
+  background-image: url("assets/workstation/modes/architectural-render.png");
 }
 .workstation-v2 [data-prompt-mode-id="architectural_sketch"]::before {
-  background-image: url("assets/settings/outdoor-contemporary-garden-pavilion.png");
+  background-image: url("assets/workstation/modes/architectural-sketch.png");
   filter: grayscale(.9) sepia(.13) contrast(.92) brightness(1.06);
 }
 
@@ -754,23 +754,23 @@ body.dark-mode .workstation-v2 .prompt-mode-icon {
 }
 
 .workstation-v2 [data-style-preset-id="hyper-realistic-iphone"] .style-preset-icon {
-  background-image: url("assets/settings/indoor-sunlit-neutral-minimalist-interior.png");
+  background-image: url("assets/workstation/styles/hyper-realistic.png");
 }
 .workstation-v2 [data-style-preset-id="cinematic-movie-still"] .style-preset-icon {
-  background-image: url("assets/settings/indoor-black-fluted-feature-wall.png");
+  background-image: url("assets/workstation/styles/cinematic.png");
 }
 .workstation-v2 [data-style-preset-id="fashion-editorial"] .style-preset-icon {
-  background-image: url("assets/settings/indoor-clean-fashion-atelier-studio.png");
+  background-image: url("assets/workstation/styles/fashion-editorial.png");
 }
 .workstation-v2 [data-style-preset-id="indonesian-lifestyle-candid"] .style-preset-icon {
-  background-image: url("assets/settings/outdoor-heritage-veranda.png");
+  background-image: url("assets/workstation/styles/indonesian-lifestyle.png");
 }
 .workstation-v2 [data-style-preset-id="japanese-nostalgia-1980s"] .style-preset-icon {
-  background-image: url("assets/settings/outdoor-elegant-urban-architecture.png");
+  background-image: url("assets/workstation/styles/japanese-nostalgia.png");
   filter: sepia(.18) saturate(.78);
 }
 .workstation-v2 [data-style-preset-id="miniature-diorama"] .style-preset-icon {
-  background-image: url("assets/settings/indoor-textile-gallery-display-niche.png");
+  background-image: url("assets/workstation/styles/miniature-diorama.png");
 }
 
 .workstation-v2 .style-preset-card:hover {
@@ -1810,18 +1810,18 @@ body.dark-mode.workstation-v2 .prompt-mode-icon {
 
 /* Correct production Product mode IDs for thumbnails. */
 .workstation-v2 [data-prompt-mode-id="reference_product_catalog"]::before {
-  background-image: url("assets/settings/indoor-textile-gallery-display-niche.png");
+  background-image: url("assets/workstation/modes/reference-product.png");
 }
 .workstation-v2 [data-prompt-mode-id="reference_product_poster"]::before {
-  background-image: url("assets/settings/outdoor-7-eleven-store.jpg");
+  background-image: url("assets/workstation/modes/product-poster.jpg");
 }
 
 /* Make architectural thumbnails architecture-first. */
 .workstation-v2 [data-prompt-mode-id="architectural_render"]::before {
-  background-image: url("assets/settings/outdoor-elegant-urban-architecture.png");
+  background-image: url("assets/workstation/modes/architectural-render.png");
 }
 .workstation-v2 [data-prompt-mode-id="architectural_sketch"]::before {
-  background-image: url("assets/settings/outdoor-contemporary-cafe-courtyard.png");
+  background-image: url("assets/workstation/modes/architectural-sketch.png");
   filter: grayscale(.92) sepia(.13) contrast(.94) brightness(1.06);
 }
 
@@ -2279,13 +2279,13 @@ body.dark-mode.workstation-v2 .prompt-mode-icon {
 
 /* Architecture-first thumbnails. */
 .workstation-v2 [data-prompt-mode-id="architectural_render"]::before {
-  background-image: url("assets/settings/outdoor-minimal-neutral-panel-facade.png") !important;
+  background-image: url("assets/workstation/modes/architectural-render.png") !important;
   background-position: center 46% !important;
   filter: saturate(.88) contrast(1.02) !important;
 }
 
 .workstation-v2 [data-prompt-mode-id="architectural_sketch"]::before {
-  background-image: url("assets/settings/outdoor-contemporary-garden-pavilion.png") !important;
+  background-image: url("assets/workstation/modes/architectural-sketch.png") !important;
   background-position: center 48% !important;
   filter: grayscale(1) sepia(.16) contrast(1.28) brightness(1.12) !important;
 }
