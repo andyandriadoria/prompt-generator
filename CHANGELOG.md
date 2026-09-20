@@ -69,6 +69,17 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 UI — Scene Preview & Aspect Ratio Cleanup (2026-09-20)
+
+- removed the separate **Visual Preview** card from Live Output;
+- moved Creative / Outfit Setting Preview cards into the owning Scene / Setting detail card;
+- compacted Setting Preview to an image + selected setting title, removing redundant preview kicker, explanatory copy, and metadata pills in Workstation V2;
+- fixed the large empty Scene card caused by the legacy preview layout and margin;
+- redesigned Creative Aspect Ratio as a four-segment control with ratio-shaped monoline glyphs and clear selected state;
+- mobile Aspect Ratio falls back to a 2×2 layout;
+- no prompt-builder, Google Sheets, or API contract changes;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 UI — Workstation V2 Refinement Pass (2026-09-20)
 
 - compacted the global topbar so Google Sheets status, appearance toggle, and creator profile stay on one horizontal line;
