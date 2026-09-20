@@ -69,6 +69,17 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 UI — Dedicated Workstation Visual Assets (2026-09-20)
+
+- created `assets/workstation/modes/` for the six Prompt Mode card thumbnails;
+- created `assets/workstation/styles/` for Style DNA thumbnails;
+- copied the current production visuals into the new stable filenames so the UI remains populated immediately;
+- added `assets/workstation/README.md` with replacement instructions and a recommended 16:9 / 1200×675 image format;
+- updated Workstation V2 CSS so Prompt Mode and Style DNA presentation images no longer depend on `assets/settings/`;
+- future visual replacement only requires replacing a file with the same filename in GitHub;
+- Google Sheets remains the source of truth for content data; this folder is presentation-only;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 UI — Workstation V2 Final Polish (2026-09-20)
 
 - kept all six Prompt Mode cards in one desktop row while increasing card/thumbnail breathing room and replacing long descriptions with shorter presentation-only copy;
