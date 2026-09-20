@@ -15,7 +15,7 @@ Production:
 3. Reference Product Catalog
 4. Product Poster Builder
 5. Architectural Render
-6. Architectural Sketch Builder
+6. Architectural Concept Builder
 
 ## Workspaces
 
@@ -115,11 +115,28 @@ Important columns:
 
 Smart Defaults respect manual overrides. Paper / Surface, Lighting / Time, and View / Projection stop auto-following recommendations after the user changes them manually; Reset re-enables smart defaults. Saved Prompt restore is treated as manual state and is never overwritten by the recommendation engine.
 
-Architectural Sketch also provides **Sketch Random**. It varies only untouched controls and keeps manual selections locked until Reset. It uses `RECOMMENDED_SURFACE`, `RECOMMENDED_LIGHTING`, `RECOMMENDED_HUMAN`, and `SCENE_SCOPE` to keep random results coherent. Site / Context, Architectural Feature Emphasis, Extra Instruction, and Input Type are not invented by randomization.
+Architectural Concept Builder provides **Concept Random**. It varies only untouched controls and keeps manual selections locked until Reset. When Output Representation is Sketch Presentation it uses `RECOMMENDED_SURFACE`, `RECOMMENDED_LIGHTING`, `RECOMMENDED_HUMAN`, and `SCENE_SCOPE`; when Architectural Photography is selected it randomizes only photography-relevant representation controls. Site / Context, Architectural Feature Emphasis, Extra Instruction, and Input Type are not invented by randomization.
 
 The hidden `_JSON` columns and CONFIG JSON cells are generated automatically with formulas. Edit the visible option rows, not the generated JSON bridge.
 
 This bridge keeps the current Apps Script CONFIG payload compatible, so the 2026-09-19 architecture-option migration does **not** require an Apps Script redeploy.
+
+## Architectural Concept Builder
+
+The existing internal mode ID `architectural_sketch` is intentionally retained for Saved Prompt and frontend compatibility, but its production UI label is **Architectural Concept Builder**.
+
+**Output Representation**:
+- `sketch-presentation` — shows Sketch Style, Paper / Surface, Advanced Line/Color controls, and Annotations / Text.
+- `architectural-photography` — hides sketch-only controls and shows Photo Realism Target.
+
+Photo Realism Targets:
+- Hyper-Real Architectural Photo
+- Natural Documentary Architectural Photo
+- Editorial Architectural Photo
+
+Both paths share the same Architecture Taxonomy, Scene Type, Lighting / Time, Atmosphere / Character, Site / Context, Architectural Feature Emphasis, Human Presence / Scale, View / Projection, and Aspect Ratio controls.
+
+The option data remains in `ARCH_SKETCH_OPTIONS`; the CONFIG JSON bridge exposes the new groups without an Apps Script redeploy. Existing Saved Prompts that predate this feature restore into Sketch Presentation automatically.
 
 ## Upgrade Rules
 
