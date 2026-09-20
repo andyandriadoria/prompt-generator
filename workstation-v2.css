@@ -2356,3 +2356,16 @@ body.dark-mode.workstation-v2 .prompt-mode-icon {
     max-height: 360px !important;
   }
 }
+
+
+/* Workstation asset cache fix: mode images belong only to the thumbnail pseudo-element. */
+.workstation-v2 .prompt-mode-card {
+  background-image: none !important;
+}
+
+.workstation-v2 .prompt-mode-card::before {
+  background-image: var(--workstation-mode-image) !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: cover !important;
+}
