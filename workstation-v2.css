@@ -2408,3 +2408,71 @@ body.dark-mode.workstation-v2 .prompt-mode-icon {
     aspect-ratio: 16 / 9 !important;
   }
 }
+
+
+/* -------------------------------------------------------------------------- */
+/* Workstation V2 — Creative Aspect Ratio fieldset hotfix                     */
+/* -------------------------------------------------------------------------- */
+
+.workstation-v2 #creativeFields fieldset.fieldset-row:has(#aspectRatioGroup) {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 7px !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.workstation-v2 #creativeFields fieldset.fieldset-row:has(#aspectRatioGroup) > legend {
+  float: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  grid-column: 1 !important;
+  color: var(--muted) !important;
+  font-size: 9px !important;
+  font-weight: 600 !important;
+}
+
+.workstation-v2 #creativeFields fieldset.fieldset-row:has(#aspectRatioGroup) > #aspectRatioGroup {
+  grid-column: 1 !important;
+  width: 100% !important;
+}
+
+.workstation-v2 #aspectRatioGroup label {
+  min-height: 36px !important;
+  padding: 7px 6px !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+.workstation-v2 #aspectRatioGroup label::before {
+  content: none !important;
+  display: none !important;
+}
+
+.workstation-v2 #aspectRatioGroup input[type="radio"] {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.workstation-v2 #aspectRatioGroup label:has(input:checked) {
+  border-color: var(--primary) !important;
+  background: color-mix(in srgb, var(--primary) 11%, var(--surface-1)) !important;
+  color: var(--text) !important;
+}
+
+@media (max-width: 760px) {
+  .workstation-v2 #creativeFields fieldset.fieldset-row:has(#aspectRatioGroup) > #aspectRatioGroup {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
