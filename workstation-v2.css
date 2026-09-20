@@ -2239,3 +2239,120 @@ body.dark-mode.workstation-v2 .prompt-mode-icon {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
+
+
+/* -------------------------------------------------------------------------- */
+/* Workstation V2 — final polish from visual QA                               */
+/* -------------------------------------------------------------------------- */
+
+/* Prompt Mode cards: keep six across, but give text enough breathing room. */
+.workstation-v2 .prompt-mode-card {
+  min-height: 156px !important;
+  padding: 8px !important;
+  gap: 7px !important;
+}
+
+.workstation-v2 .prompt-mode-card::before {
+  height: 64px !important;
+  flex-basis: 64px !important;
+}
+
+.workstation-v2 .prompt-mode-icon {
+  top: 54px !important;
+}
+
+.workstation-v2 .prompt-mode-card strong {
+  font-size: 10px !important;
+  line-height: 1.25 !important;
+}
+
+.workstation-v2 .prompt-mode-card small {
+  display: -webkit-box !important;
+  min-height: 27px !important;
+  max-height: 27px !important;
+  overflow: hidden !important;
+  font-size: 8.5px !important;
+  line-height: 1.35 !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+}
+
+/* Architecture-first thumbnails. */
+.workstation-v2 [data-prompt-mode-id="architectural_render"]::before {
+  background-image: url("assets/settings/outdoor-minimal-neutral-panel-facade.png") !important;
+  background-position: center 46% !important;
+  filter: saturate(.88) contrast(1.02) !important;
+}
+
+.workstation-v2 [data-prompt-mode-id="architectural_sketch"]::before {
+  background-image: url("assets/settings/outdoor-contemporary-garden-pavilion.png") !important;
+  background-position: center 48% !important;
+  filter: grayscale(1) sepia(.16) contrast(1.28) brightness(1.12) !important;
+}
+
+/* Creative columns should feel balanced after Scene + Action redistribution. */
+.workstation-v2 #creativeFields .workstation-detail-grid {
+  grid-template-columns: 1.08fr .94fr .98fr !important;
+}
+
+/* Style DNA is already close to target; only tighten vertical density slightly. */
+.workstation-v2 .style-preset-card,
+.workstation-custom-style-card {
+  min-height: 144px !important;
+}
+
+.workstation-v2 .style-preset-icon {
+  height: 72px !important;
+  margin-bottom: 7px !important;
+}
+
+.workstation-v2 .style-preset-grid {
+  gap: 9px !important;
+}
+
+/* Live Output adapts to prompt length, keeping analysis visible for short prompts. */
+.workstation-v2 .output-panel.workstation-live-output.is-short-prompt #output {
+  height: 180px !important;
+  min-height: 180px !important;
+  max-height: 180px !important;
+}
+
+.workstation-v2 .output-panel.workstation-live-output.is-medium-prompt #output {
+  height: 240px !important;
+  min-height: 220px !important;
+  max-height: 240px !important;
+}
+
+.workstation-v2 .output-panel.workstation-live-output.is-long-prompt #output {
+  height: 315px !important;
+  min-height: 250px !important;
+  max-height: 315px !important;
+}
+
+/* Cleaner topbar subtitle after creator identity moved to profile. */
+.workstation-v2 .hero .subtitle {
+  max-width: 620px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1080px) {
+  .workstation-v2 #creativeFields .workstation-detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .workstation-v2 #creativeFields .workstation-detail-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .workstation-v2 .output-panel.workstation-live-output.is-short-prompt #output,
+  .workstation-v2 .output-panel.workstation-live-output.is-medium-prompt #output,
+  .workstation-v2 .output-panel.workstation-live-output.is-long-prompt #output {
+    height: 250px !important;
+    min-height: 250px !important;
+    max-height: 360px !important;
+  }
+}
