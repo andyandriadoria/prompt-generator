@@ -34,6 +34,9 @@
     const scene = clean(state.scenePrompt) || clean(state.sceneLabel) || "architectural view";
     const architectureStyle = clean(state.architectureStyle);
     const inputPrompt = clean(state.inputPrompt);
+    const outputRepresentation = clean(state.outputRepresentation) || "sketch-presentation";
+    const isPhotography = outputRepresentation === "architectural-photography";
+    const photoRealismTarget = clean(state.photoRealismTargetPrompt) || "hyper realistic photography";
 
     const stylePrompt = clean(state.sketchStylePrompt) || "a professional hand-drawn architectural presentation sketch";
     const styleLineRule = clean(state.sketchStyleLineRule);
@@ -56,7 +59,9 @@
     const annotationPrompt = clean(state.annotationTextPrompt);
     const extra = clean(state.extraInstruction);
 
-    const opening = `Create a hand-drawn architectural sketch of ${withIndefiniteArticle(projectType)} as ${scene} in a ${ratio} aspect ratio.`;
+    const opening = isPhotography
+      ? `Create a ${photoRealismTarget} of ${withIndefiniteArticle(projectType)} as ${scene} in a ${ratio} aspect ratio.`
+      : `Create a hand-drawn architectural sketch of ${withIndefiniteArticle(projectType)} as ${scene} in a ${ratio} aspect ratio.`;
 
     const sourceBlock = state.inputType && state.inputType !== "concept-prompt"
       ? inputPrompt
@@ -67,7 +72,7 @@
       "Keep massing, proportions, openings, perspective, and spatial relationships believable"
     ].filter(Boolean).map(sentence).join(" ");
 
-    const styleBlock = [
+    const styleBlock = isPhotography ? "" : [
       `Sketch style: ${stylePrompt}`,
       lineQuality ? `Line override: ${lineQuality}; use this as the active line character within the selected sketch style` : "",
       colorTreatment ? `Color override: ${colorTreatment}; use this as the active color treatment within the selected sketch style` : "",
@@ -89,18 +94,23 @@
       siteContext ? `Site / context: ${siteContext}` : "",
       featureInstruction,
       humanPresence ? `Human presence / scale: ${humanPresence}` : "",
-      annotationMode !== "no-text" && annotationPrompt ? `Annotations / text: ${annotationPrompt}` : ""
+      !isPhotography && annotationMode !== "no-text" && annotationPrompt ? `Annotations / text: ${annotationPrompt}` : ""
     ].filter(Boolean).join("; ");
 
-    const colorGuard = colorOverride && !isMonochrome(state.colorTreatment)
+    const colorGuard = !isPhotography && colorOverride && !isMonochrome(state.colorTreatment)
       ? "Preserve the selected color override; do not collapse the result into graphite-only grayscale."
       : "";
 
-    const guard = [
-      "Keep the result clearly within professional architectural sketch presentation language, not photorealistic imagery, CGI, 3D archviz, or realistic digital painting",
-      annotationMode === "no-text" ? NO_TEXT_GUARD : "",
-      styleAvoid
-    ].filter(Boolean).map(sentence).join(" ");
+    const guard = isPhotography
+      ? [
+          "Keep the result clearly within architectural photography language, not as a sketch, drawing, watercolor illustration, diagram, CGI, 3D render, or stylized concept art",
+          NO_TEXT_GUARD
+        ].filter(Boolean).map(sentence).join(" ")
+      : [
+          "Keep the result clearly within professional architectural sketch presentation language, not photorealistic imagery, CGI, 3D archviz, or realistic digital painting",
+          annotationMode === "no-text" ? NO_TEXT_GUARD : "",
+          styleAvoid
+        ].filter(Boolean).map(sentence).join(" ");
 
     const blocks = [
       sentence(opening),
