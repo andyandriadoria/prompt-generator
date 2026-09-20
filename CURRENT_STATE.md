@@ -64,7 +64,7 @@ Active Prompt Modes:
 - Reference Product Catalog (`ACTIVE = TRUE`)
 - Product Poster Builder (`ACTIVE = TRUE`)
 - Architectural Render (`ACTIVE = TRUE`)
-- Architectural Sketch Builder (`ACTIVE = TRUE`)
+- Architectural Concept Builder (`ACTIVE = TRUE`, stable internal ID: `architectural_sketch`)
 
 Reference Outfit Catalog additive collection:
 - `OUTFIT_FOCUS_STYLES`
@@ -443,13 +443,13 @@ Implementation:
 - `workstation-v2.js` performs presentation-layer DOM composition while preserving production field IDs and mode logic;
 - `workstation-v2.css` is the final visual override layer loaded after mode-specific styles;
 - underlying prompt builders, Google Sheets data, Saved Prompt state, Smart Compatibility, Smart Random, architecture taxonomy, and mode controllers remain unchanged.
-- Workstation V2 refinement pass: topbar controls are forced into a single compact row; all six Prompt Mode cards stay in one desktop row; Product Catalog and Product Poster thumbnail selectors use their production mode IDs; Prompt Details cards align to content height instead of stretching to the tallest column; Architectural Sketch moves Site / Context, Feature Emphasis, Extra Instruction, and Advanced Style Controls into a dedicated Advanced Settings disclosure; per-mode intro banners and the redundant Architectural Sketch logic card are hidden in the workstation shell; action buttons are static at the end of Prompt Details and no longer cover form controls.
+- Workstation V2 refinement pass: topbar controls are forced into a single compact row; all six Prompt Mode cards stay in one desktop row; Product Catalog and Product Poster thumbnail selectors use their production mode IDs; Prompt Details cards align to content height instead of stretching to the tallest column; Architectural Concept Builder moves Site / Context, Feature Emphasis, Extra Instruction, and Advanced Style Controls into a dedicated Advanced Settings disclosure; per-mode intro banners and the redundant Architectural Sketch logic card are hidden in the workstation shell; action buttons are static at the end of Prompt Details and no longer cover form controls.
 - Live Output uses a fixed-height shell with only the prompt editor scrolling; Prompt / Structure / Metadata remain tabbed, Prompt Analysis stays visible, and prompt-editor height adapts to short / medium / long output.
 - Prompt DNA and Prompt Analysis are mode-aware. Each production mode gets its own seven labels and readiness checks; readiness score is deterministic from the active mode's actual field state and no longer blends in Creative compatibility scores for Architecture/Product modes.
 - The separate Live Output **Visual Preview** card has been removed. Scene/Setting preview now stays contextual beside the field that owns it instead of duplicating imagery in the output panel.
 - In Workstation V2, Setting Preview is re-parented into the active Scene/Setting detail card and rendered as a compact image card with only the selected setting title; descriptive kicker/note/tag metadata are suppressed in the compact shell.
 - Creative Aspect Ratio radio options are rendered as a full-width segmented control beneath the field label. The legacy two-column fieldset layout and decorative ratio pseudo-glyphs are overridden so `9:16 / 1:1 / 16:9 / 4:5` remain fully readable; mobile collapses to a 2×2 arrangement.
-- Prompt Mode cards remain six-across on desktop, use shorter presentation-only descriptions, and have slightly taller card/thumbnail proportions for better readability; Architectural Render uses an architecture-first facade asset and Architectural Sketch uses an architecture-first pavilion asset with a stronger sketch-like monochrome treatment.
+- Prompt Mode cards remain six-across on desktop, use shorter presentation-only descriptions, and have slightly taller card/thumbnail proportions for better readability; Architectural Render uses an architecture-first facade asset and Architectural Concept Builder uses an architecture-first pavilion asset with a stronger sketch-like monochrome treatment.
 - Creative Prompt Details are balanced as **Subject / Scene & Action / Camera & Technical** without changing prompt data or field IDs.
 - Topbar subtitle is simplified to **AI Creative Workstation · Build better prompts. Create without limits.** because creator identity already appears in the profile control.
 - Prompt Analysis shows six mode-relevant checkpoints and always includes **Output**; the underlying readiness score still evaluates all seven Prompt DNA steps.
@@ -503,6 +503,39 @@ Effective API source priority:
 5. `fallback.json`
 
 Normal production should resolve to `config.js`.
+
+## Architectural Concept Builder — Output Representation
+
+The production mode with stable internal ID `architectural_sketch` is now presented as **Architectural Concept Builder**.
+
+It has two representation paths:
+- **Sketch Presentation** — retains Sketch Style, Paper / Surface, Advanced Line/Color controls, sketch-specific Human Presence recommendations, and optional sketch annotations.
+- **Architectural Photography** — hides sketch-only controls and exposes **Photo Realism Target** with Hyper-Real Architectural Photo, Natural Documentary Architectural Photo, and Editorial Architectural Photo.
+
+Shared controls remain common to both paths:
+- Input Type;
+- Building Category / Type;
+- Scene Type;
+- Architectural Style Category / Style;
+- Lighting / Time;
+- Atmosphere / Character;
+- Site / Context;
+- Architectural Feature Emphasis;
+- Human Presence / Scale;
+- View / Projection;
+- Aspect Ratio;
+- Extra Instruction.
+
+Compatibility:
+- legacy Saved Prompt state without an Output Representation restores as `sketch-presentation`;
+- the internal mode ID, frontend module names, and Saved Prompt field prefix `archSketch*` remain unchanged;
+- **Architectural Render** remains a separate reference-driven workflow with Design Fidelity;
+- Google Sheets `ARCH_SKETCH_OPTIONS` remains the source of truth for both representation paths;
+- CONFIG adds `architecturalSketchOutputRepresentations` and `architecturalSketchPhotoRealismTargets` through the existing formula bridge;
+- no Apps Script redeploy is required because the API contract remains CONFIG-driven.
+
+Photography prompt opening follows the selected realism target. The default Hyper-Real path produces, for example:
+`Create a hyper realistic photography of a retail store as an interior architectural view in a 4:5 aspect ratio.`
 
 ## Known Architectural Decisions
 
