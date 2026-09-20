@@ -29,8 +29,8 @@
         loadScript("prompt-saved.js?v=4.5-saved-2", "prompt-saved-script");
         loadStyle("setting-preview.css?v=4.5-setting-preview-2", "setting-preview-style");
         loadScript("setting-preview.js?v=4.5-setting-preview-2", "setting-preview-script");
-        loadStyle("workstation-v2.css?v=4.5-workstation-refine-1", "workstation-v2-style");
-        loadScript("workstation-v2.js?v=4.5-workstation-refine-1", "workstation-v2-script");
+        loadStyle("workstation-v2.css?v=4.5-scene-preview-ratio-1", "workstation-v2-style");
+        loadScript("workstation-v2.js?v=4.5-scene-preview-ratio-1", "workstation-v2-script");
     }
 
     function loadStyle(href, key) {
