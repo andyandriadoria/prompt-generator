@@ -32,6 +32,13 @@ The Build workspace uses a three-zone creative workstation layout:
 
 Setting previews remain contextual inside their owning Scene / Setting card; the separate Live Output Visual Preview was removed. Prompt Mode cards remain six-across on desktop, Creative details are grouped as Subject / Scene & Action / Camera & Technical, and Prompt Analysis uses active-mode DNA rather than Creative-only state.
 
+### Workstation visual assets
+Workstation thumbnails are intentionally separated from content/Setting assets:
+- `assets/workstation/modes/` — six Prompt Mode thumbnails;
+- `assets/workstation/styles/` — Style DNA thumbnails.
+
+To change a UI image, replace the existing file in GitHub using the same filename. No frontend code or Google Sheets edit is required. See `assets/workstation/README.md` for the stable filename list and image recommendations.
+
 ## Data Architecture
 
 ```text
