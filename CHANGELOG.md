@@ -69,6 +69,14 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 UI — Style DNA 16:9 Thumbnails (2026-09-20)
+
+- changed Style DNA image containers from a fixed short strip to a true `16:9` aspect ratio;
+- recommended `1200×675` Workstation style assets now display with minimal/no crop when authored at 16:9;
+- retained `background-size: cover` and centered framing for consistent thumbnail fill;
+- moved the selected-state check indicator to the upper-right so it remains aligned with the taller thumbnail;
+- no Google Sheets, Apps Script, or `config.js` changes.
+
 ### 4.5 UI — Workstation Thumbnail Layout Hotfix (2026-09-20)
 
 - fixed Workstation cache-busting applying Prompt Mode images to the entire card instead of the thumbnail region;
