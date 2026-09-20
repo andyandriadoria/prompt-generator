@@ -69,6 +69,14 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 UI — Creative Aspect Ratio Hotfix (2026-09-20)
+
+- fixed Creative Aspect Ratio inheriting the legacy label-left / control-right fieldset layout;
+- Aspect Ratio now uses the full width beneath its label inside Camera & Technical;
+- removed the extra ratio pseudo-glyphs that competed with the `9:16 / 1:1 / 16:9 / 4:5` text;
+- retained four equal segments on desktop and 2×2 on mobile;
+- no prompt-builder, Google Sheets, Apps Script, or `config.js` changes.
+
 ### 4.5 UI — Style DNA 16:9 Thumbnails (2026-09-20)
 
 - changed Style DNA image containers from a fixed short strip to a true `16:9` aspect ratio;
