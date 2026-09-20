@@ -427,7 +427,7 @@ Production shell:
 - compact global topbar with app identity, data status, appearance control, and creator profile;
 - fixed left workstation sidebar for Build / Library plus Database and Settings utilities;
 - center Build canvas with Creative Instrument heading, 7-step Prompt DNA, visual Prompt Mode cards, visual Style DNA cards, and grouped Prompt Details;
-- persistent dark Live Output panel with Prompt / Structure / Metadata tabs, deterministic Prompt Analysis, visual-direction preview, and copy control;
+- persistent dark Live Output panel with Prompt / Structure / Metadata tabs, deterministic Prompt Analysis, adaptive prompt-editor height, and copy control;
 - active Prompt Mode and Style Preset cards use visual thumbnail treatment built from existing repository assets;
 - desktop uses a three-zone workstation layout; tablet collapses the output below the Build canvas; mobile converts navigation to a bottom workspace bar and keeps cards horizontally scrollable.
 
@@ -444,11 +444,16 @@ Implementation:
 - `workstation-v2.css` is the final visual override layer loaded after mode-specific styles;
 - underlying prompt builders, Google Sheets data, Saved Prompt state, Smart Compatibility, Smart Random, architecture taxonomy, and mode controllers remain unchanged.
 - Workstation V2 refinement pass: topbar controls are forced into a single compact row; all six Prompt Mode cards stay in one desktop row; Product Catalog and Product Poster thumbnail selectors use their production mode IDs; Prompt Details cards align to content height instead of stretching to the tallest column; Architectural Sketch moves Site / Context, Feature Emphasis, Extra Instruction, and Advanced Style Controls into a dedicated Advanced Settings disclosure; per-mode intro banners and the redundant Architectural Sketch logic card are hidden in the workstation shell; action buttons are static at the end of Prompt Details and no longer cover form controls.
-- Live Output uses a fixed-height shell with only the prompt editor scrolling; Prompt / Structure / Metadata remain tabbed, while Prompt Analysis and Visual Preview are compacted to fit the viewport.
+- Live Output uses a fixed-height shell with only the prompt editor scrolling; Prompt / Structure / Metadata remain tabbed, Prompt Analysis stays visible, and prompt-editor height adapts to short / medium / long output.
 - Prompt DNA and Prompt Analysis are mode-aware. Each production mode gets its own seven labels and readiness checks; readiness score is deterministic from the active mode's actual field state and no longer blends in Creative compatibility scores for Architecture/Product modes.
 - The separate Live Output **Visual Preview** card has been removed. Scene/Setting preview now stays contextual beside the field that owns it instead of duplicating imagery in the output panel.
 - In Workstation V2, Setting Preview is re-parented into the active Scene/Setting detail card and rendered as a compact image card with only the selected setting title; descriptive kicker/note/tag metadata are suppressed in the compact shell.
 - Creative Aspect Ratio radio options are rendered as a four-segment control with ratio-shaped monoline glyphs and clear selected-state styling; mobile collapses to a 2×2 arrangement.
+- Prompt Mode cards remain six-across on desktop, use shorter presentation-only descriptions, and have slightly taller card/thumbnail proportions for better readability; Architectural Render uses an architecture-first facade asset and Architectural Sketch uses an architecture-first pavilion asset with a stronger sketch-like monochrome treatment.
+- Creative Prompt Details are balanced as **Subject / Scene & Action / Camera & Technical** without changing prompt data or field IDs.
+- Topbar subtitle is simplified to **AI Creative Workstation · Build better prompts. Create without limits.** because creator identity already appears in the profile control.
+- Prompt Analysis shows six mode-relevant checkpoints and always includes **Output**; the underlying readiness score still evaluates all seven Prompt DNA steps.
+- Style DNA remains structurally unchanged, with only minor height/spacing refinement.
 
 Reference Product Catalog follows the same Obsidian selection language:
 - amber = active / selected state;
