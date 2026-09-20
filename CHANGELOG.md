@@ -69,6 +69,24 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 Feature — Architectural Concept Builder (2026-09-20)
+
+- renamed the visible **Architectural Sketch Builder** mode to **Architectural Concept Builder** while preserving stable internal ID `architectural_sketch`;
+- added **Output Representation** with **Sketch Presentation** and **Architectural Photography**;
+- added Photography-only **Photo Realism Target** options: Hyper-Real, Natural Documentary, and Editorial Architectural Photo;
+- Sketch Presentation keeps Sketch Style, Paper / Surface, Advanced Line/Color, and Annotations / Text;
+- Architectural Photography hides sketch-only controls and uses the shared project, architecture, lighting, atmosphere, site, human-scale, and View / Projection controls;
+- photography prompt opening is driven by the selected realism target; the default branch generates `Create a hyper realistic photography of ...`;
+- input-type prompts were made representation-neutral so Reference Image and Design Brief work correctly in both paths;
+- Concept Random preserves manual Output Representation and randomizes only controls relevant to the active representation;
+- Prompt DNA / Prompt Analysis switch from **Sketch / Surface** to **Photo / Realism** when Architectural Photography is active;
+- Google Sheets `ARCH_SKETCH_OPTIONS` remains the source of truth and gained `output_representation` + `photo_realism_target` groups;
+- CONFIG gained formula-bridged `architecturalSketchOutputRepresentations` and `architecturalSketchPhotoRealismTargets`;
+- `PROMPT_MODES`, `PETUNJUK`, and `fallback.json` were synchronized;
+- legacy Saved Prompt state defaults to Sketch Presentation for backward compatibility;
+- cache key bumped to `4.5-arch-concept-1`;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 UI — Creative Aspect Ratio Hotfix (2026-09-20)
 
 - fixed Creative Aspect Ratio inheriting the legacy label-left / control-right fieldset layout;
