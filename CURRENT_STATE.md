@@ -457,6 +457,8 @@ Implementation:
 - Workstation presentation imagery is isolated from Setting data under `assets/workstation/`. Prompt Mode thumbnails live in `assets/workstation/modes/`; Style DNA thumbnails live in `assets/workstation/styles/`.
 - Workstation CSS references only these dedicated visual asset paths, so UI imagery can be replaced directly in GitHub without editing JavaScript, Google Sheets, Apps Script, or `config.js`. Keep the existing filenames when replacing an image.
 - `assets/workstation/README.md` documents the stable filenames and recommends 16:9 images around 1200×675 px.
+- Workstation visual assets use deploy-aware cache-busting from `document.lastModified`: mode/style card images receive a version query automatically, so replacing a stable filename in GitHub does not require code changes. After GitHub Pages finishes redeploying, a refresh loads the new asset; one hard refresh may be needed for tabs opened before this fix.
+- Product Poster workstation thumbnail canonical filename is `assets/workstation/modes/product-poster.png` (PNG), matching the current uploaded asset.
 
 Reference Product Catalog follows the same Obsidian selection language:
 - amber = active / selected state;
