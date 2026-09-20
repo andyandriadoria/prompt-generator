@@ -339,7 +339,9 @@
       if (mode === "product_catalog") mode = "reference_product_catalog";
       if (mode === "product_poster") mode = "reference_product_poster";
       const description = card.querySelector("small");
-      if (description && MODE_CARD_COPY[mode]) description.textContent = MODE_CARD_COPY[mode];
+      if (description && MODE_CARD_COPY[mode] && description.textContent !== MODE_CARD_COPY[mode]) {
+        description.textContent = MODE_CARD_COPY[mode];
+      }
     });
   }
 
