@@ -2369,3 +2369,42 @@ body.dark-mode.workstation-v2 .prompt-mode-icon {
   background-position: center !important;
   background-size: cover !important;
 }
+
+
+/* -------------------------------------------------------------------------- */
+/* Workstation V2 — Style DNA true 16:9 thumbnails                            */
+/* -------------------------------------------------------------------------- */
+
+.workstation-v2 .style-preset-card {
+  min-height: 0 !important;
+}
+
+.workstation-v2 .style-preset-icon {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  margin-bottom: 8px !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+.workstation-v2 .style-preset-card.is-active::before {
+  right: 12px !important;
+  top: 12px !important;
+}
+
+.workstation-v2 .style-preset-card.is-active::after {
+  right: 18px !important;
+  top: 18px !important;
+}
+
+.workstation-custom-style-card {
+  min-height: 0 !important;
+}
+
+@media (max-width: 760px) {
+  .workstation-v2 .style-preset-icon {
+    aspect-ratio: 16 / 9 !important;
+  }
+}
