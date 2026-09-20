@@ -4,13 +4,22 @@
   const MODE_ID = "architectural_sketch";
   const FALLBACK_MODE = {
     id: MODE_ID,
-    label: "Architectural Sketch Builder",
+    label: "Architectural Concept Builder",
     icon: "drafting",
-    description: "Build hand-drawn architectural sketch prompts for concept studies, reference designs, and presentation-style architectural illustrations."
+    description: "Build concept-driven architectural prompts as hand-drawn sketch presentations or hyper-real architectural photography."
   };
 
   const FALLBACK_OPTIONS = {
     inputTypes: [{ id: "concept-prompt", label: "Concept Prompt", prompt: "" }],
+    outputRepresentations: [
+      { id: "sketch-presentation", label: "Sketch Presentation", prompt: "hand-drawn architectural sketch presentation" },
+      { id: "architectural-photography", label: "Architectural Photography", prompt: "architectural photography" }
+    ],
+    photoRealismTargets: [
+      { id: "hyper-real-architectural-photo", label: "Hyper-Real Architectural Photo", prompt: "hyper realistic photography" },
+      { id: "natural-documentary-architectural-photo", label: "Natural Documentary Architectural Photo", prompt: "natural documentary architectural photograph" },
+      { id: "editorial-architectural-photo", label: "Editorial Architectural Photo", prompt: "editorial architectural photograph" }
+    ],
     sceneTypes: [{ id: "exterior", label: "Exterior", prompt: "an exterior architectural view", recommended_lighting: "morning-light" }],
     sketchStyles: [{
       id: "watercolor-sketch",
@@ -120,12 +129,12 @@
 
   function cacheSketchElements() {
     [
-      "architecturalSketchFields", "archSketchInputType", "archSketchSceneType",
+      "architecturalSketchFields", "archSketchInputType", "archSketchOutputRepresentation", "archSketchSceneType",
       "archSketchBuildingCategory", "archSketchBuildingType", "archSketchCustomBuildingType", "archSketchCustomBuildingRow",
       "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyle", "archSketchCustomArchitectureStyleRow",
-      "archSketchStyle", "archSketchMedium", "archSketchLineQuality",
+      "archSketchStyle", "archSketchStyleRow", "archSketchMedium", "archSketchMediumRow", "archSketchPhotoRealismTarget", "archSketchPhotoRealismTargetRow", "archSketchLineQuality",
       "archSketchColorTreatment", "archSketchLighting", "archSketchMood", "archSketchLandscape",
-      "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAnnotationText", "archSketchAspectRatio",
+      "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAnnotationText", "archSketchAnnotationTextRow", "archSketchAspectRatio",
       "archSketchExtraInstruction", "archSketchStyleHint", "archSketchSurfaceHint", "archSketchLightingHint", "archSketchHumanScaleHint",
       "archSketchTip", "archSketchAdvanced", "archSketchAdvancedState"
     ].forEach(id => elements[id] = document.getElementById(id));
@@ -144,18 +153,20 @@
       <div class="arch-sketch-intro">
         <span class="arch-sketch-icon">${global.PromptIcons.svg("drafting")}</span>
         <div>
-          <strong>Architectural Sketch Builder</strong>
-          <p>Create hand-drawn architectural sketch prompts for concepts, design briefs, or existing architectural references.</p>
+          <strong>Architectural Concept Builder</strong>
+          <p>Create concept-driven architectural prompts as hand-drawn sketch presentations or architectural photography.</p>
         </div>
       </div>
 
       <div class="field-row"><label for="archSketchInputType">Input Type</label><select id="archSketchInputType"></select></div>
+      <div class="field-row"><label for="archSketchOutputRepresentation">Output Representation</label><div><select id="archSketchOutputRepresentation"></select><p class="help-text">Choose Sketch Presentation or Architectural Photography. Shared project, architecture, lighting, atmosphere, and view controls remain available in both.</p></div></div>
       <div class="field-row"><label for="archSketchBuildingCategory">Building Category</label><select id="archSketchBuildingCategory"></select></div>
       <div class="field-row"><label for="archSketchBuildingType">Building Type</label><select id="archSketchBuildingType"></select></div>
       <div class="field-row arch-taxonomy-custom" id="archSketchCustomBuildingRow" hidden><label for="archSketchCustomBuildingType">Custom Building Type</label><input id="archSketchCustomBuildingType" type="text" placeholder="Example: mixed-use courtyard housing, tropical community pavilion"></div>
       <div class="field-row"><label for="archSketchSceneType">Scene Type</label><select id="archSketchSceneType"></select></div>
-      <div class="field-row"><label for="archSketchStyle">Sketch Style</label><div><select id="archSketchStyle"></select><p class="help-text arch-sketch-style-hint" id="archSketchStyleHint"></p></div></div>
-      <div class="field-row"><label for="archSketchMedium">Paper / Surface</label><div><select id="archSketchMedium"></select><p class="help-text arch-sketch-surface-hint" id="archSketchSurfaceHint"></p></div></div>
+      <div class="field-row" id="archSketchStyleRow"><label for="archSketchStyle">Sketch Style</label><div><select id="archSketchStyle"></select><p class="help-text arch-sketch-style-hint" id="archSketchStyleHint"></p></div></div>
+      <div class="field-row" id="archSketchMediumRow"><label for="archSketchMedium">Paper / Surface</label><div><select id="archSketchMedium"></select><p class="help-text arch-sketch-surface-hint" id="archSketchSurfaceHint"></p></div></div>
+      <div class="field-row" id="archSketchPhotoRealismTargetRow" hidden><label for="archSketchPhotoRealismTarget">Photo Realism Target</label><div><select id="archSketchPhotoRealismTarget"></select><p class="help-text">Controls the photographic representation only; project geometry, architecture style, lighting, atmosphere, and view remain separate.</p></div></div>
 
       <details class="arch-sketch-advanced" id="archSketchAdvanced">
         <summary>
@@ -177,7 +188,7 @@
       <div class="field-row"><label for="archSketchFeatures">Architectural Feature Emphasis <span class="optional-label">optional</span></label><div><textarea id="archSketchFeatures" class="short-textarea" placeholder="Example: deep entrance canopy, vertical timber screens, arched colonnade, central courtyard"></textarea><p class="help-text">Specific building elements to highlight. In Reference Image mode, only existing reference features may be emphasized.</p></div></div>
       <div class="field-row"><label for="archSketchHumanScale">Human Presence / Scale</label><div><select id="archSketchHumanScale"></select><p class="help-text" id="archSketchHumanScaleHint"></p></div></div>
       <div class="field-row"><label for="archSketchCameraView">View / Projection</label><div><select id="archSketchCameraView"></select><p class="help-text">Options are filtered by Scene Type. Exterior and Interior use only compatible architectural views.</p></div></div>
-      <div class="field-row"><label for="archSketchAnnotationText">Annotations / Text</label><div><select id="archSketchAnnotationText"></select><p class="help-text">Default is no text: generated signage, labels, handwritten notes, dates, signatures, watermarks, and decorative lettering are suppressed.</p></div></div>
+      <div class="field-row" id="archSketchAnnotationTextRow"><label for="archSketchAnnotationText">Annotations / Text</label><div><select id="archSketchAnnotationText"></select><p class="help-text">Default is no text: generated signage, labels, handwritten notes, dates, signatures, watermarks, and decorative lettering are suppressed.</p></div></div>
       <div class="field-row"><label for="archSketchAspectRatio">Aspect Ratio</label><select id="archSketchAspectRatio"></select></div>
       <div class="field-row"><label for="archSketchExtraInstruction">Extra Instruction <span class="optional-label">optional</span></label><textarea id="archSketchExtraInstruction" class="short-textarea" placeholder="Example: emphasize the entrance canopy; avoid excessive foliage; no text labels"></textarea></div>
 
@@ -213,6 +224,10 @@
         if (event.target === elements.archSketchCameraView) smartDefaults.viewTouched = true;
       }
 
+      if (event.target === elements.archSketchOutputRepresentation) {
+        updateRepresentationUi();
+        updateHumanScaleHint();
+      }
       if (event.target === elements.archSketchBuildingCategory) {
         updateBuildingTypeOptions({ selectedId: "" });
       }
@@ -252,7 +267,7 @@
       event.preventDefault();
       event.stopImmediatePropagation();
       generate(true);
-      showMessage("Architectural sketch prompt generated.");
+      showMessage("Architectural concept prompt generated.");
     }, true);
 
     elements.resetFormBtn?.addEventListener("click", event => {
@@ -324,6 +339,8 @@
   function buildOptions(config) {
     return {
       inputTypes: parseList(config.architecturalSketchInputTypes, FALLBACK_OPTIONS.inputTypes),
+      outputRepresentations: parseList(config.architecturalSketchOutputRepresentations, FALLBACK_OPTIONS.outputRepresentations),
+      photoRealismTargets: parseList(config.architecturalSketchPhotoRealismTargets, FALLBACK_OPTIONS.photoRealismTargets),
       sceneTypes: parseList(config.architecturalSketchSceneTypes, FALLBACK_OPTIONS.sceneTypes),
       sketchStyles: parseList(config.architecturalSketchStyles, FALLBACK_OPTIONS.sketchStyles),
       media: parseList(config.architecturalSketchMedia, FALLBACK_OPTIONS.media),
@@ -409,6 +426,8 @@
     if (!database || !options) return;
 
     populateSelect(elements.archSketchInputType, options.inputTypes);
+    populateSelect(elements.archSketchOutputRepresentation, options.outputRepresentations);
+    populateSelect(elements.archSketchPhotoRealismTarget, options.photoRealismTargets);
     populateTaxonomyControls();
     populateSelect(elements.archSketchSceneType, options.sceneTypes);
     populateSelect(elements.archSketchStyle, options.sketchStyles);
@@ -431,6 +450,8 @@
     resetSmartDefaultState();
     applyDefaults();
     initSearchable();
+    updateRepresentationUi();
+    updateRepresentationUi();
     updateStyleHint();
     updateSurfaceHint();
     updateLightingHint();
@@ -776,6 +797,8 @@
   function applyDefaults() {
     const config = database?.config || {};
     setValue(elements.archSketchInputType, config.defaultArchitecturalSketchInputType || "concept-prompt");
+    setValue(elements.archSketchOutputRepresentation, config.defaultArchitecturalSketchOutputRepresentation || "sketch-presentation");
+    setValue(elements.archSketchPhotoRealismTarget, config.defaultArchitecturalSketchPhotoRealismTarget || "hyper-real-architectural-photo");
     setValue(elements.archSketchBuildingCategory, config.defaultArchitecturalBuildingCategory || "");
     updateBuildingTypeOptions({ selectedId: "" });
     setValue(elements.archSketchStyleCategory, config.defaultArchitecturalStyleCategory || "");
@@ -791,6 +814,7 @@
     setValue(elements.archSketchAnnotationText, config.defaultArchitecturalSketchAnnotationText || "no-text");
     updateViewOptions({ applySceneDefault: true });
     setValue(elements.archSketchAspectRatio, config.defaultArchitecturalSketchAspectRatio || "4:5");
+    updateRepresentationUi();
   }
 
   function sceneDefaultView(sceneId) {
@@ -842,8 +866,8 @@
 
   function initSearchable() {
     [
-      "archSketchInputType", "archSketchBuildingCategory", "archSketchBuildingType",
-      "archSketchSceneType", "archSketchStyle", "archSketchMedium",
+      "archSketchInputType", "archSketchOutputRepresentation", "archSketchBuildingCategory", "archSketchBuildingType",
+      "archSketchSceneType", "archSketchStyle", "archSketchMedium", "archSketchPhotoRealismTarget",
       "archSketchStyleCategory", "archSketchArchitectureStyle",
       "archSketchLineQuality", "archSketchColorTreatment", "archSketchLighting", "archSketchMood",
       "archSketchHumanScale", "archSketchCameraView", "archSketchAnnotationText", "archSketchAspectRatio"
@@ -872,6 +896,44 @@
 
   function selectedMeta(select, key) {
     return select?.selectedOptions?.[0]?.dataset?.[key] || "";
+  }
+
+  function isPhotographyRepresentation() {
+    return elements.archSketchOutputRepresentation?.value === "architectural-photography";
+  }
+
+  function updateRepresentationUi() {
+    const photography = isPhotographyRepresentation();
+    if (elements.archSketchStyleRow) elements.archSketchStyleRow.hidden = photography;
+    if (elements.archSketchMediumRow) elements.archSketchMediumRow.hidden = photography;
+    if (elements.archSketchPhotoRealismTargetRow) elements.archSketchPhotoRealismTargetRow.hidden = !photography;
+    if (elements.archSketchAdvanced) {
+      elements.archSketchAdvanced.hidden = photography;
+      if (photography) elements.archSketchAdvanced.open = false;
+    }
+    if (elements.archSketchAnnotationTextRow) elements.archSketchAnnotationTextRow.hidden = photography;
+    document.body.classList.toggle("architectural-photography-output", photography);
+
+    if (photography && elements.archSketchAnnotationText) {
+      setValue(elements.archSketchAnnotationText, "no-text");
+      searchable.get("archSketchAnnotationText")?.syncFromNative?.();
+    }
+
+    if (elements.randomPromptBtn && active) {
+      elements.randomPromptBtn.innerHTML = `${global.PromptIcons.svg("refresh")}<span class="button-label">Concept Random</span>`;
+    }
+    if (elements.randomModeTitle && active) elements.randomModeTitle.textContent = "Smart Concept";
+    if (elements.randomModeHint && active) {
+      elements.randomModeHint.textContent = "Randomizes untouched architectural concept controls while preserving your manual choices and selected output representation.";
+    }
+    if (elements.outputTipTitle && active) {
+      elements.outputTipTitle.textContent = photography ? "Architectural photography tip" : "Architectural sketch tip";
+    }
+    if (elements.outputTipText && active) {
+      elements.outputTipText.textContent = photography
+        ? "Photo Realism Target controls the photographic language. Architecture style, lighting, atmosphere, and View / Projection remain independent design controls."
+        : "Sketch Style controls the default line and color language. Keep Advanced Style Controls on Auto unless you deliberately want a line or color override.";
+    }
   }
 
   function updateStyleHint() {
@@ -926,6 +988,10 @@
 
   function updateHumanScaleHint() {
     if (!elements.archSketchHumanScaleHint) return;
+    if (isPhotographyRepresentation()) {
+      elements.archSketchHumanScaleHint.textContent = "Optional human presence for believable architectural scale; keep people visually secondary to the architecture.";
+      return;
+    }
     const recommendedId = recommendedHumanForStyle();
     const styleLabel = selectedLabel(elements.archSketchStyle) || "this sketch style";
     const recommended = (options?.humanScale || []).find(item => item.id === recommendedId);
@@ -976,6 +1042,10 @@
     return {
       inputType: elements.archSketchInputType.value,
       inputPrompt: selectedPrompt(elements.archSketchInputType),
+      outputRepresentation: elements.archSketchOutputRepresentation.value || "sketch-presentation",
+      outputRepresentationPrompt: selectedPrompt(elements.archSketchOutputRepresentation),
+      photoRealismTarget: elements.archSketchPhotoRealismTarget.value,
+      photoRealismTargetPrompt: selectedPrompt(elements.archSketchPhotoRealismTarget),
       buildingCategory: elements.archSketchBuildingCategory.value,
       buildingType: elements.archSketchBuildingType.value,
       buildingTypeLabel: global.ArchitecturalTaxonomy.selectedLabel(elements.archSketchBuildingType, taxonomy?.buildingTypes || []),
@@ -1047,17 +1117,14 @@
     if (elements.activeStyleBadge) elements.activeStyleBadge.hidden = true;
     if (elements.randomPromptBtn) {
       elements.randomPromptBtn.hidden = false;
-      elements.randomPromptBtn.innerHTML = `${global.PromptIcons.svg("refresh")}<span class="button-label">Sketch Random</span>`;
+      elements.randomPromptBtn.innerHTML = `${global.PromptIcons.svg("refresh")}<span class="button-label">Concept Random</span>`;
     }
 
     if (elements.activeModeBadge) {
-      elements.activeModeBadge.textContent = "Architectural Sketch Builder";
+      elements.activeModeBadge.textContent = "Architectural Concept Builder";
       elements.activeModeBadge.dataset.mode = MODE_ID;
     }
-    if (elements.randomModeTitle) elements.randomModeTitle.textContent = "Smart Sketch";
-    if (elements.randomModeHint) elements.randomModeHint.textContent = "Randomizes untouched sketch controls into a coherent variation while preserving your manual choices.";
-    if (elements.outputTipTitle) elements.outputTipTitle.textContent = "Architectural sketch tip";
-    if (elements.outputTipText) elements.outputTipText.textContent = "Sketch Style controls the default line and color language. Keep Advanced Style Controls on Auto for the intended style, or open them only when you want a deliberate line or color override.";
+    updateRepresentationUi();
     updateStyleHint();
     updateSurfaceHint();
     updateLightingHint();
@@ -1072,7 +1139,7 @@
 
     generate(false);
     global.dispatchEvent(new CustomEvent("promptgen:modechange", { detail: { mode: MODE_ID } }));
-    if (notify) showMessage("Architectural Sketch Builder selected.");
+    if (notify) showMessage("Architectural Concept Builder selected.");
   }
 
   function deactivate() {
@@ -1103,13 +1170,15 @@
     updateHumanScaleHint();
     updateAdvancedState();
     generate(false);
-    showMessage("Architectural Sketch form reset.");
+    showMessage("Architectural Concept form reset.");
   }
 
   function serializeState() {
     const resolved = collectState();
     return {
       archSketchInputType: elements.archSketchInputType.value,
+      archSketchOutputRepresentation: elements.archSketchOutputRepresentation.value,
+      archSketchPhotoRealismTarget: elements.archSketchPhotoRealismTarget.value,
       archSketchBuildingCategory: elements.archSketchBuildingCategory.value,
       archSketchBuildingType: elements.archSketchBuildingType.value,
       archSketchCustomBuildingType: elements.archSketchCustomBuildingType.value,
@@ -1139,6 +1208,19 @@
     const missing = [];
     smartDefaults.restoring = true;
     setSelect("archSketchInputType", state.archSketchInputType, missing, "Input Type");
+    setSelect(
+      "archSketchOutputRepresentation",
+      state.archSketchOutputRepresentation || database?.config?.defaultArchitecturalSketchOutputRepresentation || "sketch-presentation",
+      missing,
+      "Output Representation"
+    );
+    setSelect(
+      "archSketchPhotoRealismTarget",
+      state.archSketchPhotoRealismTarget || database?.config?.defaultArchitecturalSketchPhotoRealismTarget || "hyper-real-architectural-photo",
+      missing,
+      "Photo Realism Target"
+    );
+    updateRepresentationUi();
 
     const buildingRestore = global.ArchitecturalTaxonomy.deriveRestore({
       items: taxonomy?.buildingTypes || [],
@@ -1193,6 +1275,8 @@
     sketchRandomState.manualFields.clear();
     [
       ["archSketchInputType", state.archSketchInputType],
+      ["archSketchOutputRepresentation", state.archSketchOutputRepresentation],
+      ["archSketchPhotoRealismTarget", state.archSketchPhotoRealismTarget],
       ["archSketchBuildingCategory", state.archSketchBuildingCategory],
       ["archSketchBuildingType", state.archSketchBuildingType],
       ["archSketchCustomBuildingType", state.archSketchCustomBuildingType],
@@ -1239,12 +1323,15 @@
 
   function updateDna(state) {
     if (!active) return;
-    const labels = ["Project", "Architecture", "Sketch", "Surface", "Atmosphere"];
+    const photography = state.outputRepresentation === "architectural-photography";
+    const labels = photography
+      ? ["Project", "Architecture", "Photo", "Realism", "Atmosphere"]
+      : ["Project", "Architecture", "Sketch", "Surface", "Atmosphere"];
     const ready = [
       Boolean(state.projectType || state.inputType),
       Boolean(state.architectureStyle || state.sceneType),
-      Boolean(state.sketchStyle),
-      Boolean(state.medium && state.lineQuality),
+      photography ? Boolean(state.outputRepresentation) : Boolean(state.sketchStyle),
+      photography ? Boolean(state.photoRealismTarget) : Boolean(state.medium && state.lineQuality),
       Boolean(state.lighting && state.mood)
     ];
     [elements.dnaSubject, elements.dnaScene, elements.dnaStyle, elements.dnaCamera, elements.dnaLight].forEach((node, index) => {
