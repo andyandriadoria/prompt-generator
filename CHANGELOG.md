@@ -69,6 +69,16 @@ Key changes:
 - `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
 
 
+### 4.5 UI — Workstation Asset Cache Fix (2026-09-20)
+
+- verified that newly replaced Style DNA images were present in GitHub but the browser/GitHub Pages could continue serving cached image URLs;
+- added deploy-aware cache-busting for all Workstation Prompt Mode and Style DNA backgrounds using the page deployment timestamp;
+- future image replacement keeps the same stable filename and does not require CSS/JS edits;
+- corrected Product Poster Workstation thumbnail from `product-poster.jpg` to the uploaded canonical `product-poster.png`;
+- updated `assets/workstation/README.md` with cache/deploy guidance;
+- no Google Sheets or API contract changes;
+- `config.js` unchanged; Apps Script redeploy not required.
+
 ### 4.5 UI — Dedicated Workstation Visual Assets (2026-09-20)
 
 - created `assets/workstation/modes/` for the six Prompt Mode card thumbnails;
