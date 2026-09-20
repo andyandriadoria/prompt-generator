@@ -427,6 +427,15 @@
     Object.entries(WORKSTATION_VISUAL_ASSETS).forEach(([selector, path]) => {
       document.querySelectorAll(selector).forEach(node => {
         const next = `url("${path}?v=${version}")`;
+
+        if (node.matches("[data-prompt-mode-id]")) {
+          if (node.style.getPropertyValue("--workstation-mode-image") !== next) {
+            node.style.setProperty("--workstation-mode-image", next);
+          }
+          node.style.removeProperty("background-image");
+          return;
+        }
+
         if (node.style.backgroundImage !== next) node.style.backgroundImage = next;
       });
     });
