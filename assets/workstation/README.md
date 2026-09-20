@@ -18,7 +18,7 @@ Rekomendasi umum:
 - `modes/creative.png`
 - `modes/reference-outfit.png`
 - `modes/reference-product.png`
-- `modes/product-poster.jpg`
+- `modes/product-poster.png`
 - `modes/architectural-render.png`
 - `modes/architectural-sketch.png`
 
@@ -36,3 +36,13 @@ Catatan:
 - `styles/miniature-diorama.png`
 
 Workstation V2 membaca file-file ini sebagai asset presentasi tetap.
+
+
+## Cache / GitHub Pages
+
+Workstation V2 menambahkan cache-busting otomatis berdasarkan versi deploy halaman. Setelah replace gambar:
+1. tunggu GitHub Pages selesai deploy,
+2. refresh halaman,
+3. jika tab sudah terbuka sejak sebelum deploy, lakukan hard refresh satu kali.
+
+Setelah mekanisme ini termuat, penggantian gambar berikutnya tetap cukup dilakukan dengan replace file menggunakan nama yang sama.
