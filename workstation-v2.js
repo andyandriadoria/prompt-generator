@@ -52,6 +52,23 @@
     architectural_sketch: "Hand-drawn architectural presentation."
   };
 
+  const WORKSTATION_VISUAL_ASSETS = {
+    '[data-prompt-mode-id="creative"]': "assets/workstation/modes/creative.png",
+    '[data-prompt-mode-id="outfit_catalog"]': "assets/workstation/modes/reference-outfit.png",
+    '[data-prompt-mode-id="reference_product_catalog"]': "assets/workstation/modes/reference-product.png",
+    '[data-prompt-mode-id="product_catalog"]': "assets/workstation/modes/reference-product.png",
+    '[data-prompt-mode-id="reference_product_poster"]': "assets/workstation/modes/product-poster.png",
+    '[data-prompt-mode-id="product_poster"]': "assets/workstation/modes/product-poster.png",
+    '[data-prompt-mode-id="architectural_render"]': "assets/workstation/modes/architectural-render.png",
+    '[data-prompt-mode-id="architectural_sketch"]': "assets/workstation/modes/architectural-sketch.png",
+    '[data-style-preset-id="hyper-realistic-iphone"] .style-preset-icon': "assets/workstation/styles/hyper-realistic.png",
+    '[data-style-preset-id="cinematic-movie-still"] .style-preset-icon': "assets/workstation/styles/cinematic.png",
+    '[data-style-preset-id="fashion-editorial"] .style-preset-icon': "assets/workstation/styles/fashion-editorial.png",
+    '[data-style-preset-id="indonesian-lifestyle-candid"] .style-preset-icon': "assets/workstation/styles/indonesian-lifestyle.png",
+    '[data-style-preset-id="japanese-nostalgia-1980s"] .style-preset-icon': "assets/workstation/styles/japanese-nostalgia.png",
+    '[data-style-preset-id="miniature-diorama"] .style-preset-icon': "assets/workstation/styles/miniature-diorama.png"
+  };
+
   const ANALYSIS_INDEXES = {
     creative: [0, 1, 2, 3, 4, 6],
     outfit_catalog: [0, 1, 2, 3, 4, 6],
@@ -91,6 +108,7 @@
     enhanceBuildWorkspace(controls, output);
     enhancePromptModePanel();
     enhanceStylePanel();
+    applyWorkstationVisualAssets();
     enhancePromptForm();
     enhanceOutputPanel(output);
     arrangeKnownModeSections();
@@ -329,7 +347,10 @@
     const grid = document.getElementById("promptModeGrid");
     if (grid && !grid.dataset.workstationCopyObserved) {
       grid.dataset.workstationCopyObserved = "true";
-      new MutationObserver(applyModeCardPresentation).observe(grid, { childList: true, subtree: true });
+      new MutationObserver(() => {
+        applyModeCardPresentation();
+        applyWorkstationVisualAssets();
+      }).observe(grid, { childList: true, subtree: true });
     }
   }
 
@@ -369,7 +390,10 @@
     const grid = document.getElementById("stylePresetGrid");
     if (grid && !grid.dataset.workstationObserved) {
       grid.dataset.workstationObserved = "true";
-      new MutationObserver(ensureCustomStyleCard).observe(grid, { childList: true });
+      new MutationObserver(() => {
+        ensureCustomStyleCard();
+        applyWorkstationVisualAssets();
+      }).observe(grid, { childList: true });
     }
   }
 
@@ -389,6 +413,23 @@
       document.getElementById("promptForm")?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
     grid.append(button);
+  }
+
+  function workstationAssetVersion() {
+    const modified = String(document.lastModified || "")
+      .replace(/\D/g, "")
+      .slice(0, 14);
+    return modified || "1";
+  }
+
+  function applyWorkstationVisualAssets() {
+    const version = workstationAssetVersion();
+    Object.entries(WORKSTATION_VISUAL_ASSETS).forEach(([selector, path]) => {
+      document.querySelectorAll(selector).forEach(node => {
+        const next = `url("${path}?v=${version}")`;
+        if (node.style.backgroundImage !== next) node.style.backgroundImage = next;
+      });
+    });
   }
 
   function enhancePromptForm() {
