@@ -123,6 +123,22 @@
     return item?.label || select.selectedOptions?.[0]?.textContent?.trim() || "";
   }
 
+  function selectedDescription(select, items) {
+    if (!select || !select.value || select.value === CUSTOM_ID) return "";
+    const item = findById(items, select.value);
+    return String(item?.description || select.selectedOptions?.[0]?.dataset?.description || "").trim();
+  }
+
+  function categoryDescription(select, categories) {
+    if (!select || !select.value) return "";
+    const item = findById(categories, select.value);
+    return String(item?.description || select.selectedOptions?.[0]?.dataset?.description || "").trim();
+  }
+
+  function countForCategory(items, categoryId) {
+    return itemsForCategory(items, categoryId).length;
+  }
+
   function deriveRestore({
     items = [],
     categoryId = "",
@@ -192,6 +208,9 @@
     populateItemSelect,
     selectedItem,
     selectedLabel,
+    selectedDescription,
+    categoryDescription,
+    countForCategory,
     resolveValue,
     deriveRestore,
     setCustomVisibility
