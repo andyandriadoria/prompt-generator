@@ -138,7 +138,7 @@
       "architecturalSketchFields", "archSketchInputType", "archSketchOutputRepresentation", "archSketchSceneType",
       "archSketchBuildingCategory", "archSketchBuildingType", "archSketchCustomBuildingType", "archSketchCustomBuildingRow",
       "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyle", "archSketchCustomArchitectureStyleRow",
-      "archSketchStyle", "archSketchStyleRow", "archSketchMedium", "archSketchMediumRow", "archSketchPhotoRealismTarget", "archSketchPhotoRealismTargetRow", "archSketchTextSignagePolicy", "archSketchTextSignagePolicyRow", "archSketchWorkflowHint", "archSketchLineQuality",
+      "archSketchStyle", "archSketchStyleRow", "archSketchMedium", "archSketchMediumRow", "archSketchPhotoRealismTarget", "archSketchPhotoRealismTargetRow", "archSketchTextSignagePolicy", "archSketchTextSignagePolicyRow", "archSketchTextSignageHint", "archSketchWorkflowHint", "archSketchLineQuality",
       "archSketchColorTreatment", "archSketchLighting", "archSketchMood", "archSketchLandscape",
       "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAnnotationText", "archSketchAnnotationTextRow", "archSketchAspectRatio",
       "archSketchExtraInstruction", "archSketchStyleHint", "archSketchSurfaceHint", "archSketchLightingHint", "archSketchHumanScaleHint",
@@ -173,7 +173,7 @@
       <div class="field-row" id="archSketchStyleRow"><label for="archSketchStyle">Sketch Style</label><div><select id="archSketchStyle"></select><p class="help-text arch-sketch-style-hint" id="archSketchStyleHint"></p></div></div>
       <div class="field-row" id="archSketchMediumRow"><label for="archSketchMedium">Paper / Surface</label><div><select id="archSketchMedium"></select><p class="help-text arch-sketch-surface-hint" id="archSketchSurfaceHint"></p></div></div>
       <div class="field-row" id="archSketchPhotoRealismTargetRow" hidden><label for="archSketchPhotoRealismTarget">Photo Realism Target</label><div><select id="archSketchPhotoRealismTarget"></select><p class="help-text">Controls the photographic representation only; project geometry, architecture style, lighting, atmosphere, and view remain separate.</p></div></div>
-      <div class="field-row" id="archSketchTextSignagePolicyRow" hidden><label for="archSketchTextSignagePolicy">Text / Signage Policy</label><div><select id="archSketchTextSignagePolicy"></select><p class="help-text">Photography-only control. Default blocks invented lettering without forcing existing reference signage to disappear.</p></div></div>
+      <div class="field-row" id="archSketchTextSignagePolicyRow" hidden><label for="archSketchTextSignagePolicy">Text / Signage Policy</label><div><select id="archSketchTextSignagePolicy"></select><p class="help-text" id="archSketchTextSignageHint">Photography-only control. Default blocks invented lettering without forcing existing reference signage to disappear.</p></div></div>
 
       <details class="arch-sketch-advanced" id="archSketchAdvanced">
         <summary>
@@ -237,6 +237,7 @@
       }
       if (event.target === elements.archSketchInputType) {
         updateWorkflowHint();
+        updateTextSignagePolicyUi();
       }
       if (event.target === elements.archSketchBuildingCategory) {
         updateBuildingTypeOptions({ selectedId: "" });
@@ -950,6 +951,7 @@
     }
     if (elements.archSketchAnnotationTextRow) elements.archSketchAnnotationTextRow.hidden = photography;
     document.body.classList.toggle("architectural-photography-output", photography);
+    updateTextSignagePolicyUi();
 
     if (elements.randomPromptBtn && active) {
       elements.randomPromptBtn.innerHTML = `${global.PromptIcons.svg("refresh")}<span class="button-label">Concept Random</span>`;
@@ -974,6 +976,32 @@
     elements.archSketchWorkflowHint.textContent = reference
       ? "Concept Builder uses the reference as a design basis but still allows selected style, representation, and view development. For exact geometry and source-view preservation, use Architectural Render."
       : "Concept-first workflow for developing a new idea or brief. Use Architectural Render when an existing design must be preserved with explicit fidelity control.";
+  }
+
+  function updateTextSignagePolicyUi() {
+    if (!elements.archSketchTextSignagePolicy) return;
+    const reference = elements.archSketchInputType?.value === "reference-image";
+    const preserveOption = [...elements.archSketchTextSignagePolicy.options]
+      .find(option => option.value === "preserve-reference-text");
+
+    if (preserveOption) preserveOption.disabled = !reference;
+
+    if (!reference && elements.archSketchTextSignagePolicy.value === "preserve-reference-text") {
+      setValue(
+        elements.archSketchTextSignagePolicy,
+        database?.config?.defaultArchitecturalSketchTextSignagePolicy || "no-invented-text"
+      );
+    }
+
+    const control = searchable.get("archSketchTextSignagePolicy");
+    control?.refresh?.();
+    control?.syncFromNative?.();
+
+    if (elements.archSketchTextSignageHint) {
+      elements.archSketchTextSignageHint.textContent = reference
+        ? "Default prevents invented lettering while allowing supported existing signage to remain. Preserve Reference Signage / Text is available when exact reference wording matters."
+        : "No reference text is available to preserve. Use No Invented Text, Allow Functional Architectural Signage, or Blank Signage — No Text.";
+    }
   }
 
   function updateStyleHint() {
