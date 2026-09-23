@@ -62,7 +62,7 @@
     const extra = clean(state.extraInstruction);
 
     const opening = isPhotography
-      ? `Create a ${photoRealismTarget} of ${withIndefiniteArticle(projectType)} as ${scene} in a ${ratio} aspect ratio.`
+      ? `Create ${withIndefiniteArticle(photoRealismTarget)} of ${withIndefiniteArticle(projectType)} as ${scene} in a ${ratio} aspect ratio.`
       : `Create a hand-drawn architectural sketch of ${withIndefiniteArticle(projectType)} as ${scene} in a ${ratio} aspect ratio.`;
 
     const sourceBlock = state.inputType && state.inputType !== "concept-prompt"
