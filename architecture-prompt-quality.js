@@ -110,7 +110,7 @@
   };
 
   const SKETCH_STYLE_DISCIPLINES = {
-    "refined-line-drawing": "Pen-drawing discipline: use a clear three-level line-weight hierarchy with slightly heavier primary silhouettes, medium architectural edges, and fine tertiary detail and hatching. Build depth and shadow primarily through directional hatching and controlled crosshatching rather than smooth gray washes or gradients. Preserve generous untouched paper and keep the main architectural mass more resolved than vegetation and peripheral context, allowing detail density to fall off toward the edges."
+    "refined-line-drawing": "Pen-drawing discipline: use a clear four-level line-weight hierarchy. Heavy lines define the main structural silhouette, primary building edges, and key foreground elements. Medium lines define windows, doors, columns, railings, and other important architectural features. Light lines describe furniture, material textures, secondary landscape elements, and surface articulation. Very light lines describe distant background details, subtle surface patterns, and faint perspective or construction guides. Build depth and shadow primarily through directional hatching and controlled crosshatching rather than smooth tonal shading or gradients. Preserve generous untouched paper and keep the main architectural mass more resolved than vegetation and peripheral context, allowing detail density to fall off toward the edges."
   };
 
   const INPUT_RULES = {
