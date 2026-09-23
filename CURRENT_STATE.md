@@ -743,6 +743,21 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - production cache bundle bumped to `4.5-scene-lighting-1`;
 - no Apps Script redeploy required; `config.js` unchanged.
 
+## 2026-09-24 Compact Semantic Composer
+
+- refactored Architectural Concept semantic composition to remove repeated drawing-language rules;
+- semantic composer now owns only architectural intelligence: typology priority, design-resolution/reference discipline, style semantics, projection/camera behavior, and photography realism;
+- Sketch Style rows exclusively own line hierarchy, hatching, white-space control, color behavior, and media-specific avoidance rules;
+- removed `SKETCH_STYLE_DISCIPLINES` from the shared composer so Precise Architectural Pen Drawing no longer repeats four-level hierarchy / crosshatching / white-space instructions;
+- shortened design-resolution and reference-preservation wording while retaining the same architectural safeguards;
+- regular sketch perspectives no longer receive a redundant drawing-space sentence because the builder already enforces massing / proportion / perspective coherence;
+- interior typology language is lighting-neutral (`illumination`) so Night Interior Lighting no longer conflicts with `daylight` wording;
+- interior style semantics adapt facade-oriented phrases to spatial language where appropriate;
+- Precise Architectural Pen Drawing adapts Postmodern `expressive color and form` to `expressive form and tonal contrast`, avoiding conflict with its predominantly monochrome default;
+- `refined-line-drawing` prompt payload was de-duplicated: media identity in PROMPT, hierarchy/hatching/white-space in LINE_RULE, color behavior in COLOR_RULE;
+- CONFIG/fallback synchronized; production cache bundle bumped to `4.5-composer-compact-1`;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ## Next Product Opportunities
 
 Potential future directions, not yet baseline features:
