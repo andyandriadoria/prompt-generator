@@ -1282,6 +1282,10 @@
       architectureStyleId: elements.archSketchArchitectureStyle.value,
       customArchitectureStyle: elements.archSketchCustomArchitectureStyle.value.trim(),
       architectureStyle,
+      architectureStyleSemanticProfile: global.ArchitecturalTaxonomy.selectedSemanticProfile(
+        elements.archSketchArchitectureStyle,
+        taxonomy?.styleOptions || []
+      ),
       sketchStyle: elements.archSketchStyle.value,
       sketchStyleLabel: selectedLabel(elements.archSketchStyle),
       sketchStylePrompt: selectedPrompt(elements.archSketchStyle),
