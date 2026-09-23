@@ -11,7 +11,7 @@
     "residential-buildings": {
       general: "Prioritize human-scale proportions, a legible entrance sequence, believable opening sizes, and a coherent relationship between private space, landscape, and access.",
       exterior: "Prioritize human-scale proportions, a legible entrance sequence, believable window and door sizes, and a coherent relationship between the dwelling, landscape, and street or access.",
-      interior: "Prioritize domestic scale, clear circulation, believable daylight, and coherent relationships between openings, materials, and adjoining spaces."
+      interior: "Prioritize domestic scale, clear circulation, legible illumination, and coherent relationships between openings, materials, and adjoining spaces."
     },
     "commercial-buildings": {
       general: "Prioritize a clear public entrance, readable facade hierarchy, pedestrian scale, and a believable interface between the building and its customer-facing public realm.",
@@ -21,12 +21,12 @@
     "institutional-public-buildings": {
       general: "Prioritize legible public access, circulation hierarchy, accessibility, durable public-facing scale, and a clear relationship between civic function and architectural form.",
       exterior: "Prioritize legible civic or public entry, accessibility, circulation hierarchy, durable public-facing scale, and a clear relationship between building and public realm.",
-      interior: "Prioritize clear circulation and wayfinding hierarchy, accessible spatial relationships, public-to-private transitions, and believable daylight."
+      interior: "Prioritize clear circulation and wayfinding hierarchy, accessible spatial relationships, public-to-private transitions, and believable illumination."
     },
     "religious-buildings": {
       general: "Prioritize spatial hierarchy, approach and threshold, communal or ceremonial scale, and coherent light while avoiding unsupported religious symbols or decorative additions.",
       exterior: "Prioritize approach, threshold, silhouette, communal or ceremonial scale, and coherent light while avoiding unsupported religious symbols or decorative additions.",
-      interior: "Prioritize spatial hierarchy, orientation, procession or assembly, natural light, and restrained symbolic expression without inventing unsupported religious elements."
+      interior: "Prioritize spatial hierarchy, orientation, procession or assembly, controlled illumination, and restrained symbolic expression without inventing unsupported religious elements."
     },
     "industrial-buildings": {
       general: "Prioritize structural logic, service access, operational circulation, realistic clearances, and believable large-span or utility scale.",
@@ -64,17 +64,17 @@
     "school-university": {
       general: "Clarify primary access, learning-space hierarchy, communal zones, circulation, daylight, and courtyard or campus relationships.",
       exterior: "Clarify primary access, learning or communal clusters, shaded circulation, gathering areas, and campus or courtyard relationships.",
-      interior: "Clarify learning-space hierarchy, circulation, communal zones, daylight, and visual connections between spaces."
+      interior: "Clarify learning-space hierarchy, circulation, communal zones, illumination, and visual connections between spaces."
     },
     "hospital-clinic": {
       general: "Clarify accessible public access, circulation hierarchy, public-to-clinical transitions, daylight, and durable healthcare material logic.",
       exterior: "Clarify accessible public entry, drop-off or approach, circulation hierarchy, and durable healthcare scale without visual clutter.",
-      interior: "Clarify accessible routes, public-to-clinical transitions, circulation hierarchy, daylight, and durable material logic."
+      interior: "Clarify accessible routes, public-to-clinical transitions, circulation hierarchy, illumination, and durable material logic."
     },
     "museum": {
       general: "Clarify civic arrival, exhibition-space hierarchy, visitor circulation, thresholds, and controlled daylight without distracting decorative clutter.",
       exterior: "Clarify civic arrival, entry hierarchy, visitor approach, massing, and the relationship between exhibition volumes and public space.",
-      interior: "Clarify exhibition sequence, thresholds, visitor circulation, controlled daylight, and spatial hierarchy without distracting decorative clutter."
+      interior: "Clarify exhibition sequence, thresholds, visitor circulation, controlled illumination, and spatial hierarchy without distracting decorative clutter."
     },
     "factory-manufacturing": {
       general: "Clarify production volumes, structural bays, operational circulation, service access, logistics, and durable industrial material logic.",
@@ -109,10 +109,6 @@
     "documentary-site-photo": "Favor observational framing, ordinary site conditions, restrained contrast, honest surface variation, and believable imperfections rather than staging or idealization."
   };
 
-  const SKETCH_STYLE_DISCIPLINES = {
-    "refined-line-drawing": "Pen-drawing discipline: use a clear four-level line-weight hierarchy. Heavy lines define the main structural silhouette, primary building edges, and key foreground elements. Medium lines define windows, doors, columns, railings, and other important architectural features. Light lines describe furniture, material textures, secondary landscape elements, and surface articulation. Very light lines describe distant background details, subtle surface patterns, and faint perspective or construction guides. Build depth and shadow primarily through directional hatching and controlled crosshatching rather than smooth tonal shading or gradients. Preserve generous untouched paper and keep the main architectural mass more resolved than vegetation and peripheral context, allowing detail density to fall off toward the edges."
-  };
-
   const INPUT_RULES = {
     "reference-image": "Treat visible reference geometry as intentional design information. Do not reinterpret rendering artifacts, shadows, or texture noise as new architectural elements.",
     "sketch-linework": "Treat linework as geometry and proportion information. Use materials, light, and depth to clarify the drawn design rather than distorting or replacing its lines and openings.",
@@ -122,6 +118,20 @@
 
   function clean(value) {
     return String(value || "").replace(/\s+/g, " ").trim();
+  }
+
+  function adaptStyleProfile(profile, sceneType = "") {
+    let text = clean(profile);
+    if (!text || sceneType !== "interior") return text;
+    const swaps = [
+      [/layered facade composition/gi, "layered spatial composition"],
+      [/planar facade composition/gi, "planar composition"],
+      [/facade rhythm/gi, "spatial rhythm"],
+      [/articulated facades/gi, "articulated surfaces and openings"],
+      [/facade hierarchy/gi, "architectural hierarchy"]
+    ];
+    swaps.forEach(([pattern, value]) => { text = text.replace(pattern, value); });
+    return text;
   }
 
   function typologyPriority(categoryId, sceneType = "") {
@@ -199,53 +209,43 @@
     }
 
     if (state.inputType === "reference-image") {
-      parts.push("Reference discipline: let the selected representation, style, light, and atmosphere change how the design is depicted, not the core massing, principal openings, floor relationships, or spatial composition. Resolve ambiguity conservatively instead of inventing major geometry.");
+      parts.push("Reference discipline: preserve core massing, principal openings, floor relationships, and spatial composition; resolve ambiguity conservatively rather than inventing major geometry.");
     } else {
-      parts.push("Design-resolution discipline: resolve unspecified secondary details coherently from the selected building type and architectural style. Avoid arbitrary ornament, contradictory structure, implausible openings, or decorative clutter with no architectural role.");
+      parts.push("Design resolution: resolve unspecified secondary details coherently; avoid arbitrary ornament, contradictory structure, and implausible openings.");
     }
 
     if (clean(state.architectureStyle)) {
-      const profile = clean(state.architectureStyleSemanticProfile);
+      const profile = adaptStyleProfile(state.architectureStyleSemanticProfile, sceneType);
       if (state.inputType === "reference-image") {
         parts.push(
           profile
-            ? `Style discipline: interpret the reference through the selected language using only compatible cues from ${profile}; preserve the reference form and do not add unsupported signature elements simply to make the style more obvious.`
-            : "Style discipline: apply the selected architectural language as a restrained and coherent visual or material interpretation that remains compatible with the preserved reference form."
+            ? `Style: use only reference-compatible cues from ${profile}; do not add unsupported signature elements.`
+            : "Style: interpret the reference conservatively through the selected architectural language without changing its core form."
         );
       } else {
         parts.push(
           profile
-            ? `Style discipline: use the selected architectural language as a coherent design system characterized by ${profile}; express these cues through proportion, openings, material character, structure, and detail hierarchy rather than as decorative styling.`
-            : "Style discipline: use the selected architectural language as a coherent design system across proportion, openings, material character, structure, and detail hierarchy rather than as surface decoration."
+            ? `Style: use ${profile} as coherent architectural cues across proportion, openings, structure, materials, and spatial composition—not as applied decoration.`
+            : "Style: use the selected architectural language coherently across proportion, openings, structure, materials, and spatial composition—not as applied decoration."
         );
       }
     }
 
-    if (!photography) {
-      const sketchDiscipline = SKETCH_STYLE_DISCIPLINES[state.sketchStyle];
-      if (sketchDiscipline) parts.push(sketchDiscipline);
-    }
-
     if (TECHNICAL_PROJECTION_IDS.has(state.cameraView)) {
-      parts.push("Projection discipline: keep the selected architectural projection internally consistent; do not introduce photographic lens distortion, perspective convergence, or camera-depth cues that conflict with the projection.");
+      parts.push("Projection: keep the selected projection internally consistent; avoid camera distortion or perspective cues that conflict with it.");
     } else if (photography) {
-      parts.push("Camera discipline: keep horizon, verticals, lens behavior, spatial depth, and scale physically coherent with the selected view. Avoid impossible focal-length distortion or conflicting vanishing points.");
-    } else {
-      parts.push("Drawing-space discipline: keep scale, depth, vanishing structure, and spatial relationships coherent with the selected view or projection.");
+      const sceneRule = sceneType === "interior"
+        ? "maintain believable interior exposure, verticals, material response, and light falloff"
+        : "maintain a coherent ground plane, contact shadows, facade depth, and sky-to-building exposure";
+      parts.push(`Photography: keep horizon, lens behavior, depth, and scale physically coherent; ${sceneRule}.`);
     }
 
     if (photography) {
-      if (sceneType === "interior") {
-        parts.push("Scene realism: maintain believable interior exposure balance, depth, verticals, material reflectance, and natural falloff between daylight and artificial or ambient light.");
-      } else {
-        parts.push("Scene realism: maintain a coherent ground plane, contact shadows, facade depth, sky-to-building exposure, and believable scale between architecture, paving, vegetation, and people.");
-      }
-
       const realismRule = CONCEPT_REALISM_RULES[state.photoRealismTarget];
-      if (realismRule) parts.push(`Image-quality discipline: ${realismRule}`);
+      if (realismRule) parts.push(`Image quality: ${realismRule}`);
 
       if (clean(state.humanScalePrompt)) {
-        parts.push("Human-scale discipline: people must remain naturally posed, correctly scaled, physically grounded, and visually secondary to the architecture; avoid staged crowd behavior.");
+        parts.push("People: keep figures naturally posed, correctly scaled, physically grounded, and secondary to the architecture.");
       }
     }
 
@@ -258,9 +258,9 @@
 
   global.ArchitecturePromptQuality = {
     TECHNICAL_PROJECTION_IDS,
-    SKETCH_STYLE_DISCIPLINES,
     typologyPriority,
     typePriority,
+    adaptStyleProfile,
     renderQuality,
     conceptQuality,
     projectionTerm
