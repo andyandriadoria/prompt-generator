@@ -105,15 +105,17 @@ Stores editable option content for:
 
 Sketch Style is the primary visual controller. Line Character and Color Treatment are Advanced overrides and default to `Auto — Follow Sketch Style`.
 
+Precise Architectural Pen Drawing is intentionally pen-dominant: disciplined ink contours, controlled line-weight hierarchy, accurate proportions, crosshatching, articulated structural/material details, line-drawn vegetation, and generous white paper. Watercolor washes, broad marker blocks, loose scribbles, painterly shading, graphite-heavy texture, and photorealistic material rendering are explicitly discouraged.
+
 Active production Sketch Style families:
-- Clean Architectural Line Sketch
+- Precise Architectural Pen Drawing
 - Loose Concept Sketch
 - Bold Ink Perspective Sketch
 - Soft Watercolor Architectural Sketch
 - Marker Presentation Sketch
 - Urban Observational Sketch
 
-`Minimal Color Perspective Sketch` and `Marker / Mixed Media Sketch` remain stored as inactive legacy rows for backward compatibility. Saved states using those IDs migrate to Clean Architectural Line Sketch and Marker Presentation Sketch respectively.
+`Minimal Color Perspective Sketch` and `Marker / Mixed Media Sketch` remain stored as inactive legacy rows for backward compatibility. Saved states using those IDs migrate to Precise Architectural Pen Drawing and Marker Presentation Sketch respectively.
 
 Lighting / Time controls illumination only. Atmosphere / Character controls spatial character only. Weather and physical surroundings belong in Site / Context.
 
