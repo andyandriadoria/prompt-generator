@@ -71,7 +71,7 @@ Key changes:
 
 ### 4.5 Refinement — Precise Pen Fine-Tuning (2026-09-23)
 
-- added explicit three-level line-weight hierarchy to Precise Architectural Pen Drawing;
+- replaced the legacy line hierarchy with a single authoritative four-level system: Heavy / Medium / Light / Very Light;
 - shifted depth / shadow guidance toward directional hatching and controlled crosshatching rather than smooth gray tonal rendering;
 - added white-space preservation and detail-density falloff so the architecture stays more resolved than vegetation / peripheral context;
 - expanded negative guidance against gray washes, gradients, and uniform edge-to-edge detail;
