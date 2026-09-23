@@ -153,9 +153,19 @@
     if (inputRule) parts.push(`Reference interpretation: ${inputRule}`);
 
     if (fidelity === "balanced" && clean(state.architectureStyle)) {
-      parts.push("Style discipline: express the selected architectural style only through restrained material, detail, and facade-language refinements that remain compatible with the preserved geometry, openings, levels, and structural rhythm.");
+      const profile = clean(state.architectureStyleSemanticProfile);
+      parts.push(
+        profile
+          ? `Style discipline: express the selected architectural language selectively through ${profile}; keep these cues restrained and compatible with the preserved geometry, openings, levels, and structural rhythm, and do not add unsupported signature elements merely to signal the style.`
+          : "Style discipline: express the selected architectural style only through restrained material, detail, and facade-language refinements that remain compatible with the preserved geometry, openings, levels, and structural rhythm."
+      );
     } else if (fidelity === "creative" && clean(state.architectureStyle)) {
-      parts.push("Style discipline: use the selected style as a coherent architectural system across proportion, facade rhythm, materials, openings, and detail hierarchy, not as superficial decoration; keep the reference massing and project identity recognizable.");
+      const profile = clean(state.architectureStyleSemanticProfile);
+      parts.push(
+        profile
+          ? `Style discipline: develop the selected architectural language coherently through ${profile}; use these cues across proportion, facade rhythm, materials, openings, structure, and detail hierarchy rather than as superficial decoration, while keeping the reference massing and project identity recognizable.`
+          : "Style discipline: use the selected style as a coherent architectural system across proportion, facade rhythm, materials, openings, and detail hierarchy, not as superficial decoration; keep the reference massing and project identity recognizable."
+      );
     }
 
     if (clean(state.materials)) {
@@ -191,11 +201,20 @@
     }
 
     if (clean(state.architectureStyle)) {
-      parts.push(
-        state.inputType === "reference-image"
-          ? "Style discipline: apply the selected architectural language as a restrained and coherent visual or material interpretation that remains compatible with the preserved reference form."
-          : "Style discipline: use the selected architectural language as a coherent design system across proportion, openings, material character, structure, and detail hierarchy rather than as surface decoration."
-      );
+      const profile = clean(state.architectureStyleSemanticProfile);
+      if (state.inputType === "reference-image") {
+        parts.push(
+          profile
+            ? `Style discipline: interpret the reference through the selected language using only compatible cues from ${profile}; preserve the reference form and do not add unsupported signature elements simply to make the style more obvious.`
+            : "Style discipline: apply the selected architectural language as a restrained and coherent visual or material interpretation that remains compatible with the preserved reference form."
+        );
+      } else {
+        parts.push(
+          profile
+            ? `Style discipline: use the selected architectural language as a coherent design system characterized by ${profile}; express these cues through proportion, openings, material character, structure, and detail hierarchy rather than as decorative styling.`
+            : "Style discipline: use the selected architectural language as a coherent design system across proportion, openings, material character, structure, and detail hierarchy rather than as surface decoration."
+        );
+      }
     }
 
     if (TECHNICAL_PROJECTION_IDS.has(state.cameraView)) {
