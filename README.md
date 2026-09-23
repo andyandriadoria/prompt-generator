@@ -178,6 +178,8 @@ Photography Text / Signage Policies:
 
 Both paths share the same Architecture Taxonomy, Scene Type, Lighting / Time, Atmosphere / Character, Site / Context, Architectural Feature Emphasis, Human Presence / Scale, View / Projection, and Aspect Ratio controls.
 
+**Scene-aware Lighting / Time:** Exterior and Interior no longer share one generic list. Exterior uses Morning Light, Midday Light, Golden Hour, Overcast Daylight, and Evening Light. Interior uses Soft Interior Daylight, Morning Window Light, Bright Midday Interior, Golden Hour Interior, Overcast Interior Daylight, Evening Ambient Interior, and Night Interior Lighting. Soft Interior Daylight is the recommended Interior default; legacy Saved Prompt lighting is mapped to the closest compatible scene-specific option.
+
 Contextual help follows the current selection. In Architectural Photography, View / Projection is additionally filtered to camera-plausible views; Axonometric / Isometric, Orthographic Elevation, Section Perspective, and sketchbook-only projections remain available in Sketch Presentation but are hidden from Photography. Silhouette Figures is likewise excluded from Photography while the standard scale-figure options remain available.
 
 The option data remains in `ARCH_SKETCH_OPTIONS`; the CONFIG JSON bridge exposes Output Representation, Photo Realism Target, and Text / Signage Policy without an Apps Script redeploy. Existing Saved Prompts that predate this feature restore into Sketch Presentation automatically.
