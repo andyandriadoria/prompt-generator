@@ -69,6 +69,16 @@ Key changes:
 - `fallback.json` was fully refreshed from the live 4.5 Google Sheet on 2026-09-23, including current Catalog, Outfit Focus, Product, Prompt Mode, and Architecture CONFIG data.
 
 
+### 4.5 Refinement — Precise Pen Fine-Tuning (2026-09-23)
+
+- added explicit three-level line-weight hierarchy to Precise Architectural Pen Drawing;
+- shifted depth / shadow guidance toward directional hatching and controlled crosshatching rather than smooth gray tonal rendering;
+- added white-space preservation and detail-density falloff so the architecture stays more resolved than vegetation / peripheral context;
+- expanded negative guidance against gray washes, gradients, and uniform edge-to-edge detail;
+- added a style-specific Pen-drawing discipline to the shared architecture semantic composer;
+- synchronized Sheet CONFIG fallback data and production cache keys;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ### 4.5 Refinement — Precise Architectural Pen Drawing (2026-09-23)
 
 - transformed the stable `refined-line-drawing` style from a generic clean line sketch into **Precise Architectural Pen Drawing**;
