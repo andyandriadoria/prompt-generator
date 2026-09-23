@@ -42,46 +42,57 @@
 
   const TYPE_PRIORITIES = {
     "single-family-house": {
+      general: "Clarify domestic scale, primary access, opening hierarchy, and coherent relationships between private, shared, and outdoor spaces.",
       exterior: "Make the main entrance, private-to-public threshold, opening proportions, and terrace or garden relationship easy to read.",
       interior: "Make domestic circulation, room-to-room relationships, openings, and daylight hierarchy easy to read."
     },
     "retail-store": {
+      general: "Clarify public entry, customer-facing threshold, storefront or display hierarchy, and circulation without inventing brand identity.",
       exterior: "Keep the entrance, storefront depth, display zones, canopy or threshold, and pedestrian approach legible without inventing brand identity.",
       interior: "Keep customer circulation, display or merchandising zones, service points, and spatial hierarchy legible without fabricated logos or promotional text."
     },
     "hotel-resort": {
+      general: "Clarify arrival, guest circulation, public-space hierarchy, accommodation zones, and the relationship between architecture and landscape or views.",
       exterior: "Clarify arrival, guest entry, public-space hierarchy, accommodation wings, and the relationship between architecture and landscape.",
       interior: "Clarify arrival or lobby sequence, public-space hierarchy, guest circulation, and the relationship between interior spaces and landscape or views."
     },
     "restaurant-cafe": {
+      general: "Clarify public threshold, seating and service hierarchy, circulation, and indoor-outdoor relationship without inventing branding.",
       exterior: "Clarify the public threshold, seating relationship, facade openness, and indoor-outdoor connection without inventing branding.",
       interior: "Clarify seating zones, service circulation, spatial focus, and believable ambient or natural-light hierarchy."
     },
     "school-university": {
+      general: "Clarify primary access, learning-space hierarchy, communal zones, circulation, daylight, and courtyard or campus relationships.",
       exterior: "Clarify primary access, learning or communal clusters, shaded circulation, gathering areas, and campus or courtyard relationships.",
       interior: "Clarify learning-space hierarchy, circulation, communal zones, daylight, and visual connections between spaces."
     },
     "hospital-clinic": {
+      general: "Clarify accessible public access, circulation hierarchy, public-to-clinical transitions, daylight, and durable healthcare material logic.",
       exterior: "Clarify accessible public entry, drop-off or approach, circulation hierarchy, and durable healthcare scale without visual clutter.",
       interior: "Clarify accessible routes, public-to-clinical transitions, circulation hierarchy, daylight, and durable material logic."
     },
     "museum": {
+      general: "Clarify civic arrival, exhibition-space hierarchy, visitor circulation, thresholds, and controlled daylight without distracting decorative clutter.",
       exterior: "Clarify civic arrival, entry hierarchy, visitor approach, massing, and the relationship between exhibition volumes and public space.",
       interior: "Clarify exhibition sequence, thresholds, visitor circulation, controlled daylight, and spatial hierarchy without distracting decorative clutter."
     },
     "factory-manufacturing": {
+      general: "Clarify production volumes, structural bays, operational circulation, service access, logistics, and durable industrial material logic.",
       exterior: "Clarify production volumes, service access, logistics paths, structural bays, and the relationship between operational and administrative zones.",
       interior: "Clarify structural spans, production zones, service routes, operational clearances, and durable industrial material logic."
     },
     "warehouse": {
+      general: "Clarify clear-span structure, loading relationships, service access, storage logic, and efficient logistics circulation.",
       exterior: "Clarify loading access, large-span volume, service yards, structural rhythm, and efficient logistics circulation.",
       interior: "Clarify clear-span structure, storage logic, loading relationships, operational clearances, and practical circulation."
     },
     "pavilion": {
+      general: "Emphasize openness, shelter, structural clarity, framed views, and the pavilion's relationship to landscape and pedestrian approach.",
       exterior: "Emphasize openness, shelter, threshold, structural clarity, and the pavilion's relationship to landscape, view, and pedestrian approach.",
       interior: "Emphasize openness, structure, framed views, shelter, and continuous relationship with the surrounding landscape."
     },
     "architectural-bridge": {
+      general: "Emphasize span, structural continuity, deck or pathway scale, approach sequence, and relationship to terrain, water, or urban context.",
       exterior: "Emphasize span, structural continuity, deck or pathway scale, approach sequence, and relationship to terrain, water, or urban context."
     }
   };
@@ -118,7 +129,8 @@
   function typePriority(buildingType, sceneType = "") {
     const profile = TYPE_PRIORITIES[buildingType];
     if (!profile) return "";
-    return clean(profile[sceneType] || profile.exterior || profile.interior || "");
+    if (!sceneType) return clean(profile.general || "");
+    return clean(profile[sceneType] || profile.general || "");
   }
 
   function renderQuality(state = {}) {
