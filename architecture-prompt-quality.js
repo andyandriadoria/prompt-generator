@@ -109,6 +109,10 @@
     "documentary-site-photo": "Favor observational framing, ordinary site conditions, restrained contrast, honest surface variation, and believable imperfections rather than staging or idealization."
   };
 
+  const SKETCH_STYLE_DISCIPLINES = {
+    "refined-line-drawing": "Pen-drawing discipline: use a clear three-level line-weight hierarchy with slightly heavier primary silhouettes, medium architectural edges, and fine tertiary detail and hatching. Build depth and shadow primarily through directional hatching and controlled crosshatching rather than smooth gray washes or gradients. Preserve generous untouched paper and keep the main architectural mass more resolved than vegetation and peripheral context, allowing detail density to fall off toward the edges."
+  };
+
   const INPUT_RULES = {
     "reference-image": "Treat visible reference geometry as intentional design information. Do not reinterpret rendering artifacts, shadows, or texture noise as new architectural elements.",
     "sketch-linework": "Treat linework as geometry and proportion information. Use materials, light, and depth to clarify the drawn design rather than distorting or replacing its lines and openings.",
@@ -217,6 +221,11 @@
       }
     }
 
+    if (!photography) {
+      const sketchDiscipline = SKETCH_STYLE_DISCIPLINES[state.sketchStyle];
+      if (sketchDiscipline) parts.push(sketchDiscipline);
+    }
+
     if (TECHNICAL_PROJECTION_IDS.has(state.cameraView)) {
       parts.push("Projection discipline: keep the selected architectural projection internally consistent; do not introduce photographic lens distortion, perspective convergence, or camera-depth cues that conflict with the projection.");
     } else if (photography) {
@@ -249,6 +258,7 @@
 
   global.ArchitecturePromptQuality = {
     TECHNICAL_PROJECTION_IDS,
+    SKETCH_STYLE_DISCIPLINES,
     typologyPriority,
     typePriority,
     renderQuality,
