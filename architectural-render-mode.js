@@ -677,6 +677,12 @@
       architectureStyleId: elements.archArchitectureStyle.value,
       customArchitectureStyle: elements.archCustomArchitectureStyle.value.trim(),
       architectureStyle: strict ? "" : architectureStyle,
+      architectureStyleSemanticProfile: strict
+        ? ""
+        : global.ArchitecturalTaxonomy.selectedSemanticProfile(
+            elements.archArchitectureStyle,
+            taxonomy?.styleOptions || []
+          ),
       materials: elements.archMaterials.value.trim(),
       lighting: lighting?.prompt || lighting?.label || "",
       atmosphere: elements.archAtmosphere.value.trim(),
