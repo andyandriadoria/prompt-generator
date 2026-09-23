@@ -6702,6 +6702,63 @@
         "campaign",
         "fashion"
       ]
+    },
+    {
+      "id": "everyday-outfit-snapshot",
+      "label": "Everyday Outfit Snapshot",
+      "prompt": "an everyday outfit snapshot with a relaxed natural smartphone-photo feel",
+      "closing_prompt": "Casual everyday outfit photography with natural available light, authentic smartphone-camera character, and an unforced lived-in feel.",
+      "audience": "all",
+      "category": "Casual",
+      "active": true,
+      "sort": 7,
+      "tags": [
+        "casual",
+        "everyday",
+        "outfit",
+        "snapshot",
+        "smartphone",
+        "natural",
+        "lifestyle"
+      ]
+    },
+    {
+      "id": "casual-smartphone-outfit-photo",
+      "label": "Casual Smartphone Outfit Photo",
+      "prompt": "an authentic everyday personal outfit photo",
+      "closing_prompt": "Use natural available light, casual framing, and an authentic everyday smartphone-photo feel. Keep the result simple, relatable.",
+      "audience": "all",
+      "category": "Casual",
+      "active": true,
+      "sort": 8,
+      "tags": [
+        "casual",
+        "smartphone",
+        "outfit",
+        "everyday",
+        "personal",
+        "natural",
+        "relatable"
+      ]
+    },
+    {
+      "id": "daily-modest-style-photo",
+      "label": "Daily Modest Style Photo",
+      "prompt": "a relaxed daily modest style photo with an everyday natural presentation",
+      "closing_prompt": "Relaxed everyday modest fashion photography with natural light and simple realistic styling. Keep the image wearable, approachable, and lightly polished.",
+      "audience": "all",
+      "category": "Casual",
+      "active": true,
+      "sort": 9,
+      "tags": [
+        "casual",
+        "modest",
+        "everyday",
+        "outfit",
+        "lifestyle",
+        "natural",
+        "wearable"
+      ]
     }
   ],
   "preservationLevels": [
@@ -6750,11 +6807,11 @@
   ],
   "catalogSettings": [
     {
-      "id": "luxury-living-room",
+      "id": "indoor-elegant-luxury-living-room",
       "label": "Elegant Luxury Living Room",
       "prompt": "inside an elegant luxury living room",
       "category": "Interior",
-      "active": true,
+      "active": false,
       "sort": 1,
       "tags": [
         "indoor",
@@ -6764,11 +6821,11 @@
       ]
     },
     {
-      "id": "modern-library",
+      "id": "indoor-modern-contemporary-library",
       "label": "Modern Contemporary Library",
       "prompt": "inside a modern contemporary library with warm wood accents and floor-to-ceiling windows",
       "category": "Interior",
-      "active": true,
+      "active": false,
       "sort": 2,
       "tags": [
         "indoor",
@@ -6778,11 +6835,11 @@
       ]
     },
     {
-      "id": "airport-lounge",
+      "id": "indoor-premium-airport-lounge",
       "label": "Premium Airport Lounge",
       "prompt": "inside a premium modern airport lounge beside a large floor-to-ceiling window overlooking the airport apron",
       "category": "Interior",
-      "active": true,
+      "active": false,
       "sort": 3,
       "tags": [
         "indoor",
@@ -6792,11 +6849,11 @@
       ]
     },
     {
-      "id": "hotel-lobby",
-      "label": "Elegant Hotel Lobby",
+      "id": "indoor-hotel-lobby",
+      "label": "Hotel Lobby",
       "prompt": "inside an elegant hotel lobby with contemporary interior design and polished marble flooring",
       "category": "Interior",
-      "active": true,
+      "active": false,
       "sort": 4,
       "tags": [
         "indoor",
@@ -6806,11 +6863,11 @@
       ]
     },
     {
-      "id": "hotel-room",
-      "label": "Contemporary Hotel Room",
+      "id": "indoor-hotel-room",
+      "label": "Hotel Room",
       "prompt": "inside a luxurious contemporary hotel room with refined neutral interiors",
       "category": "Interior",
-      "active": true,
+      "active": false,
       "sort": 5,
       "tags": [
         "indoor",
@@ -6819,11 +6876,11 @@
       ]
     },
     {
-      "id": "boutique-interior",
+      "id": "indoor-premium-boutique-interior",
       "label": "Premium Boutique Interior",
       "prompt": "inside a refined premium fashion boutique with clean display shelving and soft ambient lighting",
       "category": "Retail",
-      "active": true,
+      "active": false,
       "sort": 6,
       "tags": [
         "indoor",
@@ -6833,11 +6890,11 @@
       ]
     },
     {
-      "id": "fitting-room",
-      "label": "Minimalist Fitting Room",
+      "id": "indoor-fitting-room",
+      "label": "Fitting Room",
       "prompt": "inside a clean minimalist fitting room with a full-length mirror and neutral walls",
       "category": "Retail",
-      "active": true,
+      "active": false,
       "sort": 7,
       "tags": [
         "indoor",
@@ -6847,11 +6904,11 @@
       ]
     },
     {
-      "id": "front-cafe",
-      "label": "White Tropical Café Front",
+      "id": "outdoor-front-cafe",
+      "label": "Front Café",
       "prompt": "in front of a white-walled café with glass doors, white-painted iron chairs and tables, tropical plants, and natural stone flooring",
       "category": "Outdoor",
-      "active": true,
+      "active": false,
       "sort": 8,
       "tags": [
         "outdoor",
@@ -6860,11 +6917,11 @@
       ]
     },
     {
-      "id": "urban-architecture-stairs",
+      "id": "outdoor-urban-architecture-stairs",
       "label": "Urban Architecture Stairs",
       "prompt": "at an elegant urban architecture scene with dark gray stone stairs, warm built-in step lights, and reflective glass walls",
       "category": "Urban",
-      "active": true,
+      "active": false,
       "sort": 9,
       "tags": [
         "urban",
@@ -6874,11 +6931,11 @@
       ]
     },
     {
-      "id": "modern-courtyard",
+      "id": "outdoor-modern-courtyard-garden",
       "label": "Modern Courtyard Garden",
       "prompt": "in a modern courtyard garden with curved seating, clean stone pathways, subtle warm lighting, and minimalist landscaping",
       "category": "Outdoor",
-      "active": true,
+      "active": false,
       "sort": 10,
       "tags": [
         "outdoor",
@@ -6888,11 +6945,11 @@
       ]
     },
     {
-      "id": "outdoor-cafe-courtyard",
+      "id": "outdoor-modern-outdoor-cafe-courtyard",
       "label": "Modern Outdoor Café Courtyard",
       "prompt": "in a modern outdoor café courtyard surrounded by glass walls, greenery, and warm ambient lighting",
       "category": "Outdoor",
-      "active": true,
+      "active": false,
       "sort": 11,
       "tags": [
         "outdoor",
@@ -6902,11 +6959,11 @@
       ]
     },
     {
-      "id": "city-park",
-      "label": "Modern City Park",
+      "id": "outdoor-city-park",
+      "label": "City Park",
       "prompt": "in a clean modern city park with landscaped greenery, paved walkways, and soft natural daylight",
       "category": "Outdoor",
-      "active": true,
+      "active": false,
       "sort": 12,
       "tags": [
         "outdoor",
@@ -6916,11 +6973,11 @@
       ]
     },
     {
-      "id": "tropical-garden",
-      "label": "Tropical Garden Walkway",
+      "id": "outdoor-tropical-garden-walkway-with-modern-architecture",
+      "label": "Tropical Garden Walkway with Modern Architecture",
       "prompt": "in a serene tropical garden with lush greenery, modern stepping paths, and subtle architectural lighting",
       "category": "Outdoor",
-      "active": true,
+      "active": false,
       "sort": 13,
       "tags": [
         "outdoor",
@@ -6929,11 +6986,11 @@
       ]
     },
     {
-      "id": "front-porch",
-      "label": "Modern Minimalist Front Porch",
+      "id": "outdoor-front-porch",
+      "label": "Front Porch",
       "prompt": "at a modern minimalist front porch with warm wood, light stone, large glass panels, and clean landscaping",
       "category": "Residential",
-      "active": true,
+      "active": false,
       "sort": 14,
       "tags": [
         "outdoor",
@@ -6943,11 +7000,11 @@
       ]
     },
     {
-      "id": "upscale-urban-street",
+      "id": "outdoor-upscale-urban-street",
       "label": "Upscale Urban Street",
       "prompt": "on a sophisticated urban street with elegant architecture, stone paving, and manicured greenery",
       "category": "Urban",
-      "active": true,
+      "active": false,
       "sort": 15,
       "tags": [
         "outdoor",
@@ -6957,11 +7014,11 @@
       ]
     },
     {
-      "id": "mall",
-      "label": "Upscale Shopping Mall",
+      "id": "indoor-shopping-mall",
+      "label": "Shopping Mall",
       "prompt": "inside an upscale modern shopping mall with layered contemporary architecture and warm architectural lighting",
       "category": "Retail",
-      "active": true,
+      "active": false,
       "sort": 16,
       "tags": [
         "indoor",
@@ -6971,11 +7028,11 @@
       ]
     },
     {
-      "id": "minimal-studio",
+      "id": "indoor-minimal-fashion-studio",
       "label": "Minimal Fashion Studio",
       "prompt": "inside a clean minimalist fashion studio with a seamless neutral backdrop and soft diffused studio lighting",
       "category": "Studio",
-      "active": true,
+      "active": false,
       "sort": 17,
       "tags": [
         "indoor",
@@ -6985,11 +7042,11 @@
       ]
     },
     {
-      "id": "warm-home-interior",
+      "id": "indoor-warm-contemporary-home",
       "label": "Warm Contemporary Home",
       "prompt": "inside a warm contemporary home interior with natural wood, neutral furniture, and soft daylight",
       "category": "Interior",
-      "active": true,
+      "active": false,
       "sort": 18,
       "tags": [
         "indoor",
@@ -6999,11 +7056,11 @@
       ]
     },
     {
-      "id": "modern-gallery",
-      "label": "Minimal Art Gallery",
+      "id": "indoor-minimalist-art-gallery",
+      "label": "Minimalist Art Gallery",
       "prompt": "inside a minimalist contemporary art gallery with clean white walls, polished floors, and soft gallery lighting",
       "category": "Interior",
-      "active": true,
+      "active": false,
       "sort": 19,
       "tags": [
         "indoor",
@@ -7012,12 +7069,37 @@
       ]
     },
     {
-      "id": "resort-terrace",
+      "id": "outdoor-luxury-garden-courtyard",
+      "label": "Luxury Garden Courtyard",
+      "prompt": "on a luxury greeny courtyard",
+      "category": "Outdoor",
+      "active": false,
+      "sort": 20,
+      "tags": [
+        "outdoor",
+        "greeny",
+        "courtyard"
+      ]
+    },
+    {
+      "id": "outdoor-classic-veranda",
+      "label": "Classic Veranda",
+      "prompt": "on a classic veranda",
+      "category": "Outdoor",
+      "active": false,
+      "sort": 21,
+      "tags": [
+        "outdoor",
+        "veranda"
+      ]
+    },
+    {
+      "id": "outdoor-luxury-resort-terrace",
       "label": "Luxury Resort Terrace",
       "prompt": "on an elegant luxury resort terrace with refined outdoor seating, tropical landscaping, and soft natural daylight",
       "category": "Outdoor",
-      "active": true,
-      "sort": 20,
+      "active": false,
+      "sort": 200,
       "tags": [
         "outdoor",
         "resort",
@@ -7030,7 +7112,7 @@
     {
       "id": "natural-pose",
       "label": "Natural Pose",
-      "prompt": "Natural pose",
+      "prompt": "Natural pose (same with reference)",
       "child_safe": true,
       "category": "General",
       "active": true,
@@ -7166,6 +7248,248 @@
         "candid",
         "fashion"
       ]
+    },
+    {
+      "id": "mannequin-standing-display",
+      "label": "Neutral Standing Pose",
+      "prompt": "Standing in a clean static mannequin pose with balanced posture and the outfit clearly visible",
+      "child_safe": true,
+      "category": "Display Pose",
+      "active": true,
+      "sort": 11,
+      "tags": [
+        "mannequin",
+        "neutral",
+        "standing",
+        "static",
+        "flexible"
+      ]
+    },
+    {
+      "id": "mannequin-straight-front-display",
+      "label": "Straight Front Pose",
+      "prompt": "Facing directly forward in a clean symmetrical mannequin pose that keeps the outfit clearly readable",
+      "child_safe": true,
+      "category": "Display Pose",
+      "active": true,
+      "sort": 12,
+      "tags": [
+        "mannequin",
+        "front",
+        "symmetrical",
+        "neutral",
+        "flexible"
+      ]
+    },
+    {
+      "id": "mannequin-three-quarter-display",
+      "label": "Three-Quarter Pose",
+      "prompt": "Presented at a subtle three-quarter mannequin angle while keeping the outfit construction clearly visible",
+      "child_safe": true,
+      "category": "Display Pose",
+      "active": true,
+      "sort": 13,
+      "tags": [
+        "mannequin",
+        "three-quarter",
+        "neutral",
+        "flexible",
+        "fashion"
+      ]
+    },
+    {
+      "id": "mannequin-seated-display",
+      "label": "Seated Mannequin Pose",
+      "prompt": "Seated in a composed static mannequin pose with the garment arranged neatly and clearly",
+      "child_safe": true,
+      "category": "Display Pose",
+      "active": true,
+      "sort": 14,
+      "tags": [
+        "mannequin",
+        "seated",
+        "neutral",
+        "flexible",
+        "static"
+      ]
+    },
+    {
+      "id": "mannequin-single-presentation",
+      "label": "Single Mannequin Presentation",
+      "prompt": "Presented as a single mannequin with an uncluttered composition and the outfit as the clear visual focus",
+      "child_safe": true,
+      "category": "Presentation Style",
+      "active": true,
+      "sort": 15,
+      "tags": [
+        "mannequin",
+        "single",
+        "presentation",
+        "neutral",
+        "flexible"
+      ]
+    },
+    {
+      "id": "mannequin-pedestal-display",
+      "label": "Pedestal Display",
+      "prompt": "Presented on a clean pedestal or display plinth with styling appropriate to the selected setting",
+      "child_safe": true,
+      "category": "Presentation Style",
+      "active": true,
+      "sort": 16,
+      "tags": [
+        "mannequin",
+        "pedestal",
+        "plinth",
+        "presentation",
+        "flexible"
+      ]
+    },
+    {
+      "id": "mannequin-boutique-window-display",
+      "label": "Boutique Window Display",
+      "prompt": "Presented as a refined boutique window-display mannequin with polished visual-merchandising styling",
+      "child_safe": true,
+      "category": "Presentation Style",
+      "active": true,
+      "sort": 17,
+      "tags": [
+        "mannequin",
+        "boutique",
+        "window",
+        "display",
+        "merchandising"
+      ]
+    },
+    {
+      "id": "mannequin-group-arrangement",
+      "label": "Group Mannequin Arrangement",
+      "prompt": "Arrange the dressed mannequin as the primary subject within a balanced group mannequin composition; keep any secondary mannequins visually secondary and do not duplicate, alter, or reinterpret the reference outfit on them",
+      "child_safe": true,
+      "category": "Mannequin Arrangement",
+      "active": true,
+      "sort": 18,
+      "tags": [
+        "mannequin",
+        "group",
+        "arrangement",
+        "neutral",
+        "flexible"
+      ]
+    },
+    {
+      "id": "mannequin-adaptive-reference-pose",
+      "label": "Adaptive Reference Pose",
+      "prompt": "Adapt the mannequin's posture, body balance, limb positioning, hand placement, and accessory interaction from the pose cues visible in the reference image. Translate those cues into a physically plausible mannequin pose without forcing human expressiveness or changing any outfit detail",
+      "child_safe": true,
+      "category": "Adaptive Pose",
+      "active": true,
+      "sort": 19,
+      "tags": [
+        "mannequin",
+        "adaptive",
+        "reference",
+        "pose",
+        "flexible",
+        "styling cues"
+      ]
+    },
+    {
+      "id": "mannequin-relaxed-fashion-pose",
+      "label": "Relaxed Fashion Pose",
+      "prompt": "Use a relaxed asymmetrical fashion mannequin pose with a subtle hip shift, natural weight distribution, and visually balanced limb placement while keeping the outfit clearly readable",
+      "child_safe": true,
+      "category": "Fashion Pose",
+      "active": true,
+      "sort": 20,
+      "tags": [
+        "mannequin",
+        "relaxed",
+        "fashion",
+        "asymmetrical",
+        "flexible"
+      ]
+    },
+    {
+      "id": "mannequin-contrapposto-pose",
+      "label": "Contrapposto Pose",
+      "prompt": "Use an elegant contrapposto mannequin pose with weight shifted naturally onto one leg, the opposite leg relaxed, and subtle asymmetry through the hips and shoulders while keeping the outfit clearly visible",
+      "child_safe": true,
+      "category": "Fashion Pose",
+      "active": true,
+      "sort": 21,
+      "tags": [
+        "mannequin",
+        "contrapposto",
+        "fashion",
+        "weight shift",
+        "editorial"
+      ]
+    },
+    {
+      "id": "mannequin-cross-leg-fashion-pose",
+      "label": "Cross-Leg Fashion Pose",
+      "prompt": "Use a balanced fashion mannequin pose with one leg crossing lightly in front of the other, creating an elegant elongated silhouette while keeping the outfit construction and hemline clearly readable",
+      "child_safe": true,
+      "category": "Fashion Pose",
+      "active": true,
+      "sort": 22,
+      "tags": [
+        "mannequin",
+        "cross leg",
+        "fashion",
+        "elegant",
+        "editorial"
+      ]
+    },
+    {
+      "id": "mannequin-one-hand-pocket-pose",
+      "label": "One Hand in Pocket Pose",
+      "prompt": "Use a relaxed mannequin pose with one hand placed naturally in or at an existing pocket when the reference outfit actually includes a usable pocket; if no pocket exists, rest that hand naturally near the hip without inventing or altering a pocket",
+      "child_safe": true,
+      "category": "Fashion Pose",
+      "active": true,
+      "sort": 23,
+      "tags": [
+        "mannequin",
+        "hand pocket",
+        "relaxed",
+        "fashion",
+        "preservation safe"
+      ]
+    },
+    {
+      "id": "mannequin-accessory-interaction-pose",
+      "label": "Accessory Interaction Pose",
+      "prompt": "Let the mannequin interact naturally with an accessory that is already present in the reference image, such as holding a bag or lightly touching existing headwear. Do not invent, remove, replace, or redesign any accessory",
+      "child_safe": true,
+      "category": "Fashion Pose",
+      "active": true,
+      "sort": 24,
+      "tags": [
+        "mannequin",
+        "accessory",
+        "interaction",
+        "handbag",
+        "headwear",
+        "preservation safe"
+      ]
+    },
+    {
+      "id": "mannequin-editorial-pose",
+      "label": "Editorial Mannequin Pose",
+      "prompt": "Use a fashion-forward editorial mannequin pose with controlled asymmetry, expressive body geometry, and a confident but physically plausible stance while keeping the mannequin clearly artificial and the outfit fully readable",
+      "child_safe": true,
+      "category": "Fashion Pose",
+      "active": true,
+      "sort": 25,
+      "tags": [
+        "mannequin",
+        "editorial",
+        "fashion forward",
+        "dynamic",
+        "flexible"
+      ]
     }
   ],
   "catalogShots": [
@@ -7177,7 +7501,31 @@
       "active": true,
       "sort": 1,
       "tags": [
-        "medium",
+        "medium-shot",
+        "portrait"
+      ]
+    },
+    {
+      "id": "upper-body-shot",
+      "label": "Upper Body Shot",
+      "prompt": "upper body shot",
+      "category": "Catalog",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "upper-body",
+        "portrait"
+      ]
+    },
+    {
+      "id": "lower-body-shot",
+      "label": "Lower Body Shot",
+      "prompt": "lower body shot",
+      "category": "Catalog",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "lower-body",
         "portrait"
       ]
     },
@@ -7187,9 +7535,22 @@
       "prompt": "full body visible",
       "category": "Catalog",
       "active": true,
-      "sort": 2,
+      "sort": 4,
       "tags": [
         "full-body",
+        "catalog"
+      ]
+    },
+    {
+      "id": "full-body-wide",
+      "label": "Full Body - Wide",
+      "prompt": "full body visible, wide long shot",
+      "category": "Catalog",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "full-body",
+        "wide",
         "catalog"
       ]
     },
@@ -7199,7 +7560,7 @@
       "prompt": "three-quarter shot",
       "category": "Catalog",
       "active": true,
-      "sort": 3,
+      "sort": 6,
       "tags": [
         "three-quarter",
         "catalog"
@@ -7211,7 +7572,7 @@
       "prompt": "seated full-body shot with the complete outfit visible",
       "category": "Catalog",
       "active": true,
-      "sort": 4,
+      "sort": 7,
       "tags": [
         "seated",
         "full-body"
@@ -7223,7 +7584,7 @@
       "prompt": "medium close-up",
       "category": "Portrait",
       "active": true,
-      "sort": 5,
+      "sort": 8,
       "tags": [
         "close-up",
         "portrait"
@@ -7235,7 +7596,7 @@
       "prompt": "full-length front-facing catalog shot with the complete outfit clearly visible",
       "category": "E-commerce",
       "active": true,
-      "sort": 6,
+      "sort": 9,
       "tags": [
         "full-length",
         "front",
@@ -7336,6 +7697,613 @@
         "lifestyle fashion"
       ],
       "outfit_usage": "worn"
+    }
+  ],
+  "productTypes": [
+    {
+      "id": "clothing",
+      "label": "Clothing",
+      "product_noun": "garment",
+      "preserve_details": "exact color, fabric, texture, pattern, print placement, stitching, cut, silhouette, proportions, collar, sleeves, cuffs, hem, closures, embellishments, and every visible clothing detail",
+      "category": "Fashion",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "clothing",
+        "garment",
+        "fashion"
+      ]
+    },
+    {
+      "id": "jewelry",
+      "label": "Jewelry",
+      "product_noun": "jewelry item",
+      "preserve_details": "exact metal tone, stone or pearl color, material, finish, ornamental structure, setting, clasp or pin construction, shape, proportions, and every visible detail",
+      "category": "Jewelry",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "jewelry",
+        "brooch",
+        "necklace",
+        "earrings"
+      ]
+    },
+    {
+      "id": "shoes",
+      "label": "Shoes",
+      "product_noun": "footwear",
+      "preserve_details": "exact color, material, leather or textile finish, stitching, hardware, sole, heel, construction, shape, proportions, branding, and every visible detail",
+      "category": "Footwear",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "shoes",
+        "footwear",
+        "pair"
+      ]
+    },
+    {
+      "id": "accessory",
+      "label": "Accessory",
+      "product_noun": "accessory",
+      "preserve_details": "exact color, material, texture, finish, hardware, construction, shape, proportions, embellishments, branding, and every visible detail",
+      "category": "Accessory",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "accessory",
+        "pin",
+        "scarf",
+        "fashion"
+      ]
+    },
+    {
+      "id": "other",
+      "label": "Other Product",
+      "product_noun": "product",
+      "preserve_details": "exact color, material, texture, finish, construction, shape, proportions, branding, and every visible detail",
+      "category": "General",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "product",
+        "general"
+      ]
+    }
+  ],
+  "productPresentations": [
+    {
+      "id": "hanging-product",
+      "label": "Hanging Product",
+      "prompt": "display the product naturally hanging on a slim white metal clothing rack",
+      "category": "Product Only",
+      "allowed_product_types": "clothing, accessory",
+      "requires_wear_context": false,
+      "supports_text": false,
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "hanging",
+        "rack",
+        "clothing"
+      ]
+    },
+    {
+      "id": "tabletop-still-life",
+      "label": "Tabletop Still Life",
+      "prompt": "present the product as an elegant tabletop still-life with carefully controlled placement and premium commercial styling",
+      "category": "Product Only",
+      "allowed_product_types": "all",
+      "requires_wear_context": false,
+      "supports_text": false,
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "still-life",
+        "tabletop",
+        "product"
+      ]
+    },
+    {
+      "id": "bust-display",
+      "label": "Mannequin / Bust Display",
+      "prompt": "present the product on an elegant display bust or mannequin designed specifically for premium product presentation",
+      "category": "Product Only",
+      "allowed_product_types": "jewelry, accessory",
+      "requires_wear_context": false,
+      "supports_text": false,
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "bust",
+        "mannequin",
+        "jewelry"
+      ]
+    },
+    {
+      "id": "worn-close-up",
+      "label": "Worn Close-Up",
+      "prompt": "show the product naturally worn in a tightly framed fashion context while keeping the product as the clear focal point",
+      "category": "Worn Product",
+      "allowed_product_types": "jewelry, accessory, clothing",
+      "requires_wear_context": true,
+      "supports_text": false,
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "worn",
+        "close-up",
+        "fashion"
+      ]
+    },
+    {
+      "id": "rack-collection",
+      "label": "Rack / Collection Display",
+      "prompt": "present the product as part of a carefully arranged boutique collection on a refined display rack",
+      "category": "Product Only",
+      "allowed_product_types": "clothing",
+      "requires_wear_context": false,
+      "supports_text": false,
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "rack",
+        "collection",
+        "boutique"
+      ]
+    },
+    {
+      "id": "campaign-poster",
+      "label": "Campaign Poster",
+      "prompt": "present the product as the hero element of a premium advertising campaign composition",
+      "category": "Campaign",
+      "allowed_product_types": "all",
+      "requires_wear_context": false,
+      "supports_text": true,
+      "active": true,
+      "sort": 6,
+      "tags": [
+        "campaign",
+        "poster",
+        "advertising"
+      ]
+    }
+  ],
+  "productSettings": [
+    {
+      "id": "minimal-studio",
+      "label": "Clean Minimal Studio",
+      "prompt": "inside a clean premium studio with restrained neutral surfaces, subtle styling, and no distracting visual elements",
+      "category": "Studio",
+      "allowed_product_types": "all",
+      "allowed_presentations": "all",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "studio",
+        "minimal",
+        "clean"
+      ]
+    },
+    {
+      "id": "soft-daylight-window",
+      "label": "Soft Daylight Window",
+      "prompt": "beside a large softly lit window with natural daylight, refined neutral surroundings, and elegant directional shadows",
+      "category": "Natural Light",
+      "allowed_product_types": "all",
+      "allowed_presentations": "all",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "window",
+        "daylight",
+        "natural"
+      ]
+    },
+    {
+      "id": "satin-fabric-surface",
+      "label": "Satin Fabric Surface",
+      "prompt": "on softly draped satin fabric with elegant folds, subtle highlights, and premium jewelry-editorial styling",
+      "category": "Surface",
+      "allowed_product_types": "jewelry, accessory",
+      "allowed_presentations": "tabletop-still-life, campaign-poster",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "satin",
+        "fabric",
+        "jewelry",
+        "luxury"
+      ]
+    },
+    {
+      "id": "premium-stone-surface",
+      "label": "Premium Stone Surface",
+      "prompt": "on a refined natural stone or marble surface with restrained luxury styling and directional natural light",
+      "category": "Surface",
+      "allowed_product_types": "all",
+      "allowed_presentations": "tabletop-still-life, campaign-poster",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "stone",
+        "marble",
+        "luxury"
+      ]
+    },
+    {
+      "id": "luxury-velvet-display",
+      "label": "Luxury Velvet Display",
+      "prompt": "on a premium velvet jewelry display with rich tactile texture and controlled luxury lighting",
+      "category": "Display",
+      "allowed_product_types": "jewelry, accessory",
+      "allowed_presentations": "tabletop-still-life, bust-display, campaign-poster",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "velvet",
+        "jewelry",
+        "premium"
+      ]
+    },
+    {
+      "id": "emerald-luxury-display",
+      "label": "Emerald Luxury Display",
+      "prompt": "within a deep emerald premium retail display environment with sophisticated material contrast and restrained gold accents",
+      "category": "Retail",
+      "allowed_product_types": "all",
+      "allowed_presentations": "all",
+      "active": true,
+      "sort": 6,
+      "tags": [
+        "emerald",
+        "retail",
+        "luxury",
+        "boutique"
+      ]
+    },
+    {
+      "id": "dark-editorial-background",
+      "label": "Dark Editorial Background",
+      "prompt": "against a deep dark editorial background with dramatic controlled lighting and elegant shadow falloff",
+      "category": "Editorial",
+      "allowed_product_types": "all",
+      "allowed_presentations": "tabletop-still-life, bust-display, worn-close-up, campaign-poster",
+      "active": true,
+      "sort": 7,
+      "tags": [
+        "dark",
+        "editorial",
+        "dramatic"
+      ]
+    },
+    {
+      "id": "scandinavian-dressing-corner",
+      "label": "Scandinavian Dressing Corner",
+      "prompt": "in a Bright Scandinavian Boutique Dressing Corner. The interior features soft off-white walls, light natural wood flooring, a tall rounded full-length mirror leaning against the wall on the left, and a natural woven jute rug, product clearly visible and dominant",
+      "category": "Boutique",
+      "allowed_product_types": "all",
+      "allowed_presentations": "all",
+      "active": true,
+      "sort": 8,
+      "tags": [
+        "bright",
+        "minimalism",
+        "clean"
+      ]
+    },
+    {
+      "id": "indoor-serene-neutral-minimalist-interior",
+      "label": "Serene Neutral Minimalist Interior",
+      "prompt": "inside a serene minimalist neutral interior with cream walls, a tall window with sheer white curtains, soft natural daylight, a slim brass floor lamp, a large green indoor plant, an ivory accent chair, and a subtle patterned rug. Calm, clean, elegant, and cozy atmosphere",
+      "category": "indoor",
+      "allowed_product_types": "all",
+      "allowed_presentations": "all",
+      "active": true,
+      "sort": 9,
+      "tags": [
+        "indoor",
+        "serene interior",
+        "minimalist interior",
+        "cream walls",
+        "sheer curtains",
+        "natural daylight",
+        "brass floor lamp",
+        "indoor plant",
+        "ivory chair",
+        "patterned rug",
+        "calm",
+        "cozy",
+        "setting"
+      ]
+    }
+  ],
+  "productShots": [
+    {
+      "id": "full-product",
+      "label": "Full Product",
+      "prompt": "full product clearly visible within the frame",
+      "category": "Catalog",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "full",
+        "product",
+        "catalog"
+      ]
+    },
+    {
+      "id": "medium-product",
+      "label": "Medium Product Shot",
+      "prompt": "medium product-focused composition",
+      "category": "Catalog",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "medium",
+        "product"
+      ]
+    },
+    {
+      "id": "close-up",
+      "label": "Close-Up",
+      "prompt": "close-up composition emphasizing the product while retaining enough visual context",
+      "category": "Detail",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "close-up",
+        "detail"
+      ]
+    },
+    {
+      "id": "macro-detail",
+      "label": "Macro Detail",
+      "prompt": "macro-detail composition emphasizing craftsmanship, texture, material, and fine product details",
+      "category": "Detail",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "macro",
+        "texture",
+        "detail"
+      ]
+    }
+  ],
+  "productCompositions": [
+    {
+      "id": "single-product",
+      "label": "Single Product",
+      "prompt": "featuring one product as the sole visual hero",
+      "category": "Catalog",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "single",
+        "hero"
+      ]
+    },
+    {
+      "id": "pair",
+      "label": "Pair",
+      "prompt": "presenting the matching pair together in a balanced composition",
+      "category": "Catalog",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "pair",
+        "shoes",
+        "matching"
+      ]
+    },
+    {
+      "id": "set",
+      "label": "Product Set",
+      "prompt": "presenting the complete matching product set together as one coordinated display",
+      "category": "Catalog",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "set",
+        "coordinated"
+      ]
+    },
+    {
+      "id": "collection",
+      "label": "Collection",
+      "prompt": "presenting several matching or coordinated products as a refined collection",
+      "category": "Catalog",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "collection",
+        "multiple"
+      ]
+    }
+  ],
+  "productWearContexts": [
+    {
+      "id": "blazer-lapel",
+      "label": "Blazer Lapel",
+      "prompt": "naturally attached to the lapel of an elegant tailored blazer",
+      "allowed_product_types": "jewelry, accessory",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "blazer",
+        "lapel",
+        "brooch"
+      ]
+    },
+    {
+      "id": "modest-outfit-chest",
+      "label": "Modest Outfit / Chest",
+      "prompt": "naturally positioned on the upper chest area of a refined modest outfit",
+      "allowed_product_types": "jewelry, accessory",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "modest",
+        "chest",
+        "brooch"
+      ]
+    },
+    {
+      "id": "hijab-scarf",
+      "label": "Hijab / Scarf",
+      "prompt": "naturally styled on a clean hijab or scarf area without obscuring the product",
+      "allowed_product_types": "jewelry, accessory",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "hijab",
+        "scarf",
+        "pin"
+      ]
+    },
+    {
+      "id": "ear",
+      "label": "Ear",
+      "prompt": "naturally worn on the ear with a clean jewelry-focused crop",
+      "allowed_product_types": "jewelry",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "ear",
+        "earrings"
+      ]
+    },
+    {
+      "id": "neck-collarbone",
+      "label": "Neck / Collarbone",
+      "prompt": "naturally worn around the neck and collarbone with refined minimal styling",
+      "allowed_product_types": "jewelry",
+      "active": true,
+      "sort": 5,
+      "tags": [
+        "neck",
+        "necklace",
+        "collarbone"
+      ]
+    },
+    {
+      "id": "wrist-hand",
+      "label": "Wrist / Hand",
+      "prompt": "naturally worn on the wrist or hand with restrained product-focused styling",
+      "allowed_product_types": "jewelry, accessory",
+      "active": true,
+      "sort": 6,
+      "tags": [
+        "wrist",
+        "hand",
+        "bracelet"
+      ]
+    }
+  ],
+  "productTextOverlays": [
+    {
+      "id": "none",
+      "label": "No Text",
+      "prompt": "no typography or text overlay",
+      "headline": "FALSE",
+      "tagline": "FALSE",
+      "footer": "FALSE",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "none",
+        "clean"
+      ]
+    },
+    {
+      "id": "headline",
+      "label": "Headline Only",
+      "prompt": "include restrained premium headline typography",
+      "headline": "TRUE",
+      "tagline": "FALSE",
+      "footer": "FALSE",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "headline",
+        "campaign"
+      ]
+    },
+    {
+      "id": "headline-tagline",
+      "label": "Headline + Tagline",
+      "prompt": "include premium headline typography with a short supporting tagline",
+      "headline": "TRUE",
+      "tagline": "TRUE",
+      "footer": "FALSE",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "headline",
+        "tagline",
+        "campaign"
+      ]
+    },
+    {
+      "id": "full-campaign-copy",
+      "label": "Headline + Tagline + Footer",
+      "prompt": "include headline, supporting tagline, and a subtle footer line in a refined advertising layout",
+      "headline": "TRUE",
+      "tagline": "TRUE",
+      "footer": "TRUE",
+      "active": true,
+      "sort": 4,
+      "tags": [
+        "headline",
+        "tagline",
+        "footer",
+        "campaign"
+      ]
+    }
+  ],
+  "productPreservationLevels": [
+    {
+      "id": "exact",
+      "label": "Exact Product Preservation",
+      "category": "Balanced",
+      "intro_template": "Using the provided reference image as the source product, create a photorealistic catalog image while preserving the {{product_noun}} exactly as shown. Preserve its {{preserve_details}}. Create the image in a {{aspect_ratio}} aspect ratio.",
+      "closing_prompt": "Keep the original product clearly recognizable and unchanged.",
+      "active": true,
+      "sort": 1,
+      "tags": [
+        "exact",
+        "product",
+        "preservation"
+      ]
+    },
+    {
+      "id": "exact-strict",
+      "label": "Exact Strict Preservation",
+      "category": "Recommended",
+      "intro_template": "Using the provided reference image as the source product, create a photorealistic catalog image while preserving the {{product_noun}} exactly as shown. Do not alter its {{preserve_details}}. Create the image in a {{aspect_ratio}} aspect ratio.",
+      "closing_prompt": "Keep the product as the clear focal point. No product redesign, recoloring, material substitution, distortion, removal, addition, or modification of any original product detail.",
+      "active": true,
+      "sort": 2,
+      "tags": [
+        "strict",
+        "exact",
+        "recommended"
+      ]
+    },
+    {
+      "id": "ultra-strict",
+      "label": "Ultra Strict Preservation",
+      "category": "Maximum Control",
+      "intro_template": "Use the provided reference product exactly as shown. Do not redesign, recolor, restyle, simplify, replace, crop away, obscure, reinterpret, or modify any part of the {{product_noun}}. Preserve its {{preserve_details}}. Create a photorealistic image in a {{aspect_ratio}} aspect ratio.",
+      "closing_prompt": "Do not add, remove, replace, distort, cover, reshape, or reinterpret any part of the original product. The environment and presentation may change; the product itself must remain visually identical to the reference.",
+      "active": true,
+      "sort": 3,
+      "tags": [
+        "ultra",
+        "strict",
+        "maximum"
+      ]
     }
   ]
 }
