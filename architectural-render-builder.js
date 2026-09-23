@@ -52,6 +52,10 @@
 
     const ratioGuard = "If the requested aspect ratio differs from the source image, preserve the complete architecture and its proportions. Extend only the surrounding sky, ground, or site environment as needed. Do not crop, stretch, compress, or alter the architecture to fit the frame.";
 
+    const qualityRules = global.ArchitecturePromptQuality?.renderQuality?.(state) || [];
+    const qualityBlock = qualityRules.length
+      ? `Architectural quality discipline: ${qualityRules.join(" ")}`
+      : "";
     const realismBlock = `${realismClosing} ${INVENTION_GUARD}`;
     const extra = sentence(state.extraInstruction);
 
@@ -59,6 +63,7 @@
       sentence(opening),
       sentence(fidelityRule),
       sentence(directionBlock),
+      sentence(qualityBlock),
       sentence(ratioGuard),
       sentence(realismBlock),
       extra
