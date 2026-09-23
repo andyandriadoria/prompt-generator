@@ -69,6 +69,16 @@ Key changes:
 - `fallback.json` was fully refreshed from the live 4.5 Google Sheet on 2026-09-23, including current Catalog, Outfit Focus, Product, Prompt Mode, and Architecture CONFIG data.
 
 
+### 4.5 Refinement — Sketch Style Core Set (2026-09-23)
+
+- reduced active Architectural Concept Sketch Styles from eight to six based on side-by-side output review;
+- active set: Clean Architectural Line Sketch, Loose Concept Sketch, Bold Ink Perspective Sketch, Soft Watercolor Architectural Sketch, Marker Presentation Sketch, and Urban Observational Sketch;
+- renamed Clean Facade Line Sketch to Clean Architectural Line Sketch while preserving stable ID `refined-line-drawing`;
+- deactivated but did not delete `concept-presentation` and `mixed-media` source rows;
+- legacy Saved Prompts migrate `concept-presentation` → `refined-line-drawing` and `mixed-media` → `marker-sketch`;
+- synchronized CONFIG-derived fallback data and production cache keys;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ### 4.5 Feature — Style Semantic Profile (2026-09-23)
 
 - added model-facing `SEMANTIC_PROFILE` metadata for all 32 Architectural Styles in `ARCH_STYLE_OPTIONS`;
