@@ -125,18 +125,16 @@
     const parts = [];
     const fidelity = clean(state.fidelity) || "strict";
     const categoryRule = typologyPriority(state.buildingCategory);
+    const buildingRule = typePriority(state.buildingType);
+    const typologyRule = buildingRule || categoryRule;
 
-    if (categoryRule) {
+    if (typologyRule) {
+      const scope = buildingRule ? "Building-type" : "Typology";
       parts.push(
         fidelity === "strict"
-          ? `Typology presentation priority: communicate the intended building type through realistic light, material reading, scale, and context without altering the reference architecture. ${categoryRule}`
-          : `Typology design priority: ${categoryRule}`
+          ? `${scope} presentation priority: communicate the intended building use through realistic light, material reading, scale, and context without altering the reference architecture. ${typologyRule}`
+          : `${scope} design priority: ${typologyRule}`
       );
-    }
-
-    const buildingRule = typePriority(state.buildingType);
-    if (buildingRule) {
-      parts.push(`Building-type priority: ${buildingRule}`);
     }
 
     const inputRule = INPUT_RULES[state.inputType];
@@ -167,14 +165,11 @@
     const photography = state.outputRepresentation === "architectural-photography";
     const sceneType = clean(state.sceneType);
     const categoryRule = typologyPriority(state.buildingCategory, sceneType);
-
-    if (categoryRule) {
-      parts.push(`Typology priority: ${categoryRule}`);
-    }
-
     const buildingRule = typePriority(state.buildingType, sceneType);
-    if (buildingRule) {
-      parts.push(`Building-type priority: ${buildingRule}`);
+    const typologyRule = buildingRule || categoryRule;
+
+    if (typologyRule) {
+      parts.push(`${buildingRule ? "Building-type" : "Typology"} priority: ${typologyRule}`);
     }
 
     if (state.inputType === "reference-image") {
