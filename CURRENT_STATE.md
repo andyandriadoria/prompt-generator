@@ -729,6 +729,20 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - legacy hierarchy wording removed from the documentation/runtime baseline; `fallback.json` synchronized and production cache bundle bumped to `4.5-pen-finetune-3`;
 - no Apps Script redeploy required; `config.js` unchanged.
 
+## 2026-09-24 Scene-aware Lighting / Time
+
+- Lighting / Time is now filtered by Scene Type in Architectural Concept Builder;
+- Exterior options: Morning Light, Midday Light, Golden Hour, Overcast Daylight, and Evening Light;
+- Interior options: Soft Interior Daylight, Morning Window Light, Bright Midday Interior, Golden Hour Interior, Overcast Interior Daylight, Evening Ambient Interior, and Night Interior Lighting;
+- `soft-interior-daylight` remains the recommended Interior default; `morning-light` remains the recommended Exterior default;
+- generic legacy lighting values restore safely across scenes using scene-specific aliases, e.g. `midday` → `bright-midday-interior` and `golden-hour` → `golden-hour-interior` for Interior;
+- changing Scene Type preserves a manually chosen lighting value when compatible and normalizes it only when the previous value is incompatible;
+- Smart Random now draws only from lighting options compatible with the active scene;
+- lighting hint copy now shows the selected option description, recommended scene default, and compatibility note;
+- CONFIG and `fallback.json` synchronized with 12 active lighting records (5 Exterior + 7 Interior);
+- production cache bundle bumped to `4.5-scene-lighting-1`;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ## Next Product Opportunities
 
 Potential future directions, not yet baseline features:
