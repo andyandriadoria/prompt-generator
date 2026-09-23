@@ -720,13 +720,13 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 ## 2026-09-23 Precise Pen Fine-Tuning
 
 - fine-tuned `refined-line-drawing` around three explicit controls: line hierarchy, hatch discipline, and white-space control;
-- line hierarchy now uses three levels: slightly heavier primary silhouettes, medium architectural edges, and fine tertiary detail / hatching;
+- line hierarchy now uses one authoritative four-level system: Heavy for main structural silhouette / primary building edges / key foreground; Medium for windows, doors, columns, railings, and important architectural features; Light for furniture, material textures, secondary landscape, and surface articulation; Very Light for distant background details, subtle patterns, and faint perspective / construction guides;
 - depth and shadow are instructed to come primarily from directional hatching and controlled crosshatching rather than smooth gray washes or gradients;
 - detail density now falls off toward vegetation and peripheral context so the main architectural mass remains the most resolved area;
 - generous untouched white paper is preserved as an active compositional rule;
 - negative guidance now blocks smooth gray tonal rendering, airbrush-like gradients, and uniform edge-to-edge detail density in addition to watercolor / marker / painterly behaviors;
 - shared semantic composer adds a `refined-line-drawing`-specific Pen-drawing discipline so the behavior survives even when the style prompt is combined with other architecture controls;
-- `fallback.json` synchronized and production cache bundle bumped to `4.5-pen-finetune-1`;
+- legacy three-level wording removed from documentation/runtime baseline; `fallback.json` synchronized and production cache bundle bumped to `4.5-pen-finetune-3`;
 - no Apps Script redeploy required; `config.js` unchanged.
 
 ## Next Product Opportunities
