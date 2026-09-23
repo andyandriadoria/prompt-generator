@@ -128,6 +128,20 @@ The hidden `_JSON` columns and CONFIG JSON cells are generated automatically wit
 
 This bridge keeps the current Apps Script CONFIG payload compatible, so the 2026-09-19 architecture-option migration does **not** require an Apps Script redeploy.
 
+### Architecture Prompt Quality Composer
+
+Architecture prompts use a shared semantic composer in `architecture-prompt-quality.js`. It adds no new dropdowns. Instead it reads the existing combination of Building Category / Type, Input Type, Design Fidelity, Output Representation, Scene Type, Realism Target, Architectural Style, Materials, View / Projection, and Human Presence.
+
+Key behaviors:
+- Building Type rules override broader category rules when a more specific priority exists; category rules remain the fallback.
+- STRICT Render converts typology guidance into presentation/readability priorities and explicitly forbids the quality layer from redesigning reference architecture.
+- Balanced and Creative Render apply different style-discipline language.
+- Sketch / Linework, Massing / Clay Model, Existing Photo, and Reference Image receive different reference-interpretation rules.
+- Architectural Photography receives camera, scene-realism, selected-realism-target, and human-scale discipline.
+- technical Sketch projections use projection-consistency language instead of generic photographic perspective language.
+- unspecified Concept / Brief details may be resolved coherently from typology and style, while arbitrary ornament and contradictory structure are discouraged.
+- the semantic composer is behavioral code, not user-editable option content; Google Sheets remains the source of truth for selectable data and descriptions.
+
 ## Architectural Concept Builder
 
 The existing internal mode ID `architectural_sketch` is intentionally retained for Saved Prompt and frontend compatibility, but its production UI label is **Architectural Concept Builder**. It is the concept-first workflow; use **Architectural Render** when preserving an existing design, geometry, or source view with explicit Design Fidelity is the priority.
