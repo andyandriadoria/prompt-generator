@@ -800,7 +800,8 @@
 
       if (!isSketchRandomLocked("archSketchHumanScale")) {
         if (photography) {
-          setValue(elements.archSketchHumanScale, pickRandom(options.humanScale)?.id || "none");
+          const photoHumans = (options.humanScale || []).filter(item => !NON_PHOTOGRAPHIC_HUMAN_IDS.has(item.id));
+          setValue(elements.archSketchHumanScale, pickRandom(photoHumans)?.id || "none");
         } else {
           const recommended = recommendedHumanForStyle();
           const useNone = recommended && recommended !== "none" && Math.random() < 0.25;
@@ -835,6 +836,11 @@
 
       searchable.forEach(control => control.syncFromNative?.());
       updateRepresentationUi();
+      updateTaxonomyUi();
+      updateFeatureHint();
+      updatePhotoRealismHint();
+      updateViewHint();
+      updateAnnotationHint();
       updateStyleHint();
       updateSurfaceHint();
       updateLightingHint();
