@@ -1,6 +1,6 @@
 # Prompt Gen — Current State
 
-**Baseline date:** 2026-09-20  
+**Baseline date:** 2026-09-23  
 **Production baseline:** Prompt Gen 4.5
 
 This file is the primary baseline for future Prompt Gen work.
@@ -41,14 +41,14 @@ Current CONFIG baseline:
 | styleApplyMode | replace |
 | includeNegativePrompt | FALSE |
 | defaultPromptMode | creative |
-| defaultCatalogAspectRatio | 4:5 |
+| defaultCatalogAspectRatio | 9:16 |
 | defaultPreservationLevel | exact-strict |
-| defaultCatalogType | modest-children |
+| defaultCatalogType | lifestyle-fashion |
 | defaultCatalogPose | natural-pose |
-| defaultCatalogShot | medium-shot |
-| defaultCatalogSubject | young-indonesian-hijabi-girl |
-| defaultCatalogSetting | luxury-living-room |
-| defaultOutfitFocusStyle | headless-outfit-crop |
+| defaultCatalogShot | full-body |
+| defaultCatalogSubject | indonesian-hijabi-woman |
+| defaultCatalogSetting | indoor-serene-neutral-minimalist-interior |
+| defaultOutfitFocusStyle | blank |
 | defaultProductType | clothing |
 | defaultProductPresentation | hanging-product |
 | defaultProductSetting | minimal-studio |
@@ -57,6 +57,27 @@ Current CONFIG baseline:
 | defaultProductAspectRatio | 4:5 |
 | defaultProductPreservation | exact-strict |
 | defaultProductTextOverlay | none |
+| defaultProductPosterAspectRatio | 9:16 |
+| defaultArchitecturalRenderInputType | reference-image |
+| defaultArchitecturalRenderFidelity | strict |
+| defaultArchitecturalRenderRealismTarget | hyper-real-photo |
+| defaultArchitecturalRenderLighting | daylight |
+| defaultArchitecturalRenderAspectRatio | 16:9 |
+| defaultArchitecturalSketchInputType | concept-prompt |
+| defaultArchitecturalSketchOutputRepresentation | sketch-presentation |
+| defaultArchitecturalSketchPhotoRealismTarget | hyper-real-architectural-photo |
+| defaultArchitecturalSketchSceneType | exterior |
+| defaultArchitecturalSketchStyle | watercolor-sketch |
+| defaultArchitecturalSketchMedium | watercolor-paper |
+| defaultArchitecturalSketchLineQuality | auto-follow-style |
+| defaultArchitecturalSketchColorTreatment | auto-follow-style |
+| defaultArchitecturalSketchLighting | morning-light |
+| defaultArchitecturalSketchMood | calm |
+| defaultArchitecturalSketchHumanScale | none |
+| defaultArchitecturalSketchExteriorView | three-quarter-exterior |
+| defaultArchitecturalSketchInteriorView | interior-corner |
+| defaultArchitecturalSketchAnnotationText | no-text |
+| defaultArchitecturalSketchAspectRatio | 4:5 |
 
 Active Prompt Modes:
 - Creative Prompt Builder
@@ -150,7 +171,7 @@ Stable IDs are retained where practical so previous History references remain co
 
 Data source:
 - Google Sheets collection: `OUTFIT_FOCUS_STYLES`
-- default CONFIG key: `defaultOutfitFocusStyle = headless-outfit-crop`
+- default CONFIG key is currently blank (`defaultOutfitFocusStyle = ""`), so Outfit Focus Style is opt-in rather than preselected
 
 Important behavior:
 - `OUTFIT_USAGE` drives whether the garment is worn, held in front of the subject, or displayed on a hanger;
@@ -263,13 +284,13 @@ Data:
 - Building Category / Building Type and Architectural Style Category / Architectural Style use the shared Architecture Taxonomy described below; category fields are navigation metadata and are never emitted into prompts.
 - Architectural Render initialization uses a dedicated `loadOptions` parameter so the module-level render `options` state is populated correctly; this prevents the Render card from disappearing because `isReady()` sees a null options state.
 - `fallback.json.promptModes` mirrors all active rows from Google Sheets `PROMPT_MODES`, including Architectural Render, so the mode remains available on fallback paths.
-- Prompt Mode cards are re-ordered after async module insertion using each mode's configured `SORT` value, preventing load timing from changing the visual order. Current production order is Creative → Outfit Catalog → Product Catalog → Product Poster → Architectural Render → Architectural Sketch.
+- Prompt Mode cards are re-ordered after async module insertion using each mode's configured `SORT` value, preventing load timing from changing the visual order. Current production order is Creative → Outfit Catalog → Product Catalog → Product Poster → Architectural Render → Architectural Concept Builder.
 - Generated Prompt output ownership is mode-aware: the core `app.js` generator may write output only while the active mode is `creative` or `outfit_catalog`; Product Catalog, Product Poster, Architectural Render, and Architectural Sketch own their own output while active.
 - `promptgen:modechange` keeps the core mode state synchronized with externally loaded modes, and global form auto-generation is ignored while an external mode owns the Build console.
 
-## Architectural Sketch Builder Baseline
+## Architectural Concept Builder Baseline
 
-Architectural Sketch Builder is a dedicated prompt mode for hand-drawn architectural concepts, presentation sketches, and sketch-style translations of existing designs.
+Architectural Concept Builder is the production label for the stable internal mode `architectural_sketch`. It supports concept-driven architectural visualization as Sketch Presentation or Architectural Photography.
 
 Core fields:
 - Input Type
@@ -479,7 +500,7 @@ Do not regress below these practical targets:
 
 Workspace and Prompt Mode are separate concepts:
 
-- **Build** — all active authoring workflows: Creative, Reference Outfit Catalog, Reference Product Catalog, Product Poster Builder, Architectural Render, and Architectural Sketch Builder.
+- **Build** — all active authoring workflows: Creative, Reference Outfit Catalog, Reference Product Catalog, Product Poster Builder, Architectural Render, and Architectural Concept Builder.
 - **Saved** — browser-local Saved Prompt Library. Stores reusable prompt templates in IndexedDB together with complete Build state, optional generated-result image, and notes. Supports search, mode filtering, preview, edit, copy, delete, and Restore to Build.
 
 The previous Inspect workspace was removed on 2026-09-02. The previous History workspace was replaced by Saved Prompt Library on 2026-09-06.
@@ -553,7 +574,7 @@ Photography prompt opening follows the selected realism target. The default Hype
 - `Refresh Now` should bypass stale state as intended.
 - `fallback.json` must remain compatible with the API payload structure.
 - `PRODUCT_*` and `outfitFocusStyles` are treated as optional additive collections by the frontend loader so older fallback payloads do not break Creative / core Outfit Catalog.
-- `fallback.json` metadata and Architectural Render / Architectural Sketch option CONFIG were synchronized on 2026-09-19 as part of the Sheets-driven architecture-option migration.
+- `fallback.json` was fully refreshed from the live `Database_Prompt_Gen_4_5` source on 2026-09-23, including CONFIG, active/inactive source rows, shared Settings, Outfit Focus, Product Catalog collections, Prompt Modes, and Architecture CONFIG mirrors. It remains a resilience snapshot; Google Sheets is the source of truth.
 - Frontend-only updates should not require Apps Script redeployment.
 - Workstation V2 is a presentation-layer migration only: no Google Sheets schema or Apps Script API contract change is required, and production `config.js` remains untouched.
 - `config.js` was preserved during the Reference Product Catalog, Outfit Focus Style, and shared Setting expansions.
@@ -584,6 +605,17 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - JavaScript retains only compact emergency fallbacks;
 - `config.js` unchanged.
 
+## 2026-09-23 Sync & Stability Refresh
+
+- live Google Sheets remained the source of truth and required no schema repair;
+- `fallback.json` was regenerated from current Sheet values for CONFIG and all API-backed core, Catalog, Outfit Focus, and Product collections;
+- stale Catalog defaults in fallback were replaced with the live defaults: 9:16, Lifestyle Fashion, Full Body, Indonesian Hijabi Woman, and the current shared Setting ID;
+- blank `defaultOutfitFocusStyle` is intentional and matches production;
+- Product Catalog and Outfit Focus collections are now present in fallback instead of depending on the live API only;
+- legacy `CATALOG_SETTINGS` rows are preserved in the resilience snapshot with their live ACTIVE state; Reference Outfit Catalog continues to use master `SETTINGS`;
+- `CURRENT_STATE.md` was refreshed to match the live CONFIG and production mode naming;
+- no Apps Script redeploy or Google Sheets edit was required for this synchronization.
+
 ## Next Product Opportunities
 
 Potential future directions, not yet baseline features:
@@ -592,7 +624,7 @@ Potential future directions, not yet baseline features:
 - Prompt Intelligence v2 expansion
 - deeper semantic conflict / redundancy detection
 - richer prompt completeness diagnostics
-- fallback payload refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style collections
+- automate Sheet → fallback snapshot generation and drift validation so future syncs do not rely on manual refreshes
 - retire `CATALOG_SETTINGS` only after legacy History compatibility is no longer needed
 
 Do not treat these as implemented unless production source confirms them.
