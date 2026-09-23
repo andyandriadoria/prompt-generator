@@ -77,6 +77,14 @@
     "casual-people-scale": "small-human-group"
   };
 
+  const NON_PHOTOGRAPHIC_VIEW_IDS = new Set([
+    "axonometric-isometric",
+    "orthographic-elevation",
+    "section-perspective",
+    "sketchbook-perspective"
+  ]);
+  const NON_PHOTOGRAPHIC_HUMAN_IDS = new Set(["silhouette-figures"]);
+
   const elements = {};
   const searchable = new Map();
   let database = null;
@@ -136,11 +144,11 @@
   function cacheSketchElements() {
     [
       "architecturalSketchFields", "archSketchInputType", "archSketchOutputRepresentation", "archSketchSceneType",
-      "archSketchBuildingCategory", "archSketchBuildingType", "archSketchCustomBuildingType", "archSketchCustomBuildingRow",
-      "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyle", "archSketchCustomArchitectureStyleRow",
-      "archSketchStyle", "archSketchStyleRow", "archSketchMedium", "archSketchMediumRow", "archSketchPhotoRealismTarget", "archSketchPhotoRealismTargetRow", "archSketchTextSignagePolicy", "archSketchTextSignagePolicyRow", "archSketchTextSignageHint", "archSketchWorkflowHint", "archSketchLineQuality",
+      "archSketchBuildingCategory", "archSketchBuildingType", "archSketchCustomBuildingType", "archSketchCustomBuildingRow", "archSketchBuildingCategoryHint", "archSketchBuildingTypeHint",
+      "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyle", "archSketchCustomArchitectureStyleRow", "archSketchStyleCategoryHint", "archSketchArchitectureStyleHint",
+      "archSketchStyle", "archSketchStyleRow", "archSketchMedium", "archSketchMediumRow", "archSketchPhotoRealismTarget", "archSketchPhotoRealismTargetRow", "archSketchPhotoRealismTargetHint", "archSketchTextSignagePolicy", "archSketchTextSignagePolicyRow", "archSketchTextSignageHint", "archSketchWorkflowHint", "archSketchOutputRepresentationHint", "archSketchLineQuality",
       "archSketchColorTreatment", "archSketchLighting", "archSketchMood", "archSketchLandscape",
-      "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAnnotationText", "archSketchAnnotationTextRow", "archSketchAspectRatio",
+      "archSketchFeatures", "archSketchFeaturesHint", "archSketchHumanScale", "archSketchCameraView", "archSketchCameraViewHint", "archSketchAnnotationText", "archSketchAnnotationTextRow", "archSketchAnnotationTextHint", "archSketchAspectRatio",
       "archSketchExtraInstruction", "archSketchStyleHint", "archSketchSurfaceHint", "archSketchLightingHint", "archSketchHumanScaleHint",
       "archSketchTip", "archSketchAdvanced", "archSketchAdvancedState"
     ].forEach(id => elements[id] = document.getElementById(id));
@@ -165,14 +173,14 @@
       </div>
 
       <div class="field-row"><label for="archSketchInputType">Input Type</label><div><select id="archSketchInputType"></select><p class="help-text" id="archSketchWorkflowHint">Concept-first workflow. Use this mode to develop an idea, brief, or reference into a new representation.</p></div></div>
-      <div class="field-row"><label for="archSketchOutputRepresentation">Output Representation</label><div><select id="archSketchOutputRepresentation"></select><p class="help-text">Choose Sketch Presentation or Architectural Photography. Shared project, architecture, lighting, atmosphere, and view controls remain available in both.</p></div></div>
-      <div class="field-row"><label for="archSketchBuildingCategory">Building Category</label><select id="archSketchBuildingCategory"></select></div>
-      <div class="field-row"><label for="archSketchBuildingType">Building Type</label><select id="archSketchBuildingType"></select></div>
+      <div class="field-row"><label for="archSketchOutputRepresentation">Output Representation</label><div><select id="archSketchOutputRepresentation"></select><p class="help-text" id="archSketchOutputRepresentationHint">Choose Sketch Presentation or Architectural Photography.</p></div></div>
+      <div class="field-row"><label for="archSketchBuildingCategory">Building Category</label><div><select id="archSketchBuildingCategory"></select><p class="help-text arch-taxonomy-help" id="archSketchBuildingCategoryHint"></p></div></div>
+      <div class="field-row"><label for="archSketchBuildingType">Building Type</label><div><select id="archSketchBuildingType"></select><p class="help-text arch-taxonomy-help" id="archSketchBuildingTypeHint"></p></div></div>
       <div class="field-row arch-taxonomy-custom" id="archSketchCustomBuildingRow" hidden><label for="archSketchCustomBuildingType">Custom Building Type</label><input id="archSketchCustomBuildingType" type="text" placeholder="Example: mixed-use courtyard housing, tropical community pavilion"></div>
       <div class="field-row"><label for="archSketchSceneType">Scene Type</label><select id="archSketchSceneType"></select></div>
       <div class="field-row" id="archSketchStyleRow"><label for="archSketchStyle">Sketch Style</label><div><select id="archSketchStyle"></select><p class="help-text arch-sketch-style-hint" id="archSketchStyleHint"></p></div></div>
       <div class="field-row" id="archSketchMediumRow"><label for="archSketchMedium">Paper / Surface</label><div><select id="archSketchMedium"></select><p class="help-text arch-sketch-surface-hint" id="archSketchSurfaceHint"></p></div></div>
-      <div class="field-row" id="archSketchPhotoRealismTargetRow" hidden><label for="archSketchPhotoRealismTarget">Photo Realism Target</label><div><select id="archSketchPhotoRealismTarget"></select><p class="help-text">Controls the photographic representation only; project geometry, architecture style, lighting, atmosphere, and view remain separate.</p></div></div>
+      <div class="field-row" id="archSketchPhotoRealismTargetRow" hidden><label for="archSketchPhotoRealismTarget">Photo Realism Target</label><div><select id="archSketchPhotoRealismTarget"></select><p class="help-text" id="archSketchPhotoRealismTargetHint"></p></div></div>
       <div class="field-row" id="archSketchTextSignagePolicyRow" hidden><label for="archSketchTextSignagePolicy">Text / Signage Policy</label><div><select id="archSketchTextSignagePolicy"></select><p class="help-text" id="archSketchTextSignageHint">Photography-only control. Default blocks invented lettering without forcing existing reference signage to disappear.</p></div></div>
 
       <details class="arch-sketch-advanced" id="archSketchAdvanced">
@@ -186,16 +194,16 @@
           <div class="field-row"><label for="archSketchColorTreatment">Color Treatment</label><select id="archSketchColorTreatment"></select></div>
         </div>
       </details>
-      <div class="field-row"><label for="archSketchStyleCategory">Architectural Style Category</label><select id="archSketchStyleCategory"></select></div>
-      <div class="field-row"><label for="archSketchArchitectureStyle">Architectural Style</label><select id="archSketchArchitectureStyle"></select></div>
+      <div class="field-row"><label for="archSketchStyleCategory">Architectural Style Category</label><div><select id="archSketchStyleCategory"></select><p class="help-text arch-taxonomy-help" id="archSketchStyleCategoryHint"></p></div></div>
+      <div class="field-row"><label for="archSketchArchitectureStyle">Architectural Style</label><div><select id="archSketchArchitectureStyle"></select><p class="help-text arch-taxonomy-help" id="archSketchArchitectureStyleHint"></p></div></div>
       <div class="field-row arch-taxonomy-custom" id="archSketchCustomArchitectureStyleRow" hidden><label for="archSketchCustomArchitectureStyle">Custom Architectural Style</label><input id="archSketchCustomArchitectureStyle" type="text" placeholder="Example: tropical contemporary with subtle Japanese influence"></div>
       <div class="field-row"><label for="archSketchLighting">Lighting / Time</label><div><select id="archSketchLighting"></select><p class="help-text" id="archSketchLightingHint"></p></div></div>
       <div class="field-row"><label for="archSketchMood">Atmosphere / Character</label><div><select id="archSketchMood"></select><p class="help-text">Spatial character only; lighting stays in Lighting / Time and weather stays in Site / Context.</p></div></div>
       <div class="field-row"><label for="archSketchLandscape">Site / Context <span class="optional-label">optional</span></label><div><textarea id="archSketchLandscape" class="short-textarea" placeholder="Example: restrained tropical planting, stone paving, urban sidewalk, light rain and wet ground"></textarea><p class="help-text">Physical surroundings only: planting, hardscape, terrain, streetscape, adjacent context, and weather/site conditions.</p></div></div>
-      <div class="field-row"><label for="archSketchFeatures">Architectural Feature Emphasis <span class="optional-label">optional</span></label><div><textarea id="archSketchFeatures" class="short-textarea" placeholder="Example: deep entrance canopy, vertical timber screens, arched colonnade, central courtyard"></textarea><p class="help-text">Specific building elements to highlight. In Reference Image mode, only existing reference features may be emphasized.</p></div></div>
+      <div class="field-row"><label for="archSketchFeatures">Architectural Feature Emphasis <span class="optional-label">optional</span></label><div><textarea id="archSketchFeatures" class="short-textarea" placeholder="Example: deep entrance canopy, vertical timber screens, arched colonnade, central courtyard"></textarea><p class="help-text" id="archSketchFeaturesHint">Specific building elements to highlight.</p></div></div>
       <div class="field-row"><label for="archSketchHumanScale">Human Presence / Scale</label><div><select id="archSketchHumanScale"></select><p class="help-text" id="archSketchHumanScaleHint"></p></div></div>
-      <div class="field-row"><label for="archSketchCameraView">View / Projection</label><div><select id="archSketchCameraView"></select><p class="help-text">Options are filtered by Scene Type. Exterior and Interior use only compatible architectural views.</p></div></div>
-      <div class="field-row" id="archSketchAnnotationTextRow"><label for="archSketchAnnotationText">Annotations / Text</label><div><select id="archSketchAnnotationText"></select><p class="help-text">Default is no text: generated signage, labels, handwritten notes, dates, signatures, watermarks, and decorative lettering are suppressed.</p></div></div>
+      <div class="field-row"><label for="archSketchCameraView">View / Projection</label><div><select id="archSketchCameraView"></select><p class="help-text" id="archSketchCameraViewHint"></p></div></div>
+      <div class="field-row" id="archSketchAnnotationTextRow"><label for="archSketchAnnotationText">Annotations / Text</label><div><select id="archSketchAnnotationText"></select><p class="help-text" id="archSketchAnnotationTextHint"></p></div></div>
       <div class="field-row"><label for="archSketchAspectRatio">Aspect Ratio</label><select id="archSketchAspectRatio"></select></div>
       <div class="field-row"><label for="archSketchExtraInstruction">Extra Instruction <span class="optional-label">optional</span></label><textarea id="archSketchExtraInstruction" class="short-textarea" placeholder="Example: emphasize the entrance canopy; avoid excessive foliage; no text labels"></textarea></div>
 
