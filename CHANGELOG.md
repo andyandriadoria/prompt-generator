@@ -69,6 +69,21 @@ Key changes:
 - `fallback.json` was fully refreshed from the live 4.5 Google Sheet on 2026-09-23, including current Catalog, Outfit Focus, Product, Prompt Mode, and Architecture CONFIG data.
 
 
+### 4.5 Feature — Architecture Prompt Quality Expansion (2026-09-23)
+
+- added shared semantic composer `architecture-prompt-quality.js` used by both Architecture builders;
+- no new prompt controls were added: the composer interprets combinations already selected by the user;
+- added category-aware and selected Building Type-aware architectural priorities, with specific type rules replacing broader category rules to avoid redundancy;
+- made STRICT Render quality guidance presentation-only so it cannot silently redesign preserved reference geometry;
+- added fidelity-aware style discipline for Balanced / Creative Render, source-aware interpretation for Reference / Sketch / Massing / Existing Photo, material construction logic, realism-target rules, and camera coherence;
+- added Concept / Brief design-resolution discipline and conservative reference-image ambiguity handling;
+- added Photography scene realism, realism-target behavior, camera/lens coherence, and human-scale discipline;
+- technical Sketch projections now use projection-consistency wording instead of generic perspective wording;
+- fixed `a/an` grammar for Architectural Photography realism-target openings;
+- enriched Input Type and Scene Type DESCRIPTION metadata in `ARCH_SKETCH_OPTIONS`;
+- synchronized fallback metadata, PETUNJUK, README, current-state documentation, and production cache keys;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ### 4.5 Feature — Architecture UX (2026-09-23)
 
 - filled the shared Architecture Taxonomy DESCRIPTION metadata for all active categories, building types, and architectural styles;
