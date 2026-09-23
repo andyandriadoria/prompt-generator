@@ -17,13 +17,13 @@
     function loadWorkspaceAssets() {
         loadScript("creative-setting-unified.js?v=4.5-setting-unified-2", "creative-setting-unified-script");
         loadStyle("architectural-taxonomy.css?v=4.5-arch-taxonomy-1", "architectural-taxonomy-style");
-        loadScript("architectural-taxonomy.js?v=4.5-arch-taxonomy-1", "architectural-taxonomy-script");
+        loadScript("architectural-taxonomy.js?v=4.5-arch-ux-1", "architectural-taxonomy-script");
         loadStyle("architectural-render.css?v=4.5-arch-taxonomy-1", "architectural-render-style");
         loadScript("architectural-render-builder.js?v=4.5-arch-options-1", "architectural-render-builder-script");
-        loadScript("architectural-render-mode.js?v=4.5-arch-intelligence-1", "architectural-render-mode-script");
+        loadScript("architectural-render-mode.js?v=4.5-arch-ux-1", "architectural-render-mode-script");
         loadStyle("architectural-sketch.css?v=4.5-sketch-text-guard-2", "architectural-sketch-style");
         loadScript("architectural-sketch-builder.js?v=4.5-arch-intelligence-1", "architectural-sketch-builder-script");
-        loadScript("architectural-sketch-mode.js?v=4.5-arch-intelligence-2", "architectural-sketch-mode-script");
+        loadScript("architectural-sketch-mode.js?v=4.5-arch-ux-1", "architectural-sketch-mode-script");
         loadStyle("prompt-saved.css?v=4.5-saved-1", "prompt-saved-style");
         loadScript("prompt-saved-store.js?v=4.5-saved-5", "prompt-saved-store-script");
         loadScript("prompt-saved.js?v=4.5-saved-3", "prompt-saved-script");
