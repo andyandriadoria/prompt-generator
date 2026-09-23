@@ -120,17 +120,28 @@
     return String(value || "").replace(/\s+/g, " ").trim();
   }
 
-  function adaptStyleProfile(profile, sceneType = "") {
+  function adaptStyleProfile(profile, sceneType = "", state = {}) {
     let text = clean(profile);
-    if (!text || sceneType !== "interior") return text;
-    const swaps = [
-      [/layered facade composition/gi, "layered spatial composition"],
-      [/planar facade composition/gi, "planar composition"],
-      [/facade rhythm/gi, "spatial rhythm"],
-      [/articulated facades/gi, "articulated surfaces and openings"],
-      [/facade hierarchy/gi, "architectural hierarchy"]
-    ];
-    swaps.forEach(([pattern, value]) => { text = text.replace(pattern, value); });
+    if (!text) return "";
+
+    if (sceneType === "interior") {
+      const sceneSwaps = [
+        [/layered facade composition/gi, "layered spatial composition"],
+        [/planar facade composition/gi, "planar composition"],
+        [/facade rhythm/gi, "spatial rhythm"],
+        [/articulated facades/gi, "articulated surfaces and openings"],
+        [/facade hierarchy/gi, "architectural hierarchy"]
+      ];
+      sceneSwaps.forEach(([pattern, value]) => { text = text.replace(pattern, value); });
+    }
+
+    if (
+      state.outputRepresentation !== "architectural-photography" &&
+      state.sketchStyle === "refined-line-drawing"
+    ) {
+      text = text.replace(/expressive color and form/gi, "expressive form and tonal contrast");
+    }
+
     return text;
   }
 
@@ -215,7 +226,7 @@
     }
 
     if (clean(state.architectureStyle)) {
-      const profile = adaptStyleProfile(state.architectureStyleSemanticProfile, sceneType);
+      const profile = adaptStyleProfile(state.architectureStyleSemanticProfile, sceneType, state);
       if (state.inputType === "reference-image") {
         parts.push(
           profile
