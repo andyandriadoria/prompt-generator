@@ -66,8 +66,29 @@ Key changes:
 - Creative retains Indoor / Outdoor filtering while Reference Outfit Catalog sees the combined master Setting list;
 - no Apps Script redeploy was required for the shared Setting migration;
 - preserved `config.js` throughout;
-- `fallback.json` still needs a maintenance refresh to include current 4.5 Product Catalog, shared Settings, and Outfit Focus Style data/metadata.
+- `fallback.json` was fully refreshed from the live 4.5 Google Sheet on 2026-09-23, including current Catalog, Outfit Focus, Product, Prompt Mode, and Architecture CONFIG data.
 
+
+### 4.5 Feature — Architecture Prompt Intelligence (2026-09-23)
+
+- clarified the two architecture workflows across Prompt Mode copy and field guidance:
+  - **Architectural Render** = reference-first workflow for preserving an existing design with explicit Design Fidelity;
+  - **Architectural Concept Builder** = concept-first workflow for developing ideas, briefs, or references into Sketch Presentation or Architectural Photography;
+- added contextual Input Type guidance inside both modes so Reference Image in Concept Builder explicitly points users to Architectural Render when exact geometry/source-view preservation is required;
+- added Photography-only **Text / Signage Policy** to Architectural Concept Builder;
+- added four Sheets-driven policies in `ARCH_SKETCH_OPTIONS`:
+  - **No Invented Text — Preserve Existing** (default);
+  - **Preserve Reference Signage / Text**;
+  - **Allow Functional Architectural Signage**;
+  - **Blank Signage — No Text**;
+- removed the old universal photography no-text guard: photography now follows the selected policy, while Sketch Presentation retains the existing Annotations / Text guard;
+- made **Preserve Reference Signage / Text** input-aware: it is disabled outside Reference Image input and falls back to the default non-invention policy if the input changes;
+- added `defaultArchitecturalSketchTextSignagePolicy` and formula-bridged `architecturalSketchTextSignagePolicies` to CONFIG without changing the Apps Script contract;
+- Saved Prompt state now stores/restores Text / Signage Policy and labels the mode consistently as **Architectural Concept Builder**;
+- Workstation mode-card copy now distinguishes **Reference-first** Render from **Concept-first** Concept Builder;
+- synchronized `PROMPT_MODES`, `PETUNJUK`, `fallback.json`, README, and current-state documentation;
+- JavaScript syntax checks and prompt-builder behavior checks passed;
+- no Apps Script redeploy required; `config.js` unchanged.
 
 ### 4.5 Feature — Architectural Concept Builder (2026-09-20)
 
