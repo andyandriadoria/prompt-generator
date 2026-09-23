@@ -7,7 +7,7 @@
     id: MODE_ID,
     label: "Architectural Render",
     icon: "building",
-    description: "Turn architectural references into controlled photorealistic render prompts while preserving the original design."
+    description: "Reference-first architectural visualization with Design Fidelity for preserving an existing design, geometry, and source view."
   };
 
   const FALLBACK_OPTIONS = {
@@ -112,7 +112,10 @@
 
       <div class="field-row">
         <label for="archInputType">Input Type</label>
-        <select id="archInputType"></select>
+        <div>
+          <select id="archInputType"></select>
+          <p class="help-text">Reference-first workflow. Use Architectural Render when an existing design, geometry, or source view must remain controlled. For developing a new idea or brief, use Architectural Concept Builder.</p>
+        </div>
       </div>
 
       <div class="field-row">
