@@ -322,14 +322,12 @@ Advanced Style Controls (collapsed by default):
 - Color Treatment
 
 Sketch Style is the primary visual controller. Production style families:
-1. Clean Facade Line Sketch
+1. Clean Architectural Line Sketch
 2. Loose Concept Sketch
 3. Bold Ink Perspective Sketch
 4. Soft Watercolor Architectural Sketch
-5. Minimal Color Perspective Sketch
-6. Marker Presentation Sketch
-7. Urban Observational Sketch
-8. Marker / Mixed Media Sketch
+5. Marker Presentation Sketch
+6. Urban Observational Sketch
 
 Defaults:
 - Sketch Style: `watercolor-sketch` → **Soft Watercolor Architectural Sketch**
@@ -350,9 +348,10 @@ Prompt behavior:
 - when both Advanced controls remain on Auto, the prompt uses the selected style's built-in line and color rules without adding duplicate line/color instructions;
 - an explicit Advanced override replaces the corresponding style line/color rule while keeping the selected Sketch Style as the primary visual family;
 - legacy Saved Prompt states with explicit Line Character or Color Treatment values remain restorable and automatically reopen Advanced controls;
+- legacy Sketch Style IDs `concept-presentation` and `mixed-media` restore to `refined-line-drawing` (Clean Architectural Line Sketch) and `marker-sketch` (Marker Presentation Sketch) respectively;
 - the builder no longer applies one universal heavy line-weight paragraph to every style;
 - watercolor / marker / color styles explicitly preserve visible linework and white-paper negative space instead of collapsing into graphite or grayscale;
-- Clean Facade and ink-oriented styles can remain monochrome when a monochrome Sketch Color Mode is selected;
+- Clean Architectural Line and ink-oriented styles can remain monochrome when a monochrome Sketch Color Mode is selected;
 - `Reference Image / Existing Design` preserves the main architectural form, massing, proportions, openings, and spatial composition while translating the source into sketch language;
 - `Concept Prompt` builds the sketch from the user's concept and selected design directions;
 - `Design Brief / Idea` translates an architectural brief into a coherent sketch presentation;
@@ -695,6 +694,17 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - Custom Architectural Style remains supported; because it has no database semantic profile, the composer falls back to generic style discipline;
 - `fallback.json` synchronized with 32/32 style semantic profiles;
 - production cache bundle bumped to `4.5-style-semantic-1`;
+- no Apps Script redeploy required; `config.js` unchanged.
+
+## 2026-09-23 Sketch Style Core Set
+
+- reduced the active Sketch Style production set from eight to six visually clearer families based on actual image-output comparison;
+- retained **Clean Architectural Line Sketch**, **Loose Concept Sketch**, **Bold Ink Perspective Sketch**, **Soft Watercolor Architectural Sketch**, **Marker Presentation Sketch**, and **Urban Observational Sketch**;
+- renamed visible `Clean Facade Line Sketch` to **Clean Architectural Line Sketch** while preserving stable ID `refined-line-drawing`;
+- deactivated `Minimal Color Perspective Sketch` (`concept-presentation`) and `Marker / Mixed Media Sketch` (`mixed-media`) without deleting their source rows;
+- normalized active SORT order to 1–6; inactive legacy rows remain available for maintenance/history;
+- Saved Prompt restore maps `concept-presentation` → `refined-line-drawing` and `mixed-media` → `marker-sketch`;
+- CONFIG and `fallback.json` now expose only the six active production styles;
 - no Apps Script redeploy required; `config.js` unchanged.
 
 ## Next Product Opportunities
