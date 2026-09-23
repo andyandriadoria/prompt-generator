@@ -27,6 +27,7 @@
   }
 
   const NO_TEXT_GUARD = "Do not add any text, pseudo-text, labels, readable signage, logos, captions, handwritten notes, annotations, dates, signatures, watermarks, slogans, or decorative lettering anywhere in the image. If signage panels or signboards are part of the architecture, keep them completely blank with no characters, symbols, lettering, or invented marks.";
+  const DEFAULT_PHOTO_TEXT_POLICY = "Do not invent new readable text, logos, brand names, storefront names, slogans, dates, signatures, or decorative lettering. If a provided reference contains existing legible architectural signage or text, preserve it only where visible and supported; otherwise keep sign panels neutral or blank rather than fabricating characters.";
 
   function build(state = {}) {
     const ratio = clean(state.aspectRatio) || "4:5";
@@ -57,6 +58,7 @@
     const camera = clean(state.cameraPrompt);
     const annotationMode = clean(state.annotationText) || "no-text";
     const annotationPrompt = clean(state.annotationTextPrompt);
+    const photoTextPolicy = clean(state.textSignagePolicyPrompt) || DEFAULT_PHOTO_TEXT_POLICY;
     const extra = clean(state.extraInstruction);
 
     const opening = isPhotography
@@ -104,7 +106,7 @@
     const guard = isPhotography
       ? [
           "Keep the result clearly within architectural photography language, not as a sketch, drawing, watercolor illustration, diagram, CGI, 3D render, or stylized concept art",
-          NO_TEXT_GUARD
+          photoTextPolicy ? `Text / signage policy: ${photoTextPolicy}` : ""
         ].filter(Boolean).map(sentence).join(" ")
       : [
           "Keep the result clearly within professional architectural sketch presentation language, not photorealistic imagery, CGI, 3D archviz, or realistic digital painting",
