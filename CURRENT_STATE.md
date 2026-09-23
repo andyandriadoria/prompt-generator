@@ -642,6 +642,22 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - JavaScript syntax checks passed and prompt-builder behavior was tested for all four policy branches;
 - no Apps Script redeploy required; `config.js` unchanged.
 
+## 2026-09-23 Architecture UX
+
+- populated UX-only descriptions for all active shared Architecture Taxonomy records: 6 Building Categories, 47 Building Types, 6 Style Categories, and 32 Architectural Styles;
+- taxonomy descriptions are emitted through the existing CONFIG JSON bridge but never added to generated prompts;
+- Architectural Render and Architectural Concept Builder now show contextual category/type/style descriptions beneath the relevant fields;
+- Building Type and Architectural Style remain locked until their parent category is selected, preventing empty or contextless dependent selections;
+- Render contextual help also reflects Input Type and Realism Target, while STRICT fidelity explicitly explains that style controls are reference-controlled;
+- Concept contextual help now reflects Output Representation, Photo Realism Target, Input-aware Feature Emphasis, View / Projection, Annotations / Text, and Text / Signage Policy;
+- Architectural Photography now filters out non-camera projections: Axonometric / Isometric, Orthographic Elevation, Section Perspective, and legacy Sketchbook Perspective;
+- Sketch Presentation retains those technical projection options;
+- Architectural Photography excludes Silhouette Figures while keeping standard scale-figure choices;
+- Concept Random and Saved Prompt restore follow the same representation-aware view/human rules, with incompatible legacy Photography values normalized to a valid fallback;
+- DESCRIPTION cells in the taxonomy source sheets are wrapped for easier maintenance;
+- `fallback.json` and production cache keys were synchronized;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ## Next Product Opportunities
 
 Potential future directions, not yet baseline features:
