@@ -69,6 +69,15 @@ Key changes:
 - `fallback.json` was fully refreshed from the live 4.5 Google Sheet on 2026-09-23, including current Catalog, Outfit Focus, Product, Prompt Mode, and Architecture CONFIG data.
 
 
+### 4.5 Feature — Scene-aware Lighting / Time (2026-09-24)
+
+- split Architectural Concept Lighting / Time into scene-specific Exterior and Interior option sets;
+- added six new Interior lighting choices while refining Soft Interior Daylight as the Interior default;
+- added scene-scope filtering, compatibility normalization, legacy Saved Prompt lighting aliases, and scene-aware Smart Random behavior;
+- Exterior keeps five concise daylight/evening options; Interior now includes daylight-through-openings, evening ambient, and artificial-light-dominant night conditions;
+- synchronized Sheets, CONFIG-derived fallback data, PETUNJUK, README, current-state documentation, and production cache keys;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ### 4.5 Refinement — Precise Pen Fine-Tuning (2026-09-23)
 
 - replaced the legacy line hierarchy with a single authoritative four-level system: Heavy / Medium / Light / Very Light;
