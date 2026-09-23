@@ -29,7 +29,7 @@
     ],
     architectural_sketch: [
       { title: "Project", icon: "building", ids: ["archSketchInputType", "archSketchOutputRepresentation", "archSketchBuildingCategory", "archSketchBuildingType", "archSketchCustomBuildingRow", "archSketchSceneType"] },
-      { title: "Representation", icon: "drafting", ids: ["archSketchStyle", "archSketchMedium", "archSketchPhotoRealismTarget", "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyleRow", "archSketchHumanScale"] },
+      { title: "Representation", icon: "drafting", ids: ["archSketchStyle", "archSketchMedium", "archSketchPhotoRealismTarget", "archSketchTextSignagePolicy", "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyleRow", "archSketchHumanScale"] },
       { title: "Presentation", icon: "camera", ids: ["archSketchLighting", "archSketchMood", "archSketchCameraView", "archSketchAnnotationText", "archSketchAspectRatio"] }
     ]
   };
@@ -48,8 +48,8 @@
     outfit_catalog: "Preserve the original worn outfit.",
     reference_product_catalog: "Product-first catalog imagery.",
     reference_product_poster: "Poster design over an existing photo.",
-    architectural_render: "Photoreal architectural visualization.",
-    architectural_sketch: "Sketch or architectural photography from concepts."
+    architectural_render: "Reference-first. Preserve an existing design with fidelity control.",
+    architectural_sketch: "Concept-first. Develop ideas as sketch or architectural photography."
   };
 
   const WORKSTATION_VISUAL_ASSETS = {
