@@ -69,6 +69,19 @@ Key changes:
 - `fallback.json` was fully refreshed from the live 4.5 Google Sheet on 2026-09-23, including current Catalog, Outfit Focus, Product, Prompt Mode, and Architecture CONFIG data.
 
 
+### 4.5 Feature — Architecture UX (2026-09-23)
+
+- filled the shared Architecture Taxonomy DESCRIPTION metadata for all active categories, building types, and architectural styles;
+- added dynamic taxonomy help to both architecture modes without adding description text to generated prompts;
+- made Building Type and Architectural Style dependent selectors wait for their parent category;
+- added contextual help for Render Input Type / Realism Target and Concept Output Representation / Photography / feature-emphasis / view / annotation controls;
+- made Architectural Photography representation-aware by hiding Axonometric / Isometric, Orthographic Elevation, Section Perspective, and legacy Sketchbook Perspective;
+- excluded sketch-specific Silhouette Figures from Architectural Photography;
+- aligned Concept Random and Saved Prompt restore with the new compatibility filters;
+- wrapped taxonomy DESCRIPTION cells in Google Sheets for maintainability;
+- synchronized CONFIG-derived fallback data and bumped production architecture asset cache keys;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ### 4.5 Feature — Architecture Prompt Intelligence (2026-09-23)
 
 - clarified the two architecture workflows across Prompt Mode copy and field guidance:
