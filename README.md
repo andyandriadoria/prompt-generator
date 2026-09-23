@@ -69,6 +69,8 @@ Both **Architectural Render** and **Architectural Concept Builder** use the same
 
 Category fields are UI filters only and never enter the generated prompt. Building Type and Architectural Style each expose a frontend-only **Custom…** option that reveals a manual text input.
 
+Taxonomy descriptions are UX metadata only. `DESCRIPTION` is populated for all active Building Categories, Building Types, Style Categories, and Architectural Styles; the frontend surfaces it as contextual help beneath the relevant selectors without adding that explanatory prose to the generated prompt. Building Type and Architectural Style remain disabled until their category is selected.
+
 The taxonomy is mirrored into CONFIG with formula-generated JSON keys so the current Apps Script API contract remains unchanged.
 
 Architectural option maintenance is also row-based in Google Sheets:
@@ -146,6 +148,8 @@ Photography Text / Signage Policies:
 - Blank Signage — No Text
 
 Both paths share the same Architecture Taxonomy, Scene Type, Lighting / Time, Atmosphere / Character, Site / Context, Architectural Feature Emphasis, Human Presence / Scale, View / Projection, and Aspect Ratio controls.
+
+Contextual help follows the current selection. In Architectural Photography, View / Projection is additionally filtered to camera-plausible views; Axonometric / Isometric, Orthographic Elevation, Section Perspective, and sketchbook-only projections remain available in Sketch Presentation but are hidden from Photography. Silhouette Figures is likewise excluded from Photography while the standard scale-figure options remain available.
 
 The option data remains in `ARCH_SKETCH_OPTIONS`; the CONFIG JSON bridge exposes Output Representation, Photo Realism Target, and Text / Signage Policy without an Apps Script redeploy. Existing Saved Prompts that predate this feature restore into Sketch Presentation automatically.
 
