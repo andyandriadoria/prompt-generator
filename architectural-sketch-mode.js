@@ -814,7 +814,9 @@
       } else {
         updateViewOptions({ applySceneDefault: false });
         const sceneId = elements.archSketchSceneType.value;
-        const eligible = (options.cameraViews || []).filter(item => viewAppliesToScene(item, sceneId));
+        const eligible = (options.cameraViews || []).filter(item =>
+      viewAppliesToScene(item, sceneId) && viewAppliesToRepresentation(item)
+    );
         setValue(elements.archSketchCameraView, pickRandom(eligible)?.id || sceneDefaultView(sceneId));
       }
 
@@ -946,6 +948,10 @@
     return raw.split(",").map(value => value.trim()).filter(Boolean).includes(sceneId);
   }
 
+  function viewAppliesToRepresentation(item) {
+    return !isPhotographyRepresentation() || !NON_PHOTOGRAPHIC_VIEW_IDS.has(item?.id);
+  }
+
   function updateViewOptions({ applySceneDefault = false, preferredValue = "" } = {}) {
     if (!elements.archSketchCameraView || !options) return;
 
@@ -972,7 +978,9 @@
 
   function resolveViewForScene(value, sceneId) {
     const aliased = LEGACY_VIEW_ALIASES[value] || value;
-    const eligible = (options?.cameraViews || []).filter(item => viewAppliesToScene(item, sceneId));
+    const eligible = (options?.cameraViews || []).filter(item =>
+      viewAppliesToScene(item, sceneId) && viewAppliesToRepresentation(item)
+    );
     if (eligible.some(item => item.id === aliased)) return aliased;
     return sceneDefaultView(sceneId);
   }
@@ -1028,6 +1036,9 @@
     if (elements.archSketchAnnotationTextRow) elements.archSketchAnnotationTextRow.hidden = photography;
     document.body.classList.toggle("architectural-photography-output", photography);
     updateTextSignagePolicyUi();
+    updateHumanScaleOptions({ preferredValue: elements.archSketchHumanScale?.value || "" });
+    updateViewOptions({ preferredValue: elements.archSketchCameraView?.value || "" });
+    updateRepresentationHints();
 
     if (elements.randomPromptBtn && active) {
       elements.randomPromptBtn.innerHTML = `${global.PromptIcons.svg("refresh")}<span class="button-label">Concept Random</span>`;
@@ -1044,6 +1055,63 @@
         ? "Photo Realism Target controls the photographic language. Text / Signage Policy prevents invented lettering without automatically deleting supported reference signage."
         : "Sketch Style controls the default line and color language. Keep Advanced Style Controls on Auto unless you deliberately want a line or color override.";
     }
+  }
+
+  function updateRepresentationHints() {
+    if (!elements.archSketchOutputRepresentationHint) return;
+    const description = selectedMeta(elements.archSketchOutputRepresentation, "description");
+    elements.archSketchOutputRepresentationHint.textContent = description
+      || (isPhotographyRepresentation()
+        ? "Architectural Photography uses camera-compatible views and hides sketch-only presentation controls."
+        : "Sketch Presentation enables drawing style, surface, line/color, and annotation controls.");
+  }
+
+  function updatePhotoRealismHint() {
+    if (!elements.archSketchPhotoRealismTargetHint) return;
+    const description = selectedMeta(elements.archSketchPhotoRealismTarget, "description");
+    elements.archSketchPhotoRealismTargetHint.textContent = description
+      || "Controls photographic character only; architecture, lighting, atmosphere, and view remain separate.";
+  }
+
+  function updateFeatureHint() {
+    if (!elements.archSketchFeaturesHint) return;
+    const reference = elements.archSketchInputType?.value === "reference-image";
+    elements.archSketchFeaturesHint.textContent = reference
+      ? "Reference-aware: only emphasize architectural features already visible or supported by the reference. Do not use this field to add or redesign elements."
+      : "Use this for specific elements you want the concept to include or emphasize, such as a canopy, screen, courtyard, colonnade, or roof feature.";
+  }
+
+  function updateViewHint() {
+    if (!elements.archSketchCameraViewHint) return;
+    const description = selectedMeta(elements.archSketchCameraView, "description");
+    const modeNote = isPhotographyRepresentation()
+      ? " Photography hides axonometric, orthographic, section, and other non-camera projections."
+      : " Options are filtered by Scene Type.";
+    elements.archSketchCameraViewHint.textContent =
+      (description || "Choose how the architecture is viewed or projected.") + modeNote;
+  }
+
+  function updateAnnotationHint() {
+    if (!elements.archSketchAnnotationTextHint) return;
+    const description = selectedMeta(elements.archSketchAnnotationText, "description");
+    elements.archSketchAnnotationTextHint.textContent = description
+      || "Controls sketch annotations only. The default clean mode suppresses generated text and signage.";
+  }
+
+  function updateHumanScaleOptions({ preferredValue = "" } = {}) {
+    if (!elements.archSketchHumanScale || !options) return;
+    const previous = preferredValue || elements.archSketchHumanScale.value;
+    const eligible = isPhotographyRepresentation()
+      ? (options.humanScale || []).filter(item => !NON_PHOTOGRAPHIC_HUMAN_IDS.has(item.id))
+      : (options.humanScale || []);
+
+    populateSelect(elements.archSketchHumanScale, eligible);
+    setValue(elements.archSketchHumanScale, previous);
+    if (!elements.archSketchHumanScale.value) setValue(elements.archSketchHumanScale, "none");
+
+    const control = searchable.get("archSketchHumanScale");
+    control?.refresh?.();
+    control?.syncFromNative?.();
   }
 
   function updateWorkflowHint() {
@@ -1074,9 +1142,12 @@
     control?.syncFromNative?.();
 
     if (elements.archSketchTextSignageHint) {
-      elements.archSketchTextSignageHint.textContent = reference
-        ? "Default prevents invented lettering while allowing supported existing signage to remain. Preserve Reference Signage / Text is available when exact reference wording matters."
-        : "No reference text is available to preserve. Use No Invented Text, Allow Functional Architectural Signage, or Blank Signage — No Text.";
+      const policyDescription = selectedMeta(elements.archSketchTextSignagePolicy, "description");
+      const compatibility = reference
+        ? " Preserve Reference Signage / Text is available when exact reference wording matters."
+        : " Preserve Reference Signage / Text is unavailable without a reference image.";
+      elements.archSketchTextSignageHint.textContent =
+        (policyDescription || "Choose how architectural text and signage should be handled.") + compatibility;
     }
   }
 
