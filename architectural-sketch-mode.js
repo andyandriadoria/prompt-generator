@@ -51,6 +51,11 @@
     cameraViews: [{ id: "eye-level-perspective", label: "Eye-Level Perspective", prompt: "an eye-level architectural perspective with a natural human-scale viewpoint", scene_scope: "exterior,interior" }]
   };
 
+  const LEGACY_SKETCH_STYLE_ALIASES = {
+    "concept-presentation": "refined-line-drawing",
+    "mixed-media": "marker-sketch"
+  };
+
   const LEGACY_SURFACE_ALIASES = {
     "cream-toned-paper": "white-sketchbook-paper",
     "presentation-board": "bristol-board"
@@ -1491,7 +1496,13 @@
     elements.archSketchCustomArchitectureStyle.value = styleRestore.customValue;
     syncArchitectureStyleCustomUi();
 
-    setSelect("archSketchStyle", state.archSketchStyle, missing, "Sketch Style");
+    const restoredSketchStyle = LEGACY_SKETCH_STYLE_ALIASES[state.archSketchStyle] || state.archSketchStyle;
+    setSelect(
+      "archSketchStyle",
+      restoredSketchStyle || database?.config?.defaultArchitecturalSketchStyle || "watercolor-sketch",
+      missing,
+      "Sketch Style"
+    );
     const restoredSurface = LEGACY_SURFACE_ALIASES[state.archSketchMedium] || state.archSketchMedium;
     setSelect("archSketchMedium", restoredSurface || database?.config?.defaultArchitecturalSketchMedium || "watercolor-paper", missing, "Paper / Surface");
     setSelect("archSketchLineQuality", state.archSketchLineQuality || "auto-follow-style", missing, "Line Quality");
