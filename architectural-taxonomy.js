@@ -89,7 +89,8 @@
       option.dataset.categoryId = item.category_id || "";
       option.dataset.prompt = item.prompt || "";
       option.dataset.description = item.description || "";
-      option.dataset.searchText = [item.label, item.prompt, item.description].filter(Boolean).join(" ");
+      option.dataset.semanticProfile = item.semantic_profile || "";
+      option.dataset.searchText = [item.label, item.prompt, item.description, item.semantic_profile].filter(Boolean).join(" ");
       select.append(option);
     });
 
@@ -127,6 +128,12 @@
     if (!select || !select.value || select.value === CUSTOM_ID) return "";
     const item = findById(items, select.value);
     return String(item?.description || select.selectedOptions?.[0]?.dataset?.description || "").trim();
+  }
+
+  function selectedSemanticProfile(select, items) {
+    if (!select || !select.value || select.value === CUSTOM_ID) return "";
+    const item = findById(items, select.value);
+    return String(item?.semantic_profile || select.selectedOptions?.[0]?.dataset?.semanticProfile || "").trim();
   }
 
   function categoryDescription(select, categories) {
@@ -209,6 +216,7 @@
     selectedItem,
     selectedLabel,
     selectedDescription,
+    selectedSemanticProfile,
     categoryDescription,
     countForCategory,
     resolveValue,
