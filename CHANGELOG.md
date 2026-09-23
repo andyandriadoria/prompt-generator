@@ -69,6 +69,20 @@ Key changes:
 - `fallback.json` was fully refreshed from the live 4.5 Google Sheet on 2026-09-23, including current Catalog, Outfit Focus, Product, Prompt Mode, and Architecture CONFIG data.
 
 
+### 4.5 Feature — Style Semantic Profile (2026-09-23)
+
+- added model-facing `SEMANTIC_PROFILE` metadata for all 32 Architectural Styles in `ARCH_STYLE_OPTIONS`;
+- kept `DESCRIPTION` UX-only, preserving the separation between human explanation and model guidance;
+- updated the existing `_JSON` / CONFIG bridge to include `semantic_profile` without changing the API contract;
+- Architectural Taxonomy now carries semantic profiles through the selected style state;
+- Concept / Brief prompts use style-specific architectural DNA instead of relying on style names alone;
+- Reference Image Concept and Balanced Render use semantic cues conservatively and prohibit unsupported signature additions;
+- Creative Render uses semantic profiles more broadly while preserving reference massing / project identity;
+- STRICT Render remains reference-controlled and ignores style semantic data;
+- Custom Style continues to use generic style discipline when no database profile exists;
+- synchronized fallback data, PETUNJUK, README, current-state documentation, and production cache keys;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ### 4.5 Feature — Architecture Prompt Quality Expansion (2026-09-23)
 
 - added shared semantic composer `architecture-prompt-quality.js` used by both Architecture builders;
