@@ -726,7 +726,7 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - generous untouched white paper is preserved as an active compositional rule;
 - negative guidance now blocks smooth gray tonal rendering, airbrush-like gradients, and uniform edge-to-edge detail density in addition to watercolor / marker / painterly behaviors;
 - shared semantic composer adds a `refined-line-drawing`-specific Pen-drawing discipline so the behavior survives even when the style prompt is combined with other architecture controls;
-- legacy three-level wording removed from documentation/runtime baseline; `fallback.json` synchronized and production cache bundle bumped to `4.5-pen-finetune-3`;
+- legacy hierarchy wording removed from the documentation/runtime baseline; `fallback.json` synchronized and production cache bundle bumped to `4.5-pen-finetune-3`;
 - no Apps Script redeploy required; `config.js` unchanged.
 
 ## Next Product Opportunities
