@@ -40,6 +40,52 @@
     }
   };
 
+  const TYPE_PRIORITIES = {
+    "single-family-house": {
+      exterior: "Make the main entrance, private-to-public threshold, opening proportions, and terrace or garden relationship easy to read.",
+      interior: "Make domestic circulation, room-to-room relationships, openings, and daylight hierarchy easy to read."
+    },
+    "retail-store": {
+      exterior: "Keep the entrance, storefront depth, display zones, canopy or threshold, and pedestrian approach legible without inventing brand identity.",
+      interior: "Keep customer circulation, display or merchandising zones, service points, and spatial hierarchy legible without fabricated logos or promotional text."
+    },
+    "hotel-resort": {
+      exterior: "Clarify arrival, guest entry, public-space hierarchy, accommodation wings, and the relationship between architecture and landscape.",
+      interior: "Clarify arrival or lobby sequence, public-space hierarchy, guest circulation, and the relationship between interior spaces and landscape or views."
+    },
+    "restaurant-cafe": {
+      exterior: "Clarify the public threshold, seating relationship, facade openness, and indoor-outdoor connection without inventing branding.",
+      interior: "Clarify seating zones, service circulation, spatial focus, and believable ambient or natural-light hierarchy."
+    },
+    "school-university": {
+      exterior: "Clarify primary access, learning or communal clusters, shaded circulation, gathering areas, and campus or courtyard relationships.",
+      interior: "Clarify learning-space hierarchy, circulation, communal zones, daylight, and visual connections between spaces."
+    },
+    "hospital-clinic": {
+      exterior: "Clarify accessible public entry, drop-off or approach, circulation hierarchy, and durable healthcare scale without visual clutter.",
+      interior: "Clarify accessible routes, public-to-clinical transitions, circulation hierarchy, daylight, and durable material logic."
+    },
+    "museum": {
+      exterior: "Clarify civic arrival, entry hierarchy, visitor approach, massing, and the relationship between exhibition volumes and public space.",
+      interior: "Clarify exhibition sequence, thresholds, visitor circulation, controlled daylight, and spatial hierarchy without distracting decorative clutter."
+    },
+    "factory-manufacturing": {
+      exterior: "Clarify production volumes, service access, logistics paths, structural bays, and the relationship between operational and administrative zones.",
+      interior: "Clarify structural spans, production zones, service routes, operational clearances, and durable industrial material logic."
+    },
+    "warehouse": {
+      exterior: "Clarify loading access, large-span volume, service yards, structural rhythm, and efficient logistics circulation.",
+      interior: "Clarify clear-span structure, storage logic, loading relationships, operational clearances, and practical circulation."
+    },
+    "pavilion": {
+      exterior: "Emphasize openness, shelter, threshold, structural clarity, and the pavilion's relationship to landscape, view, and pedestrian approach.",
+      interior: "Emphasize openness, structure, framed views, shelter, and continuous relationship with the surrounding landscape."
+    },
+    "architectural-bridge": {
+      exterior: "Emphasize span, structural continuity, deck or pathway scale, approach sequence, and relationship to terrain, water, or urban context."
+    }
+  };
+
   const CONCEPT_REALISM_RULES = {
     "hyper-real-architectural-photo": "Use professional real-camera realism with natural dynamic range, physically plausible material reflectance, subtle lens character, slight surface variation, and restrained sharpening. Avoid sterile CGI perfection, excessive HDR, or synthetic material smoothness.",
     "natural-documentary-architectural-photo": "Use observational framing, ordinary believable exposure, restrained contrast, natural site irregularity, and minor material variation. Avoid staged marketing polish, cinematic grading, or showroom perfection.",
@@ -69,6 +115,12 @@
     return clean(profile[sceneType] || profile.general || "");
   }
 
+  function typePriority(buildingType, sceneType = "") {
+    const profile = TYPE_PRIORITIES[buildingType];
+    if (!profile) return "";
+    return clean(profile[sceneType] || profile.exterior || profile.interior || "");
+  }
+
   function renderQuality(state = {}) {
     const parts = [];
     const fidelity = clean(state.fidelity) || "strict";
@@ -80,6 +132,11 @@
           ? `Typology presentation priority: communicate the intended building type through realistic light, material reading, scale, and context without altering the reference architecture. ${categoryRule}`
           : `Typology design priority: ${categoryRule}`
       );
+    }
+
+    const buildingRule = typePriority(state.buildingType);
+    if (buildingRule) {
+      parts.push(`Building-type priority: ${buildingRule}`);
     }
 
     const inputRule = INPUT_RULES[state.inputType];
@@ -113,6 +170,11 @@
 
     if (categoryRule) {
       parts.push(`Typology priority: ${categoryRule}`);
+    }
+
+    const buildingRule = typePriority(state.buildingType, sceneType);
+    if (buildingRule) {
+      parts.push(`Building-type priority: ${buildingRule}`);
     }
 
     if (state.inputType === "reference-image") {
@@ -162,6 +224,7 @@
   global.ArchitecturePromptQuality = {
     TECHNICAL_PROJECTION_IDS,
     typologyPriority,
+    typePriority,
     renderQuality,
     conceptQuality,
     projectionTerm
