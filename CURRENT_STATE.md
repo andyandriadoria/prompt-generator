@@ -678,7 +678,7 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - Sketch technical projections gain projection-consistency rules and no longer receive contradictory generic perspective wording;
 - corrected Photography opening grammar for vowel-leading targets such as **Editorial Architectural Photo**;
 - added descriptions for Concept Input Type and Scene Type rows in `ARCH_SKETCH_OPTIONS`, synchronized CONFIG-derived fallback data, and documented the semantic composer in `PETUNJUK`;
-- production cache bundle bumped to `4.5-arch-quality-2`;
+- production cache bundle bumped to `4.5-arch-quality-3`;
 - no Apps Script redeploy required; `config.js` unchanged.
 
 ## Next Product Opportunities
