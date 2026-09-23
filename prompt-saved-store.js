@@ -227,7 +227,11 @@
       const style = value("archFidelity") === "strict" ? "" : value("archArchitectureStyle");
       return joinTitle(value("archProjectType"), style, "Architectural Render");
     }
-    if (mode === MODE_SKETCH) return joinTitle(value("archSketchProjectType"), label("archSketchStyle"), "Architectural Sketch");
+    if (mode === MODE_SKETCH) {
+      const photography = value("archSketchOutputRepresentation") === "architectural-photography";
+      const representation = photography ? label("archSketchPhotoRealismTarget") : label("archSketchStyle");
+      return joinTitle(value("archSketchProjectType"), representation, "Architectural Concept");
+    }
     if (mode === MODE_POSTER) {
       const info = value("posterProductInformation");
       const product = lineValue(info, "Product Name") || lineValue(info, "Brand");
@@ -237,8 +241,8 @@
     return joinTitle(label("characterPreset"), label("setting"), "Creative Prompt");
   }
 
-  function modeLabel(mode) { return ({ creative: "Creative Prompt Builder", outfit_catalog: "Reference Outfit Catalog", [MODE_PRODUCT]: "Reference Product Catalog", [MODE_POSTER]: "Product Poster Builder", [MODE_ARCH]: "Architectural Render", [MODE_SKETCH]: "Architectural Sketch Builder" })[mode] || "Prompt Gen"; }
-  function shortMode(mode) { return ({ creative: "Creative", outfit_catalog: "Outfit", [MODE_PRODUCT]: "Product", [MODE_POSTER]: "Poster", [MODE_ARCH]: "Architecture", [MODE_SKETCH]: "Arch Sketch" })[mode] || "Prompt"; }
+  function modeLabel(mode) { return ({ creative: "Creative Prompt Builder", outfit_catalog: "Reference Outfit Catalog", [MODE_PRODUCT]: "Reference Product Catalog", [MODE_POSTER]: "Product Poster Builder", [MODE_ARCH]: "Architectural Render", [MODE_SKETCH]: "Architectural Concept Builder" })[mode] || "Prompt Gen"; }
+  function shortMode(mode) { return ({ creative: "Creative", outfit_catalog: "Outfit", [MODE_PRODUCT]: "Product", [MODE_POSTER]: "Poster", [MODE_ARCH]: "Arch Render", [MODE_SKETCH]: "Arch Concept" })[mode] || "Prompt"; }
   function modeIcon(mode) { return ({ creative: "sparkles", outfit_catalog: "shirt", [MODE_PRODUCT]: "package", [MODE_POSTER]: "poster", [MODE_ARCH]: "building", [MODE_SKETCH]: "drafting" })[mode] || "bookmark"; }
   function styleLabel(mode) {
     if (mode === MODE_PRODUCT) return [label("productType"), label("productPresentation")].filter(Boolean).join(" · ") || "Product Catalog";
@@ -254,7 +258,12 @@
             : "";
       return [realism, fidelityLabel].filter(Boolean).join(" · ") || "Architectural Render";
     }
-    if (mode === MODE_SKETCH) return [label("archSketchStyle"), label("archSketchMedium")].filter(Boolean).join(" · ") || "Architectural Sketch";
+    if (mode === MODE_SKETCH) {
+      const photography = value("archSketchOutputRepresentation") === "architectural-photography";
+      return photography
+        ? [label("archSketchPhotoRealismTarget"), label("archSketchTextSignagePolicy")].filter(Boolean).join(" · ") || "Architectural Photography"
+        : [label("archSketchStyle"), label("archSketchMedium")].filter(Boolean).join(" · ") || "Sketch Presentation";
+    }
     if (mode === MODE_POSTER) return "9:16 Product Poster";
     if (mode === "outfit_catalog") return label("outfitFocusStyle") || label("catalogType") || "Outfit Catalog";
     const badge = byId("activeStyleBadge"); return badge && !badge.hidden && badge.textContent.trim() ? badge.textContent.trim() : label("cameraType") || "Custom / unstyled";
