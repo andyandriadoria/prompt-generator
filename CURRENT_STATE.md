@@ -239,9 +239,6 @@ Architectural Render is the dedicated **reference-first** prompt mode for archit
 
 Core fields:
 - Input Type
-- Output Representation
-- Photo Realism Target (Architectural Photography)
-- Text / Signage Policy (Architectural Photography)
 - Building Category
 - Building Type
 - Design Fidelity
@@ -298,6 +295,9 @@ Architectural Concept Builder is the production label for the stable internal mo
 
 Core fields:
 - Input Type
+- Output Representation
+- Photo Realism Target (Architectural Photography)
+- Text / Signage Policy (Architectural Photography)
 - Building Category
 - Building Type
 - Scene Type
