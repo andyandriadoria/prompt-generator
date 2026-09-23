@@ -105,6 +105,16 @@ Stores editable option content for:
 
 Sketch Style is the primary visual controller. Line Character and Color Treatment are Advanced overrides and default to `Auto — Follow Sketch Style`.
 
+Active production Sketch Style families:
+- Clean Architectural Line Sketch
+- Loose Concept Sketch
+- Bold Ink Perspective Sketch
+- Soft Watercolor Architectural Sketch
+- Marker Presentation Sketch
+- Urban Observational Sketch
+
+`Minimal Color Perspective Sketch` and `Marker / Mixed Media Sketch` remain stored as inactive legacy rows for backward compatibility. Saved states using those IDs migrate to Clean Architectural Line Sketch and Marker Presentation Sketch respectively.
+
 Lighting / Time controls illumination only. Atmosphere / Character controls spatial character only. Weather and physical surroundings belong in Site / Context.
 
 Site / Context is a free-text physical-environment field. Architectural Feature Emphasis is a separate free-text building-element field. In Reference Image mode, feature emphasis is preservation-aware and may only highlight elements already present in the reference. Human Presence / Scale controls figures only for scale, not narrative activity.
