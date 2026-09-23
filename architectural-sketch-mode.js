@@ -282,6 +282,7 @@
       if (event.target === elements.archSketchCameraView) updateViewHint();
       if (event.target === elements.archSketchAnnotationText) updateAnnotationHint();
       if (event.target === elements.archSketchPhotoRealismTarget) updatePhotoRealismHint();
+      if (event.target === elements.archSketchTextSignagePolicy) updateTextSignagePolicyUi();
       if (event.target === elements.archSketchLineQuality || event.target === elements.archSketchColorTreatment) {
         updateAdvancedState();
       }
@@ -1348,6 +1349,13 @@
       elements.activeModeBadge.dataset.mode = MODE_ID;
     }
     updateRepresentationUi();
+    updateRepresentationHints();
+    updateTaxonomyUi();
+    updateFeatureHint();
+    updatePhotoRealismHint();
+    updateTextSignagePolicyUi();
+    updateViewHint();
+    updateAnnotationHint();
     updateStyleHint();
     updateSurfaceHint();
     updateLightingHint();
@@ -1495,7 +1503,10 @@
     setText("archSketchLandscape", restoredLandscape);
     setText("archSketchFeatures", state.archSketchFeatures);
     const restoredHumanScale = LEGACY_HUMAN_SCALE_ALIASES[state.archSketchHumanScale] || state.archSketchHumanScale;
-    setSelect("archSketchHumanScale", restoredHumanScale || database?.config?.defaultArchitecturalSketchHumanScale || "none", missing, "Human Presence / Scale");
+    const compatibleHumanScale = isPhotographyRepresentation() && NON_PHOTOGRAPHIC_HUMAN_IDS.has(restoredHumanScale)
+      ? "none"
+      : restoredHumanScale;
+    setSelect("archSketchHumanScale", compatibleHumanScale || database?.config?.defaultArchitecturalSketchHumanScale || "none", missing, "Human Presence / Scale");
     const restoredView = resolveViewForScene(state.archSketchCameraView, elements.archSketchSceneType.value || "exterior");
     updateViewOptions({ preferredValue: restoredView });
     setSelect("archSketchCameraView", restoredView, missing, "View / Projection");
