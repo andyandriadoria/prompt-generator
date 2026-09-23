@@ -60,7 +60,7 @@ Google Sheets is the editable source of truth. `fallback.json` is only the resil
 Architectural option maintenance is row-based in Google Sheets.
 
 ### Shared Architecture Taxonomy
-Both **Architectural Render** and **Architectural Sketch** use the same building/style taxonomy:
+Both **Architectural Render** and **Architectural Concept Builder** use the same building/style taxonomy:
 
 - `ARCH_BUILDING_CATEGORIES` — Building Category labels/order
 - `ARCH_BUILDING_TYPES` — Building Types linked by `CATEGORY_ID`
@@ -85,6 +85,9 @@ Important columns:
 ### ARCH_SKETCH_OPTIONS
 Stores editable option content for:
 - Input Type
+- Output Representation
+- Photo Realism Target
+- Text / Signage Policy
 - Scene Type
 - Sketch Style
 - Paper / Surface
@@ -104,7 +107,9 @@ Site / Context is a free-text physical-environment field. Architectural Feature 
 
 View / Projection is filtered by Scene Type using `SCENE_SCOPE`. Exterior defaults to Three-Quarter Perspective; Interior defaults to Interior Corner Perspective, while users remain free to select any valid scene-compatible projection.
 
-Annotations / Text defaults to **None — No Text or Annotations**. In this mode the prompt engine adds an explicit guard against generated signage, labels, logos, captions, handwritten notes, dates, signatures, watermarks, slogans, decorative lettering, and pseudo-text. Optional annotation modes are maintained as rows in the `annotation_text` group.
+Annotations / Text applies to **Sketch Presentation** and defaults to **None — No Text or Annotations**. In this mode the prompt engine adds an explicit guard against generated signage, labels, logos, captions, handwritten notes, dates, signatures, watermarks, slogans, decorative lettering, and pseudo-text. Optional annotation modes are maintained as rows in the `annotation_text` group.
+
+Architectural Photography uses a separate **Text / Signage Policy** instead of inheriting the sketch no-text guard. The default **No Invented Text — Preserve Existing** blocks fabricated lettering while allowing supported existing reference signage to remain. **Preserve Reference Signage / Text** is available only for Reference Image input; non-reference inputs automatically disable it.
 
 Important columns:
 `GROUP · ID · LABEL · PROMPT · DESCRIPTION · LINE_RULE · COLOR_RULE · AVOID · ACTIVE · SORT · RECOMMENDED_SURFACE · SCENE_SCOPE · RECOMMENDED_LIGHTING · RECOMMENDED_HUMAN`
@@ -123,20 +128,26 @@ This bridge keeps the current Apps Script CONFIG payload compatible, so the 2026
 
 ## Architectural Concept Builder
 
-The existing internal mode ID `architectural_sketch` is intentionally retained for Saved Prompt and frontend compatibility, but its production UI label is **Architectural Concept Builder**.
+The existing internal mode ID `architectural_sketch` is intentionally retained for Saved Prompt and frontend compatibility, but its production UI label is **Architectural Concept Builder**. It is the concept-first workflow; use **Architectural Render** when preserving an existing design, geometry, or source view with explicit Design Fidelity is the priority.
 
 **Output Representation**:
 - `sketch-presentation` — shows Sketch Style, Paper / Surface, Advanced Line/Color controls, and Annotations / Text.
-- `architectural-photography` — hides sketch-only controls and shows Photo Realism Target.
+- `architectural-photography` — hides sketch-only controls and shows Photo Realism Target plus Text / Signage Policy.
 
 Photo Realism Targets:
 - Hyper-Real Architectural Photo
 - Natural Documentary Architectural Photo
 - Editorial Architectural Photo
 
+Photography Text / Signage Policies:
+- No Invented Text — Preserve Existing (default)
+- Preserve Reference Signage / Text (Reference Image only)
+- Allow Functional Architectural Signage
+- Blank Signage — No Text
+
 Both paths share the same Architecture Taxonomy, Scene Type, Lighting / Time, Atmosphere / Character, Site / Context, Architectural Feature Emphasis, Human Presence / Scale, View / Projection, and Aspect Ratio controls.
 
-The option data remains in `ARCH_SKETCH_OPTIONS`; the CONFIG JSON bridge exposes the new groups without an Apps Script redeploy. Existing Saved Prompts that predate this feature restore into Sketch Presentation automatically.
+The option data remains in `ARCH_SKETCH_OPTIONS`; the CONFIG JSON bridge exposes Output Representation, Photo Realism Target, and Text / Signage Policy without an Apps Script redeploy. Existing Saved Prompts that predate this feature restore into Sketch Presentation automatically.
 
 ## Upgrade Rules
 
