@@ -71,6 +71,8 @@ Category fields are UI filters only and never enter the generated prompt. Buildi
 
 Taxonomy descriptions are UX metadata only. `DESCRIPTION` is populated for all active Building Categories, Building Types, Style Categories, and Architectural Styles; the frontend surfaces it as contextual help beneath the relevant selectors without adding that explanatory prose to the generated prompt. Building Type and Architectural Style remain disabled until their category is selected.
 
+Architectural Styles also carry a hidden **Style Semantic Profile** in `ARCH_STYLE_OPTIONS.SEMANTIC_PROFILE`. This is model-facing guidance, not UI copy. It captures the compact architectural DNA of each style. The semantic composer uses it to make the selected style more consistent without adding another user control.
+
 The taxonomy is mirrored into CONFIG with formula-generated JSON keys so the current Apps Script API contract remains unchanged.
 
 Architectural option maintenance is also row-based in Google Sheets:
@@ -134,7 +136,8 @@ Architecture prompts use a shared semantic composer in `architecture-prompt-qual
 
 Key behaviors:
 - Building Type rules override broader category rules when a more specific priority exists; category rules remain the fallback.
-- STRICT Render converts typology guidance into presentation/readability priorities and explicitly forbids the quality layer from redesigning reference architecture.
+- Architectural Style Semantic Profiles convert the selected style name into compact model-facing design cues; `DESCRIPTION` remains UX-only.
+- STRICT Render converts typology guidance into presentation/readability priorities and explicitly forbids the quality layer from redesigning reference architecture; style semantic profiles are ignored in STRICT because style controls are reference-controlled.
 - Balanced and Creative Render apply different style-discipline language.
 - Sketch / Linework, Massing / Clay Model, Existing Photo, and Reference Image receive different reference-interpretation rules.
 - Architectural Photography receives camera, scene-realism, selected-realism-target, and human-scale discipline.
