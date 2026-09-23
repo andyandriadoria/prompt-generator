@@ -144,6 +144,8 @@ This bridge keeps the current Apps Script CONFIG payload compatible, so the 2026
 
 ### Architecture Prompt Quality Composer
 
+**Compact semantic composer:** architecture intelligence and drawing-media instructions are intentionally separated. The semantic composer handles typology, design/reference discipline, architectural style semantics, projection/camera logic, and photography realism. Sketch Style rows own line hierarchy, hatching, white-space, color behavior, and media-specific negative constraints. This prevents the same drawing instruction from appearing twice in one prompt.
+
 Architecture prompts use a shared semantic composer in `architecture-prompt-quality.js`. It adds no new dropdowns. Instead it reads the existing combination of Building Category / Type, Input Type, Design Fidelity, Output Representation, Scene Type, Realism Target, Architectural Style, Materials, View / Projection, and Human Presence.
 
 Key behaviors:
