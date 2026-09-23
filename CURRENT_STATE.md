@@ -66,6 +66,7 @@ Current CONFIG baseline:
 | defaultArchitecturalSketchInputType | concept-prompt |
 | defaultArchitecturalSketchOutputRepresentation | sketch-presentation |
 | defaultArchitecturalSketchPhotoRealismTarget | hyper-real-architectural-photo |
+| defaultArchitecturalSketchTextSignagePolicy | no-invented-text |
 | defaultArchitecturalSketchSceneType | exterior |
 | defaultArchitecturalSketchStyle | watercolor-sketch |
 | defaultArchitecturalSketchMedium | watercolor-paper |
@@ -234,10 +235,13 @@ Implementation files:
 
 ## Architectural Render Baseline
 
-Architectural Render is a dedicated reference-driven prompt mode for architectural visualization.
+Architectural Render is the dedicated **reference-first** prompt mode for architectural visualization. Use it when an existing design, geometry, or source view must remain controlled through explicit Design Fidelity.
 
 Core fields:
 - Input Type
+- Output Representation
+- Photo Realism Target (Architectural Photography)
+- Text / Signage Policy (Architectural Photography)
 - Building Category
 - Building Type
 - Design Fidelity
@@ -290,7 +294,7 @@ Data:
 
 ## Architectural Concept Builder Baseline
 
-Architectural Concept Builder is the production label for the stable internal mode `architectural_sketch`. It supports concept-driven architectural visualization as Sketch Presentation or Architectural Photography.
+Architectural Concept Builder is the production label for the stable internal mode `architectural_sketch`. It is the **concept-first** architecture workflow for developing an idea, brief, or reference into Sketch Presentation or Architectural Photography. Reference Image remains available as a design basis, but exact geometry/source-view preservation is intentionally delegated to Architectural Render.
 
 Core fields:
 - Input Type
@@ -333,6 +337,7 @@ Defaults:
 - Lighting / Time: `morning-light` → **Morning Light**
 - Atmosphere / Character: `calm` → **Calm**
 - Annotations / Text: `no-text` → **None — No Text or Annotations**
+- Text / Signage Policy: `no-invented-text` → **No Invented Text — Preserve Existing**
 
 Prompt behavior:
 - **Sketch Style is the master visual controller**: each style carries its own style prompt, line rule, color rule, and avoid rule from Google Sheets;
@@ -364,9 +369,14 @@ Prompt behavior:
 - active View / Projection options are **Eye-Level Perspective, Three-Quarter Perspective, Interior Corner Perspective, Frontal Perspective, Elevated Perspective, Wide Context View, Axonometric / Isometric, Orthographic Elevation, and Section Perspective**;
 - default View / Projection follows Scene Type: **Exterior → Three-Quarter Perspective** and **Interior → Interior Corner Perspective**; the selection is not locked and can be changed to any valid view for that scene;
 - `SCENE_SCOPE` in `ARCH_SKETCH_OPTIONS` is the editable source for scene compatibility;
-- Annotations / Text is Sheets-driven through the `annotation_text` group. Default `no-text` adds a strong final prompt guard against readable text, labels, signage, logos, captions, handwritten notes, annotations, dates, signatures, watermarks, slogans, decorative lettering, and pseudo-text;
-- if architectural signboards or signage panels are part of the design while `no-text` is active, they remain blank / without readable characters rather than receiving invented lettering;
-- optional modes **Minimal Architectural Notes** and **Handwritten Sketch Annotations** allow controlled annotations while still suppressing unrelated branding, storefront names, logos, slogans, dates, signatures, and decorative lettering;
+- Annotations / Text is Sketch Presentation-only and Sheets-driven through the `annotation_text` group. Default `no-text` adds a strong final prompt guard against readable text, labels, signage, logos, captions, handwritten notes, annotations, dates, signatures, watermarks, slogans, decorative lettering, and pseudo-text;
+- if architectural signboards or signage panels are part of a sketch while `no-text` is active, they remain blank / without readable characters rather than receiving invented lettering;
+- optional sketch modes **Minimal Architectural Notes** and **Handwritten Sketch Annotations** allow controlled annotations while still suppressing unrelated branding, storefront names, logos, slogans, dates, signatures, and decorative lettering;
+- Architectural Photography uses a separate Sheets-driven `text_signage_policy` group instead of inheriting the sketch no-text guard;
+- the Photography default **No Invented Text — Preserve Existing** blocks fabricated lettering while allowing supported existing reference signage to remain where visible;
+- **Preserve Reference Signage / Text** is available only when Input Type is Reference Image; Concept Prompt and Design Brief disable that option and normalize it back to the default policy if necessary;
+- **Allow Functional Architectural Signage** permits restrained wayfinding, address markers, room numbers, or similar architectural information while blocking invented brands/logos/slogans;
+- **Blank Signage — No Text** recreates the former strict clean-output behavior for photography when the user explicitly wants all sign panels blank;
 - Saved Prompt states created before this control existed restore with the current default `no-text`;
 - legacy Saved Prompt values `frontal-elevation` and `sketchbook-perspective` restore to **Frontal Perspective** and **Eye-Level Perspective** respectively;
 - weather-like conditions such as rain belong in Landscape / Context rather than Atmosphere / Character;
@@ -397,8 +407,8 @@ Prompt behavior:
 
 Data source:
 - mode registry: Google Sheets `PROMPT_MODES` row `architectural_sketch`;
-- editable Architectural Sketch option content is stored row-by-row in `ARCH_SKETCH_OPTIONS`, including visible `RECOMMENDED_SURFACE`, `RECOMMENDED_LIGHTING`, and `RECOMMENDED_HUMAN` metadata columns;
-- existing `architecturalSketch*` CONFIG keys are now formula-generated JSON mirrors of `ARCH_SKETCH_OPTIONS`, preserving the existing API contract while making the option content easy to edit;
+- editable Architectural Concept option content is stored row-by-row in `ARCH_SKETCH_OPTIONS`, including Output Representation, Photo Realism Target, Text / Signage Policy, and visible `RECOMMENDED_SURFACE`, `RECOMMENDED_LIGHTING`, and `RECOMMENDED_HUMAN` metadata columns;
+- existing `architecturalSketch*` CONFIG keys are formula-generated JSON mirrors of `ARCH_SKETCH_OPTIONS`, including `architecturalSketchTextSignagePolicies`, preserving the existing API contract while making the option content easy to edit;
 - defaults remain in `CONFIG` using `defaultArchitecturalSketch*` keys;
 - Aspect Ratio reuses the shared `ASPECT_RATIOS` collection;
 - `fallback.json` contains a synchronized resilience copy, while JavaScript keeps only minimal emergency fallbacks.
@@ -411,7 +421,8 @@ Implementation files:
 - Saved Prompt Library integration in `prompt-saved-store.js` / `prompt-saved.js`
 
 Saved Prompt Library:
-- complete Architectural Sketch state is stored and restored;
+- complete Architectural Concept state is stored and restored, including Output Representation, Photo Realism Target, and Text / Signage Policy;
+- legacy states without Text / Signage Policy restore to `no-invented-text`;
 - stable existing Sketch Style IDs are retained where practical so previously saved states remain restorable.
 
 ## Prompt Style Presets
@@ -531,7 +542,7 @@ The production mode with stable internal ID `architectural_sketch` is now presen
 
 It has two representation paths:
 - **Sketch Presentation** — retains Sketch Style, Paper / Surface, Advanced Line/Color controls, sketch-specific Human Presence recommendations, and optional sketch annotations.
-- **Architectural Photography** — hides sketch-only controls and exposes **Photo Realism Target** with Hyper-Real Architectural Photo, Natural Documentary Architectural Photo, and Editorial Architectural Photo.
+- **Architectural Photography** — hides sketch-only controls and exposes **Photo Realism Target** plus **Text / Signage Policy**.
 
 Shared controls remain common to both paths:
 - Input Type;
@@ -549,10 +560,11 @@ Shared controls remain common to both paths:
 
 Compatibility:
 - legacy Saved Prompt state without an Output Representation restores as `sketch-presentation`;
+- legacy photography state without Text / Signage Policy restores to `no-invented-text`;
 - the internal mode ID, frontend module names, and Saved Prompt field prefix `archSketch*` remain unchanged;
-- **Architectural Render** remains a separate reference-driven workflow with Design Fidelity;
+- **Architectural Render** remains a separate reference-first workflow with Design Fidelity;
 - Google Sheets `ARCH_SKETCH_OPTIONS` remains the source of truth for both representation paths;
-- CONFIG adds `architecturalSketchOutputRepresentations` and `architecturalSketchPhotoRealismTargets` through the existing formula bridge;
+- CONFIG exposes `architecturalSketchOutputRepresentations`, `architecturalSketchPhotoRealismTargets`, and `architecturalSketchTextSignagePolicies` through the existing formula bridge;
 - no Apps Script redeploy is required because the API contract remains CONFIG-driven.
 
 Photography prompt opening follows the selected realism target. The default Hyper-Real path produces, for example:
@@ -615,6 +627,20 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - legacy `CATALOG_SETTINGS` rows are preserved in the resilience snapshot with their live ACTIVE state; Reference Outfit Catalog continues to use master `SETTINGS`;
 - `CURRENT_STATE.md` was refreshed to match the live CONFIG and production mode naming;
 - no Apps Script redeploy or Google Sheets edit was required for this synchronization.
+
+## 2026-09-23 Architecture Prompt Intelligence
+
+- clarified architecture-mode intent in Google Sheets and Workstation UI: **Architectural Render = reference-first preservation**, **Architectural Concept Builder = concept-first development**;
+- both modes now show contextual workflow guidance at Input Type level;
+- Reference Image inside Concept Builder remains valid for design translation, but the UI directs exact geometry/source-view preservation to Architectural Render;
+- added Photography-only **Text / Signage Policy** with four Sheets-driven options: No Invented Text — Preserve Existing, Preserve Reference Signage / Text, Allow Functional Architectural Signage, and Blank Signage — No Text;
+- default Photography behavior no longer applies the Sketch no-text guard universally;
+- Preserve Reference Signage / Text is input-aware and disabled outside Reference Image;
+- new CONFIG keys: `defaultArchitecturalSketchTextSignagePolicy` and `architecturalSketchTextSignagePolicies`;
+- Saved Prompt state and display labels were updated for the Concept Builder / Photography path;
+- Workstation mode-card copy, README, PETUNJUK, CHANGELOG, and fallback CONFIG were synchronized;
+- JavaScript syntax checks passed and prompt-builder behavior was tested for all four policy branches;
+- no Apps Script redeploy required; `config.js` unchanged.
 
 ## Next Product Opportunities
 
