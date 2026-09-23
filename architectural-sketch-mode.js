@@ -6,7 +6,7 @@
     id: MODE_ID,
     label: "Architectural Concept Builder",
     icon: "drafting",
-    description: "Build concept-driven architectural prompts as hand-drawn sketch presentations or hyper-real architectural photography."
+    description: "Concept-first architectural development for ideas, briefs, or references, with output as Sketch Presentation or Architectural Photography."
   };
 
   const FALLBACK_OPTIONS = {
@@ -19,6 +19,12 @@
       { id: "hyper-real-architectural-photo", label: "Hyper-Real Architectural Photo", prompt: "hyper realistic photography" },
       { id: "natural-documentary-architectural-photo", label: "Natural Documentary Architectural Photo", prompt: "natural documentary architectural photograph" },
       { id: "editorial-architectural-photo", label: "Editorial Architectural Photo", prompt: "editorial architectural photograph" }
+    ],
+    textSignagePolicies: [
+      { id: "no-invented-text", label: "No Invented Text — Preserve Existing", prompt: "do not invent new readable text, logos, brand names, storefront names, slogans, dates, signatures, or decorative lettering; when a provided reference contains existing legible architectural signage or text, preserve it only where visible and supported, otherwise keep sign panels neutral or blank rather than fabricating characters" },
+      { id: "preserve-reference-text", label: "Preserve Reference Signage / Text", prompt: "when the reference image contains existing legible signage, numbers, or architectural text, preserve its placement and content as closely as possible; do not replace, rewrite, translate, restyle, or add new wording; if exact lettering cannot be supported, prefer neutral or blank areas over invented text" },
+      { id: "allow-functional-signage", label: "Allow Functional Architectural Signage", prompt: "allow restrained functional architectural signage, room numbers, address markers, or wayfinding only where spatially appropriate; keep text visually secondary and plausible, and do not invent brand logos, storefront brands, slogans, campaign copy, or decorative lettering" },
+      { id: "blank-signage-no-text", label: "Blank Signage — No Text", prompt: "do not add any readable text, pseudo-text, labels, logos, captions, dates, signatures, watermarks, slogans, brand names, or decorative lettering; if signage panels or signboards are part of the architecture, keep them completely blank with no invented characters or symbols" }
     ],
     sceneTypes: [{ id: "exterior", label: "Exterior", prompt: "an exterior architectural view", recommended_lighting: "morning-light" }],
     sketchStyles: [{
@@ -132,7 +138,7 @@
       "architecturalSketchFields", "archSketchInputType", "archSketchOutputRepresentation", "archSketchSceneType",
       "archSketchBuildingCategory", "archSketchBuildingType", "archSketchCustomBuildingType", "archSketchCustomBuildingRow",
       "archSketchStyleCategory", "archSketchArchitectureStyle", "archSketchCustomArchitectureStyle", "archSketchCustomArchitectureStyleRow",
-      "archSketchStyle", "archSketchStyleRow", "archSketchMedium", "archSketchMediumRow", "archSketchPhotoRealismTarget", "archSketchPhotoRealismTargetRow", "archSketchLineQuality",
+      "archSketchStyle", "archSketchStyleRow", "archSketchMedium", "archSketchMediumRow", "archSketchPhotoRealismTarget", "archSketchPhotoRealismTargetRow", "archSketchTextSignagePolicy", "archSketchTextSignagePolicyRow", "archSketchWorkflowHint", "archSketchLineQuality",
       "archSketchColorTreatment", "archSketchLighting", "archSketchMood", "archSketchLandscape",
       "archSketchFeatures", "archSketchHumanScale", "archSketchCameraView", "archSketchAnnotationText", "archSketchAnnotationTextRow", "archSketchAspectRatio",
       "archSketchExtraInstruction", "archSketchStyleHint", "archSketchSurfaceHint", "archSketchLightingHint", "archSketchHumanScaleHint",
@@ -158,7 +164,7 @@
         </div>
       </div>
 
-      <div class="field-row"><label for="archSketchInputType">Input Type</label><select id="archSketchInputType"></select></div>
+      <div class="field-row"><label for="archSketchInputType">Input Type</label><div><select id="archSketchInputType"></select><p class="help-text" id="archSketchWorkflowHint">Concept-first workflow. Use this mode to develop an idea, brief, or reference into a new representation.</p></div></div>
       <div class="field-row"><label for="archSketchOutputRepresentation">Output Representation</label><div><select id="archSketchOutputRepresentation"></select><p class="help-text">Choose Sketch Presentation or Architectural Photography. Shared project, architecture, lighting, atmosphere, and view controls remain available in both.</p></div></div>
       <div class="field-row"><label for="archSketchBuildingCategory">Building Category</label><select id="archSketchBuildingCategory"></select></div>
       <div class="field-row"><label for="archSketchBuildingType">Building Type</label><select id="archSketchBuildingType"></select></div>
@@ -167,6 +173,7 @@
       <div class="field-row" id="archSketchStyleRow"><label for="archSketchStyle">Sketch Style</label><div><select id="archSketchStyle"></select><p class="help-text arch-sketch-style-hint" id="archSketchStyleHint"></p></div></div>
       <div class="field-row" id="archSketchMediumRow"><label for="archSketchMedium">Paper / Surface</label><div><select id="archSketchMedium"></select><p class="help-text arch-sketch-surface-hint" id="archSketchSurfaceHint"></p></div></div>
       <div class="field-row" id="archSketchPhotoRealismTargetRow" hidden><label for="archSketchPhotoRealismTarget">Photo Realism Target</label><div><select id="archSketchPhotoRealismTarget"></select><p class="help-text">Controls the photographic representation only; project geometry, architecture style, lighting, atmosphere, and view remain separate.</p></div></div>
+      <div class="field-row" id="archSketchTextSignagePolicyRow" hidden><label for="archSketchTextSignagePolicy">Text / Signage Policy</label><div><select id="archSketchTextSignagePolicy"></select><p class="help-text">Photography-only control. Default blocks invented lettering without forcing existing reference signage to disappear.</p></div></div>
 
       <details class="arch-sketch-advanced" id="archSketchAdvanced">
         <summary>
@@ -227,6 +234,9 @@
       if (event.target === elements.archSketchOutputRepresentation) {
         updateRepresentationUi();
         updateHumanScaleHint();
+      }
+      if (event.target === elements.archSketchInputType) {
+        updateWorkflowHint();
       }
       if (event.target === elements.archSketchBuildingCategory) {
         updateBuildingTypeOptions({ selectedId: "" });
@@ -341,6 +351,7 @@
       inputTypes: parseList(config.architecturalSketchInputTypes, FALLBACK_OPTIONS.inputTypes),
       outputRepresentations: parseList(config.architecturalSketchOutputRepresentations, FALLBACK_OPTIONS.outputRepresentations),
       photoRealismTargets: parseList(config.architecturalSketchPhotoRealismTargets, FALLBACK_OPTIONS.photoRealismTargets),
+      textSignagePolicies: parseList(config.architecturalSketchTextSignagePolicies, FALLBACK_OPTIONS.textSignagePolicies),
       sceneTypes: parseList(config.architecturalSketchSceneTypes, FALLBACK_OPTIONS.sceneTypes),
       sketchStyles: parseList(config.architecturalSketchStyles, FALLBACK_OPTIONS.sketchStyles),
       media: parseList(config.architecturalSketchMedia, FALLBACK_OPTIONS.media),
@@ -428,6 +439,7 @@
     populateSelect(elements.archSketchInputType, options.inputTypes);
     populateSelect(elements.archSketchOutputRepresentation, options.outputRepresentations);
     populateSelect(elements.archSketchPhotoRealismTarget, options.photoRealismTargets);
+    populateSelect(elements.archSketchTextSignagePolicy, options.textSignagePolicies);
     populateTaxonomyControls();
     populateSelect(elements.archSketchSceneType, options.sceneTypes);
     populateSelect(elements.archSketchStyle, options.sketchStyles);
@@ -451,7 +463,7 @@
     applyDefaults();
     initSearchable();
     updateRepresentationUi();
-    updateRepresentationUi();
+    updateWorkflowHint();
     updateStyleHint();
     updateSurfaceHint();
     updateLightingHint();
@@ -822,6 +834,7 @@
     setValue(elements.archSketchInputType, config.defaultArchitecturalSketchInputType || "concept-prompt");
     setValue(elements.archSketchOutputRepresentation, config.defaultArchitecturalSketchOutputRepresentation || "sketch-presentation");
     setValue(elements.archSketchPhotoRealismTarget, config.defaultArchitecturalSketchPhotoRealismTarget || "hyper-real-architectural-photo");
+    setValue(elements.archSketchTextSignagePolicy, config.defaultArchitecturalSketchTextSignagePolicy || "no-invented-text");
     setValue(elements.archSketchBuildingCategory, config.defaultArchitecturalBuildingCategory || "");
     updateBuildingTypeOptions({ selectedId: "" });
     setValue(elements.archSketchStyleCategory, config.defaultArchitecturalStyleCategory || "");
@@ -890,7 +903,7 @@
   function initSearchable() {
     [
       "archSketchInputType", "archSketchOutputRepresentation", "archSketchBuildingCategory", "archSketchBuildingType",
-      "archSketchSceneType", "archSketchStyle", "archSketchMedium", "archSketchPhotoRealismTarget",
+      "archSketchSceneType", "archSketchStyle", "archSketchMedium", "archSketchPhotoRealismTarget", "archSketchTextSignagePolicy",
       "archSketchStyleCategory", "archSketchArchitectureStyle",
       "archSketchLineQuality", "archSketchColorTreatment", "archSketchLighting", "archSketchMood",
       "archSketchHumanScale", "archSketchCameraView", "archSketchAnnotationText", "archSketchAspectRatio"
@@ -930,17 +943,13 @@
     if (elements.archSketchStyleRow) elements.archSketchStyleRow.hidden = photography;
     if (elements.archSketchMediumRow) elements.archSketchMediumRow.hidden = photography;
     if (elements.archSketchPhotoRealismTargetRow) elements.archSketchPhotoRealismTargetRow.hidden = !photography;
+    if (elements.archSketchTextSignagePolicyRow) elements.archSketchTextSignagePolicyRow.hidden = !photography;
     if (elements.archSketchAdvanced) {
       elements.archSketchAdvanced.hidden = photography;
       if (photography) elements.archSketchAdvanced.open = false;
     }
     if (elements.archSketchAnnotationTextRow) elements.archSketchAnnotationTextRow.hidden = photography;
     document.body.classList.toggle("architectural-photography-output", photography);
-
-    if (photography && elements.archSketchAnnotationText) {
-      setValue(elements.archSketchAnnotationText, "no-text");
-      searchable.get("archSketchAnnotationText")?.syncFromNative?.();
-    }
 
     if (elements.randomPromptBtn && active) {
       elements.randomPromptBtn.innerHTML = `${global.PromptIcons.svg("refresh")}<span class="button-label">Concept Random</span>`;
@@ -954,9 +963,17 @@
     }
     if (elements.outputTipText && active) {
       elements.outputTipText.textContent = photography
-        ? "Photo Realism Target controls the photographic language. Architecture style, lighting, atmosphere, and View / Projection remain independent design controls."
+        ? "Photo Realism Target controls the photographic language. Text / Signage Policy prevents invented lettering without automatically deleting supported reference signage."
         : "Sketch Style controls the default line and color language. Keep Advanced Style Controls on Auto unless you deliberately want a line or color override.";
     }
+  }
+
+  function updateWorkflowHint() {
+    if (!elements.archSketchWorkflowHint) return;
+    const reference = elements.archSketchInputType?.value === "reference-image";
+    elements.archSketchWorkflowHint.textContent = reference
+      ? "Concept Builder uses the reference as a design basis but still allows selected style, representation, and view development. For exact geometry and source-view preservation, use Architectural Render."
+      : "Concept-first workflow for developing a new idea or brief. Use Architectural Render when an existing design must be preserved with explicit fidelity control.";
   }
 
   function updateStyleHint() {
@@ -1069,6 +1086,8 @@
       outputRepresentationPrompt: selectedPrompt(elements.archSketchOutputRepresentation),
       photoRealismTarget: elements.archSketchPhotoRealismTarget.value,
       photoRealismTargetPrompt: selectedPrompt(elements.archSketchPhotoRealismTarget),
+      textSignagePolicy: elements.archSketchTextSignagePolicy.value,
+      textSignagePolicyPrompt: selectedPrompt(elements.archSketchTextSignagePolicy),
       buildingCategory: elements.archSketchBuildingCategory.value,
       buildingType: elements.archSketchBuildingType.value,
       buildingTypeLabel: global.ArchitecturalTaxonomy.selectedLabel(elements.archSketchBuildingType, taxonomy?.buildingTypes || []),
@@ -1202,6 +1221,7 @@
       archSketchInputType: elements.archSketchInputType.value,
       archSketchOutputRepresentation: elements.archSketchOutputRepresentation.value,
       archSketchPhotoRealismTarget: elements.archSketchPhotoRealismTarget.value,
+      archSketchTextSignagePolicy: elements.archSketchTextSignagePolicy.value,
       archSketchBuildingCategory: elements.archSketchBuildingCategory.value,
       archSketchBuildingType: elements.archSketchBuildingType.value,
       archSketchCustomBuildingType: elements.archSketchCustomBuildingType.value,
@@ -1243,7 +1263,14 @@
       missing,
       "Photo Realism Target"
     );
+    setSelect(
+      "archSketchTextSignagePolicy",
+      state.archSketchTextSignagePolicy || database?.config?.defaultArchitecturalSketchTextSignagePolicy || "no-invented-text",
+      missing,
+      "Text / Signage Policy"
+    );
     updateRepresentationUi();
+    updateWorkflowHint();
 
     const buildingRestore = global.ArchitecturalTaxonomy.deriveRestore({
       items: taxonomy?.buildingTypes || [],
@@ -1300,6 +1327,7 @@
       ["archSketchInputType", state.archSketchInputType],
       ["archSketchOutputRepresentation", state.archSketchOutputRepresentation],
       ["archSketchPhotoRealismTarget", state.archSketchPhotoRealismTarget],
+      ["archSketchTextSignagePolicy", state.archSketchTextSignagePolicy],
       ["archSketchBuildingCategory", state.archSketchBuildingCategory],
       ["archSketchBuildingType", state.archSketchBuildingType],
       ["archSketchCustomBuildingType", state.archSketchCustomBuildingType],
