@@ -69,6 +69,17 @@ Key changes:
 - `fallback.json` was fully refreshed from the live 4.5 Google Sheet on 2026-09-23, including current Catalog, Outfit Focus, Product, Prompt Mode, and Architecture CONFIG data.
 
 
+### 4.5 Refinement — Compact Semantic Composer (2026-09-24)
+
+- separated architectural semantic intelligence from Sketch Style drawing-media rules;
+- removed duplicate four-level line hierarchy, hatching, white-space, and detail-falloff instructions from the shared semantic composer;
+- shortened Concept design/reference/style/projection wording while preserving architectural safeguards;
+- made interior typology and style wording scene-aware and compatible with night/artificial-light conditions;
+- made Precise Pen + Postmodern semantics medium-aware so monochrome pen output uses tonal contrast rather than being pushed toward expressive color;
+- de-duplicated the `refined-line-drawing` Sheet payload and synchronized CONFIG-derived fallback data;
+- production cache bundle bumped to `4.5-composer-compact-1`;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ### 4.5 Feature — Scene-aware Lighting / Time (2026-09-24)
 
 - split Architectural Concept Lighting / Time into scene-specific Exterior and Interior option sets;
