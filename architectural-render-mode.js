@@ -85,9 +85,9 @@
   function cacheArchElements() {
     [
       "architecturalRenderFields", "archInputType", "archFidelity", "archRealismTarget",
-      "archBuildingCategory", "archBuildingType", "archCustomBuildingType", "archCustomBuildingRow",
-      "archStyleCategory", "archArchitectureStyle", "archCustomArchitectureStyle", "archCustomArchitectureStyleRow",
-      "archMaterials", "archLighting", "archAtmosphere", "archLandscape", "archCamera",
+      "archBuildingCategory", "archBuildingType", "archCustomBuildingType", "archCustomBuildingRow", "archBuildingCategoryHint", "archBuildingTypeHint",
+      "archStyleCategory", "archArchitectureStyle", "archCustomArchitectureStyle", "archCustomArchitectureStyleRow", "archStyleCategoryHint", "archArchitectureStyleHint",
+      "archInputTypeHint", "archRealismTargetHint", "archMaterials", "archLighting", "archAtmosphere", "archLandscape", "archCamera",
       "archAspectRatio", "archExtraInstruction", "archFidelityNote"
     ].forEach(id => elements[id] = document.getElementById(id));
   }
@@ -114,18 +114,18 @@
         <label for="archInputType">Input Type</label>
         <div>
           <select id="archInputType"></select>
-          <p class="help-text">Reference-first workflow. Use Architectural Render when an existing design, geometry, or source view must remain controlled. For developing a new idea or brief, use Architectural Concept Builder.</p>
+          <p class="help-text" id="archInputTypeHint">Reference-first workflow. Use Architectural Render when an existing design, geometry, or source view must remain controlled.</p>
         </div>
       </div>
 
       <div class="field-row">
         <label for="archBuildingCategory">Building Category</label>
-        <select id="archBuildingCategory"></select>
+        <div><select id="archBuildingCategory"></select><p class="help-text arch-taxonomy-help" id="archBuildingCategoryHint"></p></div>
       </div>
 
       <div class="field-row">
         <label for="archBuildingType">Building Type</label>
-        <select id="archBuildingType"></select>
+        <div><select id="archBuildingType"></select><p class="help-text arch-taxonomy-help" id="archBuildingTypeHint"></p></div>
       </div>
 
       <div class="field-row arch-taxonomy-custom" id="archCustomBuildingRow" hidden>
@@ -140,17 +140,17 @@
 
       <div class="field-row">
         <label for="archRealismTarget">Realism Target</label>
-        <select id="archRealismTarget"></select>
+        <div><select id="archRealismTarget"></select><p class="help-text" id="archRealismTargetHint"></p></div>
       </div>
 
       <div class="field-row">
         <label for="archStyleCategory">Architectural Style Category</label>
-        <select id="archStyleCategory"></select>
+        <div><select id="archStyleCategory"></select><p class="help-text arch-taxonomy-help" id="archStyleCategoryHint"></p></div>
       </div>
 
       <div class="field-row">
         <label for="archArchitectureStyle">Architectural Style</label>
-        <select id="archArchitectureStyle"></select>
+        <div><select id="archArchitectureStyle"></select><p class="help-text arch-taxonomy-help" id="archArchitectureStyleHint"></p></div>
       </div>
 
       <div class="field-row arch-taxonomy-custom" id="archCustomArchitectureStyleRow" hidden>
@@ -376,6 +376,8 @@
 
     initSearchable();
     updateFidelityUi();
+    updateContextualHints();
+    updateTaxonomyUi();
     if (active) generate(false);
   }
 
@@ -416,6 +418,7 @@
     );
     syncBuildingCustomUi();
     refreshTaxonomyControl("archBuildingType");
+    updateTaxonomyUi();
   }
 
   function updateArchitectureStyleOptions({ selectedId = "" } = {}) {
@@ -428,6 +431,7 @@
     );
     syncArchitectureStyleCustomUi();
     refreshTaxonomyControl("archArchitectureStyle");
+    updateTaxonomyUi();
   }
 
   function syncBuildingCustomUi() {
@@ -522,6 +526,8 @@
       syncArchitectureStyleCustomUi();
     }
     updateFidelityUi();
+    updateContextualHints();
+    updateTaxonomyUi();
     generate(false);
   }
 
@@ -552,6 +558,8 @@
     searchable.get("archCamera")?.setDisabled?.(strict);
     searchable.get("archCamera")?.syncFromNative?.();
 
+    updateTaxonomyUi();
+
     const note = elements.archFidelityNote;
     if (!note) return;
     const copy = note.querySelector("p");
@@ -559,6 +567,78 @@
     const fidelityMeta = selectedOptionData(elements.archFidelity);
     title.textContent = fidelityMeta.label || "Design fidelity";
     copy.textContent = fidelityMeta.description || "The selected Design Fidelity controls how closely the generated result must follow the architectural reference.";
+  }
+
+  function updateContextualHints() {
+    if (elements.archInputTypeHint) {
+      const meta = selectedOptionData(elements.archInputType);
+      elements.archInputTypeHint.textContent = meta.description
+        ? `${meta.description} Architectural Render treats the supplied source as the reference-first basis.`
+        : "Reference-first workflow. Use Architectural Render when an existing design, geometry, or source view must remain controlled.";
+    }
+    if (elements.archRealismTargetHint) {
+      const meta = selectedOptionData(elements.archRealismTarget);
+      elements.archRealismTargetHint.textContent = meta.description
+        || "Choose how the final architectural visualization should read: polished visualization, real built-project photography, or documentary site photography.";
+    }
+  }
+
+  function updateTaxonomyUi() {
+    if (!taxonomy) return;
+    const t = global.ArchitecturalTaxonomy;
+    const buildingCategoryId = elements.archBuildingCategory?.value || "";
+    const styleCategoryId = elements.archStyleCategory?.value || "";
+    const strict = elements.archFidelity?.value === "strict";
+
+    const buildingReady = Boolean(buildingCategoryId);
+    if (elements.archBuildingType) elements.archBuildingType.disabled = !buildingReady;
+    searchable.get("archBuildingType")?.setDisabled?.(!buildingReady);
+    searchable.get("archBuildingType")?.syncFromNative?.();
+
+    const styleReady = Boolean(styleCategoryId) && !strict;
+    if (elements.archArchitectureStyle) elements.archArchitectureStyle.disabled = !styleReady;
+    searchable.get("archArchitectureStyle")?.setDisabled?.(!styleReady);
+    searchable.get("archArchitectureStyle")?.syncFromNative?.();
+
+    if (elements.archBuildingCategoryHint) {
+      const description = t.categoryDescription(elements.archBuildingCategory, taxonomy.buildingCategories);
+      const count = t.countForCategory(taxonomy.buildingTypes, buildingCategoryId);
+      elements.archBuildingCategoryHint.textContent = buildingCategoryId
+        ? [description, count ? `${count} building types available.` : ""].filter(Boolean).join(" ")
+        : "Choose a category first to narrow the Building Type list. Categories organize the UI only and do not enter the prompt.";
+    }
+
+    if (elements.archBuildingTypeHint) {
+      const custom = elements.archBuildingType?.value === t.CUSTOM_ID;
+      const description = t.selectedDescription(elements.archBuildingType, taxonomy.buildingTypes);
+      elements.archBuildingTypeHint.textContent = !buildingCategoryId
+        ? "Select Building Category to unlock Building Type."
+        : custom
+          ? "Enter a precise custom building type below. The category remains navigation metadata only."
+          : description || "Choose the project type that best describes the reference; this helps name the architecture without overriding its geometry.";
+    }
+
+    if (elements.archStyleCategoryHint) {
+      const description = t.categoryDescription(elements.archStyleCategory, taxonomy.styleCategories);
+      const count = t.countForCategory(taxonomy.styleOptions, styleCategoryId);
+      elements.archStyleCategoryHint.textContent = strict
+        ? "Controlled by STRICT Design Fidelity. The reference architecture is not restyled."
+        : styleCategoryId
+          ? [description, count ? `${count} styles available.` : ""].filter(Boolean).join(" ")
+          : "Choose a style family first. Style categories organize the UI and do not enter the prompt.";
+    }
+
+    if (elements.archArchitectureStyleHint) {
+      const custom = elements.archArchitectureStyle?.value === t.CUSTOM_ID;
+      const description = t.selectedDescription(elements.archArchitectureStyle, taxonomy.styleOptions);
+      elements.archArchitectureStyleHint.textContent = strict
+        ? "Controlled by STRICT Design Fidelity — architectural style follows the reference."
+        : !styleCategoryId
+          ? "Select Architectural Style Category to unlock Architectural Style."
+          : custom
+            ? "Describe a custom architectural language below. Keep it concise and visually specific."
+            : description || "Choose the architectural language used for restrained restyling in Balanced or controlled development in Creative.";
+    }
   }
 
   function collectState() {
@@ -684,6 +764,8 @@
     elements.archExtraInstruction.value = "";
     searchable.forEach(control => control.syncFromNative?.());
     updateFidelityUi();
+    updateContextualHints();
+    updateTaxonomyUi();
     generate(false);
     showMessage("Architectural Render form reset.");
   }
