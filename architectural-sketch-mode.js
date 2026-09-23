@@ -26,7 +26,10 @@
       { id: "allow-functional-signage", label: "Allow Functional Architectural Signage", prompt: "allow restrained functional architectural signage, room numbers, address markers, or wayfinding only where spatially appropriate; keep text visually secondary and plausible, and do not invent brand logos, storefront brands, slogans, campaign copy, or decorative lettering" },
       { id: "blank-signage-no-text", label: "Blank Signage — No Text", prompt: "do not add any readable text, pseudo-text, labels, logos, captions, dates, signatures, watermarks, slogans, brand names, or decorative lettering; if signage panels or signboards are part of the architecture, keep them completely blank with no invented characters or symbols" }
     ],
-    sceneTypes: [{ id: "exterior", label: "Exterior", prompt: "an exterior architectural view", recommended_lighting: "morning-light" }],
+    sceneTypes: [
+      { id: "exterior", label: "Exterior", prompt: "an exterior architectural view", recommended_lighting: "morning-light" },
+      { id: "interior", label: "Interior", prompt: "an interior architectural view", recommended_lighting: "soft-interior-daylight" }
+    ],
     sketchStyles: [{
       id: "watercolor-sketch",
       label: "Soft Watercolor Architectural Sketch",
@@ -41,7 +44,20 @@
     media: [{ id: "watercolor-paper", label: "Textured Watercolor Paper", prompt: "lightly textured watercolor paper with visible natural tooth and restrained surface variation" }],
     lineQualities: [{ id: "auto-follow-style", label: "Auto — Follow Sketch Style", prompt: "", description: "Use the selected Sketch Style's built-in line character and line hierarchy." }],
     colorTreatments: [{ id: "auto-follow-style", label: "Auto — Follow Sketch Style", prompt: "", description: "Use the selected Sketch Style's built-in color treatment and color rules." }],
-    lighting: [{ id: "morning-light", label: "Morning Light", prompt: "soft morning light with gentle directional shadows" }],
+    lighting: [
+      { id: "morning-light", label: "Morning Light", prompt: "soft morning light with gentle directional shadows", scene_scope: "exterior" },
+      { id: "midday", label: "Midday Light", prompt: "clear midday light with short readable shadows and even architectural illumination", scene_scope: "exterior" },
+      { id: "golden-hour", label: "Golden Hour", prompt: "low-angle golden-hour light with elongated soft-edged directional shadows", scene_scope: "exterior" },
+      { id: "overcast-day", label: "Overcast Daylight", prompt: "diffuse overcast daylight with soft low-contrast shadows", scene_scope: "exterior" },
+      { id: "evening-ambience", label: "Evening Light", prompt: "low evening light with reduced daylight and restrained warm architectural light accents", scene_scope: "exterior" },
+      { id: "soft-interior-daylight", label: "Soft Interior Daylight", prompt: "soft natural daylight entering through architectural openings, with gentle interior light falloff and balanced exposure", scene_scope: "interior" },
+      { id: "morning-window-light", label: "Morning Window Light", prompt: "soft morning daylight entering through windows and openings, with gentle directional light and subtle elongated interior shadows", scene_scope: "interior" },
+      { id: "bright-midday-interior", label: "Bright Midday Interior", prompt: "bright midday daylight entering through architectural openings, with clear spatial readability, controlled highlights, and short directional shadows", scene_scope: "interior" },
+      { id: "golden-hour-interior", label: "Golden Hour Interior", prompt: "warm low-angle golden-hour light entering through windows and openings, creating elongated soft-edged shadows and warm interior highlights", scene_scope: "interior" },
+      { id: "overcast-interior-daylight", label: "Overcast Interior Daylight", prompt: "soft diffuse overcast daylight entering through openings, with low contrast, even illumination, and gentle shadow transitions", scene_scope: "interior" },
+      { id: "evening-ambient-interior", label: "Evening Ambient Interior", prompt: "reduced evening daylight balanced with restrained warm architectural lighting, creating layered interior depth without excessive cinematic contrast", scene_scope: "interior" },
+      { id: "night-interior-lighting", label: "Night Interior Lighting", prompt: "night-time interior illuminated primarily by architectural artificial lighting, with believable fixture glow, controlled contrast, and realistic light falloff", scene_scope: "interior" }
+    ],
     moods: [{ id: "calm", label: "Calm", prompt: "a calm, composed, and visually balanced architectural character" }],
     humanScale: [
       { id: "none", label: "None", prompt: "" },
@@ -54,6 +70,25 @@
   const LEGACY_SKETCH_STYLE_ALIASES = {
     "concept-presentation": "refined-line-drawing",
     "mixed-media": "marker-sketch"
+  };
+
+  const LEGACY_LIGHTING_ALIASES_BY_SCENE = {
+    interior: {
+      "morning-light": "morning-window-light",
+      "midday": "bright-midday-interior",
+      "golden-hour": "golden-hour-interior",
+      "overcast-day": "overcast-interior-daylight",
+      "evening-ambience": "evening-ambient-interior"
+    },
+    exterior: {
+      "soft-interior-daylight": "morning-light",
+      "morning-window-light": "morning-light",
+      "bright-midday-interior": "midday",
+      "golden-hour-interior": "golden-hour",
+      "overcast-interior-daylight": "overcast-day",
+      "evening-ambient-interior": "evening-ambience",
+      "night-interior-lighting": "evening-ambience"
+    }
   };
 
   const LEGACY_SURFACE_ALIASES = {
@@ -276,7 +311,11 @@
       }
       if (event.target === elements.archSketchSceneType) {
         if (!smartDefaults.restoring) {
-          if (!smartDefaults.lightingTouched) applyRecommendedLighting();
+          const currentLighting = elements.archSketchLighting?.value || "";
+          updateLightingOptions({
+            applySceneDefault: !smartDefaults.lightingTouched,
+            preferredValue: currentLighting
+          });
           updateViewOptions({ applySceneDefault: !smartDefaults.viewTouched });
         }
         updateLightingHint();
@@ -793,11 +832,15 @@
       }
 
       if (!isSketchRandomLocked("archSketchLighting")) {
+        const eligibleLighting = eligibleLightingForScene();
         const recommended = recommendedLightingForScene();
+        updateLightingOptions({ preferredValue: recommended });
         setValue(
           elements.archSketchLighting,
-          recommended || pickRandom(options.lighting)?.id || elements.archSketchLighting.value
+          recommended || pickRandom(eligibleLighting)?.id || elements.archSketchLighting.value
         );
+      } else {
+        updateLightingOptions({ preferredValue: elements.archSketchLighting?.value || "" });
       }
 
       if (!isSketchRandomLocked("archSketchMood")) {
@@ -913,10 +956,7 @@
 
   function applyRecommendedLighting({ force = false } = {}) {
     if (!force && smartDefaults.lightingTouched) return false;
-    const recommended = recommendedLightingForScene();
-    const fallback = database?.config?.defaultArchitecturalSketchLighting || "morning-light";
-    withSmartApply(() => setValue(elements.archSketchLighting, recommended || fallback));
-    syncSearchableControl("archSketchLighting");
+    withSmartApply(() => updateLightingOptions({ applySceneDefault: true }));
     return true;
   }
 
@@ -935,13 +975,69 @@
     applyRecommendedSurface({ force: true });
     setValue(elements.archSketchLineQuality, config.defaultArchitecturalSketchLineQuality || "auto-follow-style");
     setValue(elements.archSketchColorTreatment, config.defaultArchitecturalSketchColorTreatment || "auto-follow-style");
-    applyRecommendedLighting({ force: true });
+    updateLightingOptions({ applySceneDefault: true });
     setValue(elements.archSketchMood, config.defaultArchitecturalSketchMood || "calm");
     setValue(elements.archSketchHumanScale, config.defaultArchitecturalSketchHumanScale || "none");
     setValue(elements.archSketchAnnotationText, config.defaultArchitecturalSketchAnnotationText || "no-text");
     updateViewOptions({ applySceneDefault: true });
     setValue(elements.archSketchAspectRatio, config.defaultArchitecturalSketchAspectRatio || "4:5");
     updateRepresentationUi();
+  }
+
+  function lightingAppliesToScene(item, sceneId) {
+    const raw = String(item?.scene_scope || "").trim();
+    if (!raw) return true;
+    return raw.split(",").map(value => value.trim()).filter(Boolean).includes(sceneId);
+  }
+
+  function eligibleLightingForScene(sceneId = "") {
+    const resolvedScene = sceneId
+      || elements.archSketchSceneType?.value
+      || database?.config?.defaultArchitecturalSketchSceneType
+      || "exterior";
+    return (options?.lighting || []).filter(item => lightingAppliesToScene(item, resolvedScene));
+  }
+
+  function resolveLightingForScene(value, sceneId = "") {
+    const resolvedScene = sceneId
+      || elements.archSketchSceneType?.value
+      || database?.config?.defaultArchitecturalSketchSceneType
+      || "exterior";
+    const aliases = LEGACY_LIGHTING_ALIASES_BY_SCENE[resolvedScene] || {};
+    const aliased = aliases[value] || value;
+    const eligible = eligibleLightingForScene(resolvedScene);
+    if (eligible.some(item => item.id === aliased)) return aliased;
+
+    const recommended = (options?.sceneTypes || []).find(item => item.id === resolvedScene)?.recommended_lighting || "";
+    if (recommended && eligible.some(item => item.id === recommended)) return recommended;
+    return eligible[0]?.id || "";
+  }
+
+  function updateLightingOptions({ applySceneDefault = false, preferredValue = "" } = {}) {
+    if (!elements.archSketchLighting || !options) return;
+
+    const sceneId = elements.archSketchSceneType?.value
+      || database?.config?.defaultArchitecturalSketchSceneType
+      || "exterior";
+    const previous = preferredValue || elements.archSketchLighting.value;
+    const eligible = eligibleLightingForScene(sceneId);
+
+    populateSelect(elements.archSketchLighting, eligible);
+
+    const recommended = recommendedLightingForScene();
+    const preferred = applySceneDefault
+      ? resolveLightingForScene(recommended, sceneId)
+      : resolveLightingForScene(previous, sceneId);
+
+    setValue(elements.archSketchLighting, preferred);
+
+    if (!elements.archSketchLighting.value && eligible[0]) {
+      elements.archSketchLighting.value = eligible[0].id;
+    }
+
+    const control = searchable.get("archSketchLighting");
+    control?.refresh?.();
+    control?.syncFromNative?.();
   }
 
   function sceneDefaultView(sceneId) {
@@ -1202,15 +1298,24 @@
     if (!elements.archSketchLightingHint) return;
     const recommendedId = recommendedLightingForScene();
     const sceneLabel = selectedLabel(elements.archSketchSceneType) || "this scene";
+    const currentId = elements.archSketchLighting?.value || "";
+    const current = (options?.lighting || []).find(item => item.id === currentId);
     const recommended = (options?.lighting || []).find(item => item.id === recommendedId);
+    const description = String(current?.description || "").trim();
+
+    const compatibility = `Only ${sceneLabel}-compatible lighting options are shown.`;
     if (!recommended) {
-      elements.archSketchLightingHint.textContent = "Choose lighting independently for the selected scene.";
+      elements.archSketchLightingHint.textContent = [description, compatibility].filter(Boolean).join(" ");
       return;
     }
-    const current = elements.archSketchLighting?.value || "";
-    elements.archSketchLightingHint.textContent = current === recommendedId
-      ? `Recommended for ${sceneLabel}: ${recommended.label || recommended.id}. Current lighting is a recommended match.`
-      : `Recommended for ${sceneLabel}: ${recommended.label || recommended.id}. You can still choose any lighting.`;
+
+    const recommendation = currentId === recommendedId
+      ? `Recommended for ${sceneLabel}: ${recommended.label || recommended.id}. Current lighting is the recommended default.`
+      : `Recommended for ${sceneLabel}: ${recommended.label || recommended.id}.`;
+
+    elements.archSketchLightingHint.textContent = [description, recommendation, compatibility]
+      .filter(Boolean)
+      .join(" ");
   }
 
   function updateHumanScaleHint() {
@@ -1507,7 +1612,11 @@
     setSelect("archSketchMedium", restoredSurface || database?.config?.defaultArchitecturalSketchMedium || "watercolor-paper", missing, "Paper / Surface");
     setSelect("archSketchLineQuality", state.archSketchLineQuality || "auto-follow-style", missing, "Line Quality");
     setSelect("archSketchColorTreatment", state.archSketchColorTreatment || "auto-follow-style", missing, "Color Treatment");
-    setSelect("archSketchLighting", state.archSketchLighting, missing, "Lighting / Time");
+    const restoredLighting = resolveLightingForScene(
+      state.archSketchLighting || recommendedLightingForScene(),
+      elements.archSketchSceneType.value || "exterior"
+    );
+    updateLightingOptions({ preferredValue: restoredLighting });
     const restoredAtmosphere = LEGACY_ATMOSPHERE_ALIASES[state.archSketchMood] || state.archSketchMood;
     setSelect("archSketchMood", restoredAtmosphere || database?.config?.defaultArchitecturalSketchMood || "calm", missing, "Atmosphere / Character");
     const legacyContext = LEGACY_ATMOSPHERE_CONTEXT[state.archSketchMood] || "";
