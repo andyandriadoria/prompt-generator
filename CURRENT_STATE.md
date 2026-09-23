@@ -681,6 +681,22 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - production cache bundle bumped to `4.5-arch-quality-3`;
 - no Apps Script redeploy required; `config.js` unchanged.
 
+## 2026-09-23 Style Semantic Profile
+
+- added `SEMANTIC_PROFILE` to `ARCH_STYLE_OPTIONS` for all 32 active Architectural Styles;
+- `DESCRIPTION` remains human-facing UX help, while `SEMANTIC_PROFILE` is compact model-facing architectural guidance;
+- the existing `_JSON` bridge now emits `semantic_profile` without changing the CONFIG key or Apps Script contract;
+- Architectural Taxonomy exposes the semantic profile to the frontend but does not render it as a new field;
+- Architectural Render passes the profile only in Balanced / Creative; STRICT continues to ignore style controls entirely;
+- Balanced Render uses semantic cues selectively and explicitly blocks unsupported signature elements that would conflict with preserved geometry;
+- Creative Render uses the profile as a coherent design system while retaining reference massing and project identity;
+- Concept / Design Brief uses the profile across proportion, openings, material character, structure, and detail hierarchy instead of relying only on the style name;
+- Reference Image Concept uses only compatible semantic cues and explicitly avoids adding unsupported signature elements merely to make the style more obvious;
+- Custom Architectural Style remains supported; because it has no database semantic profile, the composer falls back to generic style discipline;
+- `fallback.json` synchronized with 32/32 style semantic profiles;
+- production cache bundle bumped to `4.5-style-semantic-1`;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ## Next Product Opportunities
 
 Potential future directions, not yet baseline features:
