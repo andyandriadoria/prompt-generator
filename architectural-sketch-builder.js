@@ -69,9 +69,13 @@
       ? inputPrompt
       : "";
 
+    const projectionTerm = global.ArchitecturePromptQuality?.projectionTerm?.(state.cameraView) || "perspective";
+    const spatialDiscipline = projectionTerm === "projection"
+      ? "Keep massing, proportions, openings, projection logic, and spatial relationships internally coherent"
+      : "Keep massing, proportions, openings, perspective, and spatial relationships believable";
     const architectureBlock = [
       architectureStyle ? `Architecture style: ${architectureStyle}` : "",
-      "Keep massing, proportions, openings, perspective, and spatial relationships believable"
+      spatialDiscipline
     ].filter(Boolean).map(sentence).join(" ");
 
     const styleBlock = isPhotography ? "" : [
@@ -99,6 +103,11 @@
       !isPhotography && annotationMode !== "no-text" && annotationPrompt ? `Annotations / text: ${annotationPrompt}` : ""
     ].filter(Boolean).join("; ");
 
+    const qualityRules = global.ArchitecturePromptQuality?.conceptQuality?.(state) || [];
+    const qualityBlock = qualityRules.length
+      ? `Architectural quality discipline: ${qualityRules.join(" ")}`
+      : "";
+
     const colorGuard = !isPhotography && colorOverride && !isMonochrome(state.colorTreatment)
       ? "Preserve the selected color override; do not collapse the result into graphite-only grayscale."
       : "";
@@ -118,6 +127,7 @@
       sentence(opening),
       sentence(sourceBlock),
       sentence(architectureBlock),
+      sentence(qualityBlock),
       sentence(styleBlock),
       contextBlock ? sentence(contextBlock) : "",
       sentence(colorGuard),
