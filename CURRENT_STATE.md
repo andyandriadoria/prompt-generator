@@ -267,9 +267,11 @@ Prompt-engine rules:
 - Quality remains an internal high-detail professional default rather than a visible field;
 - STRICT preservation language protects geometry, massing, roof form, floor levels, facade proportions, openings, visible structure, setbacks, camera position, framing, lens relationship, and perspective;
 - when the requested ratio differs from the source, only surrounding sky / ground / site environment may be extended; the architecture must not be cropped, stretched, compressed, or redesigned to fit;
-- prompt wording is intentionally compact and avoids repeating the same camera / preservation instruction in multiple paragraphs.
+- prompt wording is intentionally compact and avoids repeating the same camera / preservation instruction in multiple paragraphs;
+- shared semantic quality composition adds fidelity-aware typology/building-type priorities, reference interpretation, style discipline, material construction logic, realism discipline, and camera coherence without adding visible controls.
 
 Implementation files:
+- `architecture-prompt-quality.js`
 - `architectural-render-builder.js`
 - `architectural-render-mode.js`
 - `architectural-render.css`
@@ -403,7 +405,10 @@ Prompt behavior:
 - Input Type, Site / Context, Architectural Feature Emphasis, Extra Instruction, and manual Custom fields are never invented or overwritten by Sketch Random;
 - Annotations / Text remains `no-text` unless the user deliberately changed it; Advanced Line/Color remain Auto unless manually overridden;
 - Saved Prompt restore marks restored non-empty values as manual for Sketch Random, and Refresh Now preserves the current random/manual lock state.
-- production style, line-character, color, and surface prompt fragments are kept concise in Google Sheets to reduce redundancy while preserving distinct sketch-family behavior.
+- production style, line-character, color, and surface prompt fragments are kept concise in Google Sheets to reduce redundancy while preserving distinct sketch-family behavior;
+- shared semantic quality composition adds typology/building-type priorities, conservative reference interpretation, coherent design-resolution rules, style discipline, representation-aware camera/projection logic, scene realism, realism-target behavior, and photography human-scale discipline;
+- technical views such as Orthographic Elevation, Axonometric / Isometric, and Section Perspective no longer inherit the generic “perspective believable” sentence; they use explicit projection-consistency language instead;
+- Architectural Photography opening grammar correctly uses `a/an` for the selected realism target (for example, `an editorial architectural photograph`).
 
 Data source:
 - mode registry: Google Sheets `PROMPT_MODES` row `architectural_sketch`;
@@ -414,6 +419,7 @@ Data source:
 - `fallback.json` contains a synchronized resilience copy, while JavaScript keeps only minimal emergency fallbacks.
 
 Implementation files:
+- `architecture-prompt-quality.js`
 - `architectural-sketch-builder.js`
 - `architectural-sketch-mode.js`
 - `architectural-sketch.css`
@@ -658,13 +664,30 @@ Outfit Focus Style enhancement for Reference Outfit Catalog completed and refine
 - `fallback.json` and production cache keys were synchronized;
 - no Apps Script redeploy required; `config.js` unchanged.
 
+## 2026-09-23 Prompt Quality Expansion
+
+- added shared module `architecture-prompt-quality.js` for semantic composition across Architectural Render and Architectural Concept Builder;
+- quality logic uses existing selections rather than adding new dropdowns;
+- introduced category-aware typology priorities for Residential, Commercial, Institutional/Public, Religious, Industrial, and Specialty/Historic architecture;
+- added higher-specificity Building Type priorities for common types including Single-family House, Retail Store, Hotel / Resort, Restaurant / Café, School / University, Hospital / Clinic, Museum, Factory / Manufacturing, Warehouse, Pavilion, and Architectural Bridge;
+- specific Building Type rules replace broader category rules when available to avoid repetitive prompt expansion;
+- STRICT Render uses quality guidance only to improve architectural readability and realism without modifying reference geometry;
+- Balanced / Creative Render receive fidelity-specific style discipline, while Materials trigger construction-scale/joint/reflectance logic and Input Type triggers source-specific interpretation rules;
+- Concept / Design Brief inputs receive coherent secondary-detail resolution instead of arbitrary ornament; Reference Image inputs resolve ambiguity conservatively and protect core massing/openings/spatial composition;
+- Architectural Photography gains scene-aware real-camera rules, realism-target behavior, human-scale discipline, and physically coherent lens / horizon / vertical guidance;
+- Sketch technical projections gain projection-consistency rules and no longer receive contradictory generic perspective wording;
+- corrected Photography opening grammar for vowel-leading targets such as **Editorial Architectural Photo**;
+- added descriptions for Concept Input Type and Scene Type rows in `ARCH_SKETCH_OPTIONS`, synchronized CONFIG-derived fallback data, and documented the semantic composer in `PETUNJUK`;
+- production cache bundle bumped to `4.5-arch-quality-2`;
+- no Apps Script redeploy required; `config.js` unchanged.
+
 ## Next Product Opportunities
 
 Potential future directions, not yet baseline features:
 - favorites
 - shareable prompt state URLs
 - Prompt Intelligence v2 expansion
-- deeper semantic conflict / redundancy detection
+- user-facing semantic conflict diagnostics beyond the architecture composer
 - richer prompt completeness diagnostics
 - automate Sheet → fallback snapshot generation and drift validation so future syncs do not rely on manual refreshes
 - retire `CATALOG_SETTINGS` only after legacy History compatibility is no longer needed
