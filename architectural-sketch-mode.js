@@ -241,23 +241,27 @@
 
       if (event.target === elements.archSketchOutputRepresentation) {
         updateRepresentationUi();
+        updateRepresentationHints();
         updateHumanScaleHint();
       }
       if (event.target === elements.archSketchInputType) {
         updateWorkflowHint();
         updateTextSignagePolicyUi();
+        updateFeatureHint();
       }
       if (event.target === elements.archSketchBuildingCategory) {
         updateBuildingTypeOptions({ selectedId: "" });
       }
       if (event.target === elements.archSketchBuildingType) {
         syncBuildingCustomUi();
+        updateTaxonomyUi();
       }
       if (event.target === elements.archSketchStyleCategory) {
         updateArchitectureStyleOptions({ selectedId: "" });
       }
       if (event.target === elements.archSketchArchitectureStyle) {
         syncArchitectureStyleCustomUi();
+        updateTaxonomyUi();
       }
       if (event.target === elements.archSketchStyle) {
         updateStyleHint();
@@ -275,6 +279,9 @@
       if (event.target === elements.archSketchMedium) updateSurfaceHint();
       if (event.target === elements.archSketchLighting) updateLightingHint();
       if (event.target === elements.archSketchHumanScale) updateHumanScaleHint();
+      if (event.target === elements.archSketchCameraView) updateViewHint();
+      if (event.target === elements.archSketchAnnotationText) updateAnnotationHint();
+      if (event.target === elements.archSketchPhotoRealismTarget) updatePhotoRealismHint();
       if (event.target === elements.archSketchLineQuality || event.target === elements.archSketchColorTreatment) {
         updateAdvancedState();
       }
@@ -473,7 +480,13 @@
     initSearchable();
     updateRepresentationUi();
     updateWorkflowHint();
+    updateRepresentationHints();
+    updateTaxonomyUi();
+    updateFeatureHint();
     updateStyleHint();
+    updatePhotoRealismHint();
+    updateViewHint();
+    updateAnnotationHint();
     updateSurfaceHint();
     updateLightingHint();
     updateHumanScaleHint();
@@ -539,6 +552,7 @@
     );
     syncBuildingCustomUi();
     refreshTaxonomyControl("archSketchBuildingType");
+    updateTaxonomyUi();
   }
 
   function updateArchitectureStyleOptions({ selectedId = "" } = {}) {
@@ -551,6 +565,7 @@
     );
     syncArchitectureStyleCustomUi();
     refreshTaxonomyControl("archSketchArchitectureStyle");
+    updateTaxonomyUi();
   }
 
   function syncBuildingCustomUi() {
@@ -567,6 +582,59 @@
       elements.archSketchCustomArchitectureStyleRow,
       elements.archSketchCustomArchitectureStyle
     );
+  }
+
+  function updateTaxonomyUi() {
+    if (!taxonomy) return;
+    const t = global.ArchitecturalTaxonomy;
+    const buildingCategoryId = elements.archSketchBuildingCategory?.value || "";
+    const styleCategoryId = elements.archSketchStyleCategory?.value || "";
+
+    const buildingReady = Boolean(buildingCategoryId);
+    if (elements.archSketchBuildingType) elements.archSketchBuildingType.disabled = !buildingReady;
+    searchable.get("archSketchBuildingType")?.setDisabled?.(!buildingReady);
+    searchable.get("archSketchBuildingType")?.syncFromNative?.();
+
+    const styleReady = Boolean(styleCategoryId);
+    if (elements.archSketchArchitectureStyle) elements.archSketchArchitectureStyle.disabled = !styleReady;
+    searchable.get("archSketchArchitectureStyle")?.setDisabled?.(!styleReady);
+    searchable.get("archSketchArchitectureStyle")?.syncFromNative?.();
+
+    if (elements.archSketchBuildingCategoryHint) {
+      const description = t.categoryDescription(elements.archSketchBuildingCategory, taxonomy.buildingCategories);
+      const count = t.countForCategory(taxonomy.buildingTypes, buildingCategoryId);
+      elements.archSketchBuildingCategoryHint.textContent = buildingCategoryId
+        ? [description, count ? `${count} building types available.` : ""].filter(Boolean).join(" ")
+        : "Choose a category first to narrow the Building Type list. Categories organize the UI only and do not enter the prompt.";
+    }
+
+    if (elements.archSketchBuildingTypeHint) {
+      const custom = elements.archSketchBuildingType?.value === t.CUSTOM_ID;
+      const description = t.selectedDescription(elements.archSketchBuildingType, taxonomy.buildingTypes);
+      elements.archSketchBuildingTypeHint.textContent = !buildingCategoryId
+        ? "Select Building Category to unlock Building Type."
+        : custom
+          ? "Enter a precise custom building type below. The category remains navigation metadata only."
+          : description || "Choose the project type that best matches the concept.";
+    }
+
+    if (elements.archSketchStyleCategoryHint) {
+      const description = t.categoryDescription(elements.archSketchStyleCategory, taxonomy.styleCategories);
+      const count = t.countForCategory(taxonomy.styleOptions, styleCategoryId);
+      elements.archSketchStyleCategoryHint.textContent = styleCategoryId
+        ? [description, count ? `${count} styles available.` : ""].filter(Boolean).join(" ")
+        : "Choose a style family first. Style categories organize the UI and do not enter the prompt.";
+    }
+
+    if (elements.archSketchArchitectureStyleHint) {
+      const custom = elements.archSketchArchitectureStyle?.value === t.CUSTOM_ID;
+      const description = t.selectedDescription(elements.archSketchArchitectureStyle, taxonomy.styleOptions);
+      elements.archSketchArchitectureStyleHint.textContent = !styleCategoryId
+        ? "Select Architectural Style Category to unlock Architectural Style."
+        : custom
+          ? "Describe a custom architectural language below. Keep it concise and visually specific."
+          : description || "Choose the architectural language for the concept.";
+    }
   }
 
   function markSketchRandomManual(target) {
